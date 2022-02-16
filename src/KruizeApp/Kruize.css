@@ -1,0 +1,106 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.small-font {
+  font-size: small !important;
+}
+
+.c-pointer {
+  cursor: pointer;
+}
+
+.kruize-header-title {
+  color: whitesmoke;
+  font-weight: bold;
+  text-transform: uppercase !important;
+  font-size: small;
+  letter-spacing: 3px;
+}
+
+.kruize-header-options {
+  background: linear-gradient(to right, #FFB75E 0%, #ED8F03 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.kruize-main-layout {
+  height: 100vh !important;
+  width: 100vw !important;
+}
+
+.kruize-sidebar-item {
+  font-size: small !important;
+  text-transform: uppercase;
+  color: whitesmoke;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.kruize-page-title {
+  text-transform: uppercase;
+  font-size: large;
+  font-weight: 900;
+  letter-spacing: 3px;
+  font-family: 'Varela Round', sans-serif;
+}
+
+.kruize-gradient-text-1 {
+  background: linear-gradient(to right, #FF416C 0%, #330867 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.kruize-gradient-text-2 {
+  background: linear-gradient(to right, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.kruize-yaml-form-label {
+  float: left !important;
+  text-transform: uppercase;
+  font-size: small;
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-family: 'Varela Round', sans-serif;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
