@@ -14,17 +14,17 @@ import {
   TextVariants
 } from '@patternfly/react-core';
 
-export interface ISupportProps {
+export interface IStatusProps {
   sampleProp?: string;
 }
 
 // eslint-disable-next-line prefer-const
-let Support: React.FunctionComponent<ISupportProps> = () => (
+let Status: React.FunctionComponent<IStatusProps> = () => (
   <PageSection>
     <EmptyState variant={EmptyStateVariant.full}>
       <EmptyStateIcon icon={CubesIcon} />
       <Title headingLevel="h1" size="lg">
-        Empty State (Stub Support Module)
+        Empty State (Stub Status Module)
       </Title>
       <EmptyStateBody>
         <TextContent>
@@ -50,4 +50,4 @@ let Support: React.FunctionComponent<ISupportProps> = () => (
   </PageSection>
 );
 
-export { Support };
+export { Status };
