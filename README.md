@@ -23,7 +23,7 @@ Run the application using the following command
 ```
 docker run --rm -it -p 9000:3000 sample-kruize-ui
 ```
-
+Use http://localhost:9000/ to view the UI in Browser.
 
 ## Code Origin
 This repository uses the patternfly-react-seed base code as copied from [Patternfly Seed](https://github.com/patternfly/patternfly-react-seed).
