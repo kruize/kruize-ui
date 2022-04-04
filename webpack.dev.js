@@ -26,7 +26,18 @@ module.exports = merge(common('development'), {
           ...stylePaths
         ],
         use: ["style-loader", "css-loader"]
-      }
+      },
+      {test: /.md$/,
+      use: [
+        {
+          loader: 'html-loader',
+        },
+        {
+          loader: 'markdown-loader',
+        },
+        ],
+        }
+      
     ]
   }
 });

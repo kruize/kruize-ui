@@ -1,10 +1,18 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler } from '@app/utils/utils';
-import { Dashboard } from '@app/Dashboard/Dashboard';
-import { Support } from '@app/Support/Support';
-import { GeneralSettings } from '@app/Settings/General/GeneralSettings';
-import { ProfileSettings } from '@app/Settings/Profile/ProfileSettings';
+import { About } from '@app/About/About';
+import  RE  from '@app/RunExperiment/RE';
+import { ExperimentStatus } from '@app/ExperimentStatus/ExperimentStatus';
+import { Analytics } from '@app/Analytics/Analytics';
+import { ObjectiveFunction } from '@app/Advanced User/ObjectiveFunction';
+import { LayerDefination } from '@app/Advanced User/LayerDefination';
+import { TrialSettings } from '@app/Advanced User/TrialSettings';
+import { InstallationGuide } from '@app/Documentation/InstallationGuide';
+import { FAQs } from './Documentation/FAQs';
+import { Glossary } from './Documentation/Glossary';
+import { CommunityCall } from './Documentation/CommunityCall';
+
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
@@ -31,38 +39,96 @@ export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
 const routes: AppRouteConfig[] = [
   {
-    component: Dashboard,
+    component: About,
     exact: true,
-    label: 'Dashboard',
+    label: 'About Autotune',
     path: '/',
-    title: 'PatternFly Seed | Main Dashboard',
+    title: 'PatternFly Seed | Main About',
   },
+ 
   {
-    component: Support,
+    component: RE,
     exact: true,
     isAsync: true,
-    label: 'Support',
-    path: '/support',
-    title: 'PatternFly Seed | Support Page',
+    label: 'Run Experiment',
+    path: '/run_experiment',
+    title: 'PatternFly Seed | Run Experiment',
+  },
+ 
+  {
+    component: ExperimentStatus,
+    exact: true,
+    isAsync: true,
+    label: 'Experiment Status',
+    path: '/experiment_status',
+    title: 'PatternFly Seed | Status Page',
   },
   {
-    label: 'Settings',
+    component: Analytics,
+    exact: true,
+    isAsync: true,
+    label: 'Analytics',
+    path: '/analytics',
+    title: 'PatternFly Seed | Analytics Page',
+  },
+  {
+    label: 'Advanced User',
     routes: [
       {
-        component: GeneralSettings,
+        component: ObjectiveFunction,
         exact: true,
-        label: 'General',
-        path: '/settings/general',
-        title: 'PatternFly Seed | General Settings',
+        label: 'ObjectiveFunction',
+        path: '/advanceduser/objectivefunction',
+        title: 'PatternFly Seed | Objective Function',
       },
       {
-        component: ProfileSettings,
+        component: LayerDefination,
         exact: true,
-        label: 'Profile',
-        path: '/settings/profile',
-        title: 'PatternFly Seed | Profile Settings',
+        label: 'LayerDefination',
+        path: '/advanced_user/layerdefination',
+        title: 'PatternFly Seed | Layer Defination',
+      },
+      {
+        component: TrialSettings,
+        exact: true,
+        label: 'TrialSettings',
+        path: '/advanced_user/trialsettings',
+        title: 'PatternFly Seed | Trial Settings',
       },
     ],
+  },
+  {
+    label: 'Documentation',
+    routes: [
+      {
+        component: InstallationGuide,
+        exact: true,
+        label: 'InstallationGuide',
+        path: '/documentation/installationguide',
+        title: 'PatternFly Seed | Installation Guide',
+      },
+      {
+        component: Glossary,
+        exact: true,
+        label: 'Glossary',
+        path: '/documentation/glossary',
+        title: 'PatternFly Seed | Layer Defination',
+      },
+      {
+        component: FAQs,
+        exact: true,
+        label: 'FAQs',
+        path: '/documentation/faqs',
+        title: 'PatternFly Seed | FAQs',
+      },
+      {
+        component: CommunityCall,
+        exact: true,
+        label: 'Community Call',
+        path: '/documentation/communitycall',
+        title: 'PatternFly Seed | Community Call',
+      },
+    ]
   },
 ];
 
@@ -97,13 +163,14 @@ const PageNotFound = ({ title }: { title: string }) => {
   return <Route component={NotFound} />;
 };
 
+
 const flattenedRoutes: IAppRoute[] = routes.reduce(
   (flattened, route) => [...flattened, ...(route.routes ? route.routes : [route])],
   [] as IAppRoute[]
 );
 
 const AppRoutes = (): React.ReactElement => (
-  <LastLocationProvider>
+<LastLocationProvider>
     <Switch>
       {flattenedRoutes.map(({ path, exact, component, title, isAsync }, idx) => (
         <RouteWithTitleUpdates
@@ -115,9 +182,10 @@ const AppRoutes = (): React.ReactElement => (
           isAsync={isAsync}
         />
       ))}
-      <PageNotFound title="404 Page Not Found" />
+      <PageNotFound title="404 Page Not Found" /> 
     </Switch>
-  </LastLocationProvider>
+    </LastLocationProvider>
 );
 
 export { AppRoutes, routes };
+
