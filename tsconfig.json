@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "typeRoots": [ "<types-directory-created-in-#1>", "./node_modules/@types"],
     "baseUrl": ".",
     "rootDir": ".",
     "outDir": "dist",

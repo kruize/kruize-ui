@@ -32,9 +32,6 @@ module.exports = merge(common('development'), {
         {
           loader: 'html-loader',
         },
-        {
-          loader: 'markdown-loader',
-        },
         ],
         }
       
