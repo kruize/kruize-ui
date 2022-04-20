@@ -13,7 +13,7 @@ sh launch.sh
 <br />
 
 2. Containerized way<br />
-CIt makes use of nginx as a default react server for the UI.
+We make use of nginx as a default react server for the UI.
 Create the image using the following command<br />
 
 ```
@@ -24,7 +24,7 @@ Run the application using the following command
 ```
 docker run --rm -it -p 8080:8080 static-nginx
 ```
-here static-nginx is the image name.
+here static-nginx is the image name.<br />
 Use http://localhost:8080/ to view the UI in Browser.
 
 ## Code Origin
