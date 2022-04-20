@@ -13,17 +13,19 @@ sh launch.sh
 <br />
 
 2. Containerized way<br />
+CIt makes use of nginx as a default react server for the UI.
 Create the image using the following command<br />
 
 ```
-docker build -t sample-kruize-ui -f Dockerfile .
+ docker build -t static-nginx .
 ```
 Run the application using the following command
 
 ```
-docker run --rm -it -p 9000:3000 sample-kruize-ui
+docker run --rm -it -p 8080:8080 static-nginx
 ```
-
+here static-nginx is the image name.
+Use http://localhost:8080/ to view the UI in Browser.
 
 ## Code Origin
 This repository uses the patternfly-react-seed base code as copied from [Patternfly Seed](https://github.com/patternfly/patternfly-react-seed).
