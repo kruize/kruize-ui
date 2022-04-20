@@ -24,8 +24,11 @@ Run the application using the following command
 ```
 docker run --rm -it -p 8080:8080 static-nginx
 ```
+
 here static-nginx is the image name.<br />
 Use http://localhost:8080/ to view the UI in Browser.
+
+
 
 ## Code Origin
 This repository uses the patternfly-react-seed base code as copied from [Patternfly Seed](https://github.com/patternfly/patternfly-react-seed).
