@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-
 import ReactMarkdown from 'react-markdown';
 
-const Glossary = () => {
+const sample = () => {
 
     const [post, setPost] = useState('');
     useEffect(() => {
-        import('./autotune-modules.md')
+        import('./Installationguide.md')
             .then(res => {
                 console.log(res)
                 setPost(res.default)
@@ -22,4 +21,4 @@ const Glossary = () => {
     );
 }
 
-export { Glossary };
+export { sample };

@@ -8,7 +8,7 @@ import { Analytics } from '@app/Analytics/Analytics';
 import { ObjectiveFunction } from '@app/Advanced User/ObjectiveFunction';
 import { LayerDefination } from '@app/Advanced User/LayerDefination';
 import { TrialSettings } from '@app/Advanced User/TrialSettings';
-import { InstallationGuide } from '@app/Documentation/InstallationGuide';
+import { sample } from '@app/Documentation/sample';
 import { FAQs } from './Documentation/FAQs';
 import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
@@ -101,7 +101,7 @@ const routes: AppRouteConfig[] = [
     label: 'Documentation',
     routes: [
       {
-        component: InstallationGuide,
+        component: sample,
         exact: true,
         label: 'InstallationGuide',
         path: '/documentation/installationguide',
