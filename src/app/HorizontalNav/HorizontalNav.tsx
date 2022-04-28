@@ -3,8 +3,6 @@ import {
   Nav, TextContent,Avatar,
   Text, NavExpandable, TextVariants,NavItem, NavItemSeparator, NavList, NavGroup, PageHeader
 } from '@patternfly/react-core';
-const avatarImg = "https://www.patternfly.org/v4/images/avatarImg.668560cdf25a4932ef9f711b4acad52d.svg";
-
 
 const HorizontalNav: React.FunctionComponent = () => {
 
@@ -55,18 +53,9 @@ const HorizontalNav: React.FunctionComponent = () => {
     </Nav>
 
   );
-  const rightnav = (
-    <Avatar
-      className="pf-c-avatar"
-      src={avatarImg}
-      alt="Avatar image"
-    />
-
-  );
+  
   return (
-    <div>{nav} {rightnav}</div>
+    <div>{nav} </div>
   )
 }
-
-
 export default HorizontalNav;
