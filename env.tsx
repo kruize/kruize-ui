@@ -18,4 +18,3 @@ export function get_ip() {
       return "";
     }
   }
-  
