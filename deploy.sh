@@ -32,8 +32,8 @@ function call_cmds() {
     get_port $CLUSTER
     get_url $CLUSTER_IP $AUTOTUNE_PORT
     display_url_output $url
-    export  CLUSTERIP=$CLUSTER_IP
-    export AUTOTUNEPORT=$AUTOTUNE_PORT  
+    export  CLUSTER_IP=$CLUSTER_IP
+    export AUTOTUNE_PORT=$AUTOTUNE_PORT  
     start_gui
 }
 
