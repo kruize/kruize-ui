@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Select, SelectOption, SelectVariant } from "@patternfly/react-core";
+import nodeContext from "@app/Context_store/nodeContext";
 
 const NameSpaceDropDown = (props: { ns; nsModifier }) => {
   const [namespaces, setNamespaces] = useState([]);
-
   const [selected, setSelected] = useState(props.ns);
   const [isopen, setIsopen] = useState(false);
+  const Context = useContext(nodeContext);
+  const ip = Context["cluster"];
+  const port = Context["autotune"];
+  const namespace_url = "http://" + ip  + ":" + port + "/ui/getNamespaces";
+
   useEffect(() => {
-    // The Autotune ip and port is user specific, needs to be fetched from Autotune running in the background
-    fetch("http://192.168.49.2:30232/ui/getNamespaces")
+    fetch(namespace_url)
       .then((res) => res.json())
       .then((res) => setNamespaces(res.data.namespaces));
   }, []);
@@ -17,6 +21,7 @@ const NameSpaceDropDown = (props: { ns; nsModifier }) => {
     setSelected(selection);
     setIsopen(false);
     console.log("selected:", selection);
+    sessionStorage.setItem("Namespace Value", selection);
     var payload = {
       namespace: selection,
     };
