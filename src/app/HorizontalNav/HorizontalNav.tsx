@@ -144,7 +144,7 @@ const HorizontalNav: React.FunctionComponent = () => {
         )}
       </div>
       {autotuneOn === true ? (
-        <CheckCircleIcon size="md" color="red" />
+        <CheckCircleIcon size="md" color="green" />
       ) : (
         <ExclamationCircleIcon size="md" color="red" />
       )}
