@@ -12,7 +12,7 @@ import { InstallationGuide } from '@app/Documentation/InstallationGuide';
 import { FAQs } from './Documentation/FAQs';
 import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
-
+import { MoreExperimentDetails } from './ExperimentStatus/MoreExperimentDetails';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
@@ -61,6 +61,14 @@ const routes: AppRouteConfig[] = [
     isAsync: true,
     label: 'Experiment Status',
     path: '/experiment_status',
+    title: 'PatternFly Seed | Status Page',
+  },
+  {
+    component: MoreExperimentDetails,
+    exact: true,
+    isAsync: true,
+    label: 'More Experiment Details',
+    path: '/more_experiment_details',
     title: 'PatternFly Seed | Status Page',
   },
   {
