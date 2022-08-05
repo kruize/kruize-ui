@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   GridItem,
@@ -14,10 +14,14 @@ import InfoCircleIcon from "@patternfly/react-icons/dist/esm/icons/info-circle-i
 import { Link } from "react-router-dom";
 
 const MoreExperimentDetails: React.FunctionComponent = () => {
-  const [valueContinuous, setValueContinious] = useState(50);
-  const [inputValueContinuous, setInputValueContinuous] = useState(50);
+  const [valueContinuous1, setValueContinious1] = useState(0);
+  const [inputValueContinuous1, setInputValueContinuous1] = useState(0);
+  const [valueContinuous2, setValueContinious2] = useState(0);
+  const [inputValueContinuous2, setInputValueContinuous2] = useState(0);
+  const [valueContinuous3, setValueContinious3] = useState(0);
+  const [inputValueContinuous3, setInputValueContinuous3] = useState(0);
 
-  const onChangeContinuous = (value, inputValue, setLocalInputValue) => {
+  const onChangeContinuous1 = (value, inputValue, setLocalInputValue) => {
     let newValue;
     if (inputValue === undefined) {
       newValue = Math.floor(value);
@@ -32,11 +36,11 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
         newValue = Math.floor(inputValue);
       }
     }
-    setInputValueContinuous(newValue);
-    setValueContinious(newValue);
+    setInputValueContinuous1(newValue);
+    setValueContinious1(newValue);
+    sessionStorage.setItem("Throughput Slider Value", newValue);
   };
-  const [valueContinuous2, setValueContinious2] = useState(50);
-  const [inputValueContinuous2, setInputValueContinuous2] = useState(50);
+  
   const onChangeContinuous2 = (value, inputValue, setLocalInputValue) => {
     let newValue;
     if (inputValue === undefined) {
@@ -54,11 +58,11 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
     }
     setInputValueContinuous2(newValue);
     setValueContinious2(newValue);
+    sessionStorage.setItem("Response Time Slider Value", newValue);
   };
-  const [valueContinuous3, setValueContinious3] = useState(50);
-  const [inputValueContinuous3, setInputValueContinuous3] = useState(50);
+  
   const onChangeContinuous3 = (value, inputValue, setLocalInputValue) => {
-    let newValue;
+    let newValue ;
     if (inputValue === undefined) {
       newValue = Math.floor(value);
     } else {
@@ -74,8 +78,35 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
     }
     setInputValueContinuous3(newValue);
     setValueContinious3(newValue);
+    sessionStorage.setItem("Resource Usage Slider Value", newValue);  
   };
 
+useEffect(() => {
+  const Throughput = JSON.parse(sessionStorage.getItem("Throughput Slider Value") || '{}');
+  const ResponseTime = JSON.parse(sessionStorage.getItem("Response Time Slider Value") || '{}');
+  const ResourceUsage = JSON.parse(sessionStorage.getItem("Resource Usage Slider Value") || '{}');
+  if(Throughput){
+    console.debug("inorder to work fine")
+  }
+  else if(Throughput)
+  {
+    setInputValueContinuous1(Throughput);
+    setValueContinious1(Throughput);
+  } 
+  else if (ResponseTime)
+  {
+    setInputValueContinuous2(ResponseTime);
+    setValueContinious2(ResponseTime);
+  }
+  else if (ResourceUsage)
+  {
+    setInputValueContinuous3(ResourceUsage);
+    setValueContinious3(ResourceUsage);
+  }
+}, [])
+    
+    
+  
   return (
     <PageSection className="pf-u-font-family-redhatVF-sans-serif">
       <Card>
@@ -83,7 +114,7 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
           <GridItem span={4}></GridItem>
           <GridItem span={4} rowSpan={2}>
             <Title headingLevel="h1" size="lg">
-              Let's defne peformance objectives
+              Let's define peformance objectives
             </Title>
           </GridItem>
           <GridItem span={4}></GridItem>
@@ -100,7 +131,7 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
               to="/advanceduser/objectivefunction"
               className="btn btn-primary"
             >
-              Advaced Settings
+              Advanced Settings
             </Link>
           </Text>
         </Grid>
@@ -124,11 +155,11 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
             <GridItem span={2}></GridItem>
             <GridItem span={6}>
               <Slider
-                value={valueContinuous}
+                value={valueContinuous1}
                 isInputVisible
-                inputValue={inputValueContinuous}
+                inputValue={inputValueContinuous1}
                 inputLabel="%"
-                onChange={onChangeContinuous}
+                onChange={onChangeContinuous1}
               />
             </GridItem>
           </Grid>
