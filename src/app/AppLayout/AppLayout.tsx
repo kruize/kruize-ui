@@ -12,6 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
+import NodeState from '@app/Context_store/NodeState';
 
 
 interface IAppLayout {
@@ -103,6 +104,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     </SkipToContent>
   );
   return (
+    <NodeState>
     <Page
       mainContainerId={pageId}
       header={Header}
@@ -111,6 +113,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
       skipToContent={PageSkipToContent}>
       {children}
     </Page>
+    </NodeState>
   );
 };
 

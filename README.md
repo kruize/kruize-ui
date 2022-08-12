@@ -8,22 +8,27 @@ To run the kruize ui you can select any of the 2 options :
 Latest Node.js source code can be downloaded from [here](https://nodejs.org/en/download/).
 To run the Kruize-ui: clone the repository and then execute the following command to run the launch script.<br />
 ```
-sh launch.sh
+source deploy.sh
 ```
 <br />
 
 2. Containerized way<br />
+We make use of nginx as a default react server for the UI.
 Create the image using the following command<br />
 
 ```
-docker build -t sample-kruize-ui -f Dockerfile .
+ docker build -t static-nginx .
 ```
 Run the application using the following command
 
 ```
-docker run --rm -it -p 9000:3000 sample-kruize-ui
+docker run --rm -it -p 8080:8080 static-nginx
 ```
-Use http://localhost:9000/ to view the UI in Browser.
+
+here static-nginx is the image name.<br />
+Use http://localhost:8080/ to view the UI in Browser.
+
+
 
 ## Code Origin
 This repository uses the patternfly-react-seed base code as copied from [Patternfly Seed](https://github.com/patternfly/patternfly-react-seed).

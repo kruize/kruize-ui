@@ -14,7 +14,7 @@ const DeploymentsDropdown = () => {
         },
     ]);
     return (
-        <KruizeDropdown label="Deployments" title="Select Deployment" content={deployment}/>
+        <KruizeDropdown title="Select Deployment" content={deployment}/>
     )
 };
 

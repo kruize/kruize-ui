@@ -8,11 +8,12 @@ import { Analytics } from '@app/Analytics/Analytics';
 import { ObjectiveFunction } from '@app/Advanced User/ObjectiveFunction';
 import { LayerDefination } from '@app/Advanced User/LayerDefination';
 import { TrialSettings } from '@app/Advanced User/TrialSettings';
-import { InstallationGuide } from '@app/Documentation/InstallationGuide';
+import { CodeEditorWithActions } from '@app/GenerateYaml/CodeEditorWithActions';
+import { sample } from '@app/Documentation/sample';
 import { FAQs } from './Documentation/FAQs';
 import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
-
+import { MoreExperimentDetails } from './ExperimentStatus/MoreExperimentDetails';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
@@ -64,6 +65,22 @@ const routes: AppRouteConfig[] = [
     title: 'PatternFly Seed | Status Page',
   },
   {
+    component: MoreExperimentDetails,
+    exact: true,
+    isAsync: true,
+    label: 'More Experiment Details',
+    path: '/more_experiment_details',
+    title: 'PatternFly Seed | Status Page',
+  },
+  {
+    component: CodeEditorWithActions,
+    exact: true,
+    isAsync: true,
+    label: 'Output YAML',
+    path: '/generate_yaml',
+    title: 'Autotune'
+  },
+  {
     component: Analytics,
     exact: true,
     isAsync: true,
@@ -101,7 +118,7 @@ const routes: AppRouteConfig[] = [
     label: 'Documentation',
     routes: [
       {
-        component: InstallationGuide,
+        component: sample,
         exact: true,
         label: 'InstallationGuide',
         path: '/documentation/installationguide',
@@ -188,4 +205,3 @@ const AppRoutes = (): React.ReactElement => (
 );
 
 export { AppRoutes, routes };
-

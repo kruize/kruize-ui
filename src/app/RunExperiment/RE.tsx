@@ -1,73 +1,71 @@
-import React, { useState } from 'react';
-import {
-    Button,
-    Card,
-    CardBody, DropdownItem, DropdownSeparator,
-    Grid,
-    GridItem,
-    Spinner,
-} from '@patternfly/react-core';
-
+import React, { useState, useRef } from "react";
+import { Button, Card, CardBody, Grid, GridItem, TextContent, Text, TextVariants } from "@patternfly/react-core";
 import NameSpaceDropDown from "./NameSpaceDropDown";
 import DeploymentsDropdown from "./DeploymentsDropdown";
-// import ThroughputSlider from "./ThroughputSlider";
-// import ResponseTimeSlider from "./ResponseTimeSlider";
-// import ResourceUsageSlider from "./ResourceUsageSlider";
-// import LayerDropdown from './LayerDropdown';
-// import TunableDropdown from './TunableDropdown';
-
-
+import { Switch, Route, Link, Redirect } from 'react-router-dom';
 const RE: React.FunctionComponent = () => {
-    const dropd = (
-        <Card>
+  const initState = { namespace: null };
+  const [namespace, setNamespace] = useState();
+  const [value, setValue] = useState(initState);
 
-            <CardBody>
+  const onSubmitHandle = () => {
+   return  <Switch>
+<Route path ="/experiment_status"/>
+   </Switch>
+  
 
-                <Grid hasGutter>
+  }
 
-                    <GridItem span={2}></GridItem>
-                    <GridItem span={8}>
-
-                        <Grid hasGutter>
-                            <GridItem span={6}>
-                                <NameSpaceDropDown />
-                            </GridItem>
-                            <GridItem span={6}>
-                                <DeploymentsDropdown />
-                            </GridItem>
-                        </Grid>
-                        <br />
-
-
-
-                        <Grid hasGutter>
-                            <GridItem span={5} >
-                                <Button variant="secondary" >
-                                    Submit
-                                </Button>
-
-                            </GridItem>
-                            <GridItem span={2}> </GridItem>
-                            <GridItem span={3}>
-                                <Button variant="secondary">Reset </Button>
-                            </GridItem>
-                        </Grid>
-                        <br />
-                    </GridItem>
-                    <GridItem span={2}></GridItem>
-                </Grid>
-
-                <Grid>
-
-                </Grid>
-            </CardBody>
-        </Card>
-    )
+  const dropd = () => {
     return (
-        <div>{dropd} </div>
-    )
+      <Card>
+        <CardBody>
+          <Grid hasGutter>
+            <GridItem span={2}></GridItem>
+            <GridItem span={8}>
+              <Grid hasGutter>
+                <GridItem span={6}>
+                  <TextContent>
+                    <Text  component={TextVariants.h4}>
+                      Namespace
+                    </Text>
+                  </TextContent>
+                  <NameSpaceDropDown ns={namespace} nsModifier={setNamespace} />
+                </GridItem>
+                <GridItem span={6}>
+                <TextContent>
+                    <Text  component={TextVariants.h4}>
+                      Deployment
+                    </Text>
+                  </TextContent>
+                  <DeploymentsDropdown />
+                </GridItem>
+              </Grid>
+              <br />
 
+              <Grid hasGutter>
+                <GridItem span={5}>
+                  <Link to="/experiment_status">
+                  <Button variant="secondary">Submit</Button>
+                  </Link>
+                 
+                </GridItem>
+                <GridItem span={2}> </GridItem>
+                <GridItem span={3}>
+                  <Button variant="secondary" >
+                    Reset
+                  </Button>
+                </GridItem>
+              </Grid>
+              <br />
+            </GridItem>
+            <GridItem span={2}></GridItem>
+          </Grid>
+        </CardBody>
+      </Card>
+    );
+  };
+  return <div>{dropd()}</div>;
 };
 
 export default RE;
-
