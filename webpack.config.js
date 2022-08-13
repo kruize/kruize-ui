@@ -8,9 +8,9 @@ const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 // Monaco Editor uses CSS imports internally,
 // so we need a separate css-loader for app and monaco-editor packages
 
-module.exports = {
+module.exports = {    
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.jsx', '.css'],
+    extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.json', '.ttf'],
     mainFields: ['main', 'module', 'browser'],
   },
   entry: './src/index.js',
@@ -29,10 +29,15 @@ module.exports = {
       //     }
       //   }
       // },
+      {
+        test: /\.ttf$/,
+        use: ['file-loader'],
+      },
 		{
 			test: /\.css$/i,
 			use: ['file-loader', 'style-loader', 'css-loader']
 		  },
+      
       {
         test: /\css$/i, include: MONACO_DIR, use: ['file-loader','style-loader', 'css-loader'],
       },

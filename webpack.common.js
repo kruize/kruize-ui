@@ -223,6 +223,10 @@ module.exports = env => {
     module: {
       rules: [
         {
+          test: /\.ttf$/,
+          use: ['file-loader'],
+        },
+        {
           test: /\.ya?ml$/,
           use: 'yaml-loader'
         },
