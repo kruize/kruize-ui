@@ -9,11 +9,15 @@ import {
   Card,
   CardBody,
   Button,
-} from "@patternfly/react-core";
-import InfoCircleIcon from "@patternfly/react-icons/dist/esm/icons/info-circle-icon";
+  Form,
+  FormSection,
+  FormGroup,
+} from "@patternfly/react-core"
+import ExternalLinkAltIcon from "@patternfly/react-icons/dist/esm/icons/external-link-alt-icon";
 import { Link } from "react-router-dom";
 
-const MoreExperimentDetails: React.FunctionComponent = () => {
+const Page1: React.FunctionComponent = () => {
+
   const [valueContinuous1, setValueContinious1] = useState(0);
   const [inputValueContinuous1, setInputValueContinuous1] = useState(0);
   const [valueContinuous2, setValueContinious2] = useState(0);
@@ -116,39 +120,10 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
     
   
   return (
-    <PageSection className="pf-u-font-family-redhatVF-sans-serif">
-      <Card>
-        <Grid>
-          <GridItem span={4}></GridItem>
-          <GridItem span={4} rowSpan={2}>
-            <Title headingLevel="h1" size="lg">
-              Let's define peformance objectives
-            </Title>
-          </GridItem>
-          <GridItem span={4}></GridItem>
-
-          <Text>
-            <br />
-            Here's what our system found for you! You bet. This is the best with
-            all 3 parameters combined!
-          </Text>
-          <Text>
-            <GridItem span={4}></GridItem>
-            Want to fiddle around with the parameters? Click here for{" "}
-            <Link
-              to="/advanceduser/objectivefunction"
-              className="btn btn-primary"
-            >
-              Advanced Settings
-            </Link>
-          </Text>
-        </Grid>
-      </Card>
-      <Card>
-        <CardBody>
-          <Grid>
-            <GridItem>
-              Throughput
+          <Form  isWidthLimited onSubmit={(e) => {
+            e.preventDefault();
+          }}>
+<FormGroup label="Throughput" labelIcon={
               <Link
                 to={{
                   pathname:
@@ -156,12 +131,9 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
                 }}
                 target="_blank"
               >
-                {<InfoCircleIcon />}
-              </Link>
-            </GridItem>
+                {<ExternalLinkAltIcon />}
+              </Link>}>
 
-            <GridItem span={2}></GridItem>
-            <GridItem span={6}>
               <Slider
                 value={valueContinuous1}
                 isInputVisible
@@ -169,13 +141,13 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
                 inputLabel="%"
                 onChange={onChangeContinuous1}
               />
-            </GridItem>
-          </Grid>
-        </CardBody>
-        <CardBody>
-          <Grid>
-            <GridItem>
-              Response Time
+</FormGroup>
+
+         
+             
+            <FormGroup>
+
+            Response Time
               <Link
                 to={{
                   pathname:
@@ -183,11 +155,9 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
                 }}
                 target="_blank"
               >
-                {<InfoCircleIcon />}
+                {<ExternalLinkAltIcon />}
               </Link>
-            </GridItem>
-            <GridItem span={2}></GridItem>
-            <GridItem span={6}>
+
               <Slider
                 value={valueContinuous2}
                 isInputVisible
@@ -195,13 +165,10 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
                 inputLabel="%"
                 onChange={onChangeContinuous2}
               />
-            </GridItem>
-          </Grid>
-        </CardBody>
-        <CardBody>
-          <Grid>
-            <GridItem>
-              Resource Usage
+            </FormGroup>
+    
+           <FormGroup>
+           Resource Usage
               <Link
                 to={{
                   pathname:
@@ -209,11 +176,8 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
                 }}
                 target="_blank"
               >
-                {<InfoCircleIcon />}
+                {<ExternalLinkAltIcon />}
               </Link>
-            </GridItem>
-            <GridItem span={2}></GridItem>
-            <GridItem span={6}>
               <Slider
                 value={valueContinuous3}
                 isInputVisible
@@ -221,29 +185,19 @@ const MoreExperimentDetails: React.FunctionComponent = () => {
                 inputLabel="%"
                 onChange={onChangeContinuous3}
               />
-            </GridItem>
-          </Grid>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardBody>
-          <Grid hasGutter>
-            <GridItem span={2}></GridItem>
-            <GridItem span={3}>
+           </FormGroup>
+              
+            
+{/*             
               <Link to="/generate_yaml">
               <Button variant="secondary"> Let's get going! </Button>
               </Link>
             </GridItem>
-
             <GridItem span={3}>
-              <Button variant="secondary"> Reset fields </Button>
-            </GridItem>
-            <GridItem></GridItem>
-          </Grid>
-        </CardBody>
-      </Card>
-    </PageSection>
+              <Button variant="secondary"> Reset fields </Button> */}
+              </Form>
+
   );
 };
 
-export { MoreExperimentDetails };
+export { Page1 };

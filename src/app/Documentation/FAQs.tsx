@@ -2,26 +2,21 @@ import * as React from 'react';
 import {
   TextContent,
   Text,
+  PageSectionVariants,
   TextVariants, SearchInput, PageSection, Card, CardTitle, CardBody, CardFooter, Gallery, GalleryItem
 } from '@patternfly/react-core';
 
-
 const FAQs: React.FunctionComponent = () => {
-  const [value, setValue] = React.useState('');
+  
   return (
-
-
-    <PageSection>
-      <section className="pf-c-page__main-section pf-m-limit-width pf-m-light">
-        <div className='pf-c-page__main-body'>
+<PageSection variant={PageSectionVariants.light}>  
           <TextContent className="--pf-c-content --pf-c-content--blockquote--PaddingLeft" >
 
             <Text component={TextVariants.h1}>Frequently Asked Questions !</Text>
             <Text component={TextVariants.p}>Welcome to the FAQs Page.</Text>
             <Text component={TextVariants.h4}>Let's see how can we help you!</Text>
           </TextContent>
-        </div>
-      </section>
+        
       {/* <SearchInput
             placeholder='Find by name'
             value={value}

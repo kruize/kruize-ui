@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { PageSection, PageSectionVariants, Toolbar, ToolbarContent, TextContent, Text, TextVariants, Title } from '@patternfly/react-core';
+import { Link } from "react-router-dom";
 
 const sample = () => {
 
@@ -14,10 +16,11 @@ const sample = () => {
     });
 
     return (
-
+<PageSection variant={PageSectionVariants.light}>  
         <div className="pf-c-content">
             <ReactMarkdown >{post}</ReactMarkdown>
         </div>
+        </PageSection>
     );
 }
 

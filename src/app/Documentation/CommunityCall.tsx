@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { PageSection, Title } from '@patternfly/react-core';
+import { PageSection, PageSectionVariants, Title } from '@patternfly/react-core';
 
 const CommunityCall: React.FunctionComponent = () => (
-  <PageSection>
-
-    <section className="pf-c-page__main-section pf-m-limit-width pf-m-light">
-      <div className='pf-c-page__main-body'>
+  <PageSection variant={PageSectionVariants.light}>  
+    {/* <section className="pf-c-page__main-section pf-m-limit-width pf-m-light">
+      <div className='pf-c-page__main-body'> */}
 
 
         <Title headingLevel="h1" size="lg"><b>Autotune Community Calls !</b></Title>
@@ -58,8 +57,8 @@ const CommunityCall: React.FunctionComponent = () => (
 
       </ul>
     </p>
-    </div>
-    </section>
+    {/* </div>
+    </section> */}
   </PageSection>
 )
 

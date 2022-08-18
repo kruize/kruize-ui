@@ -100,22 +100,20 @@ const ExperimentStatus: React.FunctionComponent = () => {
       <Card>
         <CardHeader>
           <Title headingLevel="h1" size="lg">
-            ExperimentStatus Autotune Page!
-          </Title>
-          <Title headingLevel="h1" size="lg">
             Layers and Tunable hierarchy
           </Title>
         </CardHeader>
         <CardBody>
           Let's peek into the deployment and see what's inside.......... We have
-          fgured out the layers and tunables for you !
+          figured out the layers and tunables for you !
         </CardBody>
       </Card>
 
       <Card>
-        <CardHeader>Deployment Name : Autotune</CardHeader>
+        <CardHeader>Deployment Name : <b>Autotune</b></CardHeader>
         <CardBody>
-          1. Container Image Name: Autotune
+         
+          1. Container Image Name: <b> Autotune </b>
           <TreeView
             data={autotune}
             onSelect={onSelect}

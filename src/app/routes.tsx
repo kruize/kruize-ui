@@ -13,7 +13,7 @@ import { sample } from '@app/Documentation/sample';
 import { FAQs } from './Documentation/FAQs';
 import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
-import { MoreExperimentDetails } from './ExperimentStatus/MoreExperimentDetails';
+import { ExperimentDetails } from './ExperimentStatus/MoreExperimentStuff/ExperimentDetails';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
@@ -65,7 +65,7 @@ const routes: AppRouteConfig[] = [
     title: 'PatternFly Seed | Status Page',
   },
   {
-    component: MoreExperimentDetails,
+    component: ExperimentDetails ,
     exact: true,
     isAsync: true,
     label: 'More Experiment Details',

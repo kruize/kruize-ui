@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Card, PageSectionVariants, PageSection } from '@patternfly/react-core';
 import ReactMarkdown from 'react-markdown';
 
 const Glossary = () => {
@@ -15,10 +15,11 @@ const Glossary = () => {
     });
 
     return (
-
-        <div className="pf-c-content">
-            <ReactMarkdown children={post}/>
-        </div>
+        <PageSection variant={PageSectionVariants.light}>
+            <div className="pf-c-content ws-example-flex-item pf-u-ml-xl">
+                <ReactMarkdown children={post} />
+            </div>
+        </PageSection>
     );
 }
 
