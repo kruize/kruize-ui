@@ -8,8 +8,15 @@ import {
   CardHeader,
   Button,
   TreeView,
+  PageSectionVariants,
+  Text,
+  Toolbar,
+  TextVariants,
+  ToolbarContent,
+  TextContent,
+
 } from "@patternfly/react-core";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import listAuotuneTunablesJson from "./jsonFiles/listAutotuneTunables.json";
 
 const ExperimentStatus: React.FunctionComponent = () => {
@@ -96,50 +103,47 @@ const ExperimentStatus: React.FunctionComponent = () => {
   ];
 
   return (
-    <PageSection className="pf-u-font-family-redhatVF-sans-serif">
-      <Card>
-        <CardHeader>
-          <Title headingLevel="h1" size="lg">
-            Layers and Tunable hierarchy
-          </Title>
-        </CardHeader>
-        <CardBody>
-          Let's peek into the deployment and see what's inside.......... We have
-          figured out the layers and tunables for you !
-        </CardBody>
-      </Card>
+    <PageSection variant={PageSectionVariants.light}>
+      <Toolbar>
+        <ToolbarContent style={{ paddingLeft: 0 }}>
+          <TextContent>
+            <Text component={TextVariants.h1}>
+              Layers and Tunable hierarchy
+            </Text>
+            <Text component={TextVariants.p}>
 
-      <Card>
-        <CardHeader>Deployment Name : <b>Autotune</b></CardHeader>
-        <CardBody>
-         
-          1. Container Image Name: <b> Autotune </b>
-          <TreeView
-            data={autotune}
-            onSelect={onSelect}
-            allExpanded={allExpanded}
-          />
-        </CardBody>
-        <CardBody>
-          2. Container Image Name: Autotune-Optuna
-          <TreeView
-            data={autotune_optuna}
-            onSelect={onSelect}
-            allExpanded={allExpanded}
-          />
-        </CardBody>
-        <CardFooter>
-          <Button variant="primary" onClick={onToggle}>
-            {allExpanded && "Collapse all"}
-            {!allExpanded && "Expand all"}
-          </Button>
-          &nbsp;&nbsp;&nbsp;
-          <Link to="/more_experiment_details">
-          <Button variant="primary">Excited to Run Experiment ? </Button>
-          </Link>
-        </CardFooter>
-      </Card>
-    </PageSection>
+              Let's peek into the deployment and see what's inside.......... We have
+              figured out the layers and tunables for you !
+            </Text>
+          </TextContent>
+        </ToolbarContent>
+      </Toolbar>
+    
+      Deployment Name : <b> Autotune</b>
+      <CardBody>
+
+        1. Container Image Name: <b> Autotune </b>
+        <TreeView
+          data={autotune}
+          onSelect={onSelect}
+          allExpanded={allExpanded}
+        />
+      </CardBody>
+      <CardBody>
+        2. Container Image Name: Autotune-Optuna
+        <TreeView
+          data={autotune_optuna}
+          onSelect={onSelect}
+          allExpanded={allExpanded}
+        />
+      </CardBody>
+      <CardFooter>
+        <Button variant="primary" onClick={onToggle}>
+          {allExpanded && "Collapse all"}
+          {!allExpanded && "Expand all"}
+        </Button>
+      </CardFooter>
+      </PageSection >
   );
 };
 

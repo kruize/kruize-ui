@@ -22,7 +22,7 @@ import {
   TextContent
 } from "@patternfly/react-core";
 import { Link } from "react-router-dom";
-const Throughput = {
+const ResponseTime = {
   weightage : 67,
   operator : 'square',
   query : "---",
@@ -30,12 +30,12 @@ const Throughput = {
   valuetype : "double",
   direction : "maximize"
 };
-const Page2: React.FunctionComponent = () => {
+const Page3: React.FunctionComponent = () => {
   
-  const [valueContinuous1, setValueContinious1] = useState(Throughput.weightage);
-  const [inputValueContinuous1, setInputValueContinuous1] = useState(Throughput.weightage);
-  const [query, setQuery] = React.useState(Throughput.query);
-  const [valueType, setValueType] = React.useState(Throughput.valuetype);
+  const [valueContinuous1, setValueContinious1] = useState(ResponseTime.weightage);
+  const [inputValueContinuous1, setInputValueContinuous1] = useState(ResponseTime.weightage);
+  const [query, setQuery] = React.useState(ResponseTime.query);
+  const [valueType, setValueType] = React.useState(ResponseTime.valuetype);
   const [option, setOption] = React.useState('');
   const onChangeContinuous1 = (value, inputValue, setLocalInputValue) => {
     let newValue;
@@ -54,7 +54,7 @@ const Page2: React.FunctionComponent = () => {
     }
     setInputValueContinuous1(newValue);
     setValueContinious1(newValue);
-    sessionStorage.setItem("Throughput Slider Value", newValue);
+    sessionStorage.setItem("Response Time Slider Value", newValue);
   };
   const handleQueryChange = (query: string) => {
     setQuery(query);
@@ -70,12 +70,12 @@ const handelValueTypeChange = (valueType : string )=> {
     setOption(value);
   };
 const valueOptions = [
-  { value : Throughput.valuetype, label : Throughput.valuetype, disabled: false },
+  { value : ResponseTime.valuetype, label : ResponseTime.valuetype, disabled: false },
   { value : 'float', label : 'float'}
 ]
   const options = [
     // { value: 'select one', label: 'Select one', disabled: false },
-    { value: Throughput.datasource, label: Throughput.datasource, disabled: false },
+    { value: ResponseTime.datasource, label: ResponseTime.datasource, disabled: false },
     { value: 'B', label: 'B', disabled: false },
     { value: 'C', label: 'C', disabled: false },
   ];
@@ -89,10 +89,10 @@ const valueOptions = [
         }}>
          <TextContent>
            <Text component={TextVariants.h3}>
-           Function Variable :  Throughput
+           Function Variable :  Response Time
            </Text>
          </TextContent>  
-          <TextInput value="Equation : Weightage * [ Operator * Throughput ]" type="text" isReadOnly aria-label="readonly input example" />
+          <TextInput value="Equation : Weightage * [ Operator * Response Time ]" type="text" isReadOnly aria-label="readonly input example" />
               <FormGroup
                 label="Weightage"
                 isRequired
@@ -116,7 +116,7 @@ const valueOptions = [
                 <TextInput
                  ref={ref}
                  value={value}
-                 onChange={value => setValue(Throughput.operator)}
+                 onChange={value => setValue(ResponseTime.operator)}
                   aria-label="None"
                 />
               </FormGroup>
@@ -154,11 +154,11 @@ const valueOptions = [
            
 
           <FormGroup role="radiogroup" isStack fieldId="horizontal-form-radio-group" hasNoPaddingTop label="Direction">
-            <Radio name="horizontal-inline-radio" label="Maximize" id="horizontal-inline-radio-01" isChecked />
-            <Radio name="horizontal-inline-radio" label="Minimize" id="horizontal-inline-radio-02" />
+            <Radio name="horizontal-inline-radio" label="Maximize" id="horizontal-inline-radio-01"  />
+            <Radio name="horizontal-inline-radio" label="Minimize" id="horizontal-inline-radio-02" isChecked/>
           </FormGroup>
           
         </Form>
   )
 };
-export { Page2 };
+export { Page3 };

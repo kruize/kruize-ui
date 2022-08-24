@@ -18,10 +18,8 @@ const RE: React.FunctionComponent = () => {
 
   const dropd = () => {
     return (
-<>
 <PageSection variant={PageSectionVariants.light}>
-        {/* <DataContainerBreadcrumb currentPage="Create a cache" /> */}
-        <Toolbar id="create-cache-header">
+        <Toolbar>
           <ToolbarContent style={{ paddingLeft: 0 }}>
             <TextContent>
               <Text component={TextVariants.h1}>
@@ -56,29 +54,10 @@ const RE: React.FunctionComponent = () => {
                   </TextContent>
                   <DeploymentsDropdown />
                 </GridItem>
-              </Grid>
-              <br />
-
-              <Grid hasGutter>
-                <GridItem span={5}>
-                  <Link to="/experiment_status">
-                  <Button variant="secondary">Submit</Button>
-                  </Link>
-                 
-                </GridItem>
-                <GridItem span={2}> </GridItem>
-                <GridItem span={3}>
-                  <Button variant="secondary" >
-                    Reset
-                  </Button>
-                </GridItem>
-              </Grid>
-              <br />
-            </GridItem>
-            <GridItem span={2}></GridItem>
-          </Grid>
-          </PageSection> 
-        </>
+              </Grid>     
+            </GridItem>     
+            </Grid>
+          </PageSection>
     );
   };
   return <div>{dropd()}</div>;

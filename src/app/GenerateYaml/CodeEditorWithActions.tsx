@@ -1,6 +1,7 @@
 import React from 'react';
 import { CodeEditor, Language } from '@patternfly/react-code-editor';
-
+import {PageSection, TextContent, Text, TextVariants, Toolbar, PageSectionVariants, ToolbarContent } from '@patternfly/react-core';
+import { Page2 } from '@app/ExperimentStatus/MoreExperimentStuff/Page2';
 export const CodeEditorWithActions: React.FunctionComponent = () => {
   const onEditorDidMount = (editor, monaco) => {
     // eslint-disable-next-line no-console
@@ -14,10 +15,23 @@ export const CodeEditorWithActions: React.FunctionComponent = () => {
     // eslint-disable-next-line no-console
     console.log(value);
   };
-  
-  
+      return(
+      <>
+      <PageSection variant={PageSectionVariants.light}>
+      <Toolbar>
+        <ToolbarContent style={{ paddingLeft: 0 }}>
+          <TextContent>
+            <Text component={TextVariants.h1}>
+              YAML Generated
+            </Text>
+            <Text component={TextVariants.p}>
 
-    return(
+              The following yaml has been generated for you...
+            </Text>
+          </TextContent>
+        </ToolbarContent>
+      </Toolbar>
+      </PageSection>
       <CodeEditor
       code='apiVersion: "recommender.com/v1"
 kind: Autotune
@@ -50,6 +64,7 @@ spec:
       onEditorDidMount={onEditorDidMount}
       height="sizeToFit"
     />
+    </>
     );
     };
 

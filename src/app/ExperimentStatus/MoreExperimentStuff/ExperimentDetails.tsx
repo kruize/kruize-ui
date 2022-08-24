@@ -16,28 +16,30 @@ import {
   
   TextContent,
   TextVariants,
-  
+  Tile ,
   ToolbarContent,
 } from "@patternfly/react-core";
 import { Page1 } from "./Page1";
 import { Page2 } from "./Page2";
 import { Link } from "react-router-dom";
-
-const ExperimentDetails: React.FunctionComponent = () => {
-    const steps = [
+import { Page3 } from "./Page3";
+import { Page4 } from "./Page4";
+ 
+const ExperimentDetails: React.FunctionComponent = () => {  
+  const [finish, setFinish] = useState();  
+  const steps = [
       { name: 'First step', component: <Page1/> },
-      { name: 'Second step', component: <Page2/> },
-      { name: 'Third step', component: <p>Step 3 content</p> },
-      { name: 'Fourth step', component: <p>Step 4 content</p> },
-      { name: 'Review', component: <p>Review step content</p>, nextButtonText: 'Finish' }
+      { name: 'Throughput', component: <Page2/> },
+      { name: 'Response Time', component: <Page3/> },
+      { name: 'Resource Usage', component: <Page4/> ,  nextButtonText: 'Finish'},
+      // { name: 'Review', component: <p>Review step content</p>, }
     ];
     const title = 'Basic wizard';
-    
+  
     return ( 
       <>
 <PageSection variant={PageSectionVariants.light}>
-        {/* <DataContainerBreadcrumb currentPage="Create a cache" /> */}
-        <Toolbar id="create-cache-header">
+        <Toolbar>
           <ToolbarContent style={{ paddingLeft: 0 }}>
             <TextContent>
               <Text component={TextVariants.h1}>

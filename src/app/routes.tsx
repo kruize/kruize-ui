@@ -2,18 +2,15 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler } from '@app/utils/utils';
 import { About } from '@app/About/About';
-import  RE  from '@app/RunExperiment/RE';
-import { ExperimentStatus } from '@app/ExperimentStatus/ExperimentStatus';
+import { RunExperiment }  from '@app/RunExperiment/RunExperiment';
 import { Analytics } from '@app/Analytics/Analytics';
 import { ObjectiveFunction } from '@app/Advanced User/ObjectiveFunction';
 import { LayerDefination } from '@app/Advanced User/LayerDefination';
 import { TrialSettings } from '@app/Advanced User/TrialSettings';
-import { CodeEditorWithActions } from '@app/GenerateYaml/CodeEditorWithActions';
 import { sample } from '@app/Documentation/sample';
 import { FAQs } from './Documentation/FAQs';
 import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
-import { ExperimentDetails } from './ExperimentStatus/MoreExperimentStuff/ExperimentDetails';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
@@ -39,47 +36,17 @@ export interface IAppRouteGroup {
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
 const routes: AppRouteConfig[] = [
-  {
-    component: About,
-    exact: true,
-    label: 'About Autotune',
-    path: '/',
-    title: 'PatternFly Seed | Main About',
-  },
+  
  
   {
-    component: RE,
+    component: RunExperiment,
     exact: true,
     isAsync: true,
     label: 'Run Experiment',
-    path: '/run_experiment',
+    path: '/',
     title: 'PatternFly Seed | Run Experiment',
   },
  
-  {
-    component: ExperimentStatus,
-    exact: true,
-    isAsync: true,
-    label: 'Experiment Status',
-    path: '/experiment_status',
-    title: 'PatternFly Seed | Status Page',
-  },
-  {
-    component: ExperimentDetails ,
-    exact: true,
-    isAsync: true,
-    label: 'More Experiment Details',
-    path: '/more_experiment_details',
-    title: 'PatternFly Seed | Status Page',
-  },
-  {
-    component: CodeEditorWithActions,
-    exact: true,
-    isAsync: true,
-    label: 'Output YAML',
-    path: '/generate_yaml',
-    title: 'Autotune'
-  },
   {
     component: Analytics,
     exact: true,
@@ -147,6 +114,13 @@ const routes: AppRouteConfig[] = [
       },
     ]
   },
+  {
+    component: About,
+    exact: true,
+    label: 'About Autotune',
+    path: '/about',
+    title: 'PatternFly Seed | Main About',
+  }
 ];
 
 // a custom hook for sending focus to the primary content container

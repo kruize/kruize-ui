@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 const InstallationGuide: React.FunctionComponent = () => {
   return (
     <PageSection variant={PageSectionVariants.light}>
-      {/* <DataContainerBreadcrumb currentPage="Create a cache" /> */}
-      <Toolbar id="create-cache-header">
+      <Toolbar>
         <ToolbarContent style={{ paddingLeft: 0 }}>
           <TextContent>
             <Text component={TextVariants.h1}>
