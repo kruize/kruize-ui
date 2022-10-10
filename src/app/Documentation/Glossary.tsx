@@ -17,7 +17,9 @@ const Glossary = () => {
     return (
         <PageSection variant={PageSectionVariants.light}>
             <div className="pf-c-content ws-example-flex-item pf-u-ml-xl">
-                <ReactMarkdown children={post} />
+                <div className="pf-c-content">
+                    <ReactMarkdown children={post} />
+                </div>
             </div>
         </PageSection>
     );

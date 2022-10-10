@@ -8,7 +8,7 @@ const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 // Monaco Editor uses CSS imports internally,
 // so we need a separate css-loader for app and monaco-editor packages
 
-module.exports = {    
+module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.json', '.ttf'],
     mainFields: ['main', 'module', 'browser'],
@@ -16,7 +16,21 @@ module.exports = {
   entry: './src/index.js',
   target: 'electron-renderer',
   devtool: 'source-map',
+  // module: {
+
+  // },
   module: {
+    loaders: [{
+      test: /.jsx?$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/
+    }, {
+      test: /\.css$/,
+      loader: ["style-loader", "css-loader"]
+    }, {
+      test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+      loader: 'url-loader?limit=100000'
+    }],
     rules: [
       // {
       //   test: /\.js$/,
@@ -33,13 +47,13 @@ module.exports = {
         test: /\.ttf$/,
         use: ['file-loader'],
       },
-		{
-			test: /\.css$/i,
-			use: ['file-loader', 'style-loader', 'css-loader']
-		  },
-      
       {
-        test: /\css$/i, include: MONACO_DIR, use: ['file-loader','style-loader', 'css-loader'],
+        test: /\.css$/i,
+        use: ['file-loader', 'style-loader', 'css-loader']
+      },
+
+      {
+        test: /\css$/i, include: MONACO_DIR, use: ['file-loader', 'style-loader', 'css-loader'],
       },
       {
         test: /\.(js|ts|tsx|jsx)$/,
@@ -55,6 +69,11 @@ module.exports = {
     hot: true,
     port: 4000,
     publicPath: '/',
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

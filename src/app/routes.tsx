@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { accessibleRouteChangeHandler } from '@app/utils/utils';
 import { About } from '@app/About/About';
-import { RunExperiment }  from '@app/RunExperiment/RunExperiment';
+import { RunExperiment } from '@app/RunExperiment/RunExperiment';
 import { Analytics } from '@app/Analytics/Analytics';
 import { ObjectiveFunction } from '@app/Advanced User/ObjectiveFunction';
 import { LayerDefination } from '@app/Advanced User/LayerDefination';
@@ -14,6 +14,7 @@ import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+// import WizardState from './Context_store/WizardState';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -36,24 +37,23 @@ export interface IAppRouteGroup {
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
 const routes: AppRouteConfig[] = [
-  
- 
+
   {
     component: RunExperiment,
     exact: true,
     isAsync: true,
-    label: 'Run Experiment',
+    label: 'New Experiment',
     path: '/',
-    title: 'PatternFly Seed | Run Experiment',
+    title: 'New Experiment',
   },
- 
+
   {
     component: Analytics,
     exact: true,
     isAsync: true,
     label: 'Analytics',
     path: '/analytics',
-    title: 'PatternFly Seed | Analytics Page',
+    title: 'Analytics Page',
   },
   {
     label: 'Advanced User',
@@ -63,21 +63,21 @@ const routes: AppRouteConfig[] = [
         exact: true,
         label: 'ObjectiveFunction',
         path: '/advanceduser/objectivefunction',
-        title: 'PatternFly Seed | Objective Function',
+        title: 'Objective Function',
       },
       {
         component: LayerDefination,
         exact: true,
         label: 'LayerDefination',
         path: '/advanced_user/layerdefination',
-        title: 'PatternFly Seed | Layer Defination',
+        title: 'Layer Defination',
       },
       {
         component: TrialSettings,
         exact: true,
         label: 'TrialSettings',
         path: '/advanced_user/trialsettings',
-        title: 'PatternFly Seed | Trial Settings',
+        title: 'Trial Settings',
       },
     ],
   },
@@ -89,28 +89,28 @@ const routes: AppRouteConfig[] = [
         exact: true,
         label: 'InstallationGuide',
         path: '/documentation/installationguide',
-        title: 'PatternFly Seed | Installation Guide',
+        title: 'Installation Guide',
       },
       {
         component: Glossary,
         exact: true,
         label: 'Glossary',
         path: '/documentation/glossary',
-        title: 'PatternFly Seed | Layer Defination',
+        title: 'Layer Defination',
       },
       {
         component: FAQs,
         exact: true,
         label: 'FAQs',
         path: '/documentation/faqs',
-        title: 'PatternFly Seed | FAQs',
+        title: 'FAQs',
       },
       {
         component: CommunityCall,
         exact: true,
         label: 'Community Call',
         path: '/documentation/communitycall',
-        title: 'PatternFly Seed | Community Call',
+        title: 'Community Call',
       },
     ]
   },
@@ -119,7 +119,7 @@ const routes: AppRouteConfig[] = [
     exact: true,
     label: 'About Autotune',
     path: '/about',
-    title: 'PatternFly Seed | Main About',
+    title: 'Main About',
   }
 ];
 
@@ -146,7 +146,7 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
     return <Component {...rest} {...routeProps} />;
   }
 
-  return <Route render={routeWithTitle} {...rest}/>;
+  return <Route render={routeWithTitle} {...rest} />;
 };
 
 const PageNotFound = ({ title }: { title: string }) => {
@@ -161,7 +161,7 @@ const flattenedRoutes: IAppRoute[] = routes.reduce(
 );
 
 const AppRoutes = (): React.ReactElement => (
-<LastLocationProvider>
+  <LastLocationProvider>
     <Switch>
       {flattenedRoutes.map(({ path, exact, component, title, isAsync }, idx) => (
         <RouteWithTitleUpdates
@@ -173,9 +173,9 @@ const AppRoutes = (): React.ReactElement => (
           isAsync={isAsync}
         />
       ))}
-      <PageNotFound title="404 Page Not Found" /> 
+      <PageNotFound title="404 Page Not Found" />
     </Switch>
-    </LastLocationProvider>
+  </LastLocationProvider>
 );
 
 export { AppRoutes, routes };

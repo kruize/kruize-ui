@@ -7,12 +7,14 @@ const NodeState = (props) => {
     const port = get_port();
 
     const state = {
-        "cluster" : ip,
-        "autotune" : port
+        "cluster": ip,
+        "autotune": port,
+        // "deployment": 89,
+        // "namespace": 77
     }
     return (
         <NodeContext.Provider value={state}>
-        {props.children}
+            {props.children}
         </NodeContext.Provider>
     )
 }

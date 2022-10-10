@@ -19,7 +19,7 @@ import {
 import { Link } from "react-router-dom";
 import listAuotuneTunablesJson from "./jsonFiles/listAutotuneTunables.json";
 
-const ExperimentStatus: React.FunctionComponent = () => {
+const ExperimentStatus = () => {
   const [activeItems, setActiveItems] = useState({});
   const [allExpanded, setAllExpanded] = useState<any | null>(null);
 
@@ -118,7 +118,7 @@ const ExperimentStatus: React.FunctionComponent = () => {
           </TextContent>
         </ToolbarContent>
       </Toolbar>
-    
+
       Deployment Name : <b> Autotune</b>
       <CardBody>
 
@@ -143,7 +143,7 @@ const ExperimentStatus: React.FunctionComponent = () => {
           {!allExpanded && "Expand all"}
         </Button>
       </CardFooter>
-      </PageSection >
+    </PageSection >
   );
 };
 

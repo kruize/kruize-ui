@@ -14,7 +14,6 @@ import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
 import NodeState from '@app/Context_store/NodeState';
 
-
 interface IAppLayout {
   children: React.ReactNode;
 }
@@ -105,14 +104,14 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   );
   return (
     <NodeState>
-    <Page
-      mainContainerId={pageId}
-      header={Header}
-      sidebar={Sidebar}
-      onPageResize={onPageResize}
-      skipToContent={PageSkipToContent}>
-      {children}
-    </Page>
+      <Page
+        mainContainerId={pageId}
+        header={Header}
+        sidebar={Sidebar}
+        onPageResize={onPageResize}
+        skipToContent={PageSkipToContent}>
+        {children}
+      </Page>
     </NodeState>
   );
 };

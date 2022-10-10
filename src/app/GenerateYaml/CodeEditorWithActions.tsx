@@ -1,8 +1,9 @@
 import React from 'react';
 import { CodeEditor, Language } from '@patternfly/react-code-editor';
-import {PageSection, TextContent, Text, TextVariants, Toolbar, PageSectionVariants, ToolbarContent } from '@patternfly/react-core';
-import { Page2 } from '@app/ExperimentStatus/MoreExperimentStuff/Page2';
-export const CodeEditorWithActions: React.FunctionComponent = () => {
+import { PageSection, TextContent, Text, TextVariants, Toolbar, PageSectionVariants, ToolbarContent } from '@patternfly/react-core';
+import yaml from './ab';
+
+export const CodeEditorWithActions = (props: { data; setData }) => {
   const onEditorDidMount = (editor, monaco) => {
     // eslint-disable-next-line no-console
     console.log(editor.getValue());
@@ -15,56 +16,63 @@ export const CodeEditorWithActions: React.FunctionComponent = () => {
     // eslint-disable-next-line no-console
     console.log(value);
   };
-      return(
-      <>
-      <PageSection variant={PageSectionVariants.light}>
-      <Toolbar>
-        <ToolbarContent style={{ paddingLeft: 0 }}>
-          <TextContent>
-            <Text component={TextVariants.h1}>
-              YAML Generated
-            </Text>
-            <Text component={TextVariants.p}>
+  var parsable_net_equation = props.data.net_eq.replace(/[`]+/g, '')
 
-              The following yaml has been generated for you...
-            </Text>
-          </TextContent>
-        </ToolbarContent>
-      </Toolbar>
+  var obj = {
+    namespace_name: props.data.namespace,
+    deployment_value: props.data.deployment,
+    experiment_name: props.data.exp_name,
+    variable1_name: "throughput",
+    variable1_query: props.data.THquery,
+    variable1_datasource: props.data.THdatasource,
+    variable1_value_type: props.data.THvaluetype,
+    variable2_name: "response time",
+    variable2_query: props.data.RTquery,
+    variable2_datasource: props.data.RTdatasource,
+    variable2_value_type: props.data.RTvaluetype,
+    variable3_name: "resource usage",
+    variable3_query: props.data.RUquery,
+    variable3_datasource: props.data.RUdatasource,
+    variable3_value_type: props.data.RUvaluetype,
+    net_equation: parsable_net_equation
+  }
+  const data = yaml.toString();
+  const data2 = data.replace(/\b(net_equation|namespace_name|deployment_value|experiment_name|variable1_name|variable1_query|variable1_datasource|variable1_value_type|variable2_name|variable2_query|variable2_datasource|variable2_value_type|variable3_name|variable3_query|variable3_datasource|variable3_value_type)\b/gi, function (matched) {
+    return obj[matched];
+  })
+  return (
+    <>
+
+      <PageSection variant={PageSectionVariants.light}>
+        <Toolbar>
+          <ToolbarContent style={{ paddingLeft: 0 }}>
+            <TextContent>
+              <Text component={TextVariants.h1}>
+                YAML Generated
+              </Text>
+              <Text component={TextVariants.p}>
+
+                The following yaml has been generated for you...
+                <br />
+                {props.data.namespace}
+                <br />
+                {props.data.deployment}
+                <br />
+                {props.data.throughput}
+              </Text>
+            </TextContent>
+          </ToolbarContent>
+        </Toolbar>
       </PageSection>
+
       <CodeEditor
-      code='apiVersion: "recommender.com/v1"
-kind: Autotune
-metadata:
-  name: "petclinic-autotune"
-  namespace: "default"
-spec:
-  slo:
-    objective_function: "transaction_response_time"
-    slo_class: "response_time"
-    direction: "minimize"
-    hpo_algo_impl: "optuna_tpe"
-    function_variables:
-    - name: "transaction_response_time"
-      query: "application_org_acme_microprofile_metrics_PrimeNumberChecker_checksTimer_mean_seconds"
-      datasource: "prometheus"
-      value_type: "double"
-  mode: "show"
-  selector:
-    matchLabel: "app.kubernetes.io/name"
-    matchLabelValue: "petclinic-deployment"
-    matchRoute: ""
-    matchURI: ""
-    matchService: ""
-  datasource:
-    name: "prometheus"
-    value: "prometheus_URL"'
-      onChange={onChange}
-      language={Language.javascript}
-      onEditorDidMount={onEditorDidMount}
-      height="sizeToFit"
-    />
+        code={data2}
+        onChange={onChange}
+        language={Language.javascript}
+        onEditorDidMount={onEditorDidMount}
+        height="sizeToFit"
+      />
     </>
-    );
-    };
+  );
+};
 

@@ -1,63 +1,53 @@
 import React, { useState, useEffect } from "react";
 import {
-  Grid,
-  GridItem,
   PageSection,
-  Slider,
-  Title,
   Text,
-  Card,
-  CardBody,
-  Button,
   Wizard,
   Toolbar,
-  
   PageSectionVariants,
-  
   TextContent,
   TextVariants,
-  Tile ,
+  Tile,
   ToolbarContent,
 } from "@patternfly/react-core";
-import { Page1 } from "./Page1";
-import { Page2 } from "./Page2";
+import { Final_equation } from "./Final_equation";
+import { Throughput_details } from "./Throughput_details";
 import { Link } from "react-router-dom";
-import { Page3 } from "./Page3";
-import { Page4 } from "./Page4";
- 
-const ExperimentDetails: React.FunctionComponent = () => {  
-  const [finish, setFinish] = useState();  
+import { Response_time_details } from "./Response_time_details";
+import { Resource_usage_details } from "./Resource_usage_details";
+
+const ExperimentDetails = (props: { setData; data }) => {
+  const [finish, setFinish] = useState();
   const steps = [
-      { name: 'First step', component: <Page1/> },
-      { name: 'Throughput', component: <Page2/> },
-      { name: 'Response Time', component: <Page3/> },
-      { name: 'Resource Usage', component: <Page4/> ,  nextButtonText: 'Finish'},
-      // { name: 'Review', component: <p>Review step content</p>, }
-    ];
-    const title = 'Basic wizard';
-  
-    return ( 
-      <>
-<PageSection variant={PageSectionVariants.light}>
+    { name: 'Throughput', component: <Throughput_details data={props.data} setData={props.setData} /> },
+    { name: 'Response Time', component: <Response_time_details data={props.data} setData={props.setData} /> },
+    { name: 'Resource Usage', component: <Resource_usage_details data={props.data} setData={props.setData} /> },
+    { name: 'Final Equation', component: <Final_equation data={props.data} setData={props.setData} />, hideClose: false }
+  ];
+  const title = 'Basic wizard';
+
+  return (
+    <>
+      <PageSection variant={PageSectionVariants.light}>
         <Toolbar>
           <ToolbarContent style={{ paddingLeft: 0 }}>
             <TextContent>
               <Text component={TextVariants.h1}>
-              Let's define Function Variables
-</Text>
-<Text component={TextVariants.p}>
+                Let's define Function Variables
+              </Text>
+              <Text component={TextVariants.p}>
 
-            Here's what our system found for you! You bet. This is the best with
-            all 3 parameters combined!<br/>
-            Try to fiddle around with the function variables, each of them have a weight from 0 - 100 which can be modified.
-</Text>
-            </TextContent> 
+                Here's what our system found for you! You bet. This is the best with
+                all 3 parameters combined!<br />
+                Try to fiddle around with the function variables, each of them have a weight from 0 - 100 which can be modified.
+              </Text>
+            </TextContent>
           </ToolbarContent>
         </Toolbar>
-        </PageSection>   
-    <Wizard navAriaLabel={`${title} steps`} mainAriaLabel={`${title} content`} steps={steps}  />
-     </>
-    )
+      </PageSection>
+      <Wizard navAriaLabel={`${title} steps`} mainAriaLabel={`${title} content`} steps={steps} />
+    </>
+  )
 }
 
-export {ExperimentDetails};
+export { ExperimentDetails };

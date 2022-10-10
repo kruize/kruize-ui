@@ -49,7 +49,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = merge(common('production'), {
   mode: 'production',
-  devtool: 'source-map',
+  // devtool: 'inline-source-map',
   optimization: {
     minimizer: [
       new TerserJSPlugin({}),
@@ -67,14 +67,36 @@ module.exports = merge(common('production'), {
     })
   ],
   module: {
+    // rules: [
+    //   {
+    //     test: /\.css$/,
+    //     include: [
+    //       ...stylePaths
+    //     ],
+    //     use: [MiniCssExtractPlugin.loader, 'css-loader']
+    //   }
+    // ]
+
     rules: [
       {
         test: /\.css$/,
         include: [
           ...stylePaths
         ],
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /.md$/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+          // {
+          //   loader: 'markdown-loader',
+          // },
+        ],
       }
+
     ]
   }
 });

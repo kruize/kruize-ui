@@ -1,26 +1,27 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
-   Popover,
-   Nav,
-   TextContent,
-   Avatar,
-   Text,
-   TextVariants,
-   NavItem,
-   NavList,
+  Popover,
+  Nav,
+  TextContent,
+  Avatar,
+  Text,
+  TextVariants,
+  NavItem,
+  NavList,
 } from "@patternfly/react-core";
-import { get_ip, get_port } from "env";
 import Kubernetes_image from "./Assets/Kubernetes_image.png";
 import Avatar_image from "./Assets/Avatar_image.svg";
 import CheckCircleIcon from "@patternfly/react-icons/dist/esm/icons/check-circle-icon";
 import ExclamationCircleIcon from "@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon";
+import nodeContext from "@app/Context_store/nodeContext";
 
-const HorizontalNav: React.FunctionComponent = () => {
+const HorizontalNav = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [autotuneOn, setAutotuneOn] = useState(false);
   const [clusterStatus, setClusterStatus] = useState(false);
-  const ip = get_ip();
-  const port = get_port();
+  const Context = useContext(nodeContext);
+  const ip = Context["cluster"];
+  const port = Context["autotune"];
 
   useEffect(() => {
     if (ip != null) {
@@ -41,7 +42,7 @@ const HorizontalNav: React.FunctionComponent = () => {
   };
 
   const nav = (
-    <Nav onSelect={onSelect} variant="horizontal">
+    <Nav onSelect={onSelect} variant="horizontal" className="nav">
       <NavList>
         <span>
           <TextContent className="--pf-c-content">
@@ -152,8 +153,10 @@ const HorizontalNav: React.FunctionComponent = () => {
   );
   return (
     <div>
-      {nav}
-      {rightnav}
+      <>
+        {nav}
+        {rightnav}
+      </>
     </div>
   );
 };

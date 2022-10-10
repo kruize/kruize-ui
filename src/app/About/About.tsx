@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { PageSection, PageSectionVariants, Text, TextVariants ,TextContent, Title } from '@patternfly/react-core';
+import { PageSection, PageSectionVariants, Text, TextVariants, TextContent, Title } from '@patternfly/react-core';
 
-const About: React.FunctionComponent = () => (
- 
-<PageSection variant={PageSectionVariants.light}>
-          <TextContent>
-          <Text component={TextVariants.h1}>About Autotune</Text>
-          </TextContent>
-        
-      <br />
-      <Text component={TextVariants.h5}>
+const About = () => (
+
+  <PageSection variant={PageSectionVariants.light}>
+    <TextContent>
+      <Text component={TextVariants.h1}>About Autotune</Text>
+    </TextContent>
+
+    <br />
+    <Text component={TextVariants.h5}>
       Autotune is an Autonomous Performance Tuning Tool for Kubernetes. Autotune accepts a user provided
       Service Level Objective or "slo" goal to optimize application performance. It uses Prometheus to identify
       "layers" of an application that it is monitoring and matches tunables from those layers to the user provided
@@ -19,8 +19,8 @@ const About: React.FunctionComponent = () => (
       Autotune can take an arbitrarily large set of tunables and run experiments to continually optimize the user
       provided slo in incremental steps. For this reason, it does not necessarily have a "best" value for a set of
       tunables, only a "better" one than what is currently deployed.
-      </Text>
-    
+    </Text>
+
   </PageSection>
 )
 
