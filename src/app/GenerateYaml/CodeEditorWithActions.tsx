@@ -42,7 +42,6 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
   })
   return (
     <>
-
       <PageSection variant={PageSectionVariants.light}>
         <Toolbar>
           <ToolbarContent style={{ paddingLeft: 0 }}>
@@ -51,14 +50,8 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
                 YAML Generated
               </Text>
               <Text component={TextVariants.p}>
-
                 The following yaml has been generated for you...
                 <br />
-                {props.data.namespace}
-                <br />
-                {props.data.deployment}
-                <br />
-                {props.data.throughput}
               </Text>
             </TextContent>
           </ToolbarContent>

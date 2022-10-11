@@ -6,9 +6,13 @@ To run the kruize ui you can select any of the 2 options :
 
 1. Native way<br />
 Latest Node.js source code can be downloaded from [here](https://nodejs.org/en/download/).
-To run the Kruize-ui: clone the repository and then execute the following command to run the launch script.<br />
+To run the Kruize-ui: clone the repository and then execute the following command to run the launch script in production mode.<br />
 ```
-source deploy.sh
+./deploy.sh -p
+```
+And to launch in development mode use
+```
+./deploy.sh -d
 ```
 <br />
 

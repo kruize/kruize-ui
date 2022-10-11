@@ -32,7 +32,6 @@ const AddingDetails = (props: { setData, data }) => {
         label="Weightage"
         isRequired
         fieldId="horizontal-form-name"
-      //helperText="Include your middle name if you have one."
       >
       </FormGroup>
 

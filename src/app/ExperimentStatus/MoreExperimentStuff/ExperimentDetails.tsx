@@ -22,7 +22,7 @@ const ExperimentDetails = (props: { setData; data }) => {
     { name: 'Throughput', component: <Throughput_details data={props.data} setData={props.setData} /> },
     { name: 'Response Time', component: <Response_time_details data={props.data} setData={props.setData} /> },
     { name: 'Resource Usage', component: <Resource_usage_details data={props.data} setData={props.setData} /> },
-    { name: 'Final Equation', component: <Final_equation data={props.data} setData={props.setData} />, hideClose: false }
+    { name: 'Final Equation', component: <Final_equation data={props.data} setData={props.setData} />, hideClose: true }
   ];
   const title = 'Basic wizard';
 

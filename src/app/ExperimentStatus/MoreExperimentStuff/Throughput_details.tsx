@@ -15,7 +15,6 @@ import {
 import { Link } from "react-router-dom";
 import PencilAltIcon from '@patternfly/react-icons/dist/esm/icons/pencil-alt-icon';
 import SaveIcon from "@patternfly/react-icons/dist/esm/icons/save-icon";
-import { MathJax, MathJaxContext } from 'better-react-mathjax';
 import { MathComponent } from "mathjax-react";
 
 const Throughput_details = (props: { data; setData }) => {
@@ -78,39 +77,29 @@ const Throughput_details = (props: { data; setData }) => {
 
   useEffect(() => {
     var a;
+    var b = ".5";
     if (operatorOption === '2' && direction === 'min') {
-      console.log(1, operatorOption)
       a = valueContinuous1 / 100 + String.raw`\frac{1}{throughput^2}`
-      //setEquation(`${valueContinuous1/100} frac(1)(throughput^2)` )
-      //min
     }
     else if (operatorOption === '2' && direction === 'max') {
-      console.log(2, operatorOption)
       a = valueContinuous1 / 100 + String.raw`throughput^2`
-      //max
     }
     else if (operatorOption === '0.5' && direction === 'min') {
-      console.log(3, operatorOption)
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{throughput^(0.5)}`
+      a = valueContinuous1 / 100 + String.raw`\frac{1}{\sqrt{throughput}}`
     }
     else if (operatorOption === '0.5' && direction === 'max') {
-      console.log(4, operatorOption)
-      a = valueContinuous1 / 100 + String.raw`throughput^0.5`
+      a = valueContinuous1 / 100 + String.raw`\sqrt{throughput}`
     }
     else if (operatorOption === '0' && direction === 'min') {
-      console.log(5, operatorOption)
       a = valueContinuous1 / 100 + String.raw`\frac{1}{throughput^1}`
     }
     else if (operatorOption === '0' && direction === 'max') {
-      console.log(6, operatorOption)
       a = valueContinuous1 / 100 + String.raw`throughput`
     }
     else if (operatorOption === 'log' && direction === 'min') {
-      console.log(7, operatorOption)
       a = valueContinuous1 / 100 + String.raw`\frac{1}{log(throughput)}`
     }
     else if (operatorOption === 'log' && direction === 'max') {
-      console.log(8, operatorOption)
       a = valueContinuous1 / 100 + String.raw`log(throughput)`
     }
     else {
@@ -159,10 +148,6 @@ const Throughput_details = (props: { data; setData }) => {
   const config = {
     loader: { load: ["input/asciimath"] }
   };
-  // let text = "2";
-  // let result = text.sup();
-  // let value = valueContinuous1 + result
-  // const equat = "$(throughput)^{operatorOption} / bhanvi$";
 
   return (
     <>
@@ -204,11 +189,6 @@ const Throughput_details = (props: { data; setData }) => {
           </FormGroup>
           <FormGroup>
             <div className="pf-u-disabled-color-100">
-              {/* <MathJaxContext config={config}>
-             <Text>Equation : <MathJax dynamic > {equation}</MathJax>
-              </Text>
-            </MathJaxContext> */}
-
               <MathComponent tex={equation} />
             </div>
           </FormGroup>

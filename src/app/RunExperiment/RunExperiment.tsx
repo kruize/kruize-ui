@@ -30,7 +30,7 @@ const dataa =
   RTdatasource: 'prometheus',
   RTvaluetype: 'double',
   RTdirection: 'min',
-  RTequation: '0.5 * response_time',
+  RTequation: '0.5 * responsetime',
 
   RUweightage: 25,
   RUoperator: '0',
@@ -38,8 +38,8 @@ const dataa =
   RUdatasource: 'prometheus',
   RUvaluetype: 'double',
   RUdirection: 'min',
-  RUequation: '0.25 * resource_usage',
-  net_eq: '0.25 * throughput / 0.5 * response_time * 0.25 * resource_usage',
+  RUequation: '0.25 * resourceusage',
+  net_eq: '0.25 * throughput / 0.5 * responsetime * 0.25 * resourceusage',
   allDone: ''
 }
 
@@ -87,8 +87,6 @@ const RunExperiment = (props: { setData; data }) => {
           mainAriaLabel={`${title} content`}
           onNext={enable_progress}
           steps={steps}
-
-
         />
       </NodeState>
       {console.log("step id log" + stepId)}
