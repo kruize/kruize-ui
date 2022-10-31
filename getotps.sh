@@ -1,29 +1,4 @@
 #!/bin/bash
-function start_gui_dev_mode() {
-    # if rpm -qa | grep npm 
-    # then
-        # npm run start:dev
-    # else
-    #     echo "npm is NOT Installed on your machine."	
-    # fi
-    echo "dev m"
-}
-
-function start_gui_prod_mode() {
-    # if ! rpm -qa | grep npm
-    # then
-    #     echo "npm is NOT Installed on your machine."	
-    # elif ! [[ -d "dist" ]]
-    # then
-    #     echo "build is not avaliable. please run npm start build"
-    # else
-	    # npm run build
-        # npm run start
-    # fi
-    echo "prod m"
-}
-
-
 function check_cluster() {
     cluster_type=$(kubectl config current-context | grep "minikube")
     cluster_info=$(kubectl -n openshift cluster-info | grep -q "running")
