@@ -38,18 +38,27 @@ const DeploymentsDropdown = (props: { data; setData }) => {
     const Context = useContext(nodeContext);
     const ip = Context["cluster"];
     const port = Context["autotune"];
-    const namespace_url = "http://" + ip + ":" + port + "/ui/getNamespaces";
+    const namesp = sessionStorage.getItem("Namespace Value");
+    const deployments_url = "http://" + ip + ":" + port + "/query/listDeployments?namespace=" + namesp ;
 
     useEffect(() => {
         setSelected(sessionStorage.getItem("Deployment Value"))
-        fetch(namespace_url)
+        fetch(deployments_url)
             .then((res) => res.json())
-            .then((res) => setDeployments(res.data.namespaces));
-    }, [])
+            .then((res) => setDeployments(res.data.deployments));
+
+    
+    }, [namesp])
 
     useEffect(() => {
         props.setData({ ...{ ...props.data }, deployment: selected })
+        //console.log(2, selected)
     }, [selected])
+
+    useEffect(() =>{
+        setSelected(sessionStorage.setItem("Deployment Value", ""))
+        
+    }, [namesp])
 
     const onSelect = (event, selection, isPlaceholder) => {
         setSelected(selection);
@@ -78,6 +87,7 @@ const DeploymentsDropdown = (props: { data; setData }) => {
 
                 ))}
             </Select>
+{console.log(1, deployments_url)}
 
         </>
 

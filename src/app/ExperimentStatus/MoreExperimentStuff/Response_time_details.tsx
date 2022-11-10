@@ -76,30 +76,23 @@ const Response_time_details = (props: { data; setData }) => {
 
   useEffect(() => {
     var a;
-    var b = ".5";
-    if (operatorOption === '2' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{responsetime^2}`
+    if (operatorOption === 'log' && direction === 'min') {
+      a = String.raw`\frac{1}{ ${valueContinuous1 / 100} log(responsetime)}`
     }
-    else if (operatorOption === '2' && direction === 'max') {
-      a = valueContinuous1 / 100 + String.raw`responsetime^2`
+    else if (operatorOption === 'log' && direction === 'max') {
+      a = valueContinuous1 / 100 + String.raw`log(responsetime)`
     }
     else if (operatorOption === '0.5' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{\sqrt{responsetime}}`
+      a =  String.raw`\frac{1}{ ${valueContinuous1 / 100} \sqrt{responsetime}}`
     }
     else if (operatorOption === '0.5' && direction === 'max') {
       a = valueContinuous1 / 100 + String.raw`\sqrt{responsetime}`
     }
-    else if (operatorOption === '0' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{responsetime^1}`
+    else if (direction === 'min') {
+      a = String.raw`\frac{1}{ ${valueContinuous1/100} responsetime^${operatorOption}}`
     }
-    else if (operatorOption === '0' && direction === 'max') {
-      a = valueContinuous1 / 100 + String.raw`responsetime`
-    }
-    else if (operatorOption === 'log' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{log(responsetime)}`
-    }
-    else if (operatorOption === 'log' && direction === 'max') {
-      a = valueContinuous1 / 100 + String.raw`log(responsetime)`
+    else if (direction === 'max') {
+      a = valueContinuous1 / 100 + String.raw`responsetime^${operatorOption}`
     }
     else {
       a = valueContinuous1 / 100 + "responsetime"

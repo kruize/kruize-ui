@@ -4,10 +4,10 @@ import { accessibleRouteChangeHandler } from '@app/utils/utils';
 import { About } from '@app/About/About';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
 import { Analytics } from '@app/Analytics/Analytics';
-import { ObjectiveFunction } from '@app/Advanced User/ObjectiveFunction';
-import { LayerDefination } from '@app/Advanced User/LayerDefination';
-import { TrialSettings } from '@app/Advanced User/TrialSettings';
-import { sample } from '@app/Documentation/sample';
+import { ObjectiveFunction } from '@app/AdvancedUser/ObjectiveFunction';
+import { LayerDefination } from '@app/AdvancedUser/LayerDefination';
+import { TrialSettings } from '@app/AdvancedUser/TrialSettings';
+import { InstallationGuide } from '@app/Documentation/InstallationGuide';
 import { FAQs } from './Documentation/FAQs';
 import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
@@ -85,7 +85,7 @@ const routes: AppRouteConfig[] = [
     label: 'Documentation',
     routes: [
       {
-        component: sample,
+        component: InstallationGuide,
         exact: true,
         label: 'InstallationGuide',
         path: '/documentation/installationguide',

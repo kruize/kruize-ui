@@ -1,7 +1,7 @@
 #!/bin/bash
 source getotps.sh
 function start_gui_dev_mode() {
-    if rpm -qa | grep npm 
+    if command -v npm 
     then
         npm run start:dev
     else
@@ -11,7 +11,7 @@ function start_gui_dev_mode() {
 }
 
 function start_gui_prod_mode() {
-    if ! rpm -qa | grep npm
+    if ! command -v npm
     then
         echo "npm is NOT Installed on your machine."	
     else
@@ -21,7 +21,12 @@ function start_gui_prod_mode() {
     echo "prod m"
 }
 
-while getopts ":dp" gopts;
+function start_gui_docker_mode() {
+    npm run build
+    
+}
+
+while getopts ":dpc" gopts;
     do
         case ${gopts} in 
         d)  
@@ -33,6 +38,11 @@ while getopts ":dp" gopts;
             # production=1
             start_gui_prod_mode
             echo  "p"
+            ;;
+        c)
+            # contanerized mode - docker 
+            start_gui_docker_mode
+            echo "docker mode"
             ;;
         \?) 
             echo "exit, use p or d options"

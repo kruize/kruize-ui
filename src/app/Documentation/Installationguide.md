@@ -1,11 +1,10 @@
 # Autotune Installation
 
-- [Clone Repositories](#Clone-Repositories)
-- [Install the required software](#Install-the-required-software)
+- [Clone Repositories](#clone-repositories)
+- [Install the required software](#install-the-required-software)
 - [Build Autotune Docker image](#build-autotune-docker-image)
 - [Deploy Autotune using the Docker image](#deploy-autotune)
-- [Demo Repo](#demo)
-
+- [Demo Repo](#demo-repo)
 
 # Clone Repositories
 
@@ -13,11 +12,12 @@
 
 - Clone the kruize autotune repository onto your workstation with the following command.
 
-$ git clone git@github.com:kruize/autotune.git
+\$ git clone git@github.com:kruize/autotune.git
 
-## Clone the Kruize Benchmarks Repository 
+## Clone the Kruize Benchmarks Repository
 
 - Clone the kruize benchmarks repository onto your workstation with the following command.
+
 ```
 $ git clone git@github.com:kruize/benchmarks.git
 ```
@@ -33,7 +33,7 @@ Autotune can be deployed to a supported Kubernetes cluster. We currently support
 Minikube setup with 8 CPUs and 16 GB Memory is recommended for autotune deployment. After setting up minikube, install prometheus from autotune repo with the following command
 
 ```
-$ ./scripts/prometheus_on_minikube.sh -as 
+$ ./scripts/prometheus_on_minikube.sh -as
 Info: installing prometheus...
 Info: Checking pre requisites for prometheus...
 No resources found in monitoring namespace.
@@ -60,7 +60,6 @@ $ ./build.sh -i autotune:test
 ```
 
 Note - You can use the 'dev friendly mode' option to quickly build the autotune docker image using the cached layers.
-
 
 # Deploy Autotune
 

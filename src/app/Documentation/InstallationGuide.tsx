@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import { PageSection, PageSectionVariants, Toolbar, ToolbarContent, TextContent, Text, TextVariants, Title } from '@patternfly/react-core';
 import { Link } from "react-router-dom";
 
-const sample = () => {
+const InstallationGuide = () => {
 
     const [post, setPost] = useState('');
     useEffect(() => {
@@ -24,4 +24,4 @@ const sample = () => {
     );
 }
 
-export { sample };
+export { InstallationGuide };

@@ -9,7 +9,7 @@ const NameSpaceDropDown = (props: { data; setData }) => {
   const Context = useContext(nodeContext);
   const ip = Context["cluster"];
   const port = Context["autotune"];
-  const namespace_url = "http://" + ip + ":" + port + "/ui/getNamespaces";
+  const namespace_url = "http://" + ip + ":" + port + "/query/listNamespaces";
 
   useEffect(() => {
     if (ip != "undefined" && port != "undefined") {
@@ -29,11 +29,11 @@ const NameSpaceDropDown = (props: { data; setData }) => {
     setSelected(selection);
     setIsopen(false);
     sessionStorage.setItem("Namespace Value", selection);
-    // props.onEnterNamespaceData();
     var payload = {
       namespace: selection,
     };
   };
+
   return (
     <>
       <Select
@@ -43,6 +43,7 @@ const NameSpaceDropDown = (props: { data; setData }) => {
         aria-label="Select Input with descriptions"
         onToggle={() => setIsopen(!isopen)}
         onSelect={onSelect}
+        // onChange={onChange}
         selections={selected}
         isOpen={isopen}
       >

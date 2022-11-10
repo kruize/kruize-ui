@@ -77,30 +77,23 @@ const Throughput_details = (props: { data; setData }) => {
 
   useEffect(() => {
     var a;
-    var b = ".5";
-    if (operatorOption === '2' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{throughput^2}`
+    if (operatorOption === 'log' && direction === 'min') {
+      a = String.raw`\frac{1}{ ${valueContinuous1 / 100} log(throughput)}`
     }
-    else if (operatorOption === '2' && direction === 'max') {
-      a = valueContinuous1 / 100 + String.raw`throughput^2`
+    else if (operatorOption === 'log' && direction === 'max') {
+      a = valueContinuous1 / 100 + String.raw`log(throughput)`
     }
     else if (operatorOption === '0.5' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{\sqrt{throughput}}`
+      a =  String.raw`\frac{1}{ ${valueContinuous1 / 100} \sqrt{throughput}}`
     }
     else if (operatorOption === '0.5' && direction === 'max') {
       a = valueContinuous1 / 100 + String.raw`\sqrt{throughput}`
     }
-    else if (operatorOption === '0' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{throughput^1}`
+    else if (direction === 'min') {
+      a = String.raw`\frac{1}{ ${valueContinuous1/100} throughput^${operatorOption}}`
     }
-    else if (operatorOption === '0' && direction === 'max') {
-      a = valueContinuous1 / 100 + String.raw`throughput`
-    }
-    else if (operatorOption === 'log' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{log(throughput)}`
-    }
-    else if (operatorOption === 'log' && direction === 'max') {
-      a = valueContinuous1 / 100 + String.raw`log(throughput)`
+    else if (direction === 'max') {
+      a = valueContinuous1 / 100 + String.raw`throughput^${operatorOption}`
     }
     else {
       a = valueContinuous1 / 100 + "throughput"

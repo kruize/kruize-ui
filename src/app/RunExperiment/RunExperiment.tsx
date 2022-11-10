@@ -47,8 +47,6 @@ const dataa =
 const RunExperiment = (props: { setData; data }) => {
   const [data, setData] = useState(dataa);
   const Context = useContext(nodeContext);
-  // const dep = Context["deployment_val"];
-  // const nam = Context["namespace_val"];
   const [stepId, setStepId] = useState(1);
   const enable_progress = () => {
     if (data.deployment || data.allDone) {
@@ -65,7 +63,7 @@ const RunExperiment = (props: { setData; data }) => {
   const steps = [
     {
       name: 'New Experiment', component: <RE setData={setData} data={data} />
-      , enableNext: data.deployment
+      , enableNext: data.deployment && data.namespace && data.exp_name
     },
     //{ name: 'Experiment Status', component: <ExperimentStatus /> },
     {

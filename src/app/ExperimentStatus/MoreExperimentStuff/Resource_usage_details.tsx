@@ -78,30 +78,24 @@ const Resource_usage_details = (props: { data; setData }) => {
 
   useEffect(() => {
     var a;
-    var b = ".5";
-    if (operatorOption === '2' && direction === 'min') {
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{resourceusage^2}`
+    if (operatorOption === 'log' && direction === 'min') {
+      a = String.raw`\frac{1}{ ${valueContinuous1 / 100} log(resourceusage)}`
     }
-    else if (operatorOption === '2' && direction === 'max') {
-      a = valueContinuous1 / 100 + String.raw`resourceusage^2`
+    else if (operatorOption === 'log' && direction === 'max') {
+      a = valueContinuous1 / 100 + String.raw`log(resourceusage)`
     }
     else if (operatorOption === '0.5' && direction === 'min') {
-      console.log(3, operatorOption)
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{\sqrt{resourceusage}}`
+      a =  String.raw`\frac{1}{ ${valueContinuous1 / 100} \sqrt{resourceusage}}`
     }
     else if (operatorOption === '0.5' && direction === 'max') {
-      console.log(4, operatorOption)
       a = valueContinuous1 / 100 + String.raw`\sqrt{resourceusage}`
     }
-    else if (operatorOption === '0' && direction === 'min') {
-      console.log(5, operatorOption)
-      a = valueContinuous1 / 100 + String.raw`\frac{1}{resourceusage^1}`
+    else if (direction === 'min') {
+      a = String.raw`\frac{1}{ ${valueContinuous1/100} resourceusage^${operatorOption}}`
     }
-    else if (operatorOption === '0' && direction === 'max') {
-      console.log(6, operatorOption)
-      a = valueContinuous1 / 100 + String.raw`resourceusage`
+    else if (direction === 'max') {
+      a = valueContinuous1 / 100 + String.raw`resourceusage^${operatorOption}`
     }
-
     else {
       a = valueContinuous1 / 100 + "resourceusage"
     }
