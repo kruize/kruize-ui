@@ -5,12 +5,14 @@ WORKDIR /builder
 
 COPY package.json ./
 
+RUN npm config set legacy-peer-deps true
+
 RUN npm install --save
 
 COPY . ./
 
-RUN npm run build
-
+#RUN npm run build
+RUN ./deploy.sh -c
 
 # Production image
 
