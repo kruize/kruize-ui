@@ -88,9 +88,6 @@
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.8.0"
   },
-  "peerDependencies": {
-    "monaco-editor": "^0.21.3"
-  },
   "dependencies": {
     "@kubernetes/client-node": "^0.16.3",
     "@patternfly/react-code-editor": "^4.62.3",
@@ -117,6 +114,7 @@
     "minimal-package": "^1.0.0",
     "monaco-editor": "^0.21.3",
     "monaco-editor-webpack-plugin": "^2.1.0",
+    "monaco-yaml": "^4.0.2",
     "not": "^0.1.0",
     "react": "^16.8.0 || ^17.0.0",
     "react-dom": "^16.8.0 || ^17.0.0",

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { accessibleRouteChangeHandler } from '@app/utils/utils';
+// import { accessibleRouteChangeHandler } from '@app/utils/utils';
 import { About } from '@app/About/About';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
 import { Analytics } from '@app/Analytics/Analytics';
@@ -12,7 +12,7 @@ import { FAQs } from './Documentation/FAQs';
 import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
-import { useDocumentTitle } from '@app/utils/useDocumentTitle';
+// import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 // import WizardState from './Context_store/WizardState';
 
@@ -39,14 +39,21 @@ export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 const routes: AppRouteConfig[] = [
 
   {
+    component: About,
+    exact: true,
+    label: 'About Autotune',
+    path: '/',
+    title: 'Main About',
+  },
+
+  {
     component: RunExperiment,
     exact: true,
     isAsync: true,
     label: 'New Experiment',
-    path: '/',
+    path: '/newexperiment',
     title: 'New Experiment',
   },
-
   {
     component: Analytics,
     exact: true,
@@ -113,14 +120,8 @@ const routes: AppRouteConfig[] = [
         title: 'Community Call',
       },
     ]
-  },
-  {
-    component: About,
-    exact: true,
-    label: 'About Autotune',
-    path: '/about',
-    title: 'Main About',
   }
+  
 ];
 
 // a custom hook for sending focus to the primary content container
@@ -130,7 +131,7 @@ const useA11yRouteChange = (isAsync: boolean) => {
   const lastNavigation = useLastLocation();
   React.useEffect(() => {
     if (!isAsync && lastNavigation !== null) {
-      routeFocusTimer = accessibleRouteChangeHandler();
+      // routeFocusTimer = accessibleRouteChangeHandler();
     }
     return () => {
       window.clearTimeout(routeFocusTimer);
@@ -140,7 +141,7 @@ const useA11yRouteChange = (isAsync: boolean) => {
 
 const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, ...rest }: IAppRoute) => {
   useA11yRouteChange(isAsync);
-  useDocumentTitle(title);
+  // useDocumentTitle(title);
 
   function routeWithTitle(routeProps: RouteComponentProps) {
     return <Component {...rest} {...routeProps} />;
@@ -150,7 +151,7 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
 };
 
 const PageNotFound = ({ title }: { title: string }) => {
-  useDocumentTitle(title);
+  // useDocumentTitle(title);
   return <Route component={NotFound} />;
 };
 

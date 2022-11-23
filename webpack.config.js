@@ -7,7 +7,29 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const MONACO_DIR = path.resolve(__dirname, './node_modules/monaco-editor');
 // Monaco Editor uses CSS imports internally,
 // so we need a separate css-loader for app and monaco-editor packages
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const path = require('path');
 
+module.exports = {
+	entry: './index.js',
+	output: {
+		path: path.resolve(__dirname, 'dist'),
+		filename: 'app.js'
+	},
+	module: {
+		rules: [
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader']
+			},
+			{
+				test: /\.ttf$/,
+				type: 'asset/resource'
+			}
+		]
+	},
+	plugins: [new MonacoWebpackPlugin()]
+};
 module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.json', '.ttf'],

@@ -7,7 +7,7 @@ COPY package.json ./
 
 RUN npm config set legacy-peer-deps true
 
-RUN npm install --save
+RUN npm install 
 
 COPY . ./
 

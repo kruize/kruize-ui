@@ -40,13 +40,14 @@ const DeploymentsDropdown = (props: { data; setData }) => {
     const port = Context["autotune"];
     const namesp = sessionStorage.getItem("Namespace Value");
     const deployments_url = "http://" + ip + ":" + port + "/query/listDeployments?namespace=" + namesp ;
-
+    
+    
     useEffect(() => {
         setSelected(sessionStorage.getItem("Deployment Value"))
         fetch(deployments_url)
             .then((res) => res.json())
             .then((res) => setDeployments(res.data.deployments));
-
+        
     
     }, [namesp])
 
@@ -68,10 +69,9 @@ const DeploymentsDropdown = (props: { data; setData }) => {
             deployment: selection,
         };
     };
-
-    return (
+    return ( 
         <>
-            <Select
+        {deployments.length === 0 ? <p>No deployments found</p> : <Select
                 variant={SelectVariant.single}
                 placeholderText="Select Deployment"
                 aria-label="Select Input with descriptions"
@@ -86,11 +86,9 @@ const DeploymentsDropdown = (props: { data; setData }) => {
                     <SelectOption key={index} value={option} />
 
                 ))}
-            </Select>
-{console.log(1, deployments_url)}
-
-        </>
-
+            </Select> }      
+            
+            </>
     );
 };
 

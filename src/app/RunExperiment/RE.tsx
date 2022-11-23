@@ -42,14 +42,12 @@ const RE = (props: { setData; data }) => {
                   New Experiment
                 </Text>
                 <Text component={TextVariants.p}>
-
                   Select your specific Namespace and Deployment to start with Experiment.
                 </Text>
               </TextContent>
             </ToolbarContent>
           </Toolbar>
           <Grid hasGutter>
-            <GridItem span={2}></GridItem>
             <GridItem span={8}>
               <Grid hasGutter>
                 <GridItem span={6}>
@@ -63,8 +61,6 @@ const RE = (props: { setData; data }) => {
                     />
                     <br />
                   </FormGroup>
-                </GridItem>
-                <GridItem span={2}>
                 </GridItem>
                 <GridItem span={6}>
                   <FormGroup isRequired

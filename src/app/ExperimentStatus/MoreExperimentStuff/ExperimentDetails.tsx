@@ -12,7 +12,6 @@ import {
 } from "@patternfly/react-core";
 import { Final_equation } from "./Final_equation";
 import { Throughput_details } from "./Throughput_details";
-import { Link } from "react-router-dom";
 import { Response_time_details } from "./Response_time_details";
 import { Resource_usage_details } from "./Resource_usage_details";
 

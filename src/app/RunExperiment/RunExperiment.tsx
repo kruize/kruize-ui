@@ -7,9 +7,11 @@ import { ExperimentStatus } from "@app/ExperimentStatus/ExperimentStatus";
 import { ExperimentDetails } from "@app/ExperimentStatus/MoreExperimentStuff/ExperimentDetails";
 import { CodeEditorWithActions } from "@app/GenerateYaml/CodeEditorWithActions";
 import nodeContext from "@app/Context_store/nodeContext";
-// import WizardState from "@app/Context_store/WizardState";
 import NodeState from "@app/Context_store/NodeState";
-
+import { Final_equation } from "src/app/ExperimentStatus/MoreExperimentStuff/Final_equation";
+import { Throughput_details } from "src/app/ExperimentStatus/MoreExperimentStuff/Throughput_details";
+import { Response_time_details } from "src/app/ExperimentStatus/MoreExperimentStuff/Response_time_details";
+import { Resource_usage_details } from "src/app/ExperimentStatus/MoreExperimentStuff/Resource_usage_details";
 const dataa =
 {
   exp_name: 'Experiment_00',
@@ -43,7 +45,6 @@ const dataa =
   allDone: ''
 }
 
-
 const RunExperiment = (props: { setData; data }) => {
   const [data, setData] = useState(dataa);
   const Context = useContext(nodeContext);
@@ -53,25 +54,30 @@ const RunExperiment = (props: { setData; data }) => {
       setStepId(stepId + 1)
     }
   }
-  // useEffect(() => {
-  //   if (data.deployment || data.allDone) {
-  //     enable_progress
-  //   }
-  // }, [data.deployment, data.allDone])
-  //const check = props.data.namespace;
-  //const allFieldsFilled = (props.data.exp_name) && (props.data.namespace != "") && (props.data.deployment != "");
   const steps = [
     {
-      name: 'New Experiment', component: <RE setData={setData} data={data} />
-      , enableNext: data.deployment && data.namespace && data.exp_name
+      id: 1, 
+      name: 'New Experiment', 
+      component: <RE setData={setData} data={data} />,
+      enableNext: data.deployment && data.namespace && data.exp_name
     },
     //{ name: 'Experiment Status', component: <ExperimentStatus /> },
     {
-      name: 'Experiment Details', component: <ExperimentDetails setData={setData} data={data} />
-      , enableNext: data.allDone, canJumpTo: stepId >= 2
+      id: 2,
+      name: 'Experiment Details', 
+      component: <ExperimentDetails setData={setData} data={data} />,
+      enableNext: data.allDone, canJumpTo: stepId >= 2,
+      steps: [
+        { id: 3, name: 'Throughput', component: <Throughput_details data={data} setData={setData} /> },
+        { id: 4, name: 'Response Time', component: <Response_time_details data={data} setData={setData} /> },
+        { id: 5, name: 'Resource Usage', component: <Resource_usage_details data={data} setData={setData} /> },
+        { id: 6, name: 'Final Equation', component: <Final_equation data={data} setData={setData} />, hideClose: true }
+      ]
     },
     {
-      name: 'YAML Generation', component: <CodeEditorWithActions setData={setData} data={data} />,
+      id: 7,
+      name: 'YAML Generation', 
+      component: <CodeEditorWithActions setData={setData} data={data} />,
       nextButtonText: 'Finish', canJumpTo: stepId >= 3
     }
   ];
