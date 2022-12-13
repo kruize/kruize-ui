@@ -19,7 +19,7 @@
     "test:coverage": "jest --coverage",
     "eslint": "eslint --ext .tsx,.js ./src/",
     "lint": "npm run eslint",
-    "format": "prettier --check --write ./src/**/*.{tsx,ts}",
+    "format": "prettier --check --write ./src --config ./.prettierrc",
     "type-check": "tsc --noEmit",
     "ci-checks": "npm run type-check && npm run lint && npm run test:coverage",
     "build:bundle-profile": "webpack --config webpack.prod.js --profile --json > stats.json",

@@ -1,27 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
-import {
-  Popover,
-  Nav,
-  TextContent,
-  Avatar,
-  Text,
-  TextVariants,
-  NavItem,
-  NavList,
-} from "@patternfly/react-core";
-import Kubernetes_image from "./Assets/Kubernetes_image.png";
-import Avatar_image from "./Assets/Avatar_image.svg";
-import CheckCircleIcon from "@patternfly/react-icons/dist/esm/icons/check-circle-icon";
-import ExclamationCircleIcon from "@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon";
-import nodeContext from "@app/Context_store/nodeContext";
+import React, { useState, useEffect, useContext } from 'react';
+import { Popover, Nav, TextContent, Avatar, Text, TextVariants, NavItem, NavList } from '@patternfly/react-core';
+import Kubernetes_image from './Assets/Kubernetes_image.png';
+import Avatar_image from './Assets/Avatar_image.svg';
+import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
+import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
+import nodeContext from '@app/Context_store/nodeContext';
 
 const HorizontalNav = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [autotuneOn, setAutotuneOn] = useState(false);
   const [clusterStatus, setClusterStatus] = useState(false);
   const Context = useContext(nodeContext);
-  const ip = Context["cluster"];
-  const port = Context["autotune"];
+  const ip = Context['cluster'];
+  const port = Context['autotune'];
 
   useEffect(() => {
     if (ip != null) {
@@ -51,35 +42,19 @@ const HorizontalNav = () => {
         </span>
 
         <NavItem></NavItem>
-        <NavItem
-          itemId={0}
-          isActive={activeItem === 9}
-          to="https://github.com/orgs/kruize/people"
-        >
+        <NavItem itemId={0} isActive={activeItem === 9} to="https://github.com/orgs/kruize/people">
           Team
         </NavItem>
         <NavItem itemId={1} isActive={activeItem === 1} to="#">
           Blogs
         </NavItem>
-        <NavItem
-          itemId={2}
-          isActive={activeItem === 2}
-          to="https://github.com/kruize"
-        >
+        <NavItem itemId={2} isActive={activeItem === 2} to="https://github.com/kruize">
           GitHub
         </NavItem>
-        <NavItem
-          itemId={3}
-          isActive={activeItem === 3}
-          to="https://kruizeworkspace.slack.com/"
-        >
+        <NavItem itemId={3} isActive={activeItem === 3} to="https://kruizeworkspace.slack.com/">
           Slack
         </NavItem>
-        <NavItem
-          itemId={3}
-          isActive={activeItem === 3}
-          to="https://www.youtube.com/channel/UCgwhJbGq7NPAkkjgD9cdJXQ"
-        >
+        <NavItem itemId={3} isActive={activeItem === 3} to="https://www.youtube.com/channel/UCgwhJbGq7NPAkkjgD9cdJXQ">
           YouTube
         </NavItem>
         <NavItem
@@ -101,7 +76,7 @@ const HorizontalNav = () => {
   );
   const rightnav = (
     <React.Fragment>
-      <div style={{ margin: "10px" }}>
+      <div style={{ margin: '10px' }}>
         {clusterStatus === false ? (
           <Popover
             aria-label="Basic popover"
@@ -136,11 +111,7 @@ const HorizontalNav = () => {
               </div>
             }
           >
-            <Avatar
-              className="pf-c-avatar"
-              src={Kubernetes_image}
-              alt="Kubernetes wheel"
-            />
+            <Avatar className="pf-c-avatar" src={Kubernetes_image} alt="Kubernetes wheel" />
           </Popover>
         )}
       </div>

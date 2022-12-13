@@ -39,7 +39,6 @@ export interface IAppRouteGroup {
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
 const routes: AppRouteConfig[] = [
-
   {
     component: About,
     exact: true,
@@ -56,7 +55,7 @@ const routes: AppRouteConfig[] = [
     label: 'New Experiment',
     path: '/newexperiment',
     title: 'New Experiment',
-    menu: false,
+    menu: false
   },
   {
     component: Analytics,
@@ -75,26 +74,22 @@ const routes: AppRouteConfig[] = [
         exact: true,
         label: 'ObjectiveFunction',
         path: '/advanceduser/objectivefunction',
-        title: 'Objective Function',
-        
+        title: 'Objective Function'
       },
       {
         component: LayerDefination,
         exact: true,
         label: 'LayerDefination',
         path: '/advanced_user/layerdefination',
-        title: 'Layer Defination',
-      
+        title: 'Layer Defination'
       },
       {
         component: TrialSettings,
         exact: true,
         label: 'TrialSettings',
         path: '/advanced_user/trialsettings',
-        title: 'Trial Settings',
-        
-      },
-
+        title: 'Trial Settings'
+      }
     ],
     menu: true
   },
@@ -106,37 +101,32 @@ const routes: AppRouteConfig[] = [
         exact: true,
         label: 'InstallationGuide',
         path: '/documentation/installationguide',
-        title: 'Installation Guide',
-        
+        title: 'Installation Guide'
       },
       {
         component: Glossary,
         exact: true,
         label: 'Glossary',
         path: '/documentation/glossary',
-        title: 'Layer Defination',
-   
+        title: 'Layer Defination'
       },
       {
         component: FAQs,
         exact: true,
         label: 'FAQs',
         path: '/documentation/faqs',
-        title: 'FAQs',
-     
+        title: 'FAQs'
       },
       {
         component: CommunityCall,
         exact: true,
         label: 'Community Call',
         path: '/documentation/communitycall',
-        title: 'Community Call',
-       
-      },
+        title: 'Community Call'
+      }
     ],
     menu: true
   }
-  
 ];
 
 // a custom hook for sending focus to the primary content container
@@ -169,7 +159,6 @@ const PageNotFound = ({ title }: { title: string }) => {
   // useDocumentTitle(title);
   return <Route component={NotFound} />;
 };
-
 
 const flattenedRoutes: IAppRoute[] = routes.reduce(
   (flattened, route) => [...flattened, ...(route.routes ? route.routes : [route])],

@@ -52,7 +52,6 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     />
   );
 
-
   const location = useLocation();
 
   const renderNavItem = (route: IAppRoute, index: number) => (
@@ -78,27 +77,26 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     <Nav id="nav-primary-simple" theme="dark">
       <NavList id="nav-list-simple">
         {routes.map(
-          (route, idx) => route.label && route.menu && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx))
+          (route, idx) =>
+            route.label && route.menu && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx))
         )}
       </NavList>
     </Nav>
   );
 
-  const Sidebar = (
-    <PageSidebar
-      theme="dark"
-      nav={Navigation}
-      isNavOpen={isMobileView ? isNavOpenMobile : isNavOpen} />
-  );
+  const Sidebar = <PageSidebar theme="dark" nav={Navigation} isNavOpen={isMobileView ? isNavOpenMobile : isNavOpen} />;
 
   const pageId = 'primary-app-container';
 
   const PageSkipToContent = (
-    <SkipToContent onClick={(event) => {
-      event.preventDefault();
-      const primaryContentContainer = document.getElementById(pageId);
-      primaryContentContainer && primaryContentContainer.focus();
-    }} href={`#${pageId}`}>
+    <SkipToContent
+      onClick={(event) => {
+        event.preventDefault();
+        const primaryContentContainer = document.getElementById(pageId);
+        primaryContentContainer && primaryContentContainer.focus();
+      }}
+      href={`#${pageId}`}
+    >
       Skip to Content
     </SkipToContent>
   );
@@ -109,7 +107,8 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
         header={Header}
         sidebar={Sidebar}
         onPageResize={onPageResize}
-        skipToContent={PageSkipToContent}>
+        skipToContent={PageSkipToContent}
+      >
         {children}
       </Page>
     </NodeState>

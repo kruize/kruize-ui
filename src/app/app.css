@@ -1,4 +1,6 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 .markdown {
@@ -12,8 +14,8 @@ html, body, #root {
 .pf-c-slider__step-label {
   word-break: normal;
 }
-.pf-c-button{
-  --pf-c-inline-edit__action--c-button--m-valid--m-plain--Color:blue; 
+.pf-c-button {
+  --pf-c-inline-edit__action--c-button--m-valid--m-plain--Color: blue;
 }
 .nav {
   display: flex;

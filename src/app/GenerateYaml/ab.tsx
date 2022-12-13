@@ -32,5 +32,4 @@ spec:
   datasource:
     name: "prometheus"
     value: "prometheus_URL"
-`
-
+`;

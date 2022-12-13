@@ -6,12 +6,12 @@ SubmitButtonSearchInput = () => {
 
   return (
     <SearchInput
-      placeholder='Find by name'
+      placeholder="Find by name"
       value={value}
       onChange={setValue}
       onSearch={setValue}
       onClear={() => setValue('')}
     />
   );
-}
-export function SubmitButtonSearchInput() ;
+};
+export function SubmitButtonSearchInput();

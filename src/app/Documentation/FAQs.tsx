@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
   TextContent,
   ExpandableSection,
@@ -12,16 +12,16 @@ import {
   CardBody,
   CardFooter,
   Gallery,
-  GalleryItem,
-} from '@patternfly/react-core'
-import faqs from './faq.json'
+  GalleryItem
+} from '@patternfly/react-core';
+import faqs from './faq.json';
 
 const FAQs = () => {
-  const [isExpanded, setIsExpanded] = React.useState(false)
+  const [isExpanded, setIsExpanded] = React.useState(false);
 
   const onToggle = (isExpanded: boolean) => {
-    setIsExpanded(isExpanded)
-  }
+    setIsExpanded(isExpanded);
+  };
 
   return (
     <PageSection variant={PageSectionVariants.light}>
@@ -52,7 +52,7 @@ const FAQs = () => {
         </ExpandableSection>
       ))}
     </PageSection>
-  )
-}
+  );
+};
 
-export { FAQs }
+export { FAQs };

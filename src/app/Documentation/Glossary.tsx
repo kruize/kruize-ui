@@ -3,26 +3,25 @@ import { Card, PageSectionVariants, PageSection } from '@patternfly/react-core';
 import ReactMarkdown from 'react-markdown';
 
 const Glossary = () => {
+  const [post, setPost] = useState('');
+  useEffect(() => {
+    import('./autotune-modules.md')
+      .then((res) => {
+        console.log(res);
+        setPost(res.default);
+      })
+      .catch((err) => console.log(err));
+  });
 
-    const [post, setPost] = useState('');
-    useEffect(() => {
-        import('./autotune-modules.md')
-            .then(res => {
-                console.log(res)
-                setPost(res.default)
-            })
-            .catch(err => console.log(err));
-    });
-
-    return (
-        <PageSection variant={PageSectionVariants.light}>
-            <div className="pf-c-content ws-example-flex-item pf-u-ml-xl">
-                <div className="pf-c-content">
-                    <ReactMarkdown children={post} />
-                </div>
-            </div>
-        </PageSection>
-    );
-}
+  return (
+    <PageSection variant={PageSectionVariants.light}>
+      <div className="pf-c-content ws-example-flex-item pf-u-ml-xl">
+        <div className="pf-c-content">
+          <ReactMarkdown children={post} />
+        </div>
+      </div>
+    </PageSection>
+  );
+};
 
 export { Glossary };
