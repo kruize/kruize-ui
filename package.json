@@ -88,6 +88,12 @@
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.8.0"
   },
+  "peerDependencies": {
+    "monaco-editor": "^0.21.3",
+    "react": "^16.8 || ^17 || ^18",
+    "react-dom": "^16.8 || ^17 || ^18",
+    "react-monaco-editor": "^0.41.2"
+  },
   "dependencies": {
     "@kubernetes/client-node": "^0.16.3",
     "@patternfly/react-code-editor": "^4.62.3",
@@ -104,6 +110,8 @@
     "cssnano-preset-lite": "^2.1.3",
     "deasync": "^0.1.26",
     "dompurify": "^2.3.6",
+    "formik": "^2.2.9",
+    "formik-pf": "^0.0.1-alpha9",
     "history": "^5.3.0",
     "html-loader": "^3.1.2",
     "kubernetes-client": "^9.0.0",
@@ -116,12 +124,12 @@
     "monaco-editor-webpack-plugin": "^2.1.0",
     "monaco-yaml": "^4.0.2",
     "not": "^0.1.0",
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0",
+    "react": "^16.8 || ^17 || ^18",
+    "react-dom": "^16.8 || ^17 || ^18",
     "react-markdown": "^8.0.2",
     "react-mathjax": "^1.0.1",
     "react-mathjax2": "^0.0.2",
-    "react-monaco-editor": "^0.48.0",
+    "react-monaco-editor": "^0.41.2",
     "react-router-last-location": "^2.0.1",
     "react-tinder-card": "^1.4.5",
     "resolve": "^1.22.1",

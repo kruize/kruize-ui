@@ -12,15 +12,13 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
     monaco.editor.getModels()[0].updateOptions({ tabSize: 5 });
   };
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-  const toggleDarkTheme = checked => {
-    setIsDarkTheme(checked);
-  };
+
   const onChange = value => {
     // eslint-disable-next-line no-console
     console.log(value);
   };
   var parsable_net_equation = props.data.net_eq.replace(/[`]+/g, '')
-  
+
   var obj = {
     namespace_name: props.data.namespace,
     deployment_value: props.data.deployment,
@@ -62,11 +60,11 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
       </PageSection>
 
       <CodeEditor
-      isLanguageLabelVisible
-        // isDarkTheme={true}
+        isLanguageLabelVisible
+        isDarkTheme={true}
         code={data2}
         onChange={onChange}
-        language={Language.yaml}
+        //language={Language.yaml}
         onEditorDidMount={onEditorDidMount}
         height="sizeToFit"
       />

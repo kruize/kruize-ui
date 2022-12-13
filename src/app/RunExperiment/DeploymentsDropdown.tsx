@@ -83,7 +83,7 @@ const DeploymentsDropdown = (props: { data; setData }) => {
             >
 
                 {deployments.map((option, index) => (
-                    <SelectOption key={index} value={option} />
+                    <SelectOption key={index} value={option || ''} />
 
                 ))}
             </Select> }      

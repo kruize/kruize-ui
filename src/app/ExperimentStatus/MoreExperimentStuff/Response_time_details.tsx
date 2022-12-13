@@ -10,7 +10,10 @@ import {
   Radio,
   TextVariants,
   TextContent,
-  Grid
+  PageSection,
+  PageSectionVariants,
+  Grid,
+  FormSection
 } from "@patternfly/react-core";
 import PencilAltIcon from '@patternfly/react-icons/dist/esm/icons/pencil-alt-icon';
 import SaveIcon from "@patternfly/react-icons/dist/esm/icons/save-icon";
@@ -131,7 +134,7 @@ const Response_time_details = (props: { data; setData }) => {
     { value: 'C', label: 'C', disabled: false },
   ];
   const operatorOptions = [
-    { value: '0', label: 'none', disabled: false },
+    { value: '1', label: 'none', disabled: false },
     { value: 'log', label: 'log', disabled: false },
     { value: '2', label: 'square', disabled: false },
     { value: '0.5', label: 'square root', disabled: false },
@@ -142,6 +145,7 @@ const Response_time_details = (props: { data; setData }) => {
   };
 
   return (
+    <PageSection variant={PageSectionVariants.light}>
     <>
       <Form isWidthLimited id="form_response time" onSubmit={(e) => {
         e.preventDefault();
@@ -154,6 +158,7 @@ const Response_time_details = (props: { data; setData }) => {
 
             </Text>
           </TextContent>
+          <FormSection>
           <FormGroup>
             {editing ? (<button
               className="pf-c-button pf-m-plain "
@@ -258,9 +263,12 @@ const Response_time_details = (props: { data; setData }) => {
             <Radio name="horizontal-inline-radio" label="Maximize" id="horizontal-inline-radio-01" onChange={handelRadioChange} isChecked={direction === 'max'} isDisabled={!editing} />
             <Radio name="horizontal-inline-radio" label="Minimize" id="horizontal-inline-radio-02" onChange={handelRadioChange} isChecked={direction === 'min'} isDisabled={!editing} />
           </FormGroup>
+          </FormSection>
         </Grid>
+        
       </Form>
-    </>
+      </>
+      </PageSection>
   )
 };
 

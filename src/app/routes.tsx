@@ -27,11 +27,13 @@ export interface IAppRoute {
   title: string;
   isAsync?: boolean;
   routes?: undefined;
+  menu?: boolean;
 }
 
 export interface IAppRouteGroup {
   label: string;
   routes: IAppRoute[];
+  menu?: boolean;
 }
 
 export type AppRouteConfig = IAppRoute | IAppRouteGroup;
@@ -44,6 +46,7 @@ const routes: AppRouteConfig[] = [
     label: 'About Autotune',
     path: '/',
     title: 'Main About',
+    menu: true
   },
 
   {
@@ -53,6 +56,7 @@ const routes: AppRouteConfig[] = [
     label: 'New Experiment',
     path: '/newexperiment',
     title: 'New Experiment',
+    menu: false,
   },
   {
     component: Analytics,
@@ -61,6 +65,7 @@ const routes: AppRouteConfig[] = [
     label: 'Analytics',
     path: '/analytics',
     title: 'Analytics Page',
+    menu: true
   },
   {
     label: 'Advanced User',
@@ -71,6 +76,7 @@ const routes: AppRouteConfig[] = [
         label: 'ObjectiveFunction',
         path: '/advanceduser/objectivefunction',
         title: 'Objective Function',
+        
       },
       {
         component: LayerDefination,
@@ -78,6 +84,7 @@ const routes: AppRouteConfig[] = [
         label: 'LayerDefination',
         path: '/advanced_user/layerdefination',
         title: 'Layer Defination',
+      
       },
       {
         component: TrialSettings,
@@ -85,8 +92,11 @@ const routes: AppRouteConfig[] = [
         label: 'TrialSettings',
         path: '/advanced_user/trialsettings',
         title: 'Trial Settings',
+        
       },
+
     ],
+    menu: true
   },
   {
     label: 'Documentation',
@@ -97,6 +107,7 @@ const routes: AppRouteConfig[] = [
         label: 'InstallationGuide',
         path: '/documentation/installationguide',
         title: 'Installation Guide',
+        
       },
       {
         component: Glossary,
@@ -104,6 +115,7 @@ const routes: AppRouteConfig[] = [
         label: 'Glossary',
         path: '/documentation/glossary',
         title: 'Layer Defination',
+   
       },
       {
         component: FAQs,
@@ -111,6 +123,7 @@ const routes: AppRouteConfig[] = [
         label: 'FAQs',
         path: '/documentation/faqs',
         title: 'FAQs',
+     
       },
       {
         component: CommunityCall,
@@ -118,8 +131,10 @@ const routes: AppRouteConfig[] = [
         label: 'Community Call',
         path: '/documentation/communitycall',
         title: 'Community Call',
+       
       },
-    ]
+    ],
+    menu: true
   }
   
 ];

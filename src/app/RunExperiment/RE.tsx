@@ -2,23 +2,15 @@ import React, { useState, useContext, useEffect } from "react";
 import { Button, PageSection, PageSectionVariants, Toolbar, ToolbarContent, FormGroup, TextInput, Grid, GridItem, TextContent, Text, TextVariants, WizardContext } from "@patternfly/react-core";
 import NameSpaceDropDown from "./NameSpaceDropDown";
 import DeploymentsDropdown from "./DeploymentsDropdown";
-import { Switch, Route, Link, Redirect } from 'react-router-dom';
 import nodeContext from "@app/Context_store/nodeContext";
 
 const RE = (props: { setData; data }) => {
-  const [exp_name, setExp_name] = useState('')
+  const [exp_name, setExp_name] = useState('--')
   const Context = useContext(nodeContext);
-  const ip = Context["dep"];
 
   useEffect(() => {
     props.setData({ ...{ ...props.data }, exp_name: exp_name })
   }, [exp_name])
-
-  const onSubmitHandle = () => {
-    return <Switch>
-      <Route path="/experiment_status" />
-    </Switch>
-  }
 
   useEffect(() => {
     setExp_name(sessionStorage.getItem("Exp name Value")!);
@@ -54,7 +46,7 @@ const RE = (props: { setData; data }) => {
                   <FormGroup isRequired
                     label="Experiment Name" fieldId="horizontal-form-email" >
                     <TextInput
-                      value={exp_name}
+                      value={exp_name || ''}
                       name="experiment_name_textbox"
                       onChange={onTextInputHandler}
                       aria-label="Text inp 101"

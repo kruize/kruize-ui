@@ -6,6 +6,8 @@ import {
   FormGroup,
   TextInput,
   FormSelect,
+  PageSection,
+  PageSectionVariants,
   FormSelectOption,
   Radio,
   TextVariants,
@@ -133,7 +135,7 @@ const Resource_usage_details = (props: { data; setData }) => {
     { value: 'C', label: 'C', disabled: false },
   ];
   const operatorOptions = [
-    { value: '0', label: 'none', disabled: false },
+    { value: '1', label: 'none', disabled: false },
     { value: 'log', label: 'log', disabled: false },
     { value: '2', label: 'square', disabled: false },
     { value: '0.5', label: 'square root', disabled: false },
@@ -144,7 +146,9 @@ const Resource_usage_details = (props: { data; setData }) => {
   };
 
   return (
-    <>
+    
+    <PageSection variant={PageSectionVariants.light}>
+      <>
       <Form isWidthLimited id="form_resource usage" onSubmit={(e) => {
         e.preventDefault();
       }}>
@@ -271,7 +275,9 @@ const Resource_usage_details = (props: { data; setData }) => {
         </Grid>
       </Form>
       {console.log("what is" + props.data.RUequation)}
-    </>
+      </>
+      </PageSection>
+    
   )
 };
 export { Resource_usage_details };

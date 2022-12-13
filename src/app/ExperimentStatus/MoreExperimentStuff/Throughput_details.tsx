@@ -10,7 +10,12 @@ import {
   Radio,
   TextVariants,
   TextContent,
-  Grid
+  FormSection,
+  PageSection,
+  PageSectionVariants,
+  Grid,
+  GridItem,
+
 } from "@patternfly/react-core";
 import { Link } from "react-router-dom";
 import PencilAltIcon from '@patternfly/react-icons/dist/esm/icons/pencil-alt-icon';
@@ -84,13 +89,19 @@ const Throughput_details = (props: { data; setData }) => {
       a = valueContinuous1 / 100 + String.raw`log(throughput)`
     }
     else if (operatorOption === '0.5' && direction === 'min') {
-      a =  String.raw`\frac{1}{ ${valueContinuous1 / 100} \sqrt{throughput}}`
+      a = String.raw`\frac{1}{ ${valueContinuous1 / 100} \sqrt{throughput}}`
     }
     else if (operatorOption === '0.5' && direction === 'max') {
       a = valueContinuous1 / 100 + String.raw`\sqrt{throughput}`
     }
+    else if (operatorOption === '1' && direction === 'min') {
+      a = String.raw`\frac{1}{ ${valueContinuous1 / 100} throughput}`
+    }
+    else if (operatorOption === '1' && direction === 'max') {
+      a = valueContinuous1 / 100 + 'throughput'
+    }
     else if (direction === 'min') {
-      a = String.raw`\frac{1}{ ${valueContinuous1/100} throughput^${operatorOption}}`
+      a = String.raw`\frac{1}{ ${valueContinuous1 / 100} throughput^${operatorOption}}`
     }
     else if (direction === 'max') {
       a = valueContinuous1 / 100 + String.raw`throughput^${operatorOption}`
@@ -132,7 +143,7 @@ const Throughput_details = (props: { data; setData }) => {
     { value: 'C', label: 'C', disabled: false },
   ];
   const operatorOptions = [
-    { value: '0', label: 'none', disabled: false },
+    { value: '1', label: 'none', disabled: false },
     { value: 'log', label: 'log', disabled: false },
     { value: '2', label: 'square', disabled: false },
     { value: '0.5', label: 'square root', disabled: false },
@@ -142,29 +153,26 @@ const Throughput_details = (props: { data; setData }) => {
     loader: { load: ["input/asciimath"] }
   };
 
-  return (
-    <>
-      <Form isWidthLimited id="form_throughput" onSubmit={(e) => {
-        e.preventDefault();
-      }}>
-        <Grid>
-          <TextContent>
-            <Text component={TextVariants.h3}>
-              Function Variable :  Throughput
-              <br />
+  // const formEquation = () => {
+  //   return (
 
-            </Text>
-          </TextContent>
-          <FormGroup>
+  //   );
+  // };
+
+  const formModeEquation = () => {
+    return (
+      <FormGroup>
+        <Grid>
+          <GridItem span={1} rowSpan={1}>
             {editing ? (<button
               className="pf-c-button pf-m-plain "
               type="button"
-
               id="inline-edit-toggle-example-edit-button"
               aria-label="Edit"
               onClick={() => setEditing(false)}
               aria-labelledby="inline-edit-toggle-example-edit-button inline-edit-toggle-example-label"
-            > <SaveIcon color="blue" /> &nbsp;
+            >
+              <SaveIcon color="blue" /> &nbsp;
               Save
             </button>)
               :
@@ -178,94 +186,135 @@ const Throughput_details = (props: { data; setData }) => {
               > <PencilAltIcon color="blue" /> &nbsp;
                 Edit
               </button>)}
-
-          </FormGroup>
-          <FormGroup>
-            <div className="pf-u-disabled-color-100">
-              <MathComponent tex={equation} />
-            </div>
-          </FormGroup>
-
-          <FormGroup
-            label="Weightage"
-            isRequired
-            fieldId="horizontal-form-name"
-
-          >
-            <Slider
-              value={valueContinuous1}
-              isInputVisible
-              inputValue={inputValueContinuous1}
-              inputLabel="%"
-              onChange={onChangeContinuous1}
-              isDisabled={!editing}
-            />
-          </FormGroup>
-          <FormGroup
-            label="Operator"
-            isRequired
-            fieldId="horizontal-form-name"
-          >
-
-            <FormSelect
-              value={operatorOption}
-              onChange={handleOperatorChange}
-              isDisabled={!editing}
-              aria-label="operator options"
-
-            >
-              {operatorOptions.map((option, index) => (
-                <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
-              ))}
-            </FormSelect>
-          </FormGroup>
-
-          <FormGroup label="Query" isRequired fieldId="horizontal-form-email">
-            <TextInput
-              value={query}
-              isRequired
-              name="horizontal-form-query"
-              onChange={handleQueryChange}
-              isDisabled={!editing}
-              aria-label="query throughput"
-            />
-          </FormGroup>
-
-          <FormGroup label="Data source" fieldId="horizontal-form-title">
-            <FormSelect
-              value={option}
-              onChange={handleOptionChange}
-              isDisabled={!editing}
-              aria-label="options"
-            >
-              {options.map((option, index) => (
-                <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
-              ))}
-            </FormSelect>
-          </FormGroup>
-
-          <FormGroup label="Value Type" fieldId="horizontal-form-title">
-            <FormSelect
-              value={valueType}
-              onChange={handelValueTypeChange}
-              isDisabled={!editing}
-              aria-label="value type"
-            >
-              {valueOptions.map((option, index) => (
-                <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
-              ))}
-            </FormSelect>
-          </FormGroup>
-
-
-          <FormGroup role="radiogroup" isStack fieldId="horizontal-form-radio-group" hasNoPaddingTop label="Direction"  >
-            <Radio name="horizontal-inline-radio" label="Maximize" id="horizontal-inline-radio-01" onChange={handelRadioChange} isChecked={direction === 'max'} isDisabled={!editing} />
-            <Radio name="horizontal-inline-radio" label="Minimize" id="horizontal-inline-radio-02" onChange={handelRadioChange} isChecked={direction === 'min'} isDisabled={!editing} />
-          </FormGroup>
+          </GridItem>
+          <GridItem>
+            <MathComponent tex={equation} />
+          </GridItem>
         </Grid>
+      </FormGroup>
+    );
+  };
+
+  const formWeightage = () => {
+    return (
+      <FormGroup
+        label="Weightage"
+        isRequired
+        fieldId="horizontal-form-name"
+
+      >
+        <Slider
+          value={valueContinuous1}
+          isInputVisible
+          inputValue={inputValueContinuous1}
+          inputLabel="%"
+          onChange={onChangeContinuous1}
+          isDisabled={!editing}
+        />
+      </FormGroup>
+    );
+  };
+  const formOperator = () => {
+    return (
+      <FormGroup
+        label="Operator"
+        isRequired
+        fieldId="horizontal-form-name"
+      >
+
+        <FormSelect
+          value={operatorOption}
+          onChange={handleOperatorChange}
+          isDisabled={!editing}
+          aria-label="operator options"
+
+        >
+          {operatorOptions.map((option, index) => (
+            <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
+          ))}
+        </FormSelect>
+      </FormGroup>
+    );
+  };
+  const formQuery = () => {
+    return (
+      <FormGroup label="Query" isRequired fieldId="horizontal-form-email">
+        <TextInput
+          value={query}
+          isRequired
+          name="horizontal-form-query"
+          onChange={handleQueryChange}
+          isDisabled={!editing}
+          aria-label="query throughput"
+        />
+      </FormGroup>
+
+    );
+  };
+  const formDatasource = () => {
+    return (
+      <FormGroup label="Data source" fieldId="horizontal-form-title">
+        <FormSelect
+          value={option}
+          onChange={handleOptionChange}
+          isDisabled={!editing}
+          aria-label="options"
+        >
+          {options.map((option, index) => (
+            <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
+          ))}
+        </FormSelect>
+      </FormGroup>
+    );
+  };
+
+  const formValuetype = () => {
+    return (
+      <FormGroup label="Value Type" fieldId="horizontal-form-title">
+        <FormSelect
+          value={valueType}
+          onChange={handelValueTypeChange}
+          isDisabled={!editing}
+          aria-label="value type"
+        >
+          {valueOptions.map((option, index) => (
+            <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
+          ))}
+        </FormSelect>
+      </FormGroup>
+    );
+  };
+
+  const formDirection = () => {
+    return (
+      <FormGroup role="radiogroup" isStack fieldId="horizontal-form-radio-group" hasNoPaddingTop label="Direction"  >
+        <Radio name="horizontal-inline-radio" label="Maximize" id="horizontal-inline-radio-01" onChange={handelRadioChange} isChecked={direction === 'max'} isDisabled={!editing} />
+        <Radio name="horizontal-inline-radio" label="Minimize" id="horizontal-inline-radio-02" onChange={handelRadioChange} isChecked={direction === 'min'} isDisabled={!editing} />
+      </FormGroup>
+    );
+  };
+  return (
+    <PageSection variant={PageSectionVariants.light}>
+      <Form
+        isWidthLimited
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <FormSection title="Function Variable : Throughput" titleElement="h3">
+          {formModeEquation()}
+
+          {formWeightage()}
+          {formOperator()}
+          {formQuery()}
+          {formDatasource()}
+          {formValuetype()}
+          {formDirection()}
+        </FormSection>
       </Form>
-      {console.log("what is" + props.data.THequation)}
-    </>
+    </PageSection>
   )
+
 };
+
 export { Throughput_details };

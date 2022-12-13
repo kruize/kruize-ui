@@ -12,7 +12,7 @@ const Final_equation = (props: { data; setData }) => {
     }, [net_eq]);
 
     useEffect(() => {
-        setNet_eq(String.raw`${props.data.THequation}${props.data.RTequation}  ${props.data.RUequation}`)
+        setNet_eq(String.raw`${props.data.THequation}${props.data.RTequation}${props.data.RUequation}`)
 
     }, [])
 

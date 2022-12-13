@@ -48,7 +48,7 @@ const NameSpaceDropDown = (props: { data; setData }) => {
         isOpen={isopen}
       >
         {namespaces.map((option, index) => (
-          <SelectOption key={index} value={option} />
+          <SelectOption key={index} value={option || ''} />
 
         ))}
       </Select>
