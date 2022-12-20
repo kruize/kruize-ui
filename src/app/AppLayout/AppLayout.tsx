@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
-import NodeState from '@app/Context_store/NodeState';
+import EnvState from '@app/ContextStore/EnvState';
 
 interface IAppLayout {
   children: React.ReactNode;
@@ -22,6 +22,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const [isNavOpen, setIsNavOpen] = React.useState(true);
   const [isMobileView, setIsMobileView] = React.useState(true);
   const [isNavOpenMobile, setIsNavOpenMobile] = React.useState(false);
+  const location = useLocation();
   const onNavToggleMobile = () => {
     setIsNavOpenMobile(!isNavOpenMobile);
   };
@@ -52,7 +53,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     />
   );
 
-  const location = useLocation();
+
 
   const renderNavItem = (route: IAppRoute, index: number) => (
     <NavItem key={`${route.label}-${index}`} id={`${route.label}-${index}`} isActive={route.path === location.pathname}>
@@ -101,7 +102,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     </SkipToContent>
   );
   return (
-    <NodeState>
+    <EnvState>
       <Page
         mainContainerId={pageId}
         header={Header}
@@ -111,7 +112,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
       >
         {children}
       </Page>
-    </NodeState>
+    </EnvState>
   );
 };
 

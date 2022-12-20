@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import nodeContext from '@app/Context_store/nodeContext';
+import nodeContext from '@app/ContextStore/nodeContext';
 
 const NameSpaceDropDown = (props: { data; setData }) => {
   const [namespaces, setNamespaces] = useState([]);

@@ -4,8 +4,8 @@ import RE from './RE';
 import { ExperimentStatus } from '@app/ExperimentStatus/ExperimentStatus';
 import { ExperimentDetails } from '@app/ExperimentStatus/MoreExperimentStuff/ExperimentDetails';
 import { CodeEditorWithActions } from '@app/GenerateYaml/CodeEditorWithActions';
-import nodeContext from '@app/Context_store/nodeContext';
-import NodeState from '@app/Context_store/NodeState';
+import nodeContext from '@app/ContextStore/nodeContext';
+import EnvState from '@app/ContextStore/EnvState';
 import { Final_equation } from 'src/app/ExperimentStatus/MoreExperimentStuff/Final_equation';
 import { Throughput_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Throughput_details';
 import { Response_time_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Response_time_details';
@@ -38,7 +38,7 @@ const dataa = {
   RUvaluetype: 'double',
   RUdirection: 'min',
   RUequation: '0.25 * resourceusage',
-  net_eq: '0.25 * throughput / 0.5 * responsetime * 0.25 * resourceusage',
+  net_eq: ' : (0.25 * Throughput) / ( (0.5 * Response Time) * ( 0.25 * Resource Usage) )',
   allDone: ''
 };
 
@@ -85,9 +85,14 @@ const RunExperiment = (props: { setData; data }) => {
           id: 4,
           name: 'Response Time',
           component: (
-            <>
-              <ExperimentDetails /> <Response_time_details data={data} setData={setData} />
-            </>
+            <Grid hasGutter>
+              <GridItem span={7}>
+                <Response_time_details data={data} setData={setData} />
+              </GridItem>
+              <GridItem span={5}>
+                <ExperimentDetails />
+              </GridItem>
+            </Grid>
           ),
           canJumpTo: stepId >= 2
         },
@@ -95,9 +100,14 @@ const RunExperiment = (props: { setData; data }) => {
           id: 5,
           name: 'Resource Usage',
           component: (
-            <>
-              <ExperimentDetails /> <Resource_usage_details data={data} setData={setData} />
-            </>
+            <Grid hasGutter>
+              <GridItem span={7}>
+                <Resource_usage_details data={data} setData={setData} />
+              </GridItem>
+              <GridItem span={5}>
+                <ExperimentDetails />
+              </GridItem>
+            </Grid>
           ),
           canJumpTo: stepId >= 2
         },
@@ -122,7 +132,7 @@ const RunExperiment = (props: { setData; data }) => {
 
   return (
     <>
-      <NodeState>
+      <EnvState>
         <Wizard
           navAriaLabel={`${title} steps`}
           mainAriaLabel={`${title} content`}
@@ -130,8 +140,8 @@ const RunExperiment = (props: { setData; data }) => {
           steps={steps}
           isNavExpandable
         />
-      </NodeState>
-      {console.log('step id log' + stepId)}
+      </EnvState>
+
     </>
   );
 };

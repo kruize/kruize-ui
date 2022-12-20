@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-// import { accessibleRouteChangeHandler } from '@app/utils/utils';
 import { About } from '@app/About/About';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
 import { Analytics } from '@app/Analytics/Analytics';
@@ -12,16 +11,12 @@ import { FAQs } from './Documentation/FAQs';
 import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
-// import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-// import WizardState from './Context_store/WizardState';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
-  label?: string; // Excluding the label will exclude the route from the nav sidebar in AppLayout
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  label?: string;
   component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
-  /* eslint-enable @typescript-eslint/no-explicit-any */
   exact?: boolean;
   path: string;
   title: string;

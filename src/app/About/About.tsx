@@ -11,12 +11,6 @@ import {
 } from '@patternfly/react-core';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
 const About = () => (
-  // const navigate = useNavigate();
-
-  // const navigateToNewExperiment = () => {
-
-  //   navigate('/newexperiment');
-  // };
   <PageSection variant={PageSectionVariants.light}>
     <TextContent>
       <Text component={TextVariants.h1}>About Autotune</Text>

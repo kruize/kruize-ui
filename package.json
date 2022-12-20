@@ -127,7 +127,6 @@
     "react": "^16.8 || ^17 || ^18",
     "react-dom": "^16.8 || ^17 || ^18",
     "react-markdown": "^8.0.2",
-    "react-mathjax": "^1.0.1",
     "react-mathjax2": "^0.0.2",
     "react-monaco-editor": "^0.41.2",
     "react-router-last-location": "^2.0.1",

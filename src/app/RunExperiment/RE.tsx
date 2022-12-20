@@ -16,7 +16,7 @@ import {
 } from '@patternfly/react-core';
 import NameSpaceDropDown from './NameSpaceDropDown';
 import DeploymentsDropdown from './DeploymentsDropdown';
-import nodeContext from '@app/Context_store/nodeContext';
+import nodeContext from '@app/ContextStore/nodeContext';
 
 const RE = (props: { setData; data }) => {
   const [exp_name, setExp_name] = useState('--');

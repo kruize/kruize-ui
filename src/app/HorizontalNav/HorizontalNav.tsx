@@ -4,7 +4,7 @@ import Kubernetes_image from './Assets/Kubernetes_image.png';
 import Avatar_image from './Assets/Avatar_image.svg';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import nodeContext from '@app/Context_store/nodeContext';
+import nodeContext from '@app/ContextStore/nodeContext';
 
 const HorizontalNav = () => {
   const [activeItem, setActiveItem] = useState(0);

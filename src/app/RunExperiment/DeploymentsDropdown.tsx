@@ -1,35 +1,6 @@
-// import React, { useState, useEffect } from 'react';
-// import KruizeDropdown from "../Components/KruizeDropdown";
-
-// const DeploymentsDropdown = (props: { data, setData }) => {
-//     const [selected, setSelected] = useState(props.data["deployment"]);
-//     useEffect(() => {
-//         props.setData({ ...{}, deployment: selected })
-//     }, [selected])
-
-//     const [deployment, setDeployment] = useState([
-//         {
-//             name: "Galaxies",
-//         },
-//         {
-//             name: "PetClinic",
-//         },
-//         {
-//             name: "TechEmpower",
-//         },
-//     ]);
-//     return (
-//         <>
-//             <KruizeDropdown title="Select Deployment" content={deployment} selected={selected} />
-//             {console.log(23, selected)}
-//         </>
-//     )
-// };
-
-// export default DeploymentsDropdown;
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import nodeContext from '@app/Context_store/nodeContext';
+import nodeContext from '@app/ContextStore/nodeContext';
 
 const DeploymentsDropdown = (props: { data; setData }) => {
   const [deployments, setDeployments] = useState([]);
@@ -50,7 +21,6 @@ const DeploymentsDropdown = (props: { data; setData }) => {
 
   useEffect(() => {
     props.setData({ ...{ ...props.data }, deployment: selected });
-    //console.log(2, selected)
   }, [selected]);
 
   useEffect(() => {
