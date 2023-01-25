@@ -10,10 +10,13 @@ import { Final_equation } from 'src/app/ExperimentStatus/MoreExperimentStuff/Fin
 import { Throughput_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Throughput_details';
 import { Response_time_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Response_time_details';
 import { Resource_usage_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Resource_usage_details';
+import { DefineGoals } from './DefineGoals';
+import { PerformanceProfiles } from './PerformanceProfilePages/PerformanceProfiles';
 const dataa = {
   exp_name: '',
   namespace: '',
   deployment: '',
+  profile: '',
 
   THweightage: 25,
   THoperator: '1',
@@ -61,13 +64,20 @@ const RunExperiment = (props: { setData; data }) => {
     //{ name: 'Experiment Status', component: <ExperimentStatus /> },
     {
       id: 2,
-      name: 'Experiment Details',
-      // component: <ExperimentDetails/>,
-      enableNext: data.allDone,
+      name: 'Define Performance Goals',
+      component: <DefineGoals setData={setData} data={data} />,
+      enableNext: data.profile,
       canJumpTo: stepId >= 2,
-      steps: [
+    },
+    {
+      id: 3,
+      name: data.profile === "custom" ? 'Experiment Details' : 'Performance Profiles',
+      component: data.profile === "custom" ? <ExperimentDetails /> : <PerformanceProfiles data={data} setData={setData} />,
+      // enableNext: data.allDone,
+      canJumpTo: stepId >= 3,
+      steps: data.profile === "custom" ? [
         {
-          id: 3,
+          id: 4,
           name: 'Throughput',
           component: (
             <Grid hasGutter>
@@ -79,10 +89,10 @@ const RunExperiment = (props: { setData; data }) => {
               </GridItem>
             </Grid>
           ),
-          canJumpTo: stepId >= 2
+          canJumpTo: stepId >= 3
         },
         {
-          id: 4,
+          id: 5,
           name: 'Response Time',
           component: (
             <Grid hasGutter>
@@ -94,10 +104,10 @@ const RunExperiment = (props: { setData; data }) => {
               </GridItem>
             </Grid>
           ),
-          canJumpTo: stepId >= 2
+          canJumpTo: stepId >= 3
         },
         {
-          id: 5,
+          id: 6,
           name: 'Resource Usage',
           component: (
             <Grid hasGutter>
@@ -109,23 +119,25 @@ const RunExperiment = (props: { setData; data }) => {
               </GridItem>
             </Grid>
           ),
-          canJumpTo: stepId >= 2
+          canJumpTo: stepId >= 3
         },
         {
-          id: 6,
+          id: 7,
           name: 'Final Equation',
           component: <Final_equation data={data} setData={setData} />,
           hideClose: true,
-          canJumpTo: stepId >= 2
+          canJumpTo: stepId >= 3
         }
-      ]
+      ] :
+        null
+
     },
     {
-      id: 7,
+      id: 8,
       name: 'YAML Generated',
       component: <CodeEditorWithActions setData={setData} data={data} />,
-      nextButtonText: 'Finish',
-      canJumpTo: stepId >= 3
+      nextButtonText: 'Apply',
+      canJumpTo: stepId >= 4
     }
   ];
   const title = 'Basic wizard';

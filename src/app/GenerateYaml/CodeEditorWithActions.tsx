@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CodeEditor, Language } from '@patternfly/react-code-editor';
-import { PageSection, TextContent, Text, TextVariants, Toolbar, PageSectionVariants, ToolbarContent } from '@patternfly/react-core';
+import { PageSection, TextContent, Text, TextVariants, Toolbar, PageSectionVariants, ToolbarContent, FormGroup, Grid, GridItem, Button } from '@patternfly/react-core';
 import yaml from './ab';
+import { SaveIcon, PencilAltIcon } from '@patternfly/react-icons';
 
 export const CodeEditorWithActions = (props: { data; setData }) => {
   const onEditorDidMount = (editor, monaco) => {
@@ -10,8 +11,7 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
     editor.focus();
     monaco.editor.getModels()[0].updateOptions({ tabSize: 5 });
   };
-  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-
+  const [editing, setEditing] = useState(false);
   const onChange = value => {
     console.log(value);
   };
@@ -39,6 +39,38 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
   const data2 = data.replace(/\b(net_equation|namespace_name|deployment_value|experiment_name|variable1_name|variable1_query|variable1_datasource|variable1_value_type|variable2_name|variable2_query|variable2_datasource|variable2_value_type|variable3_name|variable3_query|variable3_datasource|variable3_value_type)\b/gi, function (matched) {
     return obj[matched];
   })
+
+  const formMode = () => {
+    return (
+      <FormGroup>
+        <Grid>
+          <GridItem span={1} rowSpan={1}>
+            {editing ? (
+              <Button
+                variant="secondary"
+                onClick={() => setEditing(false)}
+              >
+                <SaveIcon color="blue" /> &nbsp;
+                Save
+              </Button>
+            )
+              :
+              (<Button
+                variant="secondary"
+                onClick={() => setEditing(true)}>
+                <PencilAltIcon color="blue" /> &nbsp;
+                Edit
+              </Button>)}
+          </GridItem>
+          <GridItem>
+
+          </GridItem>
+        </Grid>
+      </FormGroup>
+    );
+  };
+
+
   return (
     <>
 
@@ -57,7 +89,7 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
           </ToolbarContent>
         </Toolbar>
       </PageSection>
-
+      {formMode}
       <CodeEditor
         isLanguageLabelVisible
         isDarkTheme={true}
@@ -66,7 +98,12 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
         //language={Language.yaml}
         onEditorDidMount={onEditorDidMount}
         height="sizeToFit"
+        isReadOnly={editing}
       />
     </>
   );
 };
+function UseState(arg0: boolean): [any, any] {
+  throw new Error('Function not implemented.');
+}
+

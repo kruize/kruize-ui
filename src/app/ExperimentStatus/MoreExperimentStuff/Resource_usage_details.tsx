@@ -96,10 +96,10 @@ const Resource_usage_details = (props: { data; setData }) => {
       a = valueContinuous1 / 100 + String.raw`\sqrt{resource_usage}`
     }
     else if (operatorOption === '1' && direction === 'min') {
-      a = String.raw`\frac{1}{ ${valueContinuous1 / 100} resource_usage}`
+      a = String.raw`\frac{1}{ ${valueContinuous1 / 100} resourceusage}`
     }
     else if (operatorOption === '1' && direction === 'max') {
-      a = valueContinuous1 / 100 + 'resource_usage'
+      a = valueContinuous1 / 100 + 'resourceusage'
     }
     else if (direction === 'min') {
       a = String.raw`\frac{1}{ ${valueContinuous1 / 100} resourceusage^${operatorOption}}`

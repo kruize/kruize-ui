@@ -124,8 +124,8 @@ const Throughput_details = (props: { data; setData }) => {
   const handleOptionChange = (value: string, _event: React.FormEvent<HTMLSelectElement>) => {
     setOption(value);
   };
-  const handelRadioChange = (value, x) => {
-    console.log("hrc" + x)
+  const handelRadioChange = (value) => {
+
     if (direction === "min") {
       setDirection("max")
     }
