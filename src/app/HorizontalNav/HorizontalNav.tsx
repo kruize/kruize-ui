@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Popover, Nav, TextContent, Avatar, Text, TextVariants, NavItem, NavList } from '@patternfly/react-core';
+import { Popover, Nav, TextContent, Avatar, Text, TextVariants, NavItem, NavList, Flex } from '@patternfly/react-core';
 import Kubernetes_image from './Assets/Kubernetes_image.png';
+import Kruize_logo from './Assets/kruize_icon.png';
 import Avatar_image from './Assets/Avatar_image.svg';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
@@ -35,11 +36,9 @@ const HorizontalNav = () => {
   const nav = (
     <Nav onSelect={onSelect} variant="horizontal" className="nav">
       <NavList>
-        <span>
-          <TextContent className="--pf-c-content">
-            <Text component={TextVariants.h1}>Kruize Autotune</Text>
-          </TextContent>
-        </span>
+        <TextContent className="--pf-c-content">
+          <Text component={TextVariants.h1}>Kruize Autotune</Text>
+        </TextContent>
 
         <NavItem></NavItem>
         <NavItem itemId={0} isActive={activeItem === 9} to="https://github.com/orgs/kruize/people">

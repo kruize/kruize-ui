@@ -14,6 +14,7 @@ import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
 import EnvState from '@app/ContextStore/EnvState';
 import Footer from '@app/Footer/Footer';
+import KruizeLogo from '@app/HorizontalNav/Assets/kruize_icon.png'
 interface IAppLayout {
   children: React.ReactNode;
 }
@@ -32,20 +33,21 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const onPageResize = (props: { mobileView: boolean; windowSize: number }) => {
     setIsMobileView(props.mobileView);
   };
-  /*
-    function LogoImg() {
-      const history = useHistory();
-      function handleClick() {
-        history.push('/');
-      }
-      return (
-        <img src={logo} onClick={handleClick} alt="PatternFly Logo" />
-      );
+
+  function LogoImg() {
+    const history = useHistory();
+    function handleClick() {
+      history.push('/');
     }
-  
-  */
+    return (
+      <img src={KruizeLogo} onClick={handleClick} alt="Kruize Logo" width="40" height="40" />
+    );
+  }
+
+
   const Header = (
     <PageHeader
+      logo={<LogoImg />}
       headerTools={<HorizontalNav />}
       showNavToggle
       isNavOpen={isNavOpen}

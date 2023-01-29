@@ -98,7 +98,7 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
         //language={Language.yaml}
         onEditorDidMount={onEditorDidMount}
         height="sizeToFit"
-        isReadOnly={editing}
+        isReadOnly={true}
       />
     </>
   );
