@@ -115,7 +115,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
         skipToContent={PageSkipToContent}
       >
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </Page>
     </EnvState>
   );

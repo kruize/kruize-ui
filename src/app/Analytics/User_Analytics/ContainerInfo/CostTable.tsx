@@ -1,6 +1,7 @@
 import React from 'react';
-import { ToggleGroup, ToggleGroupItem, ToggleGroupItemProps } from '@patternfly/react-core';
-import { TableComposable, Caption, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
+import { Grid, GridItem, ToggleGroup, ToggleGroupItem, ToggleGroupItemProps } from '@patternfly/react-core';
+import { TableComposable, Caption, Thead, Tr, Th, Tbody, Td, InnerScrollContainer } from '@patternfly/react-table';
+import { VerticalSlider } from './VerticalSlider';
 
 interface Repository {
     monitoringStartTime: string | null;
@@ -34,45 +35,78 @@ const CostTable = () => {
     ];
 
     const columnNames = {
-        monitoringStartTime: 'Monitoring Start Time',
-        monitoringEndTime: 'Monitoring End Time',
+        monitoringStartTime: 'Start Time',
+        monitoringEndTime: 'End Time',
         podCount: 'Pods Count',
         confidenceLevel: 'Confidence Level',
-        maxConfigmmr: 'Memory Max',
-        maxConfigcpu: 'CPU Max',
-        capacityConfigmmr: 'Memory Capacity',
-        capacityConfigcpu: 'CPU Capacity'
+        maxConfigmmr: 'Max',
+        maxConfigcpu: 'Max',
+        capacityConfigmmr: 'Capacity',
+        capacityConfigcpu: 'Capacity'
     };
 
     return (
-        <TableComposable aria-label="Simple table" variant="compact">
-            <Thead>
-                <Tr>
-                    <Th>{columnNames.monitoringStartTime}</Th>
-                    <Th>{columnNames.monitoringEndTime}</Th>
-                    <Th>{columnNames.podCount}</Th>
-                    <Th>{columnNames.confidenceLevel}</Th>
-                    <Th>{columnNames.maxConfigmmr}</Th>
-                    <Th>{columnNames.maxConfigcpu}</Th>
-                    <Th>{columnNames.capacityConfigmmr}</Th>
-                    <Th>{columnNames.capacityConfigcpu}</Th>
-                </Tr>
-            </Thead>
-            <Tbody>
-                {recommendations.map(recommendation => (
-                    <Tr key={recommendation.monitoringStartTime}>
-                        <Td dataLabel={columnNames.monitoringStartTime}>{recommendation.monitoringStartTime}</Td>
-                        <Td dataLabel={columnNames.monitoringEndTime}>{recommendation.monitoringEndTime}</Td>
-                        <Td dataLabel={columnNames.podCount}>{recommendation.podCount}</Td>
-                        <Td dataLabel={columnNames.confidenceLevel}>{recommendation.confidenceLevel}</Td>
-                        <Td dataLabel={columnNames.maxConfigmmr}>{recommendation.maxConfigmmr}</Td>
-                        <Td dataLabel={columnNames.maxConfigcpu}>{recommendation.maxConfigcpu}</Td>
-                        <Td dataLabel={columnNames.capacityConfigmmr}>{recommendation.capacityConfigmmr}</Td>
-                        <Td dataLabel={columnNames.capacityConfigcpu}>{recommendation.capacityConfigcpu}</Td>
-                    </Tr>
-                ))}
-            </Tbody>
-        </TableComposable>
+        <Grid hasGutter>
+
+            <GridItem span={1} rowSpan={3}>
+                <VerticalSlider />
+            </GridItem>
+            <GridItem span={11} rowSpan={2}>
+                <InnerScrollContainer>
+
+                    <TableComposable aria-label="Simple table" variant="compact" gridBreakPoint="" isStickyHeader>
+                        <Thead hasNestedHeader>
+                            <Tr aria-hidden="true">
+                                <Td colSpan={9}></Td>
+                            </Tr>
+                            <Tr>
+                                <Th hasRightBorder colSpan={2}>
+                                    Monitoring
+                                </Th>
+                                <Th hasRightBorder colSpan={2}>
+                                    CPU
+                                </Th>
+                                <Th hasRightBorder colSpan={2}>
+                                    Memory
+                                </Th>
+                                <Th modifier="fitContent" hasRightBorder colSpan={1}>
+                                    Pods Count
+                                </Th>
+                                <Th modifier="fitContent" hasRightBorder colSpan={1}>
+                                    Confidence Level
+                                </Th>
+                            </Tr>
+                            <Tr >
+                                <Th>{columnNames.monitoringStartTime}</Th>
+                                <Th>{columnNames.monitoringEndTime}</Th>
+                                <Th>{columnNames.capacityConfigcpu}</Th>
+                                <Th>{columnNames.maxConfigcpu}</Th>
+                                <Th>{columnNames.capacityConfigmmr}</Th>
+                                <Th>{columnNames.maxConfigmmr}</Th>
+                            </Tr>
+                            <Tr isBorderRow aria-hidden="true">
+                                <Td colSpan={9}></Td>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {recommendations.map(recommendation => (
+                                <Tr key={recommendation.monitoringStartTime}>
+                                    <Td dataLabel={columnNames.monitoringStartTime}>{recommendation.monitoringStartTime}</Td>
+                                    <Td dataLabel={columnNames.monitoringEndTime}>{recommendation.monitoringEndTime}</Td>
+                                    <Td dataLabel={columnNames.podCount}>{recommendation.podCount}</Td>
+                                    <Td dataLabel={columnNames.confidenceLevel}>{recommendation.confidenceLevel}</Td>
+                                    <Td dataLabel={columnNames.maxConfigmmr}>{recommendation.maxConfigmmr}</Td>
+                                    <Td dataLabel={columnNames.maxConfigcpu}>{recommendation.maxConfigcpu}</Td>
+                                    <Td dataLabel={columnNames.capacityConfigmmr}>{recommendation.capacityConfigmmr}</Td>
+                                    <Td dataLabel={columnNames.capacityConfigcpu}>{recommendation.capacityConfigcpu}</Td>
+                                </Tr>
+                            ))}
+                        </Tbody>
+                    </TableComposable>
+                </InnerScrollContainer>
+
+            </GridItem>
+        </Grid>
     );
 };
 

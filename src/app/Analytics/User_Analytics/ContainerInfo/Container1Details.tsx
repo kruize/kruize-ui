@@ -27,7 +27,7 @@ const Container1Details = () => {
                         isExpanded={expanded === 'ex-toggle1'}
                         id="ex-toggle1"
                     >
-                        Cost Optimization
+                        Cost
                     </AccordionToggle>
                     <AccordionContent id="ex-expand1" isHidden={expanded !== 'ex-toggle1'}>
                         <CostTable />
@@ -57,7 +57,7 @@ const Container1Details = () => {
                         isExpanded={expanded === 'ex-toggle3'}
                         id="ex-toggle3"
                     >
-                        Performance Optimization
+                        Performance
                     </AccordionToggle>
                     <AccordionContent id="ex-expand3" isHidden={expanded !== 'ex-toggle3'}>
                         <PerformanceTable />
