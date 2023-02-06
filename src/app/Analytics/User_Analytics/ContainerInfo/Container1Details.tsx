@@ -1,7 +1,9 @@
 import React from 'react';
 import { Accordion, AccordionItem, AccordionContent, AccordionToggle, Slider, Text, TextVariants, TextContent } from '@patternfly/react-core';
-import { UserTable } from './UserTable';
+import { CostTable } from './CostTable';
 import { VerticalSlider } from './VerticalSlider';
+import { BalanceTable } from './BalanceTable';
+import { PerformanceTable } from './PerformanceTable';
 
 const Container1Details = () => {
     const [expanded, setExpanded] = React.useState('ex-toggle2');
@@ -28,7 +30,7 @@ const Container1Details = () => {
                         Cost Optimization
                     </AccordionToggle>
                     <AccordionContent id="ex-expand1" isHidden={expanded !== 'ex-toggle1'}>
-                        <UserTable />
+                        <CostTable />
                     </AccordionContent>
                 </AccordionItem>
 
@@ -43,7 +45,7 @@ const Container1Details = () => {
                         Balance
                     </AccordionToggle>
                     <AccordionContent id="ex-expand2" isHidden={expanded !== 'ex-toggle2'}>
-                        <UserTable />
+                        <BalanceTable />
                     </AccordionContent>
                 </AccordionItem>
 
@@ -58,7 +60,7 @@ const Container1Details = () => {
                         Performance Optimization
                     </AccordionToggle>
                     <AccordionContent id="ex-expand3" isHidden={expanded !== 'ex-toggle3'}>
-                        <UserTable />
+                        <PerformanceTable />
                     </AccordionContent>
                 </AccordionItem>
 

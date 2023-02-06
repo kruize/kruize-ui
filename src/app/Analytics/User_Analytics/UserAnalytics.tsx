@@ -3,7 +3,7 @@ import { Text, PageSection, PageSectionVariants, TextContent, TextVariants, Form
 import NameSpaceDropDown from '@app/RunExperiment/NameSpaceDropDown';
 import { AnalyticsNamespace } from './AnalyticsNamespace';
 import { AnalyticsDeployment } from './AnalyticsDeployment';
-import { AnalyticsContainers } from './AnalyticsContainers';
+import { AnalyticsContainers } from './ContainerInfo/AnalyticsContainers';
 
 const UserAnalytics = () => {
     return (
