@@ -11,6 +11,7 @@ import {
     ActionsColumn,
     IAction
 } from '@patternfly/react-table';
+import { TextContent, TextVariants } from '@patternfly/react-core';
 
 interface Repository {
     srno: string;
@@ -46,10 +47,10 @@ const NestedReposTable: React.FunctionComponent = () => {
         monitoringEndTime: 'Monitoring End Time',
         podCount: 'Pods Count',
         confidenceLevel: 'Confidence Level',
-        maxConfigmmr: 'Max Config MMR',
-        maxConfigcpu: 'Max Config CPU',
-        capacityConfigmmr: 'Capacity Config MMR',
-        capacityConfigcpu: 'Capacity Config CPU'
+        maxConfigmmr: 'Memory Max',
+        maxConfigcpu: 'CPU Max',
+        capacityConfigmmr: 'Memory Capacity',
+        capacityConfigcpu: 'CPU Capacity'
     };
 
     return (
@@ -87,7 +88,7 @@ const NestedReposTable: React.FunctionComponent = () => {
 const Table = () => {
     // In real usage, this data would come from some external source like an API via props.
     const repositories: Repository[] = [
-        { srno: '1', experimentname: 'Exp_no_01', namespace: 'default', deployment: 'tfb-database', status: 'failed', nestedComponent: <NestedReposTable /> },
+        { srno: '1', experimentname: 'Exp_no_01', namespace: 'default', deployment: 'tfb-database', status: 'failed', nestedComponent: <><TextContent>Recommendations</TextContent><NestedReposTable /></> },
         { srno: '2', experimentname: 'Exp_no_02', namespace: 'monitoring', deployment: 'autotune', status: 'active' },
         {
             srno: '3',

@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { About } from '@app/About/About';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
-import { Analytics } from '@app/Analytics/Analytics';
+import { SREAnalytics } from '@app/Analytics/SREAnalytics';
+import { UserAnalytics } from './Analytics/User_Analytics/UserAnalytics';
 import { ObjectiveFunction } from '@app/AdvancedUser/ObjectiveFunction';
 import { LayerDefination } from '@app/AdvancedUser/LayerDefination';
 import { TrialSettings } from '@app/AdvancedUser/TrialSettings';
@@ -53,12 +54,23 @@ const routes: AppRouteConfig[] = [
     menu: false
   },
   {
-    component: Analytics,
-    exact: true,
-    isAsync: true,
     label: 'Analytics',
-    path: '/analytics',
-    title: 'Analytics Page',
+    routes: [
+      {
+        component: SREAnalytics,
+        exact: true,
+        label: 'SRE View',
+        path: '/analytics_sre',
+        title: 'SRE View'
+      },
+      {
+        component: UserAnalytics,
+        exact: true,
+        label: 'User View',
+        path: '/analytics_user',
+        title: 'User View'
+      }
+    ],
     menu: true
   },
   {

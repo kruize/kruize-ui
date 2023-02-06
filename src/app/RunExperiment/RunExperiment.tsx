@@ -47,7 +47,6 @@ const dataa = {
 
 const RunExperiment = (props: { setData; data }) => {
   const [data, setData] = useState(dataa);
-  const Context = useContext(nodeContext);
   const [stepId, setStepId] = useState(1);
   const enable_progress = () => {
     if (data.deployment || data.allDone) {

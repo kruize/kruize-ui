@@ -5,7 +5,7 @@ import { AdvancedSection } from './AdvancedSection';
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import { CubeIcon } from '@patternfly/react-icons';
 
-const PerformanceProfiles = (props: { data; setData }) => {
+const PerformanceProfiles = () => {
 
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
 
@@ -52,7 +52,6 @@ const PerformanceProfiles = (props: { data; setData }) => {
             </Tab>
             <br />
             <br />
-
             <Tab
               eventKey={1}
               title={
@@ -66,11 +65,8 @@ const PerformanceProfiles = (props: { data; setData }) => {
                 </>
               }
             >
-
               <AdvancedSection />
-
             </Tab>
-
           </Tabs>
         </Grid>
       </PageSection>

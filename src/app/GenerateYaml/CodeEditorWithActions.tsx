@@ -95,7 +95,7 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
         isDarkTheme={true}
         code={data2}
         onChange={onChange}
-        //language={Language.yaml}
+        language={Language.yaml}
         onEditorDidMount={onEditorDidMount}
         height="sizeToFit"
         isReadOnly={true}

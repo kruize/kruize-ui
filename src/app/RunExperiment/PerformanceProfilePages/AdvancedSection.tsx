@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { NumberValueComponent } from './PerfComponents/NumberValueComponent';
 import { UnitsOfTime } from './PerfComponents/UnitsOfTime';
 import { Accordions } from './PerfComponents/Accordions';
+import NameSpaceDropDown from '../NameSpaceDropDown';
 const AdvancedSection = () => {
 
     const RecommendationSettings = () => {
