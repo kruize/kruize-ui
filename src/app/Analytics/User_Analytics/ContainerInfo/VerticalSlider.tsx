@@ -3,7 +3,7 @@ import { Slider, Typography } from '@material-ui/core';
 import { Text, TextContent, Divider } from '@patternfly/react-core';
 
 const VerticalSlider = () => {
-    const [value, setValue] = useState(20);
+    const [value, setValue] = useState(30);
 
     const changeValue = (event, value) => {
         setValue(value);
@@ -58,8 +58,6 @@ const VerticalSlider = () => {
                     No. of Recommen dations
                 </TextContent>
             </Text>
-
-
         </>
     );
 };
