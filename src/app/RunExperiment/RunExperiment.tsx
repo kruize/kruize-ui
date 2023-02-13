@@ -12,6 +12,7 @@ import { Response_time_details } from 'src/app/ExperimentStatus/MoreExperimentSt
 import { Resource_usage_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Resource_usage_details';
 import { DefineGoals } from './DefineGoals';
 import { PerformanceProfiles } from './PerformanceProfilePages/PerformanceProfiles';
+import { FinishedStep } from '@app/FinishedStep/FinishedStep';
 const dataa = {
   exp_name: '',
   namespace: '',
@@ -53,6 +54,8 @@ const RunExperiment = (props: { setData; data }) => {
       setStepId(stepId + 1);
     }
   };
+
+
   const steps = [
     {
       id: 1,
@@ -137,7 +140,8 @@ const RunExperiment = (props: { setData; data }) => {
       component: <CodeEditorWithActions setData={setData} data={data} />,
       nextButtonText: 'Apply',
       canJumpTo: stepId >= 4
-    }
+    },
+    { name: 'Finish', component: <FinishedStep />, isFinishedStep: true }
   ];
   const title = 'Basic wizard';
 

@@ -19,30 +19,53 @@ const UserAnalytics = () => {
                 <FormSection>
                     <Grid hasGutter>
                         <GridItem span={3}>
-                            <FormGroup label="Namespace" isRequired fieldId="simple-form-section-2-input">
+                            {/* <FormGroup label="Namespace" isRequired fieldId="simple-form-section-2-input">
                                 <AnalyticsNamespace />
-                            </FormGroup>
+                            </FormGroup> */}
+                            <GridItem span={2}>
+                                <TextContent>
+                                    <Text component={TextVariants.h2}>Namespace</Text>
+                                </TextContent>
+                            </GridItem>
+                            <GridItem span={2}>
+                                <AnalyticsNamespace />
+                            </GridItem>
+
                         </GridItem>
                         <GridItem span={2} />
                         <GridItem span={3}>
-                            <FormGroup label="Deployment" isRequired fieldId="simple-form-section-2-input">
+                            {/* <FormGroup label="Deployment" isRequired fieldId="simple-form-section-2-input">
                                 <AnalyticsDeployment />
-                            </FormGroup>
+                            </FormGroup> */}
+                            <TextContent>
+                                <Text component={TextVariants.h2}>Deployment</Text>
+                            </TextContent>
+                            <AnalyticsDeployment />
                         </GridItem>
                         <FormGroup>
                         </FormGroup>
                         <GridItem span={4}>
-                            <FormGroup role="group" isInline fieldId="basic-form-checkbox-group" label="Optimise for:">
+                            {/* <FormGroup role="group" isInline fieldId="basic-form-checkbox-group" label="Optimise for:">
                                 <Checkbox label="Cost" aria-label="Cost" id="inlinecheck01" />
                                 <Checkbox label="Balance" aria-label="Balance" id="inlinecheck02" />
                                 <Checkbox label="Performance" aria-label="Performance" id="inlinecheck03" />
-                            </FormGroup>
+                            </FormGroup> */}
                         </GridItem>
                         <FormGroup>
                         </FormGroup>
-                        <FormGroup label="Containers" isRequired fieldId="simple-form-section-2-input">
+                        {/* <FormGroup label="Containers" isRequired fieldId="simple-form-section-2-input">
                             <AnalyticsContainers />
-                        </FormGroup>
+                        </FormGroup> */}
+                        <GridItem>
+                            <TextContent>
+                                <Text component={TextVariants.h2}>Containers</Text>
+                            </TextContent>
+                        </GridItem>
+                        <GridItem>
+                            <AnalyticsContainers />
+
+                        </GridItem>
+
                     </Grid>
                 </FormSection>
             </Form>

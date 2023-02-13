@@ -27,7 +27,9 @@ const Container1Details = () => {
                         isExpanded={expanded === 'ex-toggle1'}
                         id="ex-toggle1"
                     >
-                        Cost
+                        <TextContent>
+                            <Text component={TextVariants.h2}>Cost</Text>
+                        </TextContent>
                     </AccordionToggle>
                     <AccordionContent id="ex-expand1" isHidden={expanded !== 'ex-toggle1'}>
                         <CostTable />
@@ -42,7 +44,9 @@ const Container1Details = () => {
                         isExpanded={expanded === 'ex-toggle2'}
                         id="ex-toggle2"
                     >
-                        Balance
+                        <TextContent>
+                            <Text component={TextVariants.h2}>Balance</Text>
+                        </TextContent>
                     </AccordionToggle>
                     <AccordionContent id="ex-expand2" isHidden={expanded !== 'ex-toggle2'}>
                         <BalanceTable />
@@ -56,8 +60,10 @@ const Container1Details = () => {
                         }}
                         isExpanded={expanded === 'ex-toggle3'}
                         id="ex-toggle3"
-                    >
-                        Performance
+                    ><TextContent>
+                            <Text component={TextVariants.h2}>Performance</Text>
+                        </TextContent>
+
                     </AccordionToggle>
                     <AccordionContent id="ex-expand3" isHidden={expanded !== 'ex-toggle3'}>
                         <PerformanceTable />

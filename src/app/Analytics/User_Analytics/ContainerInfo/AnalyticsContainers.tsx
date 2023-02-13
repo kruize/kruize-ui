@@ -33,7 +33,9 @@ const AnalyticsContainers = () => {
                                 <TabTitleIcon>
                                     <CubeIcon />
                                 </TabTitleIcon>{' '}
-                                <TabTitleText>tfb-server-1</TabTitleText>{' '}
+                                <TabTitleText><TextContent>
+                                    <Text component={TextVariants.h2}>tfb-server-1</Text>
+                                </TextContent></TabTitleText>{' '}
                             </GridItem>
                         </>
                     }
@@ -51,7 +53,11 @@ const AnalyticsContainers = () => {
                                 <TabTitleIcon>
                                     <CubesIcon />
                                 </TabTitleIcon>{' '}
-                                <TabTitleText>tfb-server-0</TabTitleText>{' '}
+                                <TabTitleText>
+                                    <TextContent>
+                                        <Text component={TextVariants.h2}>tfb-server-0</Text>
+                                    </TextContent>
+                                </TabTitleText>{' '}
                             </GridItem>
                         </>
                     }
