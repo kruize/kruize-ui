@@ -17,7 +17,7 @@ type ExampleType = 'default' | 'compact' | 'compactBorderless';
 const CostTable = () => {
     // In real usage, this data would come from some external source like an API via props.
     const recommendations: Repository[] = [
-        { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '0', capacityConfigcpu: '0' },
+        { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '4 cores', confidenceLevel: '100 MiB', capacityConfigmmr: '0', capacityConfigcpu: '0' },
         { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '0', capacityConfigcpu: '0' },
         { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '0', capacityConfigcpu: '0' },
         { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '0', capacityConfigcpu: '0' },
@@ -37,8 +37,8 @@ const CostTable = () => {
         monitoringEndTime: 'Monitoring End Time',
         podCount: 'Pods Count',
         confidenceLevel: 'Confidence Level',
-        capacityConfigmmr: 'Memory Capacity',
-        capacityConfigcpu: 'CPU Capacity'
+        capacityConfigmmr: 'Memory Request',
+        capacityConfigcpu: 'CPU Request'
     };
 
     return (

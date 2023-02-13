@@ -14,6 +14,9 @@ const FinishedStep = () => {
             }
         });
     };
+    useEffect(() => {
+
+    })
 
     useEffect(() => {
         const interval = setInterval(() => tick(), 1000);
