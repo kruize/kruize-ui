@@ -1,12 +1,11 @@
 import React from 'react';
-import { Accordion, AccordionItem, AccordionContent, AccordionToggle, Slider, Text, TextVariants, TextContent, Button, NotificationDrawerListItem, NotificationDrawerListItemBody, NotificationDrawerListItemHeader, NotificationDrawer, PageSection, PageSectionVariants, Divider, Icon } from '@patternfly/react-core';
+import { Accordion, AccordionItem, AccordionContent, AccordionToggle, Slider, Text, TextVariants, TextContent, Button, NotificationDrawerListItem, NotificationDrawerListItemBody, NotificationDrawerListItemHeader, NotificationDrawer, PageSection, PageSectionVariants, Divider } from '@patternfly/react-core';
 import { CostTable } from './CostTable';
 import { VerticalSlider } from './VerticalSlider';
 import { BalanceTable } from './BalanceTable';
 import { PerformanceTable } from './PerformanceTable';
-import { WrenchIcon } from '@patternfly/react-icons';
 
-const Container1Details = () => {
+const Container2Details = () => {
     const [expanded, setExpanded] = React.useState('');
 
     const onToggle = (id: string) => {
@@ -38,7 +37,7 @@ const Container1Details = () => {
                         id="ex-toggle1"
                     >
                         <TextContent>
-                            <Text component={TextVariants.h2}>Short Term</Text>
+                            <Text component={TextVariants.h2}>Cost</Text>
                         </TextContent>
                     </AccordionToggle>
                     <AccordionContent id="ex-expand1" isHidden={expanded !== 'ex-toggle1'}>
@@ -55,7 +54,7 @@ const Container1Details = () => {
                         id="ex-toggle2"
                     >
                         <TextContent>
-                            <Text component={TextVariants.h2}>Medium Term</Text>
+                            <Text component={TextVariants.h2}>Balance</Text>
                         </TextContent>
                     </AccordionToggle>
                     <AccordionContent id="ex-expand2" isHidden={expanded !== 'ex-toggle2'}>
@@ -71,7 +70,7 @@ const Container1Details = () => {
                         isExpanded={expanded === 'ex-toggle3'}
                         id="ex-toggle3"
                     ><TextContent>
-                            <Text component={TextVariants.h2}>Long Term</Text>
+                            <Text component={TextVariants.h2}>Performance</Text>
                         </TextContent>
 
                     </AccordionToggle>
@@ -139,7 +138,7 @@ const Container1Details = () => {
                         id="ex-toggle1"
                     >
                         <TextContent>
-                            <Text component={TextVariants.h2}>Short Term</Text>
+                            <Text component={TextVariants.h2}>Cost</Text>
                         </TextContent>
                     </AccordionToggle>
                     <AccordionContent id="ex-expand1" isHidden={expanded2 !== 'ex-toggle1'}>
@@ -159,7 +158,7 @@ const Container1Details = () => {
                         id="ex-toggle2"
                     >
                         <TextContent>
-                            <Text component={TextVariants.h2}>Medium Term</Text>
+                            <Text component={TextVariants.h2}>Balance</Text>
                         </TextContent>
                     </AccordionToggle>
                     <AccordionContent id="ex-expand2" isHidden={expanded2 !== 'ex-toggle2'}>
@@ -178,7 +177,7 @@ const Container1Details = () => {
                         isExpanded={expanded2 === 'ex-toggle3'}
                         id="ex-toggle3"
                     ><TextContent>
-                            <Text component={TextVariants.h2}>Long Term</Text>
+                            <Text component={TextVariants.h2}>Performance</Text>
                         </TextContent>
 
                     </AccordionToggle>
@@ -204,11 +203,7 @@ const Container1Details = () => {
             <Divider />
             <br />
             <TextContent>
-
-
-                <Text component={TextVariants.h1}><Icon>
-                    <WrenchIcon />
-                </Icon> {' '}Suggestions</Text>
+                <Text component={TextVariants.h1}>Suggestions</Text>
             </TextContent>
             <br />
             {suggestions()}
@@ -228,4 +223,4 @@ const Container1Details = () => {
     );
 };
 
-export { Container1Details }
+export { Container2Details }

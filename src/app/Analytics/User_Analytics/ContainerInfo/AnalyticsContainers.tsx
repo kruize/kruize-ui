@@ -1,77 +1,41 @@
 import React, { useState } from 'react'
 import { Grid, GridItem, PageSection, PageSectionVariants, Tabs, Tab, TabTitleText, TabTitleIcon, Checkbox, TextContent, Text, TextVariants } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
-import { CubeIcon } from '@patternfly/react-icons';
+import { CubeIcon, OutlinedClockIcon, ThLargeIcon } from '@patternfly/react-icons';
 import { Container1Details } from './Container1Details';
-
+import { Container2Details } from './Container2Details';
 const AnalyticsContainers = () => {
 
-    const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
+    const [activeTabKey1, setActiveTabKey1] = React.useState<string | number>(0);
+    const [activeTabKey2, setActiveTabKey2] = React.useState<string | number>(0);
+    const [isBox, setIsBox] = React.useState<boolean>(false);
 
-    const handleTabClick = (
+    // Toggle currently active primary tab
+    const handleTabClickFirst = (
         event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
         tabIndex: string | number
     ) => {
-        setActiveTabKey(tabIndex);
+        setActiveTabKey1(tabIndex);
     };
-    const nestedTabs = () => {
-        return (
-            <Tabs
-                isFilled
-                activeKey={activeTabKey}
-                onSelect={handleTabClick}
-                isBox={true}
-                aria-label="Tabs in the filled with icons example"
-                role="region"
-            >
-                <Tab
-                    eventKey={0}
-                    title={
-                        <>
-                            <GridItem span={5}>
-                                <TabTitleIcon>
-                                    <CubeIcon />
-                                </TabTitleIcon>{' '}
-                                <TabTitleText><TextContent>
-                                    <Text component={TextVariants.h2}>tfb-server-1</Text>
-                                </TextContent></TabTitleText>{' '}
-                            </GridItem>
-                        </>
-                    }
-                    aria-label="filled tabs with icons content users"
-                >
-                    <Container1Details />
-                </Tab>
-                <br />
-                <br />
-                <Tab
-                    eventKey={1}
-                    title={
-                        <>
-                            <GridItem span={5}>
-                                <TabTitleIcon>
-                                    <CubesIcon />
-                                </TabTitleIcon>{' '}
-                                <TabTitleText>
-                                    <TextContent>
-                                        <Text component={TextVariants.h2}>tfb-server-0</Text>
-                                    </TextContent>
-                                </TabTitleText>{' '}
-                            </GridItem>
-                        </>
-                    }
-                >
-                    <>tfb-server-0</>
-                </Tab>
-            </Tabs>
-        )
-    }
+
+    // Toggle currently active secondary tab
+    const handleTabClickSecond = (
+        event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
+        tabIndex: string | number
+    ) => {
+        setActiveTabKey2(tabIndex);
+    };
+
+    const toggleBox = (checked: boolean) => {
+        setIsBox(checked);
+    };
+
     return (
         <Grid hasGutter span={10}>
             <Tabs
                 isFilled
-                activeKey={activeTabKey}
-                onSelect={handleTabClick}
+                activeKey={activeTabKey1}
+                onSelect={handleTabClickFirst}
                 isBox={true}
                 aria-label="Tabs in the filled with icons example"
                 role="region"
@@ -80,9 +44,9 @@ const AnalyticsContainers = () => {
                     eventKey={0}
                     title={
                         <>
-                            <GridItem span={5}>
+                            <GridItem span={8}>
                                 <TabTitleIcon>
-                                    <CubeIcon />
+                                    <OutlinedClockIcon />
                                 </TabTitleIcon>{' '}
                                 <TabTitleText><TextContent>
                                     <Text component={TextVariants.h2}>Duration Based Recommendations</Text>
@@ -92,7 +56,35 @@ const AnalyticsContainers = () => {
                     }
                     aria-label="filled tabs with icons content users"
                 >
-                    {nestedTabs()}
+
+                    <TextContent>
+                        <Text component={TextVariants.h2}>Containers</Text>
+                    </TextContent>
+
+                    <Tabs
+                        aria-label="secondary tabs for users"
+                        role="region"
+                        activeKey={activeTabKey2}
+                        isBox={true}
+                        onSelect={handleTabClickSecond}
+                    >
+
+
+                        <Tab eventKey={20} title={<><TabTitleIcon>
+                            <CubeIcon />
+                        </TabTitleIcon>{' '}<TabTitleText>tfb-server-1</TabTitleText></>}>
+                            <Container1Details />
+                        </Tab>
+                        <Tab eventKey={21} title={<><TabTitleIcon>
+                            <CubesIcon />
+                        </TabTitleIcon>{' '}<TabTitleText>tfb-server-0</TabTitleText></>}>
+                            Detected Issues <br />
+                            Suggestions <br />
+                            Detailed Recommendation Table
+                        </Tab>
+
+                    </Tabs>
+
                 </Tab>
                 <br />
                 <br />
@@ -100,9 +92,9 @@ const AnalyticsContainers = () => {
                     eventKey={1}
                     title={
                         <>
-                            <GridItem span={5}>
+                            <GridItem span={8}>
                                 <TabTitleIcon>
-                                    <CubesIcon />
+                                    <ThLargeIcon />
                                 </TabTitleIcon>{' '}
                                 <TabTitleText>
                                     <TextContent>
@@ -113,7 +105,33 @@ const AnalyticsContainers = () => {
                         </>
                     }
                 >
-                    <> "Profile"</>
+                    <TextContent>
+                        <Text component={TextVariants.h2}>Containers</Text>
+                    </TextContent>
+
+                    <Tabs
+                        aria-label="secondary tabs for users"
+                        role="region"
+                        activeKey={activeTabKey2}
+                        isBox={true}
+                        onSelect={handleTabClickSecond}
+                    >
+
+
+                        <Tab eventKey={22} title={<><TabTitleIcon>
+                            <CubeIcon />
+                        </TabTitleIcon>{' '}<TabTitleText>tfb-server-1</TabTitleText></>}>
+                            <Container2Details />
+                        </Tab>
+                        <Tab eventKey={23} title={<><TabTitleIcon>
+                            <CubesIcon />
+                        </TabTitleIcon>{' '}<TabTitleText>tfb-server-0</TabTitleText></>}>
+                            Detected Issues <br />
+                            Suggestions <br />
+                            Detailed Recommendation Table
+                        </Tab>
+
+                    </Tabs>
                 </Tab>
             </Tabs>
 

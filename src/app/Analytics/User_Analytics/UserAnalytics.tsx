@@ -56,11 +56,7 @@ const UserAnalytics = () => {
                         {/* <FormGroup label="Containers" isRequired fieldId="simple-form-section-2-input">
                             <AnalyticsContainers />
                         </FormGroup> */}
-                        <GridItem>
-                            <TextContent>
-                                <Text component={TextVariants.h2}>Containers</Text>
-                            </TextContent>
-                        </GridItem>
+
                         <GridItem>
                             <AnalyticsContainers />
 
