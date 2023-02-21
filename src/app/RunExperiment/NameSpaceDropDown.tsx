@@ -48,7 +48,10 @@ const NameSpaceDropDown = (props: { data; setData }) => {
         {namespaces.map((option, index) => (
           <SelectOption key={index} value={option || ''} />
         ))}
+
+
       </Select>
+
     </>
   );
 };

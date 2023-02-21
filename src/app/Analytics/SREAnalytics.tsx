@@ -2,6 +2,8 @@ import * as React from 'react';
 import { PageSection, PageSectionVariants, TextContent, Text, TextVariants, Title, FormFieldGroupExpandable, FormFieldGroupHeader, FormGroup, TextInput, Button, Form, FormFieldGroup, Flex } from '@patternfly/react-core';
 import { TableIcon } from '@patternfly/react-icons';
 import { Table } from './Table';
+import { MonitoringTable } from './MonitoringTable';
+
 const MonitoringUseCase = () => {
   return (
     <FormFieldGroupExpandable
@@ -27,9 +29,40 @@ const MonitoringUseCase = () => {
           />
         }
       >
-        <Table />
+        <FormFieldGroupExpandable
+          isExpanded
+          toggleAriaLabel="Details"
+          header={
+            <FormFieldGroupHeader
+              titleText={{ text: 'Recommendations', id: 'nested-field-group1-titleText-id' }}
+              actions={
+                <Button variant="plain" aria-label="Remove">
+                  <TableIcon />
+                </Button>
+              }
+            />
+          }
+        >
+          <Table />
+        </FormFieldGroupExpandable>
 
+        <FormFieldGroupExpandable
+          isExpanded
+          toggleAriaLabel="Details"
+          header={
+            <FormFieldGroupHeader
+              titleText={{ text: 'Monitoring Data', id: 'nested-field-group1-titleText-id' }}
+              actions={
+                <Button variant="plain" aria-label="Remove">
+                  <TableIcon />
+                </Button>
+              }
+            />
+          }
+        >
+          <MonitoringTable />
 
+        </FormFieldGroupExpandable>
       </FormFieldGroupExpandable>
       <FormFieldGroupExpandable
         toggleAriaLabel="Details"
