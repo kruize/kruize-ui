@@ -17,9 +17,9 @@ const BalanceTable = () => {
     // In real usage, this data would come from some external source like an API via props.
     const recommendations: Repository[] = [
         { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '4 cores', capacityConfigcpu: '100 MiB' },
-        { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '0', capacityConfigcpu: '0' },
-        { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '0', capacityConfigcpu: '0' },
-        { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '0', capacityConfigcpu: '0' },
+        { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '4 cores', capacityConfigcpu: '100 MiB' },
+        { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '4 cores', capacityConfigcpu: '100 MiB' },
+        { monitoringStartTime: 'jan 01, 2023, 5:53:40 PM', monitoringEndTime: 'jan 02, 2023, 12:24:04 AM', podCount: '0', confidenceLevel: '0', capacityConfigmmr: '4 cores', capacityConfigcpu: '100 MiB' },
     ];
 
     const columnNames = {
