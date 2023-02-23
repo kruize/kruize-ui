@@ -293,7 +293,7 @@ const TabOptions = () => {
 
     return (
         <> <TextContent>
-            <Text component={TextVariants.h3}>Monitoring Data</Text>
+            <Text component={TextVariants.h6}>Monitoring Data</Text>
         </TextContent>
             <br />
             <Tabs
