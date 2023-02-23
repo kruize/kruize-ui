@@ -47,10 +47,9 @@ const NestedReposTable = () => {
     };
     return (
         <>
-            <TextContent>
-                <Text component={TextVariants.h6}>Recommendations</Text>
-            </TextContent>
+
             <Accordion asDefinitionList={false}>
+                Recommendations
                 <AccordionItem>
                     <AccordionToggle
                         onClick={() => {
@@ -59,9 +58,7 @@ const NestedReposTable = () => {
                         isExpanded={expanded === 'ex-toggle1'}
                         id="ex-toggle1"
                     >
-                        <TextContent>
-                            <Text component={TextVariants.h6}>Short Term</Text>
-                        </TextContent>
+                        Short Term
                     </AccordionToggle>
                     <AccordionContent id="ex-expand1" isHidden={expanded !== 'ex-toggle1'}>
                         <CostTable />
@@ -76,9 +73,7 @@ const NestedReposTable = () => {
                         isExpanded={expanded === 'ex-toggle2'}
                         id="ex-toggle2"
                     >
-                        <TextContent>
-                            <Text component={TextVariants.h6}>Medium Term</Text>
-                        </TextContent>
+                        Medium Term
                     </AccordionToggle>
                     <AccordionContent id="ex-expand2" isHidden={expanded !== 'ex-toggle2'}>
                         <BalanceTable />
@@ -92,9 +87,7 @@ const NestedReposTable = () => {
                         }}
                         isExpanded={expanded === 'ex-toggle3'}
                         id="ex-toggle3"
-                    ><TextContent>
-                            <Text component={TextVariants.h6}>Long Term</Text>
-                        </TextContent>
+                    >Long Term
 
                     </AccordionToggle>
                     <AccordionContent id="ex-expand3" isHidden={expanded !== 'ex-toggle3'}>
