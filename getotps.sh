@@ -45,7 +45,7 @@ function get_port() {
     elif [ "${CLUSTER}" == "openshift" ]; then
         kubectl_cmd="kubectl -n openshift-tuning"
     fi
-    AUTOTUNE_PORT=$(${kubectl_cmd} get svc autotune --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort | ${kubectl_cmd} get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort)  
+    AUTOTUNE_PORT=$(${kubectl_cmd} get svc autotune --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort)  
     echo $AUTOTUNE_PORT
 }
 
