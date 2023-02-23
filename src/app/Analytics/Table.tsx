@@ -11,8 +11,10 @@ import {
     ActionsColumn,
     IAction
 } from '@patternfly/react-table';
-import { TextContent, TextVariants, Text } from '@patternfly/react-core';
-
+import { TextContent, TextVariants, Text, Accordion, AccordionContent, AccordionItem, AccordionToggle } from '@patternfly/react-core';
+import { BalanceTable } from './User_Analytics/ContainerInfo/BalanceTable';
+import { CostTable } from './User_Analytics/ContainerInfo/CostTable';
+import { PerformanceTable } from './User_Analytics/ContainerInfo/PerformanceTable';
 interface Repository {
     srno: string;
     experimentname: string;
@@ -34,60 +36,77 @@ interface NestedRepository {
 }
 
 const NestedReposTable = () => {
-    // In real usage, this data would come from some external source like an API via props.
-    const recommendations: NestedRepository[] = [
-        { monitoringStartTime: '2022-01-22T18:25:43.511Z', monitoringEndTime: '2022-01-23T18:25:43.511Z', podCount: '4', confidenceLevel: '0.0', maxConfigmmr: '128.8', maxConfigcpu: '8.0', capacityConfigmmr: '100', capacityConfigcpu: '4.0' },
-        { monitoringStartTime: '2022-01-16T18:25:43.511Z', monitoringEndTime: '2022-01-23T18:25:43.511Z', podCount: '0', confidenceLevel: '0.0', maxConfigmmr: '128.8', maxConfigcpu: '8.8', capacityConfigmmr: '1000', capacityConfigcpu: '8.8' },
-        { monitoringStartTime: '2022-01-08T18:25:43.511Z', monitoringEndTime: '2022-01-23T18:25:43.511Z', podCount: '0', confidenceLevel: '0.0', maxConfigmmr: '128.8', maxConfigcpu: '8.0', capacityConfigmmr: '100', capacityConfigcpu: '8.0' }
-    ];
+    const [expanded, setExpanded] = React.useState('');
 
-    const columnNames = {
-        monitoringStartTime: 'Monitoring Start Time',
-        monitoringEndTime: 'Monitoring End Time',
-        podCount: 'Pods Count',
-        confidenceLevel: 'Confidence Level',
-        maxConfigmmr: 'Memory Max',
-        maxConfigcpu: 'CPU Max',
-        capacityConfigmmr: 'Memory Capacity',
-        capacityConfigcpu: 'CPU Capacity'
+    const onToggle = (id: string) => {
+        if (id === expanded) {
+            setExpanded('');
+        } else {
+            setExpanded(id);
+        }
     };
-
     return (
-        <> <TextContent>
-            <Text component={TextVariants.h3}>Recommendations</Text>
-        </TextContent>
-            <br />
-            <TableComposable aria-label="Simple table" variant="compact">
-                <Thead>
-                    <Tr>
-                        <Th>{columnNames.monitoringStartTime}</Th>
-                        <Th>{columnNames.monitoringEndTime}</Th>
-                        <Th>{columnNames.podCount}</Th>
-                        <Th>{columnNames.confidenceLevel}</Th>
-                        <Th>{columnNames.maxConfigmmr}</Th>
-                        <Th>{columnNames.maxConfigcpu}</Th>
-                        <Th>{columnNames.capacityConfigmmr}</Th>
-                        <Th>{columnNames.capacityConfigcpu}</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {recommendations.map(recommendation => (
-                        <Tr key={recommendation.monitoringStartTime}>
-                            <Td dataLabel={columnNames.monitoringStartTime}>{recommendation.monitoringStartTime}</Td>
-                            <Td dataLabel={columnNames.monitoringEndTime}>{recommendation.monitoringEndTime}</Td>
-                            <Td dataLabel={columnNames.podCount}>{recommendation.podCount}</Td>
-                            <Td dataLabel={columnNames.confidenceLevel}>{recommendation.confidenceLevel}</Td>
-                            <Td dataLabel={columnNames.maxConfigmmr}>{recommendation.maxConfigmmr}</Td>
-                            <Td dataLabel={columnNames.maxConfigcpu}>{recommendation.maxConfigcpu}</Td>
-                            <Td dataLabel={columnNames.capacityConfigmmr}>{recommendation.capacityConfigmmr}</Td>
-                            <Td dataLabel={columnNames.capacityConfigcpu}>{recommendation.capacityConfigcpu}</Td>
-                        </Tr>
-                    ))}
-                </Tbody>
-            </TableComposable>
+        <>
+            <TextContent>
+                <Text component={TextVariants.h3}>Recommendations</Text>
+            </TextContent>
+            <Accordion asDefinitionList={false}>
+                <AccordionItem>
+                    <AccordionToggle
+                        onClick={() => {
+                            onToggle('ex-toggle1');
+                        }}
+                        isExpanded={expanded === 'ex-toggle1'}
+                        id="ex-toggle1"
+                    >
+                        <TextContent>
+                            <Text component={TextVariants.h2}>Short Term</Text>
+                        </TextContent>
+                    </AccordionToggle>
+                    <AccordionContent id="ex-expand1" isHidden={expanded !== 'ex-toggle1'}>
+                        <CostTable />
+                    </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem>
+                    <AccordionToggle
+                        onClick={() => {
+                            onToggle('ex-toggle2');
+                        }}
+                        isExpanded={expanded === 'ex-toggle2'}
+                        id="ex-toggle2"
+                    >
+                        <TextContent>
+                            <Text component={TextVariants.h2}>Medium Term</Text>
+                        </TextContent>
+                    </AccordionToggle>
+                    <AccordionContent id="ex-expand2" isHidden={expanded !== 'ex-toggle2'}>
+                        <BalanceTable />
+                    </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem>
+                    <AccordionToggle
+                        onClick={() => {
+                            onToggle('ex-toggle3');
+                        }}
+                        isExpanded={expanded === 'ex-toggle3'}
+                        id="ex-toggle3"
+                    ><TextContent>
+                            <Text component={TextVariants.h2}>Long Term</Text>
+                        </TextContent>
+
+                    </AccordionToggle>
+                    <AccordionContent id="ex-expand3" isHidden={expanded !== 'ex-toggle3'}>
+                        <PerformanceTable />
+                    </AccordionContent>
+                </AccordionItem>
+
+            </Accordion>
         </>
-    );
-};
+    )
+
+}
 
 const Table = () => {
     // In real usage, this data would come from some external source like an API via props.
@@ -187,3 +206,7 @@ const Table = () => {
 };
 
 export { Table }
+
+function DetailedRecommendationsTable() {
+    throw new Error('Function not implemented.');
+}

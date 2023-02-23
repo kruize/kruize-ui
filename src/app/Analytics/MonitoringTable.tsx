@@ -38,6 +38,22 @@ interface cpuColumns {
     cpuThrottleAvg: string | null,
     cpuThrottleMax: string | null
 }
+interface memoryColumns {
+    memoryRequestSum: string | null,
+    memoryRequestAvg: string | null,
+
+    memoryLimitsSum: string | null,
+    memoryLimitsAvg: string | null,
+
+    memoryUsageSum: string | null,
+    memoryUsageAvg: string | null,
+    memoryUsageMin: string | null,
+    memoryUsageMax: string | null,
+
+    memoryThrottleSum: string | null,
+    memoryThrottleAvg: string | null,
+    memoryThrottleMax: string | null
+}
 
 const CPUMetricsTable = () => {
     const cpuData: cpuColumns[] = [
@@ -48,14 +64,14 @@ const CPUMetricsTable = () => {
             cpuLimitsSum: '24',
             cpuLimitsAvg: '8',
 
-            cpuUsageSum: '9.23642774156611',
-            cpuUsageAvg: '3.0788092471887',
-            cpuUsageMin: '0.122641301400588',
-            cpuUsageMax: '4.05884393815185',
+            cpuUsageSum: '9.24',
+            cpuUsageAvg: '3.08',
+            cpuUsageMin: '0.12',
+            cpuUsageMax: '4.08',
 
-            cpuThrottleSum: '0.00125369576092',
-            cpuThrottleAvg: ' 4.17898586973E-4',
-            cpuThrottleMax: ' 0.00125369576092'
+            cpuThrottleSum: '0.00',
+            cpuThrottleAvg: ' 4.18',
+            cpuThrottleMax: ' 0.00'
         },
     ];
 
@@ -153,7 +169,117 @@ const CPUMetricsTable = () => {
     )
 }
 const MMRMetricsTable = () => {
+    const memoryData: memoryColumns[] = [
+        {
+            memoryRequestSum: '16.11',
+            memoryRequestAvg: '5.37',
 
+            memoryLimitsSum: '24',
+            memoryLimitsAvg: '8',
+
+            memoryUsageSum: '9.24',
+            memoryUsageAvg: '3.08',
+            memoryUsageMin: '0.12',
+            memoryUsageMax: '4.08',
+
+            memoryThrottleSum: '0.00',
+            memoryThrottleAvg: ' 4.18',
+            memoryThrottleMax: ' 0.00'
+        },
+    ];
+
+    const memoryColumns = {
+        memoryRequestSum: 'Sum',
+        memoryRequestAvg: 'Average',
+
+        memoryLimitsSum: 'Sum',
+        memoryLimitsAvg: 'Average',
+
+        memoryUsageSum: 'Sum',
+        memoryUsageAvg: 'Average',
+        memoryUsageMin: 'Min',
+        memoryUsageMax: 'Max',
+
+        memoryThrottleSum: 'Sum',
+        memoryThrottleAvg: 'Average',
+        memoryThrottleMax: 'Max'
+    }
+    return (
+        <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
+            <Thead hasNestedHeader>
+                <Tr>
+                    <Th hasRightBorder colSpan={2}>
+                        Memory Request
+                    </Th>
+                    <Th hasRightBorder colSpan={2}>
+                        Memory Limits
+                    </Th>
+                    <Th hasRightBorder colSpan={4} >
+                        Memory Usage
+                    </Th>
+                    <Th hasRightBorder colSpan={3}>
+                        Memory Throttle
+                    </Th>
+                </Tr>
+
+                <Tr>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryRequestSum}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryRequestAvg}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryLimitsSum}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryLimitsAvg}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryUsageSum}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryUsageAvg}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryUsageMin}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryUsageMax}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryThrottleSum}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryThrottleAvg}
+                    </Th>
+                    <Th isSubheader modifier="fitContent" hasRightBorder>
+                        {memoryColumns.memoryThrottleMax}
+                    </Th>
+                </Tr>
+                <Tr isBorderRow aria-hidden="true">
+                    <Td colSpan={11}></Td>
+                </Tr>
+            </Thead>
+            <Tbody>
+                {memoryData.map(connection => (
+                    <Tr key="Memory Request">
+                        <Td dataLabel={memoryColumns.memoryRequestSum}>{connection.memoryRequestSum}</Td>
+                        <Td dataLabel={memoryColumns.memoryRequestAvg}>{connection.memoryRequestAvg}</Td>
+                        <Td dataLabel={memoryColumns.memoryLimitsSum}>{connection.memoryLimitsSum}</Td>
+                        <Td dataLabel={memoryColumns.memoryLimitsAvg}>{connection.memoryLimitsAvg}</Td>
+                        <Td dataLabel={memoryColumns.memoryUsageSum}>{connection.memoryUsageSum}</Td>
+                        <Td dataLabel={memoryColumns.memoryUsageAvg}>{connection.memoryUsageAvg}</Td>
+                        <Td dataLabel={memoryColumns.memoryUsageMin}>{connection.memoryUsageMin}</Td>
+                        <Td dataLabel={memoryColumns.memoryUsageMax}>{connection.memoryUsageMax}</Td>
+                        <Td dataLabel={memoryColumns.memoryThrottleSum}>{connection.memoryThrottleSum}</Td>
+                        <Td dataLabel={memoryColumns.memoryThrottleAvg}>{connection.memoryThrottleAvg}</Td>
+                        <Td dataLabel={memoryColumns.memoryThrottleMax}>{connection.memoryThrottleMax}</Td>
+                    </Tr>
+                ))}
+            </Tbody>
+        </TableComposable>
+    )
 }
 
 const TabOptions = () => {
@@ -182,7 +308,7 @@ const TabOptions = () => {
                     <br />{CPUMetricsTable()}
                 </Tab>
                 <Tab eventKey={1} title={<TabTitleText>Memory Container Metrics</TabTitleText>}>
-                    Containers
+                    <br />{MMRMetricsTable()}
                 </Tab>
             </Tabs>
         </>
