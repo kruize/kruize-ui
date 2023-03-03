@@ -35,7 +35,7 @@ const AnalyticsNamespace = () => {
             <Select
                 variant={SelectVariant.single}
                 placeholderText="Select Namespace"
-                aria-label="Select Input with descriptions"
+                aria-label="namespace in analytics"
                 onToggle={() => setIsopen(!isopen)}
                 onSelect={onSelect}
                 // onChange={onChange}

@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import nodeContext from '@app/ContextStore/nodeContext';
 import {
     TableComposable,
     Thead,
@@ -12,7 +12,11 @@ import {
     IAction
 } from '@patternfly/react-table';
 import { Tab, Tabs, TabTitleText, TextContent, TextVariants, Text } from '@patternfly/react-core';
+// API ----
 
+
+
+// Tables
 interface Table {
     srno: string;
     experimentname: string;
@@ -92,7 +96,7 @@ const CPUMetricsTable = () => {
         cpuThrottleMax: 'Max'
     }
     return (
-        <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
+        <TableComposable aria-label="cpu metrics table" gridBreakPoint="" isStickyHeader>
             <Thead hasNestedHeader>
                 <Tr>
                     <Th hasRightBorder colSpan={2}>
@@ -205,7 +209,7 @@ const MMRMetricsTable = () => {
         memoryThrottleMax: 'Max'
     }
     return (
-        <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
+        <TableComposable aria-label="mmr metrics table 2" gridBreakPoint="" isStickyHeader>
             <Thead hasNestedHeader>
                 <Tr>
                     <Th hasRightBorder colSpan={2}>
@@ -299,10 +303,10 @@ const TabOptions = () => {
                 activeKey={activeTabKey}
                 onSelect={handleTabClick}
                 isBox={true}
-                aria-label="Tabs in the filled example"
+                aria-label="cpu mmr tabs"
                 role="region"
             >
-                <Tab eventKey={0} title={<TabTitleText>CPU Container Metrics</TabTitleText>} aria-label="Tabs filled example content users">
+                <Tab eventKey={0} title={<TabTitleText>CPU Container Metrics</TabTitleText>} aria-label="cpu tab">
                     <br />{CPUMetricsTable()}
                 </Tab>
                 <Tab eventKey={1} title={<TabTitleText>Memory Container Metrics</TabTitleText>}>
@@ -314,6 +318,22 @@ const TabOptions = () => {
 }
 
 const MonitoringTable = () => {
+    // API
+    const Context = useContext(nodeContext);
+    const ip = Context['cluster'];
+    const port = Context['autotune'];
+    const list_experiments_url = 'http://' + ip + ':' + port + '/listRecommendations';
+
+
+    useEffect(() => {
+        if (ip != 'undefined' && port != 'undefined') {
+            fetch(list_experiments_url)
+                .then((res) => res.json())
+                .then((res) => console.log(" outp" + res))
+                .catch(err => { console.log("Errr" + err) })
+        }
+    }, []);
+
     // In real usage, this data would come from some external source like an API via props.
     const tables: Table[] = [
         { srno: '1', experimentname: 'quarkus-resteasy-autotune-min-http-response-time-db4', namespace: 'default', deployment: 'tfb-qrh-sample', status: 'active', nestedComponent: <><TabOptions /></> },
@@ -361,52 +381,55 @@ const MonitoringTable = () => {
         });
     const isRepoExpanded = (repo: Table) => expandedRepoNames.includes(repo.srno);
     return (
-        <TableComposable aria-label="Simple table">
-            <Thead>
-                <Tr>
-                    <Td />
-                    <Th width={20}>{columnNames.srno}</Th>
-                    <Th>{columnNames.experimentname}</Th>
-                    <Th>{columnNames.namespace}</Th>
-                    <Th>{columnNames.deployment}</Th>
-                    <Th>{columnNames.status}</Th>
-                </Tr>
-            </Thead>
-            {tables.map((repo, rowIndex) => (
-                <Tbody key={repo.srno} isExpanded={isRepoExpanded(repo)}>
+        <>
+            <TableComposable aria-label="experiments table">
+                <Thead>
                     <Tr>
-                        <Td
-                            expand={
-                                repo.nestedComponent
-                                    ? {
-                                        rowIndex,
-                                        isExpanded: isRepoExpanded(repo),
-                                        onToggle: () => setRepoExpanded(repo, !isRepoExpanded(repo)),
-                                        expandId: 'composable-nested-table-expandable-example'
-                                    }
-                                    : undefined
-                            }
-                        />
-                        <Td dataLabel={columnNames.srno}>{repo.srno}</Td>
-                        <Td dataLabel={columnNames.experimentname}>{repo.experimentname}</Td>
-                        <Td dataLabel={columnNames.namespace}>{repo.namespace}</Td>
-                        <Td dataLabel={columnNames.deployment}>{repo.deployment}</Td>
-                        <Td dataLabel={columnNames.status}>{repo.status}</Td>
+                        <Td />
+                        <Th width={20}>{columnNames.srno}</Th>
+                        <Th>{columnNames.experimentname}</Th>
+                        <Th>{columnNames.namespace}</Th>
+                        <Th>{columnNames.deployment}</Th>
+                        <Th>{columnNames.status}</Th>
                     </Tr>
-                    {repo.nestedComponent ? (
-                        <Tr isExpanded={isRepoExpanded(repo)}>
+                </Thead>
+                {tables.map((repo, rowIndex) => (
+                    <Tbody key={repo.srno} isExpanded={isRepoExpanded(repo)}>
+                        <Tr>
                             <Td
-                                noPadding={repo.noPadding}
-                                dataLabel={`${columnNames.srno} expended`}
-                                colSpan={Object.keys(columnNames).length + 1}
-                            >
-                                <ExpandableRowContent>{repo.nestedComponent}</ExpandableRowContent>
-                            </Td>
+                                expand={
+                                    repo.nestedComponent
+                                        ? {
+                                            rowIndex,
+                                            isExpanded: isRepoExpanded(repo),
+                                            onToggle: () => setRepoExpanded(repo, !isRepoExpanded(repo)),
+                                            expandId: 'composable-nested-table-expandable-example'
+                                        }
+                                        : undefined
+                                }
+                            />
+                            <Td dataLabel={columnNames.srno}>{repo.srno}</Td>
+                            <Td dataLabel={columnNames.experimentname}>{repo.experimentname}</Td>
+                            <Td dataLabel={columnNames.namespace}>{repo.namespace}</Td>
+                            <Td dataLabel={columnNames.deployment}>{repo.deployment}</Td>
+                            <Td dataLabel={columnNames.status}>{repo.status}</Td>
                         </Tr>
-                    ) : null}
-                </Tbody>
-            ))}
-        </TableComposable>
+                        {repo.nestedComponent ? (
+                            <Tr isExpanded={isRepoExpanded(repo)}>
+                                <Td
+                                    noPadding={repo.noPadding}
+                                    dataLabel={`${columnNames.srno} expended`}
+                                    colSpan={Object.keys(columnNames).length + 1}
+                                >
+                                    <ExpandableRowContent>{repo.nestedComponent}</ExpandableRowContent>
+                                </Td>
+                            </Tr>
+                        ) : null}
+                    </Tbody>
+                ))}
+            </TableComposable>
+
+        </>
     );
 };
 

@@ -2,32 +2,28 @@ import React, { useState, useEffect, useContext } from 'react';
 import nodeContext from '@app/ContextStore/nodeContext';
 
 const ListExperimentsAPI = () => {
-    const [experimentDetails, setExperimentDetails] = useState("");
+
+    const [experimentData, setExperimentData] = useState({});
     const Context = useContext(nodeContext);
     const ip = Context['cluster'];
     const port = Context['autotune'];
+    const list_experiments_url = 'http://' + ip + ':' + port + '/listExperiments';
 
     useEffect(() => {
-        const url = "http://" + ip + ":" + port + "/listExperiments";
-
-        const fetchData = async () => {
-            try {
-                const response = await fetch(url);
-                const json = await response.json();
-                console.log(json.slip.advice);
-                setExperimentDetails(json.slip.advice);
-            } catch (error) {
-                console.log("error", error);
-            }
-        };
-
-        fetchData();
+        if (ip != 'undefined' && port != 'undefined') {
+            fetch(list_experiments_url)
+                .then((res) => res.json())
+                .then((res) => console.log(res))
+                .catch(err => { console.log(err) })
+        }
     }, []);
+
+
     return (
-        <div>
-            {experimentDetails[0]}
-        </div>
-    )
+        <>
+
+        </>
+    );
 }
 
 export { ListExperimentsAPI }

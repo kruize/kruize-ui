@@ -22,7 +22,7 @@ const MonitoringUseCase = () => {
           <FormFieldGroupHeader
             titleText={{ text: 'Remote', id: 'nested-field-group1-titleText-id' }}
             actions={
-              <Button variant="plain" aria-label="Remove">
+              <Button variant="plain" aria-label="Remote">
                 <TableIcon />
               </Button>
             }
@@ -36,7 +36,7 @@ const MonitoringUseCase = () => {
             <FormFieldGroupHeader
               titleText={{ text: 'Recommendations', id: 'nested-field-group1-titleText-id' }}
               actions={
-                <Button variant="plain" aria-label="Remove">
+                <Button variant="plain" aria-label="Recommendations">
                   <TableIcon />
                 </Button>
               }
@@ -53,7 +53,7 @@ const MonitoringUseCase = () => {
             <FormFieldGroupHeader
               titleText={{ text: 'Monitoring Data', id: 'nested-field-group1-titleText-id' }}
               actions={
-                <Button variant="plain" aria-label="Remove">
+                <Button variant="plain" aria-label="Monitoring data">
                   <TableIcon />
                 </Button>
               }
@@ -70,7 +70,7 @@ const MonitoringUseCase = () => {
           <FormFieldGroupHeader
             titleText={{ text: 'Local', id: 'nested-field-group2-titleText-id' }}
             actions={
-              <Button variant="plain" aria-label="Remove">
+              <Button variant="plain" aria-label="Local">
                 <TableIcon />
               </Button>
             }

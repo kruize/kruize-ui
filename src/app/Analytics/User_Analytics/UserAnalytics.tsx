@@ -4,6 +4,7 @@ import NameSpaceDropDown from '@app/RunExperiment/NameSpaceDropDown';
 import { AnalyticsNamespace } from './AnalyticsNamespace';
 import { AnalyticsDeployment } from './AnalyticsDeployment';
 import { AnalyticsContainers } from './ContainerInfo/AnalyticsContainers';
+import { AnalyticsObjectType } from './AnalyticsObjectType';
 
 const UserAnalytics = () => {
     return (
@@ -31,6 +32,13 @@ const UserAnalytics = () => {
                                 <AnalyticsNamespace />
                             </GridItem>
 
+                        </GridItem>
+                        <GridItem span={2} />
+                        <GridItem span={3}>
+                            <TextContent>
+                                <Text component={TextVariants.h2}>Kubernetes Object Type</Text>
+                            </TextContent>
+                            <AnalyticsObjectType />
                         </GridItem>
                         <GridItem span={2} />
                         <GridItem span={3}>

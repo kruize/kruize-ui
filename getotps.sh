@@ -52,7 +52,7 @@ function get_port() {
         AUTOTUNE_PORT=$(${kubectl_cmd} get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort 2>/dev/null)
         svrerr=$?
     fi
-    if [ ${svcerr} -ne 0 ]; then
+    if  [ ${svcerr} -ne 0 ]; then
         echo "ERROR: Unable to connect backend kruize server"
         exit
     fi

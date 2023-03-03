@@ -40,7 +40,7 @@ const AnalyticsDeployment = () => {
             <Select
                 variant={SelectVariant.single}
                 placeholderText={deployments.length === 0 ? "no dep found" : "Select Deployment"}
-                aria-label="Select Input with descriptions"
+                aria-label="deployments in analytics"
                 onToggle={() => setIsopen(!isopen)}
                 onSelect={onSelect}
                 selections={selected}

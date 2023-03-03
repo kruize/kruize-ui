@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Slider, Typography } from '@material-ui/core';
-import { Text, TextContent, Divider } from '@patternfly/react-core';
+import { Text, TextContent, Divider, TextVariants } from '@patternfly/react-core';
 
 const VerticalSlider = () => {
     const [value, setValue] = useState(30);
@@ -53,11 +53,10 @@ const VerticalSlider = () => {
                 orientation="vertical" />
 
             <Divider />
-            <Text>
-                <TextContent>
-                    No. of Recommen dations
-                </TextContent>
-            </Text>
+            <TextContent>
+                <Text component={TextVariants.h1}> No. of Recommen dations
+                </Text>
+            </TextContent>
         </>
     );
 };

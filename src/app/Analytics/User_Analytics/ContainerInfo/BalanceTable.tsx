@@ -34,7 +34,7 @@ const BalanceTable = () => {
     return (
         <TableComposable aria-label="Simple table"  >
             <Thead>
-                <Tr>
+                <Tr key={233}>
                     <Th>{columnNames.monitoringStartTime}</Th>
                     <Th>{columnNames.monitoringEndTime}</Th>
                     <Th>{columnNames.capacityConfigcpu}</Th>
@@ -44,8 +44,8 @@ const BalanceTable = () => {
                 </Tr>
             </Thead>
             <Tbody >
-                {recommendations.map(recommendation => (
-                    <Tr key={recommendation.monitoringStartTime} >
+                {recommendations.map((recommendation, index) => (
+                    <Tr key={index} >
                         <Td dataLabel={columnNames.monitoringStartTime}>{recommendation.monitoringStartTime}</Td>
                         <Td dataLabel={columnNames.monitoringEndTime}>{recommendation.monitoringEndTime}</Td>
                         <Td dataLabel={columnNames.capacityConfigmmr}>{recommendation.capacityConfigmmr}</Td>

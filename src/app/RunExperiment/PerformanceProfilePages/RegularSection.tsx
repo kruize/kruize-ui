@@ -1,11 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { FormGroup, FormSelect, FormSelectOption, Form, FormSection, Checkbox } from '@patternfly/react-core';
+import nodeContext from '@app/ContextStore/nodeContext';
 
 const RegularSection = () => {
+    const Context = useContext(nodeContext);
+    const ip = Context['cluster'];
+    const port = Context['autotune'];
+    const performance_profile_url = 'http://' + ip + ':' + port + '/listPerformanceProfiles'
 
-    const [profile, setProfile] = useState('Select Profile');
     const [mode, setMode] = useState('Select Mode');
     const [cluster, setCluster] = useState('Select Cluster');
+    const [profiles, setProfiles] = useState<any[]>([]);
+    const [profile, setProfile] = useState("select")
+
+    const fetchProfiles = async (url) => {
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.length > 0) {
+                setProfiles(data);
+            }
+            console.log(data[0].name);
+        } catch (e) {
+            console.error(e)
+        }
+    }
+    useEffect(() => {
+        fetchProfiles(performance_profile_url);
+    }, [])
 
     const handleProfileChange = (value) => {
         setProfile(value)
@@ -17,9 +39,7 @@ const RegularSection = () => {
         setCluster(value)
     }
 
-    const profiles = [
-        { value: '1', label: 'Resource Optimization OpenShift', disabled: false },
-    ]
+
     const modes = [
         { value: '1', label: 'monitor', disabled: false },
         { value: '2', label: 'trial', disabled: false }
@@ -43,8 +63,8 @@ const RegularSection = () => {
                     aria-label="profiles"
 
                 >
-                    {profiles.map((option, index) => (
-                        <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
+                    {profiles.map((data, index) => (
+                        <FormSelectOption key={index} value={data.name} label={data.name} />
                     ))}
                 </FormSelect>
             </FormGroup>

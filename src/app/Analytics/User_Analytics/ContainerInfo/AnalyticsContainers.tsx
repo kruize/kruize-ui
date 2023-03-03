@@ -37,7 +37,7 @@ const AnalyticsContainers = () => {
                 activeKey={activeTabKey1}
                 onSelect={handleTabClickFirst}
                 isBox={true}
-                aria-label="Tabs in the filled with icons example"
+                aria-label="Tabs recommendations"
                 role="region"
             >
                 <Tab
@@ -54,7 +54,7 @@ const AnalyticsContainers = () => {
                             </GridItem>
                         </>
                     }
-                    aria-label="filled tabs with icons content users"
+                    aria-label="duration based"
                 >
 
                     <TextContent>
@@ -62,7 +62,7 @@ const AnalyticsContainers = () => {
                     </TextContent>
 
                     <Tabs
-                        aria-label="secondary tabs for users"
+                        aria-label="containers"
                         role="region"
                         activeKey={activeTabKey2}
                         isBox={true}
@@ -110,7 +110,7 @@ const AnalyticsContainers = () => {
                     </TextContent>
 
                     <Tabs
-                        aria-label="secondary tabs for users"
+                        aria-label="cont"
                         role="region"
                         activeKey={activeTabKey2}
                         isBox={true}

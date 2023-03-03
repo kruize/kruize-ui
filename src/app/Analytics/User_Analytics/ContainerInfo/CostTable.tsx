@@ -61,8 +61,8 @@ const CostTable = () => {
 
                     </Thead>
                     <Tbody>
-                        {recommendations.map(recommendation => (
-                            <Tr key={recommendation.monitoringStartTime}>
+                        {recommendations.map((recommendation, index) => (
+                            <Tr key={index}>
                                 <Td dataLabel={columnNames.monitoringStartTime}>{recommendation.monitoringStartTime}</Td>
                                 <Td dataLabel={columnNames.monitoringEndTime}>{recommendation.monitoringEndTime}</Td>
                                 <Td dataLabel={columnNames.podCount}>{recommendation.podCount}</Td>

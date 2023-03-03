@@ -149,7 +149,7 @@ const Table = () => {
         });
     const isRepoExpanded = (repo: Repository) => expandedRepoNames.includes(repo.srno);
     return (
-        <TableComposable aria-label="Simple table">
+        <TableComposable aria-label="exp table">
             <Thead>
                 <Tr>
                     <Td />
