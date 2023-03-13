@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import { Button, FormFieldGroup, FormFieldGroupExpandable, FormFieldGroupHeader, Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import nodeContext from '@app/ContextStore/nodeContext';
+import { TableIcon } from '@patternfly/react-icons';
 
 const AnalyticsDeployment = () => {
 
@@ -36,8 +37,27 @@ const AnalyticsDeployment = () => {
     };
     return (
         <>
+            {
 
-            <Select
+                deployments.length === 0 ? (
+                    <p>No deployments found</p>
+                ) : (
+                    deployments.map((option, index) => (
+                        <FormFieldGroup
+                        // toggleAriaLabel="Details"
+                        // header={
+                        //     <FormFieldGroupHeader
+                        //         titleText={{ text: option, id: index + '' }}
+                        //     />
+                        // }
+                        >
+
+                            {option}
+                        </FormFieldGroup>
+                    ))
+                )
+            }
+            {/* <Select
                 variant={SelectVariant.single}
                 placeholderText={deployments.length === 0 ? "no dep found" : "Select Deployment"}
                 aria-label="deployments in analytics"
@@ -50,8 +70,7 @@ const AnalyticsDeployment = () => {
                     deployments.map((option, index) => (
                         <SelectOption key={index} value={option || ''} />
                     ))}
-            </Select>
-
+            </Select> */}
         </>
     );
 };

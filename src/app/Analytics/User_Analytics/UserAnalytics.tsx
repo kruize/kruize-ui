@@ -5,6 +5,7 @@ import { AnalyticsNamespace } from './AnalyticsNamespace';
 import { AnalyticsDeployment } from './AnalyticsDeployment';
 import { AnalyticsContainers } from './ContainerInfo/AnalyticsContainers';
 import { AnalyticsObjectType } from './AnalyticsObjectType';
+import { DeploymentsTreeView } from './DeploymentsTreeView';
 
 const UserAnalytics = () => {
     return (
@@ -40,35 +41,43 @@ const UserAnalytics = () => {
                             </TextContent>
                             <AnalyticsObjectType />
                         </GridItem>
-                        <GridItem span={2} />
-                        <GridItem span={3}>
-                            {/* <FormGroup label="Deployment" isRequired fieldId="simple-form-section-2-input">
+                        <br /><br />
+                        <GridItem span={5}>
+                            <TextContent>
+                                <Text component={TextVariants.h2}> Tree View for Selected Kubernetes Object</Text>
+                                <DeploymentsTreeView />
+                            </TextContent>
+
+                        </GridItem>
+                        {/* <GridItem span={2} />
+                        <GridItem span={3}> */}
+                        {/* <FormGroup label="Deployment" isRequi   red fieldId="simple-form-section-2-input">
                                 <AnalyticsDeployment />
                             </FormGroup> */}
-                            <TextContent>
+                        {/* <TextContent>
                                 <Text component={TextVariants.h2}>Deployment</Text>
                             </TextContent>
-                            <AnalyticsDeployment />
-                        </GridItem>
-                        <FormGroup>
-                        </FormGroup>
-                        <GridItem span={4}>
-                            {/* <FormGroup role="group" isInline fieldId="basic-form-checkbox-group" label="Optimise for:">
+                            <AnalyticsDeployment /> */}
+                        {/* </GridItem> */}
+                        {/* <FormGroup> */}
+                        {/* </FormGroup>
+                        <GridItem span={4}> */}
+                        {/* <FormGroup role="group" isInline fieldId="basic-form-checkbox-group" label="Optimise for:">
                                 <Checkbox label="Cost" aria-label="Cost" id="inlinecheck01" />
                                 <Checkbox label="Balance" aria-label="Balance" id="inlinecheck02" />
                                 <Checkbox label="Performance" aria-label="Performance" id="inlinecheck03" />
                             </FormGroup> */}
-                        </GridItem>
+                        {/* </GridItem>
                         <FormGroup>
-                        </FormGroup>
+                        </FormGroup> */}
                         {/* <FormGroup label="Containers" isRequired fieldId="simple-form-section-2-input">
                             <AnalyticsContainers />
                         </FormGroup> */}
 
-                        <GridItem>
+                        {/* <GridItem>
                             <AnalyticsContainers />
 
-                        </GridItem>
+                        </GridItem> */}
 
                     </Grid>
                 </FormSection>
