@@ -13,7 +13,7 @@ const NameSpaceDropDown = (props: { data; setData }) => {
 
   useEffect(() => {
     if (ip != 'undefined' && port != 'undefined') {
-      setSelected(sessionStorage.getItem('Namespace Value'));
+      // setSelected(sessionStorage.getItem('Namespace Value'));
       fetch(namespace_url)
         .then((res) => res.json())
         .then((res) => setNamespaces(res.data.namespaces));

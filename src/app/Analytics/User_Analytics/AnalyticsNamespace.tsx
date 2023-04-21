@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import nodeContext from '@app/ContextStore/nodeContext';
+import {ExperimentTable} from './ExperimentTable';
 
 const AnalyticsNamespace = () => {
 
     const [namespaces, setNamespaces] = useState([]);
-    const [selected, setSelected] = useState(sessionStorage.getItem('Namespace'));
+    const [selected, setSelected] = useState('');
     const [isopen, setIsopen] = useState(false);
     const Context = useContext(nodeContext);
     const ip = Context['cluster'];
@@ -14,7 +15,7 @@ const AnalyticsNamespace = () => {
 
     useEffect(() => {
         if (ip != 'undefined' && port != 'undefined') {
-            setSelected(sessionStorage.getItem('Namespace Value'));
+            // setSelected(sessionStorage.getItem('Namespace Value'));
             fetch(namespace_url)
                 .then((res) => res.json())
                 .then((res) => setNamespaces(res.data.namespaces));
@@ -30,10 +31,11 @@ const AnalyticsNamespace = () => {
         };
     };
 
+
     return (
         <>
             <Select
-                variant={SelectVariant.single}
+                variant={SelectVariant.typeaheadMulti}
                 placeholderText="Select Namespace"
                 aria-label="namespace in analytics"
                 onToggle={() => setIsopen(!isopen)}
@@ -46,6 +48,7 @@ const AnalyticsNamespace = () => {
                     <SelectOption key={index} value={option || ''} />
                 ))}
             </Select>
+            { selected != '' ? <ExperimentTable/> : <></>}
         </>
     );
 };

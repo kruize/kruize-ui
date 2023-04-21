@@ -70,11 +70,12 @@ const UserAnalytics = () => {
                         {/* </GridItem>
                         <FormGroup>
                         </FormGroup> */}
-                        {/* <FormGroup label="Containers" isRequired fieldId="simple-form-section-2-input">
+                        <FormGroup label="Containers" isRequired fieldId="simple-form-section-2-input">
                             <AnalyticsContainers />
-                        </FormGroup> */}
+                        </FormGroup>
 
                         {/* <GridItem>
+
                             <AnalyticsContainers />
 
                         </GridItem> */}

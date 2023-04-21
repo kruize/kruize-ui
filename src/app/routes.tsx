@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { About } from '@app/About/About';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
-import { SREAnalytics } from '@app/Analytics/SREAnalytics';
+import { SREAnalytics } from '@app/Analytics/SRE_Analytics/SREAnalytics';
 import { UserAnalytics } from './Analytics/User_Analytics/UserAnalytics';
 import { ObjectiveFunction } from '@app/AdvancedUser/ObjectiveFunction';
 import { LayerDefination } from '@app/AdvancedUser/LayerDefination';

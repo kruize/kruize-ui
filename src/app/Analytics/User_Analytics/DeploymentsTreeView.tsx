@@ -11,7 +11,7 @@ const DeploymentsTreeView = () => {
             toggleAriaLabel="Details"
             header={
                 <FormFieldGroupHeader
-                    titleText={{ text: 'Deployment', id: 'field-group1-titleText-id' }}
+                    titleText={{ text: 'Deployment', id: 'bha' }}
                 />
             }
         >

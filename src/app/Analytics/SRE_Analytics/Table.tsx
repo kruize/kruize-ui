@@ -12,9 +12,9 @@ import {
     IAction
 } from '@patternfly/react-table';
 import { TextContent, TextVariants, Text, Accordion, AccordionContent, AccordionItem, AccordionToggle } from '@patternfly/react-core';
-import { BalanceTable } from './User_Analytics/ContainerInfo/BalanceTable';
-import { CostTable } from './User_Analytics/ContainerInfo/CostTable';
-import { PerformanceTable } from './User_Analytics/ContainerInfo/PerformanceTable';
+import { BalanceTable } from '../User_Analytics/ContainerInfo/BalanceTable';
+import { CostTable } from '../User_Analytics/ContainerInfo/CostTable';
+import { PerformanceTable } from '../User_Analytics/ContainerInfo/PerformanceTable';
 interface Repository {
     srno: string;
     experimentname: string;
