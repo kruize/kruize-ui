@@ -132,12 +132,12 @@ const TableShort = ({ parameter }) => {
         {parameter.containerArray.map((containerName, index) => (
           <Tr key={index}>
             <Td dataLabel={columnNames.containers} textCenter>{containerName}</Td>
-            <Td dataLabel={columnNames.cpuRequestS} textCenter>{parameter.s_cpu_req}</Td>
-            <Td dataLabel={columnNames.mmrRequestS} textCenter>{parameter.s_mmr_req}</Td>
-            <Td dataLabel={columnNames.cpuRequestM} textCenter>{parameter.m_cpu_req}</Td>
-            <Td dataLabel={columnNames.mmrRequestM} textCenter>{parameter.m_mmr_req}</Td>
-            <Td dataLabel={columnNames.cpuRequestL} textCenter>{parameter.l_cpu_req}</Td>
-            <Td dataLabel={columnNames.mmrRequestL} textCenter>{parameter.l_mmr_req}</Td>
+            <Td dataLabel={columnNames.cpuRequestS} textCenter>{parameter.s_cpu_req} </Td>
+            <Td dataLabel={columnNames.mmrRequestS} textCenter>{parameter.s_mmr_req} </Td>
+            <Td dataLabel={columnNames.cpuRequestM} textCenter>{parameter.m_cpu_req} </Td>
+            <Td dataLabel={columnNames.mmrRequestM} textCenter>{parameter.m_mmr_req} </Td>
+            <Td dataLabel={columnNames.cpuRequestL} textCenter>{parameter.l_cpu_req} </Td>
+            <Td dataLabel={columnNames.mmrRequestL} textCenter>{parameter.l_mmr_req} </Td>
           </Tr>
         ))}
         </Tbody>
@@ -183,13 +183,13 @@ const [contName, setContName] = useState(props.SREdata.containerArray)
     var recommendation_data = data[0].kubernetes_objects[0].containers[0]
     var recommendation_type = recommendation_data.recommendations.notifications[0].message
 
-   var short_term_cpu = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.cpu.amount
-    var short_term_mmr = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.memory.amount
+   var short_term_cpu = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.cpu.amount + ' cores'
+    var short_term_mmr = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.memory.amount + ' MiB'
    
-    var medium_term_cpu, medium_term_mmr, long_term_cpu, long_term_mmr
+    let medium_term_cpu, medium_term_mmr, long_term_cpu: string, long_term_mmr : string ;
 try{
-      medium_term_cpu = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.cpu.amount
-      medium_term_mmr = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.memory.amount
+      medium_term_cpu = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.cpu.amount + ' cores'
+      medium_term_mmr = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.memory.amount + ' MiB'
     }
     catch {
       medium_term_mmr = '-'
@@ -197,8 +197,8 @@ try{
     }
    
 try{
-      var long_term_cpu = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.cpu.amount
-    var long_term_mmr = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.memory.amount
+       long_term_cpu = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.cpu.amount + ' cores'
+    long_term_mmr = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.memory.amount + ' MiB'
     }
 
     catch {
