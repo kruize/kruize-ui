@@ -183,13 +183,13 @@ const [contName, setContName] = useState(props.SREdata.containerArray)
     var recommendation_data = data[0].kubernetes_objects[0].containers[0]
     var recommendation_type = recommendation_data.recommendations.notifications[0].message
 
-   var short_term_cpu = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.cpu.amount + ' cores'
-    var short_term_mmr = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.memory.amount + ' MiB'
-   
+   var short_term_cpu = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.cpu.amount.toPrecision(2) + recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.cpu.format
+    var short_term_mmr = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.memory.amount.toPrecision(2) + recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.memory.format
+  //  console.log(short_term_cpu)
     let medium_term_cpu, medium_term_mmr, long_term_cpu: string, long_term_mmr : string ;
 try{
-      medium_term_cpu = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.cpu.amount + ' cores'
-      medium_term_mmr = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.memory.amount + ' MiB'
+      medium_term_cpu = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.cpu.amount + recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.cpu.format
+      medium_term_mmr = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.memory.amount + recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.memory.format
     }
     catch {
       medium_term_mmr = '-'
@@ -197,8 +197,8 @@ try{
     }
    
 try{
-       long_term_cpu = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.cpu.amount + ' cores'
-    long_term_mmr = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.memory.amount + ' MiB'
+       long_term_cpu = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.cpu.amount + recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.cpu.format
+    long_term_mmr = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.memory.amount + recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.memory.format
     }
 
     catch {
