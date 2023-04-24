@@ -13,7 +13,7 @@ import { RunExperiment } from '@app/RunExperiment/RunExperiment';
 const About = () => (
   <PageSection variant={PageSectionVariants.light}>
     <TextContent>
-      <Text component={TextVariants.h1}>About Autotune</Text>
+      <Text component={TextVariants.h1}>About Kruize</Text>
     </TextContent>
 
     <br />
@@ -30,9 +30,11 @@ const About = () => (
       tunables, only a "better" one than what is currently deployed.
     </Text>
     <br />
-    <Link to="/newexperiment">
+    {/* <Link to="/newexperiment">
       <Button variant="primary">Start an Autotune Experiment</Button>
-    </Link>
+    </Link> 
+    Hiding from the user
+    */} 
   </PageSection>
 );
 

@@ -37,7 +37,7 @@ const HorizontalNav = () => {
     <Nav onSelect={onSelect} variant="horizontal" className="nav">
       <NavList>
         <TextContent className="--pf-c-content">
-          <Text component={TextVariants.h1}>Kruize Autotune</Text>
+          <Text component={TextVariants.h1}>Kruize</Text>
         </TextContent>
 
         <NavItem></NavItem>
@@ -103,7 +103,7 @@ const HorizontalNav = () => {
                   <div>
                     <br />
                     <label>
-                      Autotune URL : http://{ip}:{port}
+                      Kruize URL : http://{ip}:{port}
                     </label>
                   </div>
                 )}

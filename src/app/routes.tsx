@@ -38,7 +38,7 @@ const routes: AppRouteConfig[] = [
   {
     component: About,
     exact: true,
-    label: 'About Autotune',
+    label: 'About Kruize',
     path: '/',
     title: 'Main About',
     menu: true
@@ -63,13 +63,13 @@ const routes: AppRouteConfig[] = [
         path: '/analytics_sre',
         title: 'SRE View'
       },
-      {
-        component: UserAnalytics,
-        exact: true,
-        label: 'User View',
-        path: '/analytics_user',
-        title: 'User View'
-      }
+      // {
+      //   component: UserAnalytics,
+      //   exact: true,
+      //   label: 'User View',
+      //   path: '/analytics_user',
+      //   title: 'User View'
+      // } Hiding the component from screen
     ],
     menu: true
   },
@@ -98,7 +98,7 @@ const routes: AppRouteConfig[] = [
         title: 'Trial Settings'
       }
     ],
-    menu: true
+    menu: false
   },
   {
     label: 'Documentation',
@@ -132,7 +132,7 @@ const routes: AppRouteConfig[] = [
         title: 'Community Call'
       }
     ],
-    menu: true
+    menu: false
   }
 ];
 

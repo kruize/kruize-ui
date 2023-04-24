@@ -11,15 +11,18 @@ import { RecommendationTables } from './RecommendationTables'
 import { UsecaseSelection } from './UsecaseSelection';
 
 const SREdataa = {
-  experiment_name: '',
-  recommendation_type: '',
+   experiment_name: '',
+   recommendation_type: '',
   short_term_cpu_req: '',
   short_term_mmr_req: '',
   medium_term_cpu_req: '',
   medium_term_mmr_req: '',
   long_term_cpu_req: '',
   long_term_mmr_req: '',
-  
+  namespace: '',
+  name: '',
+  type: '',
+
   containerArray: []
 }
 

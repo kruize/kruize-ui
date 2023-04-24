@@ -17,7 +17,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   const options = [
     { id: "1", value: 'please choose', label: 'Select one', disabled: false },
     { id: "2", value: 'Monitoring', label: 'Monitoring', disabled: false },
-    { id: "3", value: 'Autotune', label: 'Autotune', disabled: false },
+    // { id: "3", value: 'Autotune', label: 'Autotune', disabled: false },
   ]
 
   const options2 = [
@@ -51,6 +51,8 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     setValue(value)
     props.setSREdata({ ...{ ...props.SREdata }, experiment_name: value })
     sessionStorage.setItem('Experiment Name', value);
+
+    
   };
 
   const handleClick = async () => {
@@ -58,6 +60,14 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     try {
       if (ip != 'undefined' && port != 'undefined') {
         const data = await (await fetch(list_recommendations_url)).json()
+
+
+        var namespace = data[0].kubernetes_objects[0].namespace
+        var name = data[0].kubernetes_objects[0].name
+        var type = data[0].kubernetes_objects[0].type
+    
+        // props.setSREdata({ ...{ ...props.SREdata }, namespace: namespace, name: name, type: type })
+
         var endtime: any[] = [];
         endtime = Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort();
 
@@ -68,7 +78,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
           containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name)
         }
 
-        props.setSREdata({ ...{ ...props.SREdata }, containerArray: containerArray })
+        props.setSREdata({ ...{ ...props.SREdata }, containerArray: containerArray,  namespace: namespace, name: name, type: type  })
         //console.log(1, containerArray)
         //  console.log(12, props.SREdata.containerArray)  
       }

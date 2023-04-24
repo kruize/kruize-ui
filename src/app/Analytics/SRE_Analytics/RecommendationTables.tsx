@@ -6,20 +6,72 @@ import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-tab
 import React, { useContext, useEffect, useState } from 'react'
 
 interface ReccoTable {
- containers: string ;
- short_term: {
-  cpuRequest: string | null;
-  mmrRequest: string | null;
- };
- medium_term: {
-  cpuRequest: string | null;
-  mmrRequest: string | null;
- };
- long_term: {
-  cpuRequest: string | null;
-  mmrRequest: string | null;
+  containers: string ;
+  short_term: {
+   cpuRequest: string | null;
+   mmrRequest: string | null;
+  };
+  medium_term: {
+   cpuRequest: string | null;
+   mmrRequest: string | null;
+  };
+  long_term: {
+   cpuRequest: string | null;
+   mmrRequest: string | null;
+  }
  }
-}
+
+const WorkloadTable = ({ experimentData}) => {
+
+  const columnNames = {
+    exp_name: 'Experiment Name',
+    workload: 'Workload',
+    namespace: 'Namespace',
+    name: 'Name',
+    type: 'Type'
+  }
+
+  return (
+    <React.Fragment>
+       <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
+        <Thead hasNestedHeader>
+          <Tr>
+            <Th hasRightBorder textCenter colSpan={1}>
+              {columnNames.exp_name}
+            </Th>
+            <Th hasRightBorder textCenter colSpan={3}>
+              {columnNames.workload}
+            </Th>
+            </Tr>
+            
+            <Tr>
+            <Th hasRightBorder />
+            <Th isSubheader hasRightBorder textCenter>
+              {columnNames.namespace}
+            </Th>
+            <Th isSubheader hasRightBorder textCenter>
+              {columnNames.name}
+            </Th>
+            <Th isSubheader hasRightBorder textCenter>
+              {columnNames.type}
+            </Th>
+            </Tr>
+
+            </Thead>
+            <Tbody>
+            <Tr key={experimentData.experiment_name}>
+            <Td dataLabel={columnNames.exp_name} textCenter>{experimentData.experiment_name}</Td>
+            <Td dataLabel={columnNames.namespace} textCenter>{experimentData.namespace}</Td>
+            <Td dataLabel={columnNames.name} textCenter>{experimentData.name}</Td>
+            <Td dataLabel={columnNames.type} textCenter>{experimentData.type}</Td>
+            </Tr>
+            </Tbody>
+            </TableComposable>
+            </React.Fragment>
+  )
+} 
+
+
 const TableShort = ({ parameter }) => {
 
   const columnNames = {
@@ -34,7 +86,7 @@ const TableShort = ({ parameter }) => {
     cpuRequestL: 'CPU Request',
     mmrRequestL: 'Mem Request',
   };
-  const centeredCellStyle = { textAlign: 'center' }; 
+
   return (
     <React.Fragment>
        <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
@@ -106,7 +158,28 @@ const [contName, setContName] = useState(props.SREdata.containerArray)
 
   const onChange = async (value: string) => {
     setEndtime(value)
-    const data = await (await fetch(list_recommendations_url)).json()
+    
+    // try {
+      
+    // const response = await fetch(list_recommendations_url);
+  //   const dataArray1 : any[] = [];
+  //   const data = await response.json();
+  //   data.forEach(item => {
+  //     dataArray1.push(item);
+  //   });
+  //   const dataArray = dataArray1[0].kubernetes_objects[0].containers[0].recommendations.data[value]
+
+  //   console.log(dataArray);
+  // } catch (error) {
+  //   console.error(error);
+  // }
+
+
+  const data = await (await fetch(list_recommendations_url)).json()
+
+// var experiment_name = data[0].experiment_name
+
+
     var recommendation_data = data[0].kubernetes_objects[0].containers[0]
     var recommendation_type = recommendation_data.recommendations.notifications[0].message
 
@@ -138,15 +211,28 @@ try{
                                               , long_term_cpu_req: long_term_cpu, long_term_mmr_req: long_term_mmr
                                             })
 
+
+
+
  sessionStorage.setItem('Recommendation Type', recommendation_type);
   };
 
  
       return (
     <>
+    <br />  
       <TextContent>
         <Text component={TextVariants.h1}>Recommendations</Text>
-      </TextContent>  <br />  <br />
+      </TextContent>  
+      <br />  
+      <WorkloadTable experimentData={{
+        experiment_name: props.SREdata.experiment_name,
+        namespace: props.SREdata.namespace,
+        name: props.SREdata.name,
+        type: props.SREdata.type
+
+       } }/>
+      <br /> 
       <Flex>
         <FlexItem>
           <TextContent>
@@ -170,6 +256,7 @@ try{
       </TextContent> 
    
 <br/>
+
 
         <TableShort parameter={{
           containerArray: props.SREdata.containerArray,
