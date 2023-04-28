@@ -66,8 +66,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         var name = data[0].kubernetes_objects[0].name
         var type = data[0].kubernetes_objects[0].type
     
-        // props.setSREdata({ ...{ ...props.SREdata }, namespace: namespace, name: name, type: type })
-
         var endtime: any[] = [];
         endtime = Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort();
 
@@ -79,8 +77,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         }
 
         props.setSREdata({ ...{ ...props.SREdata }, containerArray: containerArray,  namespace: namespace, name: name, type: type  })
-        //console.log(1, containerArray)
-        //  console.log(12, props.SREdata.containerArray)  
+   
       }
     }
     catch (err) {

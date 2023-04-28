@@ -5,23 +5,7 @@ import { end } from '@patternfly/react-core/dist/esm/helpers/Popper/thirdparty/p
 import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useContext, useEffect, useState } from 'react'
 
-interface ReccoTable {
-  containers: string ;
-  short_term: {
-   cpuRequest: string | null;
-   mmrRequest: string | null;
-  };
-  medium_term: {
-   cpuRequest: string | null;
-   mmrRequest: string | null;
-  };
-  long_term: {
-   cpuRequest: string | null;
-   mmrRequest: string | null;
-  }
- }
-
-const WorkloadTable = ({ experimentData}) => {
+const WorkloadTable = ({ experimentData }) => {
 
   const columnNames = {
     exp_name: 'Experiment Name',
@@ -33,7 +17,7 @@ const WorkloadTable = ({ experimentData}) => {
 
   return (
     <React.Fragment>
-       <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
+      <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
         <Thead hasNestedHeader>
           <Tr>
             <Th hasRightBorder textCenter colSpan={1}>
@@ -42,9 +26,9 @@ const WorkloadTable = ({ experimentData}) => {
             <Th hasRightBorder textCenter colSpan={3}>
               {columnNames.workload}
             </Th>
-            </Tr>
-            
-            <Tr>
+          </Tr>
+
+          <Tr>
             <Th hasRightBorder />
             <Th isSubheader hasRightBorder textCenter>
               {columnNames.namespace}
@@ -55,22 +39,21 @@ const WorkloadTable = ({ experimentData}) => {
             <Th isSubheader hasRightBorder textCenter>
               {columnNames.type}
             </Th>
-            </Tr>
+          </Tr>
 
-            </Thead>
-            <Tbody>
-            <Tr key={experimentData.experiment_name}>
+        </Thead>
+        <Tbody>
+          <Tr key={experimentData.experiment_name}>
             <Td dataLabel={columnNames.exp_name} textCenter>{experimentData.experiment_name}</Td>
             <Td dataLabel={columnNames.namespace} textCenter>{experimentData.namespace}</Td>
             <Td dataLabel={columnNames.name} textCenter>{experimentData.name}</Td>
             <Td dataLabel={columnNames.type} textCenter>{experimentData.type}</Td>
-            </Tr>
-            </Tbody>
-            </TableComposable>
-            </React.Fragment>
+          </Tr>
+        </Tbody>
+      </TableComposable>
+    </React.Fragment>
   )
-} 
-
+}
 
 const TableShort = ({ parameter }) => {
 
@@ -89,7 +72,7 @@ const TableShort = ({ parameter }) => {
 
   return (
     <React.Fragment>
-       <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
+      <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
         <Thead hasNestedHeader>
           <Tr>
             <Th hasRightBorder textCenter colSpan={1}>
@@ -125,21 +108,22 @@ const TableShort = ({ parameter }) => {
             <Th isSubheader hasRightBorder textCenter>
               {columnNames.mmrRequestL}
             </Th>
-           
-       </Tr>   
+
+          </Tr>
         </Thead>
         <Tbody>
-        {parameter.containerArray.map((containerName, index) => (
-          <Tr key={index}>
-            <Td dataLabel={columnNames.containers} textCenter>{containerName}</Td>
-            <Td dataLabel={columnNames.cpuRequestS} textCenter>{parameter.s_cpu_req} </Td>
-            <Td dataLabel={columnNames.mmrRequestS} textCenter>{parameter.s_mmr_req} </Td>
-            <Td dataLabel={columnNames.cpuRequestM} textCenter>{parameter.m_cpu_req} </Td>
-            <Td dataLabel={columnNames.mmrRequestM} textCenter>{parameter.m_mmr_req} </Td>
-            <Td dataLabel={columnNames.cpuRequestL} textCenter>{parameter.l_cpu_req} </Td>
-            <Td dataLabel={columnNames.mmrRequestL} textCenter>{parameter.l_mmr_req} </Td>
-          </Tr>
-        ))}
+
+          {parameter.containerArray.map((containerName, index) => (
+            <Tr key={index}>
+              <Td dataLabel={columnNames.containers} textCenter>{containerName}</Td>
+              <Td dataLabel={columnNames.cpuRequestS} textCenter>{parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount.toPrecision(2) + parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format} </Td>
+              <Td dataLabel={columnNames.mmrRequestS} textCenter>{parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount + parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format} </Td>
+              <Td dataLabel={columnNames.cpuRequestM} textCenter>{parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount.toPrecision(2) + parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format} </Td>
+              <Td dataLabel={columnNames.mmrRequestM} textCenter>{parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount + parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.memory?.format} </Td>
+              <Td dataLabel={columnNames.cpuRequestL} textCenter>{parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount.toPrecision(2) + parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.cpu?.format} </Td>
+              <Td dataLabel={columnNames.mmrRequestL} textCenter>{parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount + parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.memory?.format} </Td>
+            </Tr>
+          ))}
         </Tbody>
       </TableComposable>
     </React.Fragment>
@@ -153,86 +137,41 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const port = Context['autotune'];
   const list_recommendations_url = 'http://' + ip + ':' + port + '/listRecommendations?experiment_name=' + sessionStorage.getItem('Experiment Name') + '&latest=false';
   const [endtime, setEndtime] = useState<any | null>('');
-const [recommendationKind, setRecommendationKind] = useState(sessionStorage.getItem('Recommendation Type'))
-const [contName, setContName] = useState(props.SREdata.containerArray)
+  const [recommendationKind, setRecommendationKind] = useState(sessionStorage.getItem('Recommendation Type'))
+  const [data, setData] = useState([]);
+
+  const fetchData = async (value) => {
+    const response = await fetch(list_recommendations_url);
+    const data = await response.json();
+
+    const arr: any = [];
+    data[0].kubernetes_objects[0].containers.map((constainer_name, index) => {
+      // console.log(data[0].kubernetes_objects[0].containers[index].recommendations.data[value])
+      arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value])
+    })
+    setData(arr)
+    // console.log(111 , arr)
+  };
 
   const onChange = async (value: string) => {
     setEndtime(value)
-    
-    // try {
-      
-    // const response = await fetch(list_recommendations_url);
-  //   const dataArray1 : any[] = [];
-  //   const data = await response.json();
-  //   data.forEach(item => {
-  //     dataArray1.push(item);
-  //   });
-  //   const dataArray = dataArray1[0].kubernetes_objects[0].containers[0].recommendations.data[value]
-
-  //   console.log(dataArray);
-  // } catch (error) {
-  //   console.error(error);
-  // }
-
-
-  const data = await (await fetch(list_recommendations_url)).json()
-
-// var experiment_name = data[0].experiment_name
-
-
-    var recommendation_data = data[0].kubernetes_objects[0].containers[0]
-    var recommendation_type = recommendation_data.recommendations.notifications[0].message
-
-   var short_term_cpu = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.cpu.amount.toPrecision(2) + recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.cpu.format
-    var short_term_mmr = recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.memory.amount.toPrecision(2) + recommendation_data.recommendations.data[value].duration_based.short_term.config.requests.memory.format
-  //  console.log(short_term_cpu)
-    let medium_term_cpu, medium_term_mmr, long_term_cpu: string, long_term_mmr : string ;
-try{
-      medium_term_cpu = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.cpu.amount + recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.cpu.format
-      medium_term_mmr = recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.memory.amount + recommendation_data.recommendations.data[value].duration_based.medium_term.config.requests.memory.format
-    }
-    catch {
-      medium_term_mmr = '-'
-      medium_term_cpu = '-'
-    }
-   
-try{
-       long_term_cpu = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.cpu.amount + recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.cpu.format
-    long_term_mmr = recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.memory.amount + recommendation_data.recommendations.data[value].duration_based.long_term.config.requests.memory.format
-    }
-
-    catch {
-      long_term_cpu = '-'
-      long_term_mmr = '-'
-    }
-    props.setSREdata({ ...{ ...props.SREdata }, recommendation_type: recommendation_type })
-    props.setSREdata({ ...{ ...props.SREdata }, short_term_cpu_req: short_term_cpu, short_term_mmr_req: short_term_mmr
-                                              , medium_term_cpu_req: medium_term_cpu, medium_term_mmr_req: medium_term_mmr
-                                              , long_term_cpu_req: long_term_cpu, long_term_mmr_req: long_term_mmr
-                                            })
-
-
-
-
- sessionStorage.setItem('Recommendation Type', recommendation_type);
-  };
-
- 
-      return (
+    fetchData(value);
+  }
+  return (
     <>
-    <br />  
+      <br />
       <TextContent>
         <Text component={TextVariants.h1}>Recommendations</Text>
-      </TextContent>  
-      <br />  
+      </TextContent>
+      <br />
       <WorkloadTable experimentData={{
         experiment_name: props.SREdata.experiment_name,
         namespace: props.SREdata.namespace,
         name: props.SREdata.name,
         type: props.SREdata.type
 
-       } }/>
-      <br /> 
+      }} />
+      <br />
       <Flex>
         <FlexItem>
           <TextContent>
@@ -252,21 +191,15 @@ try{
 
       <br />  <br />
       <TextContent>
-        <Text component={TextVariants.h3}>{recommendationKind}</Text>
-      </TextContent> 
-   
-<br/>
+        <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
+      </TextContent>
 
+      <br />
 
-        <TableShort parameter={{
-          containerArray: props.SREdata.containerArray,
-          s_cpu_req: props.SREdata.short_term_cpu_req,
-          s_mmr_req: props.SREdata.short_term_mmr_req,
-          m_cpu_req: props.SREdata.medium_term_cpu_req,
-          m_mmr_req: props.SREdata.medium_term_mmr_req,
-          l_cpu_req: props.SREdata.long_term_cpu_req,
-          l_mmr_req: props.SREdata.long_term_mmr_req
-        }} />
+      <TableShort parameter={{
+        containerArray: props.SREdata.containerArray,
+        dataA: data
+      }} />
 
     </>
   );
