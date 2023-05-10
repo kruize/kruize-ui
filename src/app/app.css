@@ -25,3 +25,31 @@ body,
 .pf-c-button {
   justify-items: right;
 }
+
+@font-face {
+  font-family: 'RedHatDisplay';
+  src:  url('!!url-loader!@app/Assets/fonts/RedHatDisplay-Medium.woff') format('woff'),
+  url('!!url-loader!@app/Assets/fonts/RedHatDisplay-Medium.woff2') format('woff2');    
+  font-weight:400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RedHatTextRegular';
+  src:   url('!!url-loader!@app/Assets/fonts/RedHatText-Regular.woff') format('woff'),
+  url('!!url-loader!@app/Assets/fonts/RedHatText-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'overpass';
+  src: url('!!url-loader!@app/Assets/fonts/overpass-light.woff') format('woff'),
+  url('!!url-loader!@app/Assets/fonts/overpass-light.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: 'overpass';
+}

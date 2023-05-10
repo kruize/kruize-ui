@@ -1,7 +1,11 @@
 
 FROM node:16 AS builder
 
+ARG IP
+ARG PORT
+
 WORKDIR /builder
+
 
 COPY package.json ./
 
@@ -11,8 +15,14 @@ RUN npm install
 
 COPY . ./
 
-#RUN npm run build
-RUN ./deploy.sh -c
+COPY deploy.sh /deploy.sh
+
+# Replace the placeholders in the deploy script with the IP and port
+RUN sed -i "s/{{IP}}/$IP/g" /deploy.sh && \
+    sed -i "s/{{PORT}}/$PORT/g" /deploy.sh && \
+    chmod +x /deploy.sh
+
+RUN ./deploy.sh -p
 
 # Production image
 
@@ -38,5 +48,11 @@ RUN cat /tmp/nginx.conf >nginx.conf
 # RUN cat nginx.conf
 
 # ENTRYPOINT ["/bin/sh", "-c" ,"nginx -t && nginx -g daemon off;"]
+Expose 80
+#RUN npm run start
+
+# Start the deployment script and create an ssh tunnel
+#CMD ["/bin/sh", "-c", "./deploy.sh -d "]
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
+

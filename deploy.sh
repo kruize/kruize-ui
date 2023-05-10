@@ -1,5 +1,21 @@
 #!/bin/bash
-source getotps.sh
+#source getotps.sh
+
+
+export  CLUSTER_IP=$IP
+export AUTOTUNE_PORT=$PORT
+
+echo $CLUSTER_IP
+echo $AUTOTUNE_PORT
+
+
+if [[ -z "$CLUSTER_IP" ]]; then
+  source getotps.sh
+  echo "in getotps" 
+else
+  echo "CLUSTERIP is set to $CLUSTERIP"
+fi
+
 function start_gui_dev_mode() {
     if command -v npm 
     then
@@ -15,8 +31,8 @@ function start_gui_prod_mode() {
     then
         echo "npm is NOT Installed on your machine."	
     else
-	    npm run build
-        npm run start
+	 npm run build
+        #npm run start
     fi
     echo "prod m"
 }

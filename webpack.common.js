@@ -350,17 +350,20 @@ module.exports = env => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'index.html')
+        template: path.resolve(__dirname, 'src', 'index.html'),
+        favicon: path.resolve(__dirname, 'src/app/Assets/favicon', 'favicon.png')
+        
       }),
       new Dotenv({
         systemvars: true,
         silent: true
       }),
-      new CopyPlugin({
-        patterns: [
-          { from: './src/favicon.png', to: 'images' },
-        ]
-      })
+      // new CopyPlugin({
+      //   patterns: [
+      //     { from: './src/app/Assets/favicon/favicon.png', to: 'images' },
+         
+      //   ]
+      // })
     ],
     resolve: {
       

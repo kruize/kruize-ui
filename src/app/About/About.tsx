@@ -13,11 +13,11 @@ import { RunExperiment } from '@app/RunExperiment/RunExperiment';
 const About = () => (
   <PageSection variant={PageSectionVariants.light}>
     <TextContent>
-      <Text component={TextVariants.h1}>About Kruize</Text>
+      <Text component={TextVariants.h1}  className="pf-m-redhat-font">About Kruize</Text>
     </TextContent>
 
     <br />
-    <Text component={TextVariants.h5}>
+    <Text component={TextVariants.h5}  className="pf-m-redhat-font">
       Autotune is an Autonomous Performance Tuning Tool for Kubernetes. Autotune accepts a user provided Service Level
       Objective or "slo" goal to optimize application performance. It uses Prometheus to identify "layers" of an
       application that it is monitoring and matches tunables from those layers to the user provided slo. It then runs

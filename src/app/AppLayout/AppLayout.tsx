@@ -14,7 +14,7 @@ import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
 import EnvState from '@app/ContextStore/EnvState';
 import Footer from '@app/Footer/Footer';
-import KruizeLogo from '@app/HorizontalNav/Assets/kruize_icon.png'
+import KruizeLogo from '!!url-loader!@app/Assets/images/kruize_icon.png'
 interface IAppLayout {
   children: React.ReactNode;
 }

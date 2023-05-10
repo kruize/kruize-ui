@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Popover, Nav, TextContent, Avatar, Text, TextVariants, NavItem, NavList, Flex } from '@patternfly/react-core';
-import Kubernetes_image from './Assets/Kubernetes_image.png';
-import Kruize_logo from './Assets/kruize_icon.png';
-import Avatar_image from './Assets/Avatar_image.svg';
+import Kubernetes_image from '!!url-loader!@app/Assets/images/Kubernetes_image.png';
+// import Kruize_logo from '!!url-loader!@app/assets/images/kruize_icon.png';
+import Avatar_image from '!!url-loader!@app/Assets/images/Avatar_image.svg';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import nodeContext from '@app/ContextStore/nodeContext';
