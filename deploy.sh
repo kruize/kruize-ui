@@ -8,12 +8,15 @@ export AUTOTUNE_PORT=$PORT
 echo $CLUSTER_IP
 echo $AUTOTUNE_PORT
 
+#set var
+in_docker="no"
 
 if [[ -z "$CLUSTER_IP" ]]; then
   source getotps.sh
   echo "in getotps" 
 else
   echo "CLUSTERIP is set to $CLUSTERIP"
+  in_docker="yes"
 fi
 
 function start_gui_dev_mode() {
@@ -32,7 +35,9 @@ function start_gui_prod_mode() {
         echo "npm is NOT Installed on your machine."	
     else
 	 npm run build
-        #npm run start
+        if [ "$in_docker" = "no" ]; then
+            npm run start
+        fi
     fi
     echo "prod m"
 }
