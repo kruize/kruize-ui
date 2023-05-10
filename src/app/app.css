@@ -50,6 +50,14 @@ body,
   font-style: normal;
 }
 
-body {
+@font-face {
   font-family: 'overpass';
+  src: url('!!url-loader!@app/Assets/fonts/overpass-bold.woff') format('woff'),
+  url('!!url-loader!@app/Assets/fonts/overpass-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+  font-family: 'overpass', 'RedHatTextRegular', 'RedHatDisplay';
 }
