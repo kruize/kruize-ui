@@ -322,7 +322,7 @@ const MonitoringTable = () => {
     const Context = useContext(nodeContext);
     const ip = Context['cluster'];
     const port = Context['autotune'];
-    const list_experiments_url = 'http://' + ip + ':' + port + '/listRecommendations';
+    const list_experiments_url = 'http://kruize' + '/listRecommendations';
 
 
     useEffect(() => {
