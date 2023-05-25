@@ -1,72 +1,32 @@
 #!/bin/bash
-#source getotps.sh
-
-
-export  CLUSTER_IP=$IP
-export AUTOTUNE_PORT=$PORT
-
-echo $CLUSTER_IP
-echo $AUTOTUNE_PORT
-
-#set var
-in_docker="no"
-
-if [[ -z "$CLUSTER_IP" ]]; then
-  source getotps.sh
-  echo "in getotps" 
-else
-  echo "CLUSTERIP is set to $CLUSTERIP"
-  in_docker="yes"
-fi
-
 function start_gui_dev_mode() {
-    if command -v npm 
-    then
-        npm run start:dev
-    else
-        echo "npm is NOT Installed on your machine."	
-    fi
-    echo "dev m"
-}
-
-function start_gui_prod_mode() {
     if ! command -v npm
     then
         echo "npm is NOT Installed on your machine."	
     else
+    source getotps.sh
 	 npm run build
-        if [ "$in_docker" = "no" ]; then
-            npm run start
-        fi
+     npm run start
     fi
-    echo "prod m"
 }
 
 function start_gui_docker_mode() {
     npm run build
-    
 }
 
-while getopts ":dpc" gopts;
+while getopts ":dc" gopts;
     do
         case ${gopts} in 
         d)  
-            # production=0
             start_gui_dev_mode
-            echo "d"
-            ;;
-        p)  
-            # production=1
-            start_gui_prod_mode
-            echo  "p"
+            echo  "development mode"
             ;;
         c)
-            # contanerized mode - docker 
             start_gui_docker_mode
             echo "docker mode"
             ;;
         \?) 
-            echo "exit, use p or d options"
+            echo "exit, use d or c options"
             ;;
         esac
     done

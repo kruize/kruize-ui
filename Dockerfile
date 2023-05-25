@@ -1,14 +1,10 @@
 FROM node:16 AS builder
 
-ARG IP
-ARG PORT
-
 WORKDIR /builder
 
+RUN npm config set legacy-peer-deps true
 
 COPY package.json ./
-
-RUN npm config set legacy-peer-deps true
 
 RUN npm install 
 
@@ -16,11 +12,7 @@ COPY . ./
 
 COPY deploy.sh /deploy.sh
 
-RUN sed -i "s/{{IP}}/$IP/g" /deploy.sh && \
-    sed -i "s/{{PORT}}/$PORT/g" /deploy.sh && \
-    chmod +x /deploy.sh
-
-RUN ./deploy.sh -p
+RUN ./deploy.sh -c
 
 # Production image
 
