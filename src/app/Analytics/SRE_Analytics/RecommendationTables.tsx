@@ -135,7 +135,14 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const Context = useContext(nodeContext);
   const ip = Context['cluster'];
   const port = Context['autotune'];
-  const list_recommendations_url = 'http://kruize' + '/listRecommendations?experiment_name=' + sessionStorage.getItem('Experiment Name') + '&latest=false';
+  let k_url: string;
+
+if (ip) {
+  k_url = ip + ':' + port;
+} else {
+  k_url = 'kruize';
+}
+  const list_recommendations_url = 'http://' + k_url + '/listRecommendations?experiment_name=' + sessionStorage.getItem('Experiment Name') + '&latest=false';
   const [endtime, setEndtime] = useState<any | null>('');
   const [recommendationKind, setRecommendationKind] = useState(sessionStorage.getItem('Recommendation Type'))
   const [data, setData] = useState([]);

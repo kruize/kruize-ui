@@ -12,9 +12,16 @@ const HorizontalNav = () => {
   const [autotuneOn, setAutotuneOn] = useState(false);
   const [clusterStatus, setClusterStatus] = useState(false);
   const Context = useContext(nodeContext);
-  // const ip = Context['cluster'];
-  // const port = Context['autotune'];
-  const ip = 'kruize';
+  const ip = Context['cluster'];
+  const port = Context['autotune'];
+
+  let k_url: string;
+
+  if (ip) {
+    k_url = ip + ':' + port;
+  } else {
+    k_url = 'kruize';
+  }
 
   useEffect(() => {
     if (ip != null) {
@@ -97,12 +104,12 @@ const HorizontalNav = () => {
               <div>
                 <b>Cluster Information </b>
                 <br />
-                <label>Minikube URL : http://kruize</label>
+                <label>Minikube URL : http://{ip}</label>
                 
                   <div>
                     <br />
                     <label>
-                      Kruize URL : http://kruize
+                      Kruize URL : http://{k_url}
                     </label>
                   </div>
               
