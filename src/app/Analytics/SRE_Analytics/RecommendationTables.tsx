@@ -137,21 +137,19 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const port = Context['autotune'];
   const list_recommendations_url = 'http://' + ip + ':' + port + '/listRecommendations?experiment_name=' + sessionStorage.getItem('Experiment Name') + '&latest=false';
   const [endtime, setEndtime] = useState<any | null>('');
-  const [recommendationKind, setRecommendationKind] = useState(sessionStorage.getItem('Recommendation Type'))
   const [data, setData] = useState([]);
 
   const fetchData = async (value) => {
     const response = await fetch(list_recommendations_url);
     const data = await response.json();
-
     const arr: any = [];
-    data[0].kubernetes_objects[0].containers.map((constainer_name, index) => {
-      // console.log(data[0].kubernetes_objects[0].containers[index].recommendations.data[value])
+
+    data[0].kubernetes_objects[0].containers.map((container_name, index) => {
       arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value])
     })
     setData(arr)
-    // console.log(111 , arr)
   };
+
 
   const onChange = async (value: string) => {
     setEndtime(value)
@@ -190,6 +188,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
       </Flex>
 
       <br />  <br />
+      
       <TextContent>
         <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
       </TextContent>
@@ -200,7 +199,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         containerArray: props.SREdata.containerArray,
         dataA: data
       }} />
-
+    
     </>
   );
 }
