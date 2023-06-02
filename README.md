@@ -56,7 +56,7 @@ We make use of nginx as a default react server for the UI.
 Create the image using the following command<br />
 
 ```
- docker build --build-arg IP=<IP Address> --build-arg PORT=<Port Number> -t ui-demo .
+ docker build -t ui-demo .
 
 ```
 

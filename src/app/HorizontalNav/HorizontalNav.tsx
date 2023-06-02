@@ -15,6 +15,14 @@ const HorizontalNav = () => {
   const ip = Context['cluster'];
   const port = Context['autotune'];
 
+  let k_url: string;
+
+  if (ip) {
+    k_url = ip + ':' + port;
+  } else {
+    k_url = 'kruize';
+  }
+
   useEffect(() => {
     if (ip != null) {
       setClusterStatus(true);
@@ -22,7 +30,7 @@ const HorizontalNav = () => {
   }, []);
 
   useEffect(() => {
-    if (ip === null || port === null) {
+    if (ip === null) {
       setAutotuneOn(false);
     } else {
       setAutotuneOn(true);
@@ -97,16 +105,14 @@ const HorizontalNav = () => {
                 <b>Cluster Information </b>
                 <br />
                 <label>Minikube URL : http://{ip}</label>
-                {port === null ? (
-                  <React.Fragment />
-                ) : (
+                
                   <div>
                     <br />
                     <label>
-                      Kruize URL : http://{ip}:{port}
+                      Kruize URL : http://{k_url}
                     </label>
                   </div>
-                )}
+              
               </div>
             }
           >

@@ -322,8 +322,15 @@ const MonitoringTable = () => {
     const Context = useContext(nodeContext);
     const ip = Context['cluster'];
     const port = Context['autotune'];
-    const list_experiments_url = 'http://' + ip + ':' + port + '/listRecommendations';
 
+    let k_url: string;
+
+    if (ip) {
+      k_url = ip + ':' + port;
+    } else {
+      k_url = 'kruize';
+    }
+    const list_experiments_url = 'http://' + k_url + '/listRecommendations';
 
     useEffect(() => {
         if (ip != 'undefined' && port != 'undefined') {

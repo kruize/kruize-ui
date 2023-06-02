@@ -7,8 +7,17 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   const Context = useContext(nodeContext);
   const ip = Context['cluster'];
   const port = Context['autotune'];
-  const list_recommendations_url = 'http://' + ip + ':' + port + '/listRecommendations?experiment_name=' + props.SREdata.experiment_name + '&latest=false';
-  const list_experiment_url = 'http://' + ip + ':' + port + '/listExperiments';
+  let k_url: string;
+
+  if (ip) {
+    k_url = ip + ':' + port;
+  } else {
+    k_url = 'kruize';
+  }
+
+  const list_recommendations_url = 'http://' + k_url + '/listRecommendations?experiment_name=' + props.SREdata.experiment_name + '&latest=false';
+  const list_experiment_url = 'http://' + k_url + '/listExperiments';
+
   const [usecase, setUsecase] = useState('Select one');
   const [nestedUsecase, setNestedUsecase] = useState('Select nested');
   const [value, setValue] = useState('');
