@@ -138,6 +138,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const list_recommendations_url = 'http://' + ip + ':' + port + '/listRecommendations?experiment_name=' + sessionStorage.getItem('Experiment Name') + '&latest=false';
   const [endtime, setEndtime] = useState<any | null>('');
   const [data, setData] = useState([]);
+const [show, setShow] = useState(false);
 
   const fetchData = async (value) => {
     const response = await fetch(list_recommendations_url);
@@ -147,14 +148,35 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
     data[0].kubernetes_objects[0].containers.map((container_name, index) => {
       arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value])
     })
+    
     setData(arr)
   };
-
 
   const onChange = async (value: string) => {
     setEndtime(value)
     fetchData(value);
   }
+useEffect(() => {
+  if (props.endTimeArray === null || props.endTimeArray.length === 1){
+    console.log(props.endTimeArray, 'no time stamps')
+    setShow(false)
+    return () => {
+      <TextContent>
+        <Text component={TextVariants.h3}>No time stamp no recommendation</Text>
+      </TextContent>
+    }
+  }
+  else {
+    console.log( props.endTimeArray, 'time spant')
+    setShow(true)
+    return () => {
+      <TextContent>
+        <Text component={TextVariants.h3}>recommendation avaliable</Text>
+      </TextContent>
+    }
+  }
+}, [props.endTimeArray])
+
   return (
     <>
       <br />
@@ -170,11 +192,17 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
 
       }} />
       <br />
-      <Flex>
+  
+
+    
+      {show ? 
+      <>
+          <Flex>
         <FlexItem>
           <TextContent>
             <Text component={TextVariants.h3}>Monitoring End Time</Text>
           </TextContent>
+          <br/>
           <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
             {props.endTimeArray != null ? props.endTimeArray.map((option, index) => (
               <FormSelectOption key={index} value={option} label={option} />
@@ -186,9 +214,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           </FormSelect>
         </FlexItem>
       </Flex>
-
       <br />  <br />
-      
       <TextContent>
         <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
       </TextContent>
@@ -199,7 +225,9 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         containerArray: props.SREdata.containerArray,
         dataA: data
       }} />
-    
+      </>
+    : <></>
+}
     </>
   );
 }
