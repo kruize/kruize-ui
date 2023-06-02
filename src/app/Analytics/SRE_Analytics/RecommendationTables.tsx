@@ -144,26 +144,46 @@ if (ip) {
 }
   const list_recommendations_url = 'http://' + k_url + '/listRecommendations?experiment_name=' + sessionStorage.getItem('Experiment Name') + '&latest=false';
   const [endtime, setEndtime] = useState<any | null>('');
-  const [recommendationKind, setRecommendationKind] = useState(sessionStorage.getItem('Recommendation Type'))
   const [data, setData] = useState([]);
+const [show, setShow] = useState(false);
 
   const fetchData = async (value) => {
     const response = await fetch(list_recommendations_url);
     const data = await response.json();
-
     const arr: any = [];
-    data[0].kubernetes_objects[0].containers.map((constainer_name, index) => {
-      // console.log(data[0].kubernetes_objects[0].containers[index].recommendations.data[value])
+
+    data[0].kubernetes_objects[0].containers.map((container_name, index) => {
       arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value])
     })
+    
     setData(arr)
-    // console.log(111 , arr)
   };
 
   const onChange = async (value: string) => {
     setEndtime(value)
     fetchData(value);
   }
+useEffect(() => {
+  if (props.endTimeArray === null || props.endTimeArray.length === 1){
+    console.log(props.endTimeArray, 'no time stamps')
+    setShow(false)
+    return () => {
+      <TextContent>
+        <Text component={TextVariants.h3}>No time stamp no recommendation</Text>
+      </TextContent>
+    }
+  }
+  else {
+    console.log( props.endTimeArray, 'time spant')
+    setShow(true)
+    return () => {
+      <TextContent>
+        <Text component={TextVariants.h3}>recommendation avaliable</Text>
+      </TextContent>
+    }
+  }
+}, [props.endTimeArray])
+
   return (
     <>
       <br />
@@ -179,11 +199,17 @@ if (ip) {
 
       }} />
       <br />
-      <Flex>
+  
+
+    
+      {show ? 
+      <>
+          <Flex>
         <FlexItem>
           <TextContent>
             <Text component={TextVariants.h3}>Monitoring End Time</Text>
           </TextContent>
+          <br/>
           <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
             {props.endTimeArray != null ? props.endTimeArray.map((option, index) => (
               <FormSelectOption key={index} value={option} label={option} />
@@ -195,7 +221,6 @@ if (ip) {
           </FormSelect>
         </FlexItem>
       </Flex>
-
       <br />  <br />
       <TextContent>
         <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
@@ -207,7 +232,9 @@ if (ip) {
         containerArray: props.SREdata.containerArray,
         dataA: data
       }} />
-
+      </>
+    : <></>
+}
     </>
   );
 }
