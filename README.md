@@ -36,13 +36,7 @@ To run the kruize ui you can select any of the 2 options :
 1. Native way<br />
    If you are starting the UI for the very first time, it is suggested to
    Latest Node.js source code can be downloaded from [here](https://nodejs.org/en/download/).
-   To run the Kruize-ui: clone the repository and then execute the following command to run the launch script in production mode.<br />
-
-```
-./deploy.sh -p
-```
-
-And to launch in development mode use
+   To run the Kruize-ui: clone the repository and then execute the following command to run the launch script locally.<br />
 
 ```
 ./deploy.sh -d
@@ -56,14 +50,14 @@ We make use of nginx as a default react server for the UI.
 Create the image using the following command<br />
 
 ```
- docker build -t ui-demo .
+ docker build -t kruize-ui .
 
 ```
 
 Run the application using the following command
 
 ```
-docker run --rm -it -p 8080:8080 ui-demo
+docker run --rm -it -p 8080:8080 kruize-ui
 ```
 
 here ui-demo is the image name.<br />
