@@ -15,12 +15,13 @@ const HorizontalNav = () => {
   const ip = Context['cluster'];
   const port = Context['autotune'];
 
-  let k_url: string;
+  let k_url;
+  const k = process.env.kruize;
 
   if (ip) {
     k_url = ip + ':' + port;
   } else {
-    k_url = 'kruize';
+    k_url = k;
   }
 
   useEffect(() => {
