@@ -165,7 +165,7 @@ const [show, setShow] = useState(false);
   }
 useEffect(() => {
   if (props.endTimeArray === null || props.endTimeArray.length === 1){
-    console.log(props.endTimeArray, 'no time stamps')
+    // console.log(props.endTimeArray, 'no time stamps')
     setShow(false)
     return () => {
       <TextContent>
@@ -174,7 +174,7 @@ useEffect(() => {
     }
   }
   else {
-    console.log( props.endTimeArray, 'time spant')
+    // console.log( props.endTimeArray, 'time spant')
     setShow(true)
     return () => {
       <TextContent>

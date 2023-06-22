@@ -1,8 +1,8 @@
 import nodeContext from '@app/ContextStore/nodeContext';
-import { Flex, TextContent, TextVariants, FormSelect, FormSelectOption, TextInput, Button, Text, Grid, GridItem } from '@patternfly/react-core';
+import { Flex, TextContent, TextVariants, FormSelect, FormSelectOption, TextInput, Button, Text, Grid, GridItem, TimePicker } from '@patternfly/react-core';
 import React, { useContext, useState } from 'react'
 
-const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
+const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; chartData; setChartData}) => {
 
   const Context = useContext(nodeContext);
   const ip = Context['cluster'];
@@ -17,12 +17,14 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
 
   const list_recommendations_url = 'http://' + k_url + '/listRecommendations?experiment_name=' + props.SREdata.experiment_name + '&latest=false';
   const list_experiment_url = 'http://' + k_url + '/listExperiments';
+  const list_experiments_url_for_charts = 'http://' + k_url + '/listExperiments?results=true&recommendations=true&latest=false&experiment_name=' + sessionStorage.getItem('Experiment Name');
 
   const [usecase, setUsecase] = useState('Select one');
   const [nestedUsecase, setNestedUsecase] = useState('Select nested');
   const [value, setValue] = useState('');
   const [expName, setExpName] = useState<any | null>('');
   const [expData, setExpData] = useState([]);
+
 
   const fetchData = async () => {
     const response = await fetch(list_experiment_url);
@@ -71,6 +73,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
 
     try {
       if (ip != 'undefined' && port != 'undefined') {
+        // for api 1
         const data = await (await fetch(list_recommendations_url)).json()
         var namespace = data[0].kubernetes_objects[0].namespace
         var name = data[0].kubernetes_objects[0].name
@@ -85,13 +88,68 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
           containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name)
         }
+        props.setSREdata({ ...{ ...props.SREdata }, containerArray: containerArray, namespace: namespace, name: name, type: type });
+        
+        // for api 2
+        const response = await fetch(list_experiments_url_for_charts);
+        const data2 = await response.json();
 
-        props.setSREdata({ ...{ ...props.SREdata }, containerArray: containerArray, namespace: namespace, name: name, type: type })
+        let timestamp: any = [];
+        timestamp = Object.keys(data2[0].kubernetes_objects[0].containers['tfb-server-1'].results);
+        timestamp.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 
+        let chartTimestamp;
+        chartTimestamp = timestamp.slice(0,8)
+// console.log(chartTimestamp)
+        // const dataArray = Object.entries(data);
+
+        let timeMetrics = Object.entries(data2[0].kubernetes_objects[0].containers['tfb-server-1'].results);
+        // console.log(timeMetrics)
+       
+        timeMetrics.sort((a,b) =>  new Date(b[0]).getTime() - new Date (a[0]).getTime());
+
+        // console.log(ab)
+        // let ab = timeMetrics.sort((a, b) => new Date(b) - new Date(a));
+        let chartMetrics = timeMetrics.slice(0,8)
+        // const intervalEndTimes = chartMetrics.map(([_, { aggregation_info }]) => aggregation_info )
+        console.log(chartMetrics)
+
+   
+  interface MetricsData {
+  interval_end_time: string;
+  metrics: Record<string, { avg: number | null; max: number | null }>;
+}
+
+const metricsData: MetricsData[] = [];
+
+chartMetrics.forEach(([_, data]) => {
+  const { interval_end_time, metrics } = data;
+  const metricsObj: Record<string, { avg: number | null; max: number | null }> = {};
+
+  Object.entries(metrics).forEach(([metricName, metricData]) => {
+    const metric = metricData as Record<string, { avg: number | null; max: number | null }>;
+
+    if (metric && metric.aggregation_info) {
+      const aggregationInfo = metric.aggregation_info as { avg: number | null; max: number | null };
+
+      if (aggregationInfo.avg != null && aggregationInfo.max != null) {
+        const avg = aggregationInfo.avg;
+        const max = aggregationInfo.max;
+        metricsObj[metricName] = { avg, max };
       }
     }
+  });
+
+  metricsData.push({ interval_end_time, metrics: metricsObj });
+});
+
+console.log(metricsData);
+    props.setChartData({ ...{ ...props.chartData }, chartMetrics: metricsData})
+     
+         }
+    }
     catch (err) {
-      console.log('processing')
+      console.log("err")
     }
   }
 

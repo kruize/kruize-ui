@@ -8,7 +8,7 @@
     "outDir": "dist",
     "module": "esnext",
     "target": "es2017",
-    "lib": ["es6","es5", "dom"],
+    "lib": ["es6","es5", "dom", "dom.iterable", "es2019"],
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
@@ -33,6 +33,6 @@
     "**/*.tsx",
     "**/*.jsx",
     "**/*.js"
-  ],
+, "src/app/Chart"  ],
   "exclude": ["node_modules"]
 }

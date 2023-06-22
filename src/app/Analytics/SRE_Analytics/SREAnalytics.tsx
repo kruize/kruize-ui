@@ -9,6 +9,7 @@ import { ExperimentTable } from '../User_Analytics/ExperimentTable';
 import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import { RecommendationTables } from './RecommendationTables'
 import { UsecaseSelection } from './UsecaseSelection';
+import { LineChart } from './LineChart';
 
 const SREdataa = {
    experiment_name: '',
@@ -18,11 +19,19 @@ const SREdataa = {
   containerArray: []
 }
 
+const chartDataa = {
+  chartMetrics: [],
+  timestamp: [],
+  average: [],
+  max: []
+}
+
 
 const SREAnalytics = () => {
 
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
   const [SREdata, setSREdata] = useState(SREdataa);
+  const [chartData, setChartData] = useState(chartDataa);
   const [endTimeArray, setEndTimeArray] = useState<any | null>(null);
 
   const handleTabClick = (
@@ -48,13 +57,16 @@ const SREAnalytics = () => {
 
 
         <Tab eventKey={0} title={<TabTitleText>UseCase Selections</TabTitleText>} aria-label="Tabs filled example content users">
-          <UsecaseSelection setEndTimeArray={setEndTimeArray} endTimeArray={endTimeArray} setSREdata={setSREdata} SREdata={SREdata} />
+          <UsecaseSelection setEndTimeArray={setEndTimeArray} endTimeArray={endTimeArray} setSREdata={setSREdata} SREdata={SREdata} setChartData={setChartData} chartData={chartData}/>
         </Tab>
 
         <Tab eventKey={1} title={<TabTitleText>Recommendations</TabTitleText>}>
           <RecommendationTables setEndTimeArray={setEndTimeArray} endTimeArray={endTimeArray} setSREdata={setSREdata} SREdata={SREdata} />
         </Tab>
 
+        <Tab eventKey={2} title={<TabTitleText>Charts</TabTitleText>}>
+          <LineChart setEndTimeArray={setEndTimeArray} endTimeArray={endTimeArray} setSREdata={setSREdata} SREdata={SREdata} setChartData={setChartData} chartData={chartData} />
+        </Tab>
       </Tabs>
 
     </PageSection>
