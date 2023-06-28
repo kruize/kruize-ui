@@ -18,17 +18,23 @@ FROM registry.access.redhat.com/ubi8/nginx-118
 
 USER root
 
-COPY --from=builder /builder/dist/* ./
+COPY --from=builder /builder/dist/* /usr/share/nginx/html
 
-USER default
+#RUN rm -rf /etc/nginx/conf.d/default.conf
 
-WORKDIR /etc/nginx
+#COPY ./nginx.conf /etc/nginx/conf.d
 
-RUN cp nginx.conf /tmp
-RUN sed -i 's|listen       \[::\]:8080 default_server|listen       8080|' /tmp/nginx.conf
-RUN sed -i 's|listen       8080 default_server;||' /tmp/nginx.conf
-RUN cat /tmp/nginx.conf >nginx.conf
+#USER default
 
 EXPOSE 80
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# WORKDIR /etc/nginx
+
+# RUN cp nginx.conf /tmp
+# RUN sed -i 's|listen       \[::\]:8080 default_server|listen       8080|' /tmp/nginx.conf
+# RUN sed -i 's|listen       8080 default_server;||' /tmp/nginx.conf
+# RUN cat /tmp/nginx.conf >nginx.conf
+
+
+
+#ENTRYPOINT ["nginx", "-g", "daemon off;"]
