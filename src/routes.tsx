@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { About } from '@app/About/About';
-import { RunExperiment } from '@app/RunExperiment/RunExperiment';
-import { SREAnalytics } from '@app/Analytics/SRE_Analytics/SREAnalytics';
-import { UserAnalytics } from './Analytics/User_Analytics/UserAnalytics';
-import { ObjectiveFunction } from '@app/AdvancedUser/ObjectiveFunction';
-import { LayerDefination } from '@app/AdvancedUser/LayerDefination';
-import { TrialSettings } from '@app/AdvancedUser/TrialSettings';
 import { InstallationGuide } from '@app/Documentation/InstallationGuide';
-import { FAQs } from './Documentation/FAQs';
-import { Glossary } from './Documentation/Glossary';
-import { CommunityCall } from './Documentation/CommunityCall';
-import { NotFound } from '@app/NotFound/NotFound';
+import { FAQs } from './app/Documentation/FAQs';
+import { Glossary } from './app/Documentation/Glossary';
+import { CommunityCall } from './app/Documentation/CommunityCall';
+import { NotFound } from '@app/components/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+import { About } from './app/pages/About/About';
+import { SREAnalytics } from './app/pages/Analytics/SRE_Analytics/SREAnalytics';
+import { UserAnalytics } from './app/pages/Analytics/User_Analytics/UserAnalytics';
+import { RunExperiment } from '@app/pages/RunExperiment/RunExperiment';
+import { ObjectiveFunction } from '@app/pages/AdvancedUser/ObjectiveFunction';
+import { LayerDefination } from '@app/pages/AdvancedUser/LayerDefination';
+import { TrialSettings } from '@app/pages/AdvancedUser/TrialSettings';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -64,7 +64,7 @@ const routes: AppRouteConfig[] = [
         title: 'SRE View'
       }
       // {
-      //   component: UserAnalytics,
+      // component: UserAnalytics,
       //   exact: true,
       //   label: 'User View',
       //   path: '/analytics_user',

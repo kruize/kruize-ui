@@ -1,7 +1,19 @@
-import { TextContent, TextVariants, Flex, FlexItem, FormSelect, FormSelectOption, Text } from '@patternfly/react-core';
+import nodeContext from '@app/components/ContextStore/nodeContext';
+import { duration } from '@material-ui/core';
+import {
+  TextContent,
+  TextVariants,
+  Flex,
+  FlexItem,
+  FormSelect,
+  FormSelectOption,
+  Text,
+  Form,
+  FormGroup
+} from '@patternfly/react-core';
+import { end } from '@patternfly/react-core/dist/esm/helpers/Popper/thirdparty/popper-core';
 import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
-import React, { useEffect, useState } from 'react';
-import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
+import React, { useContext, useEffect, useState } from 'react';
 
 const WorkloadTable = ({ experimentData }) => {
   const columnNames = {
@@ -62,9 +74,9 @@ const WorkloadTable = ({ experimentData }) => {
 const TableShort = ({ parameter }) => {
   const columnNames = {
     containers: 'Containers',
-    short_term: 'Short Term',
-    medium_term: 'Medium Term',
-    long_term: 'Long Term',
+    short_term: 'Short Term Recommendations',
+    medium_term: 'Medium Term Recommendations',
+    long_term: 'Long Term Recommendations',
     cpuRequestS: 'CPU Request',
     mmrRequestS: 'Mem Request',
     cpuRequestM: 'CPU Request',
@@ -119,55 +131,29 @@ const TableShort = ({ parameter }) => {
               <Td dataLabel={columnNames.containers} textCenter>
                 {containerName}
               </Td>
-
               <Td dataLabel={columnNames.cpuRequestS} textCenter>
-                {parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format
-                  : NaN}{' '}
+                {parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount.toPrecision(2) +
+                  parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format}{' '}
               </Td>
-
               <Td dataLabel={columnNames.mmrRequestS} textCenter>
-                {parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format
-                  : NaN}{' '}
+                {parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount +
+                  parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format}{' '}
               </Td>
               <Td dataLabel={columnNames.cpuRequestM} textCenter>
-                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format
-                  : NaN}{' '}
+                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount.toPrecision(2) +
+                  parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format}{' '}
               </Td>
               <Td dataLabel={columnNames.mmrRequestM} textCenter>
-                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.memory?.format
-                  : NaN}{' '}
+                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount +
+                  parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.memory?.format}{' '}
               </Td>
               <Td dataLabel={columnNames.cpuRequestL} textCenter>
-                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.cpu?.format
-                  : NaN}{' '}
+                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount.toPrecision(2) +
+                  parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.cpu?.format}{' '}
               </Td>
               <Td dataLabel={columnNames.mmrRequestL} textCenter>
-                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.memory?.format
-                  : NaN}{' '}
+                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount +
+                  parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.memory?.format}{' '}
               </Td>
             </Tr>
           ))}
@@ -178,30 +164,27 @@ const TableShort = ({ parameter }) => {
 };
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
-  // @ts-ignore
-  const list_recommendations_url: string = getRecommendationsURLWithParams(
-    sessionStorage.getItem('Experiment Name') || '',
-    'false'
-  );
+  const Context = useContext(nodeContext);
+  const ip = Context['cluster'];
+  const port = Context['autotune'];
+  let k_url: string;
 
+  if (ip) {
+    k_url = ip + ':' + port;
+  } else {
+    k_url = 'kruize';
+  }
+  const list_recommendations_url =
+    'http://' +
+    k_url +
+    '/listRecommendations?experiment_name=' +
+    sessionStorage.getItem('Experiment Name') +
+    '&latest=false';
   const [endtime, setEndtime] = useState<any | null>('');
-
-  const [data, setdata] = useState<any | null>('');
-
+  const [data, setData] = useState([]);
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    if (props.endTimeArray) {
-      fetchRecommendationData(props.endTimeArray[0]);
-    }
-  }, [props.endTimeArray]);
-
-  const onChange = async (value: string) => {
-    setEndtime(value);
-    fetchRecommendationData(value);
-  };
-
-  const fetchRecommendationData = async (value) => {
+  const fetchData = async (value) => {
     const response = await fetch(list_recommendations_url);
     const data = await response.json();
     const arr: any = [];
@@ -210,13 +193,16 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
       arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value]);
     });
 
-    setdata(arr);
+    setData(arr);
   };
 
+  const onChange = async (value: string) => {
+    setEndtime(value);
+    fetchData(value);
+  };
   useEffect(() => {
-    // console.log('changes on changing end time');
-    if (props.endTimeArray === null) {
-      // console.log(props.endTimeArray, 'no time stamps');
+    if (props.endTimeArray === null || props.endTimeArray.length === 1) {
+      console.log(props.endTimeArray, 'no time stamps');
       setShow(false);
       return () => {
         <TextContent>
@@ -224,7 +210,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         </TextContent>;
       };
     } else {
-      // console.log(props.endTimeArray, 'time spant');
+      console.log(props.endTimeArray, 'time spant');
       setShow(true);
       return () => {
         <TextContent>
@@ -251,7 +237,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
       />
       <br />
 
-      {show && (
+      {show ? (
         <>
           <Flex>
             <FlexItem>
@@ -260,10 +246,13 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
               </TextContent>
               <br />
               <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
-                {props.endTimeArray &&
+                {props.endTimeArray != null ? (
                   props.endTimeArray.map((option, index) => (
                     <FormSelectOption key={index} value={option} label={option} />
-                  ))}
+                  ))
+                ) : (
+                  <></>
+                )}
               </FormSelect>
             </FlexItem>
           </Flex>
@@ -278,8 +267,9 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
               dataA: data
             }}
           />
-          {/* {console.log(fetchRecommendationData(props.endTimeArray[0]))} */}
         </>
+      ) : (
+        <></>
       )}
     </>
   );

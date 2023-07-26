@@ -1,23 +1,30 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Popover, Nav, TextContent, Avatar, Text, TextVariants, NavItem, NavList, Flex } from '@patternfly/react-core';
-import Kubernetes_image from '!!url-loader!@app/Assets/images/Kubernetes_image.png';
+import Kubernetes_image from '!!url-loader!@app/components/Assets/images/Kubernetes_image.png';
 // import Kruize_logo from '!!url-loader!@app/assets/images/kruize_icon.png';
-import Avatar_image from '!!url-loader!@app/Assets/images/Avatar_image.svg';
+import Avatar_image from '!!url-loader!@app/components/Assets/images/Avatar_image.svg';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import { getHostname, getPort } from '@app/CentralConfig';
+import nodeContext from '@app/components/ContextStore/nodeContext';
 
 const HorizontalNav = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [autotuneOn, setAutotuneOn] = useState(false);
   const [clusterStatus, setClusterStatus] = useState(false);
+  const Context = useContext(nodeContext);
+  const ip = Context['cluster'];
+  const port = Context['autotune'];
 
-  const ip = getHostname();
-  const port = getPort();
-  const k_url = ip + ':' + port;
+  let k_url: string;
+
+  if (ip) {
+    k_url = ip + ':' + port;
+  } else {
+    k_url = 'kruize';
+  }
 
   useEffect(() => {
-    if (ip) {
+    if (ip != null) {
       setClusterStatus(true);
     }
   }, []);
@@ -64,7 +71,11 @@ const HorizontalNav = () => {
         >
           Community Call
         </NavItem>
-        <NavItem itemId={3} isActive={activeItem === 3} to="#">
+        <NavItem
+          itemId={3}
+          isActive={activeItem === 3}
+          to="https://calendar.google.com/calendar/embed?src=0ccjmebd5q8rgv86ugr8ooc5j0%40group.calendar.google.com&ctz=Asia%2FKolkata"
+        >
           What's New
         </NavItem>
       </NavList>
