@@ -14,7 +14,7 @@ import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
 import EnvState from '@app/ContextStore/EnvState';
 import Footer from '@app/Footer/Footer';
-import KruizeLogo from '!!url-loader!@app/Assets/images/kruize_icon.png'
+import KruizeLogo from '!!url-loader!@app/Assets/images/kruize_icon.png';
 interface IAppLayout {
   children: React.ReactNode;
 }
@@ -39,11 +39,8 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     function handleClick() {
       history.push('/');
     }
-    return (
-      <img src={KruizeLogo} onClick={handleClick} alt="Kruize Logo" width="40" height="40" />
-    );
+    return <img src={KruizeLogo} onClick={handleClick} alt="Kruize Logo" width="40" height="40" />;
   }
-
 
   const Header = (
     <PageHeader
@@ -55,9 +52,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     />
   );
 
-  const footer = (
-    <Footer />
-  );
+  const footer = <Footer />;
 
   const renderNavItem = (route: IAppRoute, index: number) => (
     <NavItem key={`${route.label}-${index}`} id={`${route.label}-${index}`} isActive={route.path === location.pathname}>

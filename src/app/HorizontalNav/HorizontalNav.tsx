@@ -105,14 +105,11 @@ const HorizontalNav = () => {
                 <b>Cluster Information </b>
                 <br />
                 <label>Minikube URL : http://{ip}</label>
-                
-                  <div>
-                    <br />
-                    <label>
-                      Kruize URL : http://{k_url}
-                    </label>
-                  </div>
-              
+
+                <div>
+                  <br />
+                  <label>Kruize URL : http://{k_url}</label>
+                </div>
               </div>
             }
           >

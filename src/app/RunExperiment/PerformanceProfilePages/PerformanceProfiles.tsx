@@ -1,12 +1,24 @@
-import React, { useState } from 'react'
-import { Grid, GridItem, PageSection, PageSectionVariants, Tabs, Tab, TabTitleText, TabTitleIcon, Checkbox, TextContent, Text, TextVariants } from '@patternfly/react-core';
+import React, { useState } from 'react';
+import {
+  Grid,
+  GridItem,
+  PageSection,
+  PageSectionVariants,
+  Tabs,
+  Tab,
+  TabTitleText,
+  TabTitleIcon,
+  Checkbox,
+  TextContent,
+  Text,
+  TextVariants
+} from '@patternfly/react-core';
 import { RegularSection } from './RegularSection';
 import { AdvancedSection } from './AdvancedSection';
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import { CubeIcon } from '@patternfly/react-icons';
 
 const PerformanceProfiles = () => {
-
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
 
   const handleTabClick = (
@@ -24,7 +36,6 @@ const PerformanceProfiles = () => {
         </TextContent>
         <br />
         <Grid hasGutter span={8}>
-
           <Tabs
             isFilled
             activeKey={activeTabKey}
@@ -33,7 +44,6 @@ const PerformanceProfiles = () => {
             aria-label="Tabs in the filled with icons example"
             role="region"
           >
-
             <Tab
               eventKey={0}
               title={
@@ -71,7 +81,6 @@ const PerformanceProfiles = () => {
         </Grid>
       </PageSection>
     </div>
-
   );
-}
+};
 export { PerformanceProfiles };

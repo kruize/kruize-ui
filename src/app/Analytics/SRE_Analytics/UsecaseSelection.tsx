@@ -1,9 +1,19 @@
 import nodeContext from '@app/ContextStore/nodeContext';
-import { Flex, TextContent, TextVariants, FormSelect, FormSelectOption, TextInput, Button, Text, Grid, GridItem } from '@patternfly/react-core';
-import React, { useContext, useState } from 'react'
+import {
+  Flex,
+  TextContent,
+  TextVariants,
+  FormSelect,
+  FormSelectOption,
+  TextInput,
+  Button,
+  Text,
+  Grid,
+  GridItem
+} from '@patternfly/react-core';
+import React, { useContext, useState } from 'react';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
-
   const Context = useContext(nodeContext);
   const ip = Context['cluster'];
   const port = Context['autotune'];
@@ -15,7 +25,8 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     k_url = 'kruize';
   }
 
-  const list_recommendations_url = 'http://' + k_url + '/listRecommendations?experiment_name=' + props.SREdata.experiment_name + '&latest=false';
+  const list_recommendations_url =
+    'http://' + k_url + '/listRecommendations?experiment_name=' + props.SREdata.experiment_name + '&latest=false';
   const list_experiment_url = 'http://' + k_url + '/listExperiments';
 
   const [usecase, setUsecase] = useState('Select one');
@@ -31,69 +42,73 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     //  console.log(data)
     data.map((element, index) => {
       // console.log(element.experiment_name)
-      arr.push(element.experiment_name)
-    })
-    setExpData(arr.sort())
+      arr.push(element.experiment_name);
+    });
+    setExpData(arr.sort());
     // console.log(111 , arr.sort());
   };
 
   const options = [
-    { id: "1", value: 'please choose', label: 'Select one', disabled: false },
-    { id: "2", value: 'Monitoring', label: 'Monitoring', disabled: false },
+    { id: '1', value: 'please choose', label: 'Select one', disabled: false },
+    { id: '2', value: 'Monitoring', label: 'Monitoring', disabled: false }
     // { id: "3", value: 'Autotune', label: 'Autotune', disabled: false },
-  ]
+  ];
 
   const options2 = [
-    { id: "1", value: 'please choose', label: 'Select one' },
-    { id: "2", optionsid: "2", value: 'Remote', label: 'Remote' },
-    { id: "3", optionsid: "2", value: 'Local', label: 'Local' },
-
-  ]
+    { id: '1', value: 'please choose', label: 'Select one' },
+    { id: '2', optionsid: '2', value: 'Remote', label: 'Remote' },
+    { id: '3', optionsid: '2', value: 'Local', label: 'Local' }
+  ];
   const onChange = (value: string) => {
-    setUsecase(value)
+    setUsecase(value);
   };
 
   const onNestedChange = (value: string) => {
-    setNestedUsecase(value)
-    fetchData()
-  }
+    setNestedUsecase(value);
+    fetchData();
+  };
 
   const onChangeExpName = (value: string) => {
-    setValue(value)
-    setExpName(value)
+    setValue(value);
+    setExpName(value);
 
-    props.setSREdata({ ...{ ...props.SREdata }, experiment_name: value })
+    props.setSREdata({ ...{ ...props.SREdata }, experiment_name: value });
     sessionStorage.setItem('Experiment Name', value);
-
   };
 
   const handleClick = async () => {
-
     try {
       if (ip != 'undefined' && port != 'undefined') {
-        const data = await (await fetch(list_recommendations_url)).json()
-        var namespace = data[0].kubernetes_objects[0].namespace
-        var name = data[0].kubernetes_objects[0].name
-        var type = data[0].kubernetes_objects[0].type
+        const data = await (await fetch(list_recommendations_url)).json();
+        var namespace = data[0].kubernetes_objects[0].namespace;
+        var name = data[0].kubernetes_objects[0].name;
+        var type = data[0].kubernetes_objects[0].type;
 
         var endtime: any[] = [];
-        endtime = ['Select End Time', ...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort()];
+        endtime = [
+          'Select End Time',
+          ...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort()
+        ];
 
-        props.setEndTimeArray(endtime)
+        props.setEndTimeArray(endtime);
 
         var containerArray: any[] = [];
         for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
-          containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name)
+          containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
         }
 
-        props.setSREdata({ ...{ ...props.SREdata }, containerArray: containerArray, namespace: namespace, name: name, type: type })
-
+        props.setSREdata({
+          ...{ ...props.SREdata },
+          containerArray: containerArray,
+          namespace: namespace,
+          name: name,
+          type: type
+        });
       }
+    } catch (err) {
+      console.log('processing');
     }
-    catch (err) {
-      console.log('processing')
-    }
-  }
+  };
 
   return (
     <>
@@ -102,8 +117,8 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         <TextContent>
           <Text component={TextVariants.h3}>UseCase Selection</Text>
         </TextContent>
-        <Grid hasGutter component='ul'>
-          <GridItem span={3} component='li'>
+        <Grid hasGutter component="ul">
+          <GridItem span={3} component="li">
             <FormSelect value={usecase} onChange={onChange} aria-label="FormSelect Input">
               {options.map((option, index) => (
                 <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
@@ -111,22 +126,20 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
             </FormSelect>
           </GridItem>
           <GridItem span={3}></GridItem>
-          <GridItem span={3} component='li'>
-            {
-              usecase === "Monitoring" ?
-                <FormSelect value={nestedUsecase} onChange={onNestedChange} aria-label="FormSelect Input">
-                  {options2.map((option, index) => (
-                    <FormSelectOption key={index} value={option.value} label={option.label} />
-                  ))}
-                </FormSelect>
-                :
-                <></>
-            }
+          <GridItem span={3} component="li">
+            {usecase === 'Monitoring' ? (
+              <FormSelect value={nestedUsecase} onChange={onNestedChange} aria-label="FormSelect Input">
+                {options2.map((option, index) => (
+                  <FormSelectOption key={index} value={option.value} label={option.label} />
+                ))}
+              </FormSelect>
+            ) : (
+              <></>
+            )}
           </GridItem>
-          {
-            usecase === "Monitoring" && nestedUsecase === "Remote" ?
-              <>
-                {/* <TextContent>
+          {usecase === 'Monitoring' && nestedUsecase === 'Remote' ? (
+            <>
+              {/* <TextContent>
                   <Text component={TextVariants.h3}>Container Selection</Text>
                 </TextContent>
                 <FormGroup label="Cluster Name" isRequired fieldId="simple-form-email-01">
@@ -140,29 +153,32 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                   <AnalyticsNamespace />
   
                 </FormGroup> */}
-                <TextContent>
-                  <Text component={TextVariants.h3} >Experiment Name</Text>
-                </TextContent>
-                <GridItem span={4} component='li'>
-                  <FormSelect value={expName} onChange={onChangeExpName} aria-label="FormSelect Input">
-                    {expData != null ? expData.map((option, index) => (
-                      <FormSelectOption key={index} value={option} label={option} />
-                    ))
-                      :
-                      <></>}
-                  </FormSelect>
-                </GridItem>
-                <GridItem span={10}></GridItem>
-                <GridItem span={3} component='li'>
-                  <Button variant="primary" onClick={handleClick} >Get Recommendations</Button>
-                </GridItem>
-              </> : <></>
-          }
+              <TextContent>
+                <Text component={TextVariants.h3}>Experiment Name</Text>
+              </TextContent>
+              <GridItem span={4} component="li">
+                <FormSelect value={expName} onChange={onChangeExpName} aria-label="FormSelect Input">
+                  {expData != null ? (
+                    expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)
+                  ) : (
+                    <></>
+                  )}
+                </FormSelect>
+              </GridItem>
+              <GridItem span={10}></GridItem>
+              <GridItem span={3} component="li">
+                <Button variant="primary" onClick={handleClick}>
+                  Get Recommendations
+                </Button>
+              </GridItem>
+            </>
+          ) : (
+            <></>
+          )}
         </Grid>
       </Flex>
     </>
   );
 };
 
-
-export { UsecaseSelection }
+export { UsecaseSelection };

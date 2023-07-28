@@ -24,7 +24,7 @@ const FAQs = () => {
 
   const onToggle = (i: boolean) => {
     if (isExpanded == i) {
-      setIsExpanded(false)
+      setIsExpanded(false);
     }
     setIsExpanded(i);
   };
@@ -57,8 +57,8 @@ const FAQs = () => {
               displaySize="large"
               isWidthLimited
             >
-              {faq.answer}
-
+              {faq.answer
+              }
             </ExpandableSection>
           </FlexItem>
         ))}

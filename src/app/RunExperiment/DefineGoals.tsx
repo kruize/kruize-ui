@@ -1,12 +1,21 @@
-import { PageSection, PageSectionVariants, TextContent, Text, TextVariants, Radio, Flex, FlexItem, FormGroup } from '@patternfly/react-core';
-import React, { useEffect, useState } from 'react'
+import {
+  PageSection,
+  PageSectionVariants,
+  TextContent,
+  Text,
+  TextVariants,
+  Radio,
+  Flex,
+  FlexItem,
+  FormGroup
+} from '@patternfly/react-core';
+import React, { useEffect, useState } from 'react';
 
 const DefineGoals = (props: { data; setData }) => {
-
-  const [check1, setCheck1] = useState<"predefined" | "custom">(props.data["profile"]);
+  const [check1, setCheck1] = useState<'predefined' | 'custom'>(props.data['profile']);
   useEffect(() => {
-    props.setData({ ...{ ...props.data }, profile: check1 })
-  }, [check1])
+    props.setData({ ...{ ...props.data }, profile: check1 });
+  }, [check1]);
 
   return (
     <PageSection variant={PageSectionVariants.light}>
@@ -19,32 +28,30 @@ const DefineGoals = (props: { data; setData }) => {
         <FlexItem>
           <Flex spaceItems={{ default: 'spaceItemsXl' }}>
             <FormGroup role="radiogroup" isStack fieldId="horizontal-form-radio-group" hasNoPaddingTop>
-
-              <Radio id="pre define radio"
+              <Radio
+                id="pre define radio"
                 label="Select a Pre-Defined Profile"
                 name="A"
-                isChecked={check1 === "predefined"}
+                isChecked={check1 === 'predefined'}
                 description="User can choose from a set of pre configured performance profiles."
-                onChange={e => setCheck1("predefined")}
-
+                onChange={(e) => setCheck1('predefined')}
               />
 
-              <Radio id="custom profile radio"
+              <Radio
+                id="custom profile radio"
                 label="Create your Own Profile"
                 name="B"
                 //value="custom"
-                isChecked={check1 === "custom"}
+                isChecked={check1 === 'custom'}
                 description="User can build a profile from scratch."
-                onChange={e => setCheck1("custom")}
-
+                onChange={(e) => setCheck1('custom')}
               />
-
             </FormGroup>
           </Flex>
         </FlexItem>
-      </Flex >
-    </PageSection >
-  )
-}
+      </Flex>
+    </PageSection>
+  );
+};
 
 export { DefineGoals };
