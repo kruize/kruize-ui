@@ -62,7 +62,7 @@ const routes: AppRouteConfig[] = [
         label: 'SRE View',
         path: '/analytics_sre',
         title: 'SRE View'
-      },
+      }
       // {
       //   component: UserAnalytics,
       //   exact: true,

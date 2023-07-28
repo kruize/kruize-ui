@@ -55,7 +55,6 @@ const RunExperiment = (props: { setData; data }) => {
     }
   };
 
-
   const steps = [
     {
       id: 1,
@@ -69,70 +68,72 @@ const RunExperiment = (props: { setData; data }) => {
       name: 'Define Performance Goals',
       component: <DefineGoals setData={setData} data={data} />,
       enableNext: data.profile,
-      canJumpTo: stepId >= 2,
+      canJumpTo: stepId >= 2
     },
     {
       id: 3,
-      name: data.profile === "custom" ? 'Experiment Details' : 'Performance Profiles',
-      component: data.profile === "custom" ? <ExperimentDetails /> : <PerformanceProfiles data={data} setData={setData} />,
+      name: data.profile === 'custom' ? 'Experiment Details' : 'Performance Profiles',
+      component:
+        data.profile === 'custom' ? <ExperimentDetails /> : <PerformanceProfiles data={data} setData={setData} />,
       // enableNext: data.allDone,
       canJumpTo: stepId >= 3,
-      steps: data.profile === "custom" ? [
-        {
-          id: 4,
-          name: 'Throughput',
-          component: (
-            <Grid hasGutter>
-              <GridItem span={7}>
-                <Throughput_details data={data} setData={setData} />
-              </GridItem>
-              <GridItem span={5}>
-                <ExperimentDetails />
-              </GridItem>
-            </Grid>
-          ),
-          canJumpTo: stepId >= 3
-        },
-        {
-          id: 5,
-          name: 'Response Time',
-          component: (
-            <Grid hasGutter>
-              <GridItem span={7}>
-                <Response_time_details data={data} setData={setData} />
-              </GridItem>
-              <GridItem span={5}>
-                <ExperimentDetails />
-              </GridItem>
-            </Grid>
-          ),
-          canJumpTo: stepId >= 3
-        },
-        {
-          id: 6,
-          name: 'Resource Usage',
-          component: (
-            <Grid hasGutter>
-              <GridItem span={7}>
-                <Resource_usage_details data={data} setData={setData} />
-              </GridItem>
-              <GridItem span={5}>
-                <ExperimentDetails />
-              </GridItem>
-            </Grid>
-          ),
-          canJumpTo: stepId >= 3
-        },
-        {
-          id: 7,
-          name: 'Final Equation',
-          component: <Final_equation data={data} setData={setData} />,
-          hideClose: true,
-          canJumpTo: stepId >= 3
-        }
-      ] :
-        null
-
+      steps:
+        data.profile === 'custom'
+          ? [
+              {
+                id: 4,
+                name: 'Throughput',
+                component: (
+                  <Grid hasGutter>
+                    <GridItem span={7}>
+                      <Throughput_details data={data} setData={setData} />
+                    </GridItem>
+                    <GridItem span={5}>
+                      <ExperimentDetails />
+                    </GridItem>
+                  </Grid>
+                ),
+                canJumpTo: stepId >= 3
+              },
+              {
+                id: 5,
+                name: 'Response Time',
+                component: (
+                  <Grid hasGutter>
+                    <GridItem span={7}>
+                      <Response_time_details data={data} setData={setData} />
+                    </GridItem>
+                    <GridItem span={5}>
+                      <ExperimentDetails />
+                    </GridItem>
+                  </Grid>
+                ),
+                canJumpTo: stepId >= 3
+              },
+              {
+                id: 6,
+                name: 'Resource Usage',
+                component: (
+                  <Grid hasGutter>
+                    <GridItem span={7}>
+                      <Resource_usage_details data={data} setData={setData} />
+                    </GridItem>
+                    <GridItem span={5}>
+                      <ExperimentDetails />
+                    </GridItem>
+                  </Grid>
+                ),
+                canJumpTo: stepId >= 3
+              },
+              {
+                id: 7,
+                name: 'Final Equation',
+                component: <Final_equation data={data} setData={setData} />,
+                hideClose: true,
+                canJumpTo: stepId >= 3
+              }
+            ]
+          : null
     },
     {
       id: 8,
@@ -156,7 +157,6 @@ const RunExperiment = (props: { setData; data }) => {
           isNavExpandable
         />
       </EnvState>
-
     </>
   );
 };

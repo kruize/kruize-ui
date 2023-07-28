@@ -12,7 +12,6 @@ const DeploymentsDropdown = (props: { data; setData }) => {
   const namesp = sessionStorage.getItem('Namespace Value');
   const deployments_url = 'http://' + ip + ':' + port + '/query/listDeployments?namespace=' + namesp;
 
-
   useEffect(() => {
     setSelected(sessionStorage.getItem('Deployment Value'));
     fetch(deployments_url)
