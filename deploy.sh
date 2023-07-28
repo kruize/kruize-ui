@@ -6,7 +6,7 @@ function start_gui_dev_mode() {
     else
     source getotps.sh
 	 npm run build
-     npm run start
+     npm run start:dev
     fi
 }
 

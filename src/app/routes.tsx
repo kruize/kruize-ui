@@ -13,6 +13,7 @@ import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+import { ClusterSummary } from '@app/Summarization/ClusterSummary';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -71,6 +72,15 @@ const routes: AppRouteConfig[] = [
       //   title: 'User View'
       // } Hiding the component from screen
     ],
+    menu: true
+  },
+  {
+    component: ClusterSummary,
+    exact: true,
+    isAsync: true,
+    label: 'Summarization',
+    path: '/summarization',
+    title: 'Cluster Summary',
     menu: true
   },
   {
