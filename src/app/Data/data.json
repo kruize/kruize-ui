@@ -1,0 +1,143 @@
+{
+  "cluster_name": "cluster-one-division-bell",
+  "summary": {
+    "data": {
+      "2023-07-11T14:00:50.511Z": {
+        "duration_based": {
+          "short_term": {
+            "current": {
+              "requests": {
+                "memory": {
+                  "amount": 490.93,
+                  "format": "MiB"
+                },
+                "cpu": {
+                  "amount": 1.46,
+                  "format": "cores"
+                }
+              },
+              "limits": {
+                "memory": {
+                  "amount": 712.21,
+                  "format": "MiB"
+                },
+                "cpu": {
+                  "amount": 1.54,
+                  "format": "cores"
+                }
+              }
+            },
+            "config": {
+              "requests": {
+                "memory": {
+                  "amount": 1197.984,
+                  "format": "MiB"
+                },
+                "cpu": {
+                  "amount": 7.68,
+                  "format": "cores"
+                }
+              },
+              "limits": {
+                "memory": {
+                  "amount": 1197.9842,
+                  "format": "MiB"
+                },
+                "cpu": {
+                  "amount": 7.68,
+                  "format": "cores"
+                }
+              }
+            },
+            "change": {
+              "increase": {
+                "requests": {
+                  "memory": {
+                    "amount": 707.0541,
+                    "format": "MiB"
+                  },
+                  "cpu": {
+                    "amount": 6.22,
+                    "format": "cores"
+                  }
+                },
+                "limits": {
+                  "memory": {
+                    "amount": 485.7741,
+                    "format": "MiB"
+                  },
+                  "cpu": {
+                    "amount": 6.14,
+                    "format": "cores"
+                  }
+                }
+              },
+              "decrease": {
+                "requests": {
+                  "memory": {
+                    "amount": 707.0541,
+                    "format": "MiB"
+                  },
+                  "cpu": {
+                    "amount": 6.22,
+                    "format": "cores"
+                  }
+                },
+                "limits": {
+                  "memory": {
+                    "amount": 485.7741,
+                    "format": "MiB"
+                  },
+                  "cpu": {
+                    "amount": 6.14,
+                    "format": "cores"
+                  }
+                }
+              },
+              "variation": {
+                "requests": {
+                  "memory": {
+                    "amount": 707.0541,
+                    "format": "MiB"
+                  },
+                  "cpu": {
+                    "amount": 6.22,
+                    "format": "cores"
+                  }
+                },
+                "limits": {
+                  "memory": {
+                    "amount": 485.7741,
+                    "format": "MiB"
+                  },
+                  "cpu": {
+                    "amount": 6.14,
+                    "format": "cores"
+                  }
+                }
+              }
+            }
+          },
+          "medium_term": {},
+          "long_term": {}
+        },
+        "profile_based": {
+          "cost": {},
+          "balanced": {},
+          "performance": {}
+        }
+      }
+    },
+    "notifications_summary": {
+      "info": 10,
+      "notice": 10,
+      "warning": 0,
+      "error": 5,
+      "critical": 0
+    },
+    "namespaces": {
+      "count": 3,
+      "names": ["ns1", "ns2", "ns3"]
+    }
+  }
+}
