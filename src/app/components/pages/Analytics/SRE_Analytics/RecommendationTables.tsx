@@ -1,4 +1,4 @@
-import nodeContext from '@app/components/ContextStore/nodeContext';
+import nodeContext from '@app/components/common/ContextStore/nodeContext';
 import { duration } from '@material-ui/core';
 import {
   TextContent,

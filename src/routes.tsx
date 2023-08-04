@@ -4,15 +4,15 @@ import { InstallationGuide } from '@app/Documentation/InstallationGuide';
 import { FAQs } from './app/Documentation/FAQs';
 import { Glossary } from './app/Documentation/Glossary';
 import { CommunityCall } from './app/Documentation/CommunityCall';
-import { NotFound } from '@app/components/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { About } from './app/pages/About/About';
-import { SREAnalytics } from './app/pages/Analytics/SRE_Analytics/SREAnalytics';
-import { UserAnalytics } from './app/pages/Analytics/User_Analytics/UserAnalytics';
-import { RunExperiment } from '@app/pages/RunExperiment/RunExperiment';
-import { ObjectiveFunction } from '@app/pages/AdvancedUser/ObjectiveFunction';
-import { LayerDefination } from '@app/pages/AdvancedUser/LayerDefination';
-import { TrialSettings } from '@app/pages/AdvancedUser/TrialSettings';
+import { About } from '@app/components/pages/About/About';
+import { RunExperiment } from '@app/components/pages/RunExperiment/RunExperiment';
+import { SREAnalytics } from '@app/components/pages/Analytics/SRE_Analytics/SREAnalytics';
+import { ObjectiveFunction } from '@app/components/pages/AdvancedUser/ObjectiveFunction';
+import { LayerDefination } from '@app/components/pages/AdvancedUser/LayerDefination';
+import { TrialSettings } from '@app/components/pages/AdvancedUser/TrialSettings';
+import { NotFound } from '@app/components/pages/NotFound/NotFound';
+import { UserAnalytics } from '@app/components/pages/Analytics/User_Analytics/UserAnalytics';
 
 let routeFocusTimer: number;
 export interface IAppRoute {

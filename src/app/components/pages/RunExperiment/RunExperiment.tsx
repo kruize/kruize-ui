@@ -2,17 +2,17 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Wizard, Grid, GridItem } from '@patternfly/react-core';
 import RE from './RE';
 import { ExperimentStatus } from '../ExperimentStatus/ExperimentStatus';
-import { CodeEditorWithActions } from '@app/components/GenerateYaml/CodeEditorWithActions';
-import nodeContext from '@app/components/ContextStore/nodeContext';
+import nodeContext from '@app/components/Common/ContextStore/nodeContext';
 import { DefineGoals } from './DefineGoals';
 import { PerformanceProfiles } from './PerformanceProfilePages/PerformanceProfiles';
-import { FinishedStep } from '@app/components/FinishedStep/FinishedStep';
-import EnvState from '@app/components/ContextStore/EnvState';
 import { Throughput_details } from '../ExperimentStatus/MoreExperimentStuff/Throughput_details';
 import { ExperimentDetails } from '../ExperimentStatus/MoreExperimentStuff/ExperimentDetails';
 import { Response_time_details } from '../ExperimentStatus/MoreExperimentStuff/Response_time_details';
 import { Resource_usage_details } from '../ExperimentStatus/MoreExperimentStuff/Resource_usage_details';
 import { Final_equation } from '../ExperimentStatus/MoreExperimentStuff/Final_equation';
+import { CodeEditorWithActions } from '../GenerateYaml/CodeEditorWithActions';
+import { FinishedStep } from '../FinishedStep/FinishedStep';
+import EnvState from '@app/components/common/ContextStore/EnvState';
 const dataa = {
   exp_name: '',
   namespace: '',

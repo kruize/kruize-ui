@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import nodeContext from '@app/components/ContextStore/nodeContext';
+import nodeContext from '@app/components/common/ContextStore/nodeContext';
 
 const DeploymentsDropdown = (props: { data; setData }) => {
   const [deployments, setDeployments] = useState([]);

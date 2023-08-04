@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import '@patternfly/react-core/dist/styles/base.css';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './app.css';
+// import './app.css';
 import { AppRoutes } from './routes';
-import { AppLayout } from '@app/components/AppLayout/AppLayout';
+import { AppLayout } from '@app/components/layout/AppLayout/AppLayout';
 
 const App = () => {
   return (

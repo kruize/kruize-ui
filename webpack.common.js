@@ -351,7 +351,7 @@ module.exports = env => {
     plugins: [
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'public', 'index.html'),
-        favicon: path.resolve(__dirname, 'src/app/components/Assets/favicon', 'favicon.png')
+        favicon: path.resolve(__dirname, 'src/Assets/favicon', 'favicon.png')
         
       }),
       new Dotenv({

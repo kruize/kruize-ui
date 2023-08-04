@@ -10,11 +10,11 @@ import {
   PageSidebar,
   SkipToContent
 } from '@patternfly/react-core';
-import HorizontalNav from '@app/components/HorizontalNav/HorizontalNav';
-import Footer from '@app/components/Footer/Footer';
-import KruizeLogo from '!!url-loader!@app/components/Assets/images/kruize_icon.png';
+import KruizeLogo from '!!url-loader!src/Assets/images/kruize_icon.png';
 import { IAppRoute, IAppRouteGroup, routes } from 'src/routes';
-import EnvState from '../ContextStore/EnvState';
+import Footer from '../Footer/Footer';
+import HorizontalNav from '@app/components/pages/HorizontalNav/HorizontalNav';
+import EnvState from '@app/components/common/ContextStore/EnvState';
 
 interface IAppLayout {
   children: React.ReactNode;
