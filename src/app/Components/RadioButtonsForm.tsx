@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  Form,
-  FormGroup,
-  Radio,
-  FormLabel,
-} from '@patternfly/react-core';
+import { Form, FormGroup, Radio } from '@patternfly/react-core';
 
-const RadioButtonsForm = ({ options, name , isDisabled}) => {
+const RadioButtonsForm = ({ options, name, isDisabled }) => {
   const [selectedOption, setSelectedOption] = React.useState(options[0]);
 
   const handleOptionChange = (value) => {
@@ -26,7 +21,6 @@ const RadioButtonsForm = ({ options, name , isDisabled}) => {
             id={`radio_${name}_${option}`}
             name={name}
             isDisabled={isDisabled}
-           
           />
         ))}
       </FormGroup>
@@ -35,4 +29,3 @@ const RadioButtonsForm = ({ options, name , isDisabled}) => {
 };
 
 export default RadioButtonsForm;
-
