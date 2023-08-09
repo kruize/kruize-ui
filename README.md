@@ -6,8 +6,9 @@ This application is built using [Patternfly and React](https://www.patternfly.or
 
 ## Before You Start
 
-Kruize UI needs Kruize server running locally in the remote monitoring mode which provides recommendation data to be displayed on UI. You can setup Kruize [from here](https://github.com/kruize/kruize-demos/tree/main/remote_monitoring_demo). 
-Additionally Kruize UI can directly be accessed from the terminal once remote monitoring demo is setup.
+Kruize UI needs Kruize server running locally in the remote monitoring mode. You can setup Kruize [from here](https://github.com/kruize/kruize-demos/tree/main/remote_monitoring_demo). 
+
+Additionally Kruize UI can directly be accessed once remote monitoring demo is setup.
 
 In case you want to run UI locally you would need the Cluster IP and Kruize Port number. Make use of the following commands:
 1. Cluster IP : In case of a minikube cluster ```minikube ip```
@@ -23,7 +24,6 @@ cd kruize-ui
 npm install
 export CLUSTER_IP=<Cluster IP> && export AUTOTUNE_PORT=<Kruize Port Number>
 npm run start:dev
-
 ```
 
 ## Code Origin
