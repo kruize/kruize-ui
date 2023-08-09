@@ -1,68 +1,31 @@
-# kruize-ui
+# Kruize-UI
 
-This repository contains the code for Kruize Autotune user interface. The objective behind creating the UI is to enable newbies to explore and contribute to Autotune and simplify the initial steps of starting an Autotune experiment. The UI significantly reduces the burden on user to understand, operate and work with Autotune. Not only this it also helps better explain and present what remarkable optimizations Autotune can bring to site reliability engineering.
+This repository contains the code for Kruize user interface. The objective behind creating the UI is to enable users to explore and contribute to Kruize. The UI significantly reduces the burden on user to understand, operate and work with Kruize. Not only this it also helps better represent the remarkable optimizations Kruize can bring to your optimization usecases.
+
+This application is built using [Patternfly and React](https://www.patternfly.org/v4/get-started/developers)
+
+## Before You Start
+
+Kruize UI needs Kruize server running locally in the remote monitoring mode which provides recommendation data to be displayed on UI. You can setup Kruize [from here](https://github.com/kruize/kruize-demos/tree/main/remote_monitoring_demo). 
+Additionally Kruize UI can directly be accessed from the terminal once remote monitoring demo is setup.
+
+In case you want to run UI locally you would need the Cluster IP and Kruize Port number. Make use of the following commands:
+1. Cluster IP : In case of a minikube cluster ```minikube ip```
+2. Kruize Port Number : ```kubectl -n monitoring  get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort 2>/dev/null```
+
+Also, make sure you have [`Node.js`](https://nodejs.org/en/) and [`npm`](https://www.npmjs.com/) installed. Check the currently maintained versions at https://nodejs.org/en/about/releases/.
 
 ## Quick Start
 
-### Clone Repository
-
 ```
 git clone git@github.com:kruize/kruize-ui.git
-```
-
-### Go to the kruize folder
-
-```
 cd kruize-ui
-```
-
-### Switch to mvp_demo branch
-
-```
-git fetch origin
-git checkout -b mvp_demo origin/mvp_demo
-```
-
-### Install Node Package Manager
-
-```
 npm install
-```
-
-### Run the UI
-
-To run the kruize ui you can select any of the 2 options :
-
-1. Native way<br />
-   If you are starting the UI for the very first time, it is suggested to
-   Latest Node.js source code can be downloaded from [here](https://nodejs.org/en/download/).
-   To run the Kruize-ui: clone the repository and then execute the following command to run the launch script locally.<br />
+export CLUSTER_IP=<Cluster IP> && export AUTOTUNE_PORT=<Kruize Port Number>
+npm run start:dev
 
 ```
-./deploy.sh -d
-```
-
-<br />
-
-2. Containerized way<br />
-
-We make use of nginx as a default react server for the UI.
-Create the image using the following command<br />
-
-```
- docker build -t kruize-ui .
-
-```
-
-Run the application using the following command
-
-```
-docker run --rm -it -p 8080:8080 kruize-ui
-```
-
-here ui-demo is the image name.<br />
-Use http://localhost:8080/ to view the UI in Browser.
 
 ## Code Origin
 
-This repository uses the patternfly-react-seed base code as copied from [Patternfly Seed](https://github.com/patternfly/patternfly-react-seed).
+This repository uses the patternfly-react-seed base code as taken from [Patternfly Seed](https://github.com/patternfly/patternfly-react-seed).
