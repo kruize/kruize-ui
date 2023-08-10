@@ -22,7 +22,7 @@ Also, make sure you have [`Node.js`](https://nodejs.org/en/) and [`npm`](https:/
 git clone git@github.com:kruize/kruize-ui.git
 cd kruize-ui
 npm install
-export CLUSTER_IP=<Cluster IP> && export AUTOTUNE_PORT=<Kruize Port Number>
+export CLUSTER_IP=<Cluster IP> && export KRUIZE_PORT=<Kruize Port Number>
 npm run start:dev
 ```
 
