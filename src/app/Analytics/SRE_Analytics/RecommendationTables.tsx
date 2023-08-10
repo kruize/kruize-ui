@@ -9,7 +9,11 @@ import {
   FormSelectOption,
   Text,
   Form,
-  FormGroup
+  FormGroup,
+  PageSection,
+  PageSectionVariants,
+  Stack,
+  StackItem
 } from '@patternfly/react-core';
 import { end } from '@patternfly/react-core/dist/esm/helpers/Popper/thirdparty/popper-core';
 import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
@@ -52,6 +56,18 @@ const WorkloadTable = ({ experimentData }) => {
         </Thead>
         <Tbody>
           <Tr key={experimentData.experiment_name}>
+            <Td dataLabel={columnNames.exp_name} textCenter>
+              {experimentData.experiment_name}
+            </Td>
+            <Td dataLabel={columnNames.namespace} textCenter>
+              {experimentData.namespace}
+            </Td>
+            <Td dataLabel={columnNames.name} textCenter>
+              {experimentData.name}
+            </Td>
+            <Td dataLabel={columnNames.type} textCenter>
+              {experimentData.type}
+            </Td>
             <Td dataLabel={columnNames.exp_name} textCenter>
               {experimentData.experiment_name}
             </Td>
@@ -155,6 +171,33 @@ const TableShort = ({ parameter }) => {
                 {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount +
                   parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.memory?.format}{' '}
               </Td>
+              <Td dataLabel={columnNames.containers} textCenter>
+                {containerName}
+              </Td>
+              <Td dataLabel={columnNames.cpuRequestS} textCenter>
+                {parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount.toPrecision(2) +
+                  parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format}{' '}
+              </Td>
+              <Td dataLabel={columnNames.mmrRequestS} textCenter>
+                {parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount +
+                  parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format}{' '}
+              </Td>
+              <Td dataLabel={columnNames.cpuRequestM} textCenter>
+                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount.toPrecision(2) +
+                  parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format}{' '}
+              </Td>
+              <Td dataLabel={columnNames.mmrRequestM} textCenter>
+                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount +
+                  parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.memory?.format}{' '}
+              </Td>
+              <Td dataLabel={columnNames.cpuRequestL} textCenter>
+                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount.toPrecision(2) +
+                  parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.cpu?.format}{' '}
+              </Td>
+              <Td dataLabel={columnNames.mmrRequestL} textCenter>
+                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount +
+                  parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.memory?.format}{' '}
+              </Td>
             </Tr>
           ))}
         </Tbody>
@@ -222,55 +265,49 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
 
   return (
     <>
-      <br />
-      <TextContent>
-        <Text component={TextVariants.h1}>Recommendations</Text>
-      </TextContent>
-      <br />
-      <WorkloadTable
-        experimentData={{
-          experiment_name: props.SREdata.experiment_name,
-          namespace: props.SREdata.namespace,
-          name: props.SREdata.name,
-          type: props.SREdata.type
-        }}
-      />
-      <br />
-
-      {show ? (
-        <>
-          <Flex>
-            <FlexItem>
+      <PageSection variant={PageSectionVariants.light}>
+        <TextContent>
+          <Text component={TextVariants.h1}>Recommendations</Text>
+        </TextContent>
+        <WorkloadTable
+          experimentData={{
+            experiment_name: props.SREdata.experiment_name,
+            namespace: props.SREdata.namespace,
+            name: props.SREdata.name,
+            type: props.SREdata.type
+          }}
+        />
+      </PageSection>
+      <PageSection variant={PageSectionVariants.light}>
+        <Stack hasGutter>
+          {show && (
+            <>
               <TextContent>
                 <Text component={TextVariants.h3}>Monitoring End Time</Text>
               </TextContent>
-              <br />
-              <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
-                {props.endTimeArray != null ? (
-                  props.endTimeArray.map((option, index) => (
-                    <FormSelectOption key={index} value={option} label={option} />
-                  ))
-                ) : (
-                  <></>
-                )}
-              </FormSelect>
-            </FlexItem>
-          </Flex>
-          <br /> <br />
-          <TextContent>
-            <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
-          </TextContent>
-          <br />
-          <TableShort
-            parameter={{
-              containerArray: props.SREdata.containerArray,
-              dataA: data
-            }}
-          />
-        </>
-      ) : (
-        <></>
-      )}
+              <StackItem>
+                <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input" style={{ width: '20%' }}>
+                  {props.endTimeArray != null &&
+                    props.endTimeArray.map((option, index) => (
+                      <FormSelectOption key={index} value={option} label={option} />
+                    ))}
+                </FormSelect>
+              </StackItem>
+              <StackItem isFilled>
+                <TextContent>
+                  <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
+                </TextContent>
+                <TableShort
+                  parameter={{
+                    containerArray: props.SREdata.containerArray,
+                    dataA: data
+                  }}
+                />
+              </StackItem>
+            </>
+          )}
+        </Stack>
+      </PageSection>
     </>
   );
 };

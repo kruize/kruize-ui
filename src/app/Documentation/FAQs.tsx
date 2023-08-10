@@ -57,8 +57,7 @@ const FAQs = () => {
               displaySize="large"
               isWidthLimited
             >
-              {faq.answer
-              }
+              {faq.answer}
             </ExpandableSection>
           </FlexItem>
         ))}

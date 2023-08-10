@@ -3,29 +3,29 @@ body,
 #root {
   height: 100%;
 }
-.markdown {
+/* .markdown {
   font-size: medium !important;
-}
-.pf-c-content {
-  --pf-c-content--small--Color: red; /* changes all <small> color to red */
-  --pf-c-content--blockquote--BorderLeftColor: purple; /* changes all <blockquote> left border color to purple */
-  --pf-c-content--hr--BackgroundColor: lemonchiffon; /* changes a <hr> color to lemonchiffon */
-}
-.pf-c-slider__step-label {
+} */
+/* .pf-c-content { */
+/* --pf-c-content--small--Color: red; changes all <small> color to red */
+/* --pf-c-content--blockquote--BorderLeftColor: purple; changes all <blockquote> left border color to purple */
+/* --pf-c-content--hr--BackgroundColor: lemonchiffon; changes a <hr> color to lemonchiffon */
+/* } */
+/* .pf-c-slider__step-label {
   word-break: normal;
 }
 .pf-c-button {
   --pf-c-inline-edit__action--c-button--m-valid--m-plain--Color: blue;
-}
-.nav {
+} */
+/* .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.pf-c-button {
+} */
+/* .pf-c-button {
   justify-items: right;
-}
-
+} */
+/* 
 @font-face {
   font-family: 'RedHatDisplay';
   src: url('!!url-loader!@app/Assets/fonts/RedHatDisplay-Medium.woff') format('woff'),
@@ -60,4 +60,4 @@ body,
 
 body {
   font-family: 'overpass', 'RedHatTextRegular', 'RedHatDisplay';
-}
+} */
