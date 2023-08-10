@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from '@app/index';
-import '@patternfly/react-core/dist/styles/base.css';
 import { setDiagnosticsOptions } from 'monaco-yaml';
 import * as monaco from 'monaco-editor';
 

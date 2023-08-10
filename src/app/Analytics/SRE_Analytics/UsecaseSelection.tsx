@@ -9,11 +9,14 @@ import {
   Button,
   Text,
   Grid,
-  GridItem
+  GridItem,
+  PageSection,
+  ActionGroup,
+  PageSectionVariants
 } from '@patternfly/react-core';
 import React, { useContext, useState } from 'react';
 
-const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
+export const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   const Context = useContext(nodeContext);
   const ip = Context['cluster'];
   const port = Context['autotune'];
@@ -111,35 +114,35 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   };
 
   return (
-    <>
-      <br />
-      <Flex direction={{ default: 'column' }}>
+    <PageSection variant={PageSectionVariants.light} isFilled>
+      <Grid hasGutter component="ul">
         <TextContent>
           <Text component={TextVariants.h3}>UseCase Selection</Text>
         </TextContent>
-        <Grid hasGutter component="ul">
-          <GridItem span={3} component="li">
-            <FormSelect value={usecase} onChange={onChange} aria-label="FormSelect Input">
-              {options.map((option, index) => (
-                <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
+        <GridItem span={6} component="li">
+          <FormSelect value={usecase} onChange={onChange} aria-label="FormSelect Input" style={{ width: '40%' }}>
+            {options.map((option, index) => (
+              <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
+            ))}
+          </FormSelect>
+        </GridItem>
+        <GridItem span={6} component="li">
+          {usecase === 'Monitoring' && (
+            <FormSelect
+              value={nestedUsecase}
+              onChange={onNestedChange}
+              aria-label="FormSelect Input"
+              style={{ width: '40%' }}
+            >
+              {options2.map((option, index) => (
+                <FormSelectOption key={index} value={option.value} label={option.label} />
               ))}
             </FormSelect>
-          </GridItem>
-          <GridItem span={3}></GridItem>
-          <GridItem span={3} component="li">
-            {usecase === 'Monitoring' ? (
-              <FormSelect value={nestedUsecase} onChange={onNestedChange} aria-label="FormSelect Input">
-                {options2.map((option, index) => (
-                  <FormSelectOption key={index} value={option.value} label={option.label} />
-                ))}
-              </FormSelect>
-            ) : (
-              <></>
-            )}
-          </GridItem>
-          {usecase === 'Monitoring' && nestedUsecase === 'Remote' ? (
-            <>
-              {/* <TextContent>
+          )}
+        </GridItem>
+        {usecase === 'Monitoring' && nestedUsecase === 'Remote' && (
+          <>
+            {/* <TextContent>
                   <Text component={TextVariants.h3}>Container Selection</Text>
                 </TextContent>
                 <FormGroup label="Cluster Name" isRequired fieldId="simple-form-email-01">
@@ -153,32 +156,29 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                   <AnalyticsNamespace />
   
                 </FormGroup> */}
-              <TextContent>
-                <Text component={TextVariants.h3}>Experiment Name</Text>
-              </TextContent>
-              <GridItem span={4} component="li">
-                <FormSelect value={expName} onChange={onChangeExpName} aria-label="FormSelect Input">
-                  {expData != null ? (
-                    expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)
-                  ) : (
-                    <></>
-                  )}
-                </FormSelect>
-              </GridItem>
-              <GridItem span={10}></GridItem>
-              <GridItem span={3} component="li">
-                <Button variant="primary" onClick={handleClick}>
-                  Get Recommendations
-                </Button>
-              </GridItem>
-            </>
-          ) : (
-            <></>
-          )}
-        </Grid>
-      </Flex>
-    </>
+
+            <TextContent>
+              <Text component={TextVariants.h3}>Experiment Name</Text>
+            </TextContent>
+            <GridItem span={6} component="li">
+              <FormSelect
+                value={expName}
+                onChange={onChangeExpName}
+                aria-label="FormSelect Input"
+                style={{ width: '60%' }}
+              >
+                {expData &&
+                  expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
+              </FormSelect>
+            </GridItem>
+            <ActionGroup>
+              <Button variant="primary" onClick={handleClick}>
+                Get Recommendations
+              </Button>
+            </ActionGroup>
+          </>
+        )}
+      </Grid>
+    </PageSection>
   );
 };
-
-export { UsecaseSelection };
