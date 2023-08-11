@@ -53,7 +53,7 @@ metadata:
 spec:
   containers:
     - name: kruize-ui-nginx-container
-      image: docker.io/bharathappali/kruize-ui:central-config
+      image: quay.io/kruize/kruize-ui:test
       imagePullPolicy: Always
       env:
       - name: KRUIZE_UI_ENV
