@@ -11,8 +11,14 @@ Kruize UI needs Kruize server running locally in the remote monitoring mode. You
 Additionally Kruize UI can directly be accessed once remote monitoring demo is setup.
 
 In case you want to run UI locally you would need the Cluster IP and Kruize Port number. Make use of the following commands:
-1. Cluster IP : In case of a minikube cluster ```minikube ip```
-2. Kruize Port Number : ```kubectl -n monitoring  get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort 2>/dev/null```
+1. Cluster IP : In case of a minikube cluster 
+```
+minikube ip
+```
+2. Kruize Port Number :  
+``` 
+kubectl -n monitoring  get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort 2>/dev/null
+```
 
 Also, make sure you have [`Node.js`](https://nodejs.org/en/) and [`npm`](https://www.npmjs.com/) installed. Check the currently maintained versions at https://nodejs.org/en/about/releases/.
 
