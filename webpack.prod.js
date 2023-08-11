@@ -40,12 +40,14 @@
 // });
 
 const path = require('path');
+const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { stylePaths } = require("./stylePaths");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
+const packageJson = require('./package.json');
 
 module.exports = merge(common('production'), {
   mode: 'production',
@@ -64,6 +66,9 @@ module.exports = merge(common('production'), {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[name].bundle.css'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.VERSION': JSON.stringify(packageJson.version)
     })
   ],
   module: {

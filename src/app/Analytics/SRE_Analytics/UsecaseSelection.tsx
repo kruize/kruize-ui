@@ -12,22 +12,12 @@ import {
   GridItem
 } from '@patternfly/react-core';
 import React, { useContext, useState } from 'react';
+import {getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams} from "@app/CentralConfig";
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
-  const Context = useContext(nodeContext);
-  const ip = Context['cluster'];
-  const port = Context['autotune'];
-  let k_url: string;
 
-  if (ip) {
-    k_url = ip + ':' + port;
-  } else {
-    k_url = 'kruize';
-  }
-
-  const list_recommendations_url =
-    'http://' + k_url + '/listRecommendations?experiment_name=' + props.SREdata.experiment_name + '&latest=false';
-  const list_experiment_url = 'http://' + k_url + '/listExperiments';
+  const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
+  const list_experiment_url: string = getListExperimentsURL();
 
   const [usecase, setUsecase] = useState('Select one');
   const [nestedUsecase, setNestedUsecase] = useState('Select nested');
@@ -39,13 +29,13 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     const response = await fetch(list_experiment_url);
     const data = await response.json();
     const arr: any = ['Select Experiment Name'];
-    //  console.log(data)
+    console.log(data)
     data.map((element, index) => {
-      // console.log(element.experiment_name)
+      console.log(element.experiment_name)
       arr.push(element.experiment_name);
     });
     setExpData(arr.sort());
-    // console.log(111 , arr.sort());
+    console.log(111 , arr.sort());
   };
 
   const options = [
@@ -78,33 +68,31 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
 
   const handleClick = async () => {
     try {
-      if (ip != 'undefined' && port != 'undefined') {
-        const data = await (await fetch(list_recommendations_url)).json();
-        var namespace = data[0].kubernetes_objects[0].namespace;
-        var name = data[0].kubernetes_objects[0].name;
-        var type = data[0].kubernetes_objects[0].type;
+      const data = await (await fetch(list_recommendations_url)).json();
+      var namespace = data[0].kubernetes_objects[0].namespace;
+      var name = data[0].kubernetes_objects[0].name;
+      var type = data[0].kubernetes_objects[0].type;
 
-        var endtime: any[] = [];
-        endtime = [
-          'Select End Time',
-          ...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort()
-        ];
+      var endtime: any[] = [];
+      endtime = [
+        'Select End Time',
+        ...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort()
+      ];
 
-        props.setEndTimeArray(endtime);
+      props.setEndTimeArray(endtime);
 
-        var containerArray: any[] = [];
-        for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
-          containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
-        }
-
-        props.setSREdata({
-          ...{ ...props.SREdata },
-          containerArray: containerArray,
-          namespace: namespace,
-          name: name,
-          type: type
-        });
+      var containerArray: any[] = [];
+      for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
+        containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
       }
+
+      props.setSREdata({
+        ...{ ...props.SREdata },
+        containerArray: containerArray,
+        namespace: namespace,
+        name: name,
+        type: type
+      });
     } catch (err) {
       console.log('processing');
     }

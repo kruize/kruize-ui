@@ -6,14 +6,17 @@ import Avatar_image from '!!url-loader!@app/Assets/images/Avatar_image.svg';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import nodeContext from '@app/ContextStore/nodeContext';
+import {getHostname, getPort} from "@app/CentralConfig";
 
 const HorizontalNav = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [autotuneOn, setAutotuneOn] = useState(false);
   const [clusterStatus, setClusterStatus] = useState(false);
-  const Context = useContext(nodeContext);
-  const ip = Context['cluster'];
-  const port = Context['autotune'];
+
+  const ip = getHostname();
+  console.log(ip);
+  const port = getPort();
+  console.log(port);
 
   let k_url: string;
 
@@ -24,7 +27,7 @@ const HorizontalNav = () => {
   }
 
   useEffect(() => {
-    if (ip != null) {
+    if (ip) {
       setClusterStatus(true);
     }
   }, []);
