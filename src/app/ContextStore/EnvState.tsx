@@ -10,6 +10,7 @@ const EnvState = (props) => {
     cluster: ip,
     autotune: port
   };
+  // @ts-ignore
   return <NodeContext.Provider value={state}>{props.children}</NodeContext.Provider>;
 };
 

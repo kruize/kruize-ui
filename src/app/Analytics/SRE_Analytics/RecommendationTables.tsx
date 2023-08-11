@@ -14,6 +14,7 @@ import {
 import { end } from '@patternfly/react-core/dist/esm/helpers/Popper/thirdparty/popper-core';
 import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useContext, useEffect, useState } from 'react';
+import {getRecommendationsURL, getRecommendationsURLWithParams} from "@app/CentralConfig";
 
 const WorkloadTable = ({ experimentData }) => {
   const columnNames = {
@@ -164,22 +165,11 @@ const TableShort = ({ parameter }) => {
 };
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
-  const Context = useContext(nodeContext);
-  const ip = Context['cluster'];
-  const port = Context['autotune'];
-  let k_url: string;
 
-  if (ip) {
-    k_url = ip + ':' + port;
-  } else {
-    k_url = 'kruize';
-  }
-  const list_recommendations_url =
-    'http://' +
-    k_url +
-    '/listRecommendations?experiment_name=' +
-    sessionStorage.getItem('Experiment Name') +
-    '&latest=false';
+  // @ts-ignore
+  const list_recommendations_url: string = getRecommendationsURLWithParams(sessionStorage.getItem('Experiment Name'), 'false');
+  console.log(list_recommendations_url);
+
   const [endtime, setEndtime] = useState<any | null>('');
   const [data, setData] = useState([]);
   const [show, setShow] = useState(false);

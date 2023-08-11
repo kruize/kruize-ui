@@ -12,6 +12,7 @@ import {
   IAction
 } from '@patternfly/react-table';
 import { Tab, Tabs, TabTitleText, TextContent, TextVariants, Text } from '@patternfly/react-core';
+import {getRecommendationsURL} from "@app/CentralConfig";
 // API ----
 
 // Tables
@@ -319,29 +320,17 @@ const TabOptions = () => {
 };
 
 const MonitoringTable = () => {
-  // API
-  const Context = useContext(nodeContext);
-  const ip = Context['cluster'];
-  const port = Context['autotune'];
 
-  let k_url: string;
-
-  if (ip) {
-    k_url = ip + ':' + port;
-  } else {
-    k_url = 'kruize';
-  }
-  const list_experiments_url = 'http://' + k_url + '/listRecommendations';
+  // Not sure why list_experiments_url is pointed to listRecommendations, implementing the same to keep code matching the earlier flow
+  const list_experiments_url = getRecommendationsURL();
 
   useEffect(() => {
-    if (ip != 'undefined' && port != 'undefined') {
-      fetch(list_experiments_url)
-        .then((res) => res.json())
-        .then((res) => console.log(' outp' + res))
-        .catch((err) => {
-          console.log('Errr' + err);
-        });
-    }
+    fetch(list_experiments_url)
+      .then((res) => res.json())
+      .then((res) => console.log(' outp' + res))
+      .catch((err) => {
+        console.log('Errr' + err);
+      });
   }, []);
 
   // In real usage, this data would come from some external source like an API via props.
