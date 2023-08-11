@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export KRUIZE_UI_IMAGE="quay.io/kruize/kruize-ui:test"
+export KRUIZE_UI_IMAGE="quay.io/kruize/kruize-ui:0.0.1"
 KRUIZE_UI_MANIFEST_FILE="kruize-ui-nginx-setup.yaml"
 MANIFEST_TEMPLATE="./manifests/templates/kruize-ui-nginx-setup-template.yaml"
 
