@@ -6,7 +6,7 @@ This application is built using [Patternfly and React](https://www.patternfly.or
 
 ## Before You Start
 
-Kruize UI needs Kruize server running locally in the remote monitoring mode. You can setup Kruize [from here](https://github.com/kruize/kruize-demos/tree/main/remote_monitoring_demo). 
+Kruize UI needs Kruize server running locally. You can setup Kruize [from here](https://github.com/kruize/kruize-demos/tree/main/remote_monitoring_demo). 
 
 Additionally Kruize UI can directly be accessed once remote monitoring demo is setup.
 
