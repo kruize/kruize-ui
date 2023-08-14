@@ -1,4 +1,3 @@
-import nodeContext from '@app/ContextStore/nodeContext';
 import {
   Flex,
   TextContent,
@@ -12,10 +11,9 @@ import {
   GridItem
 } from '@patternfly/react-core';
 import React, { useContext, useState } from 'react';
-import {getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams} from "@app/CentralConfig";
+import { getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 
-const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
-
+const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; switchTab }) => {
   const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
   const list_experiment_url: string = getListExperimentsURL();
 
@@ -29,13 +27,11 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     const response = await fetch(list_experiment_url);
     const data = await response.json();
     const arr: any = ['Select Experiment Name'];
-    console.log(data)
+
     data.map((element, index) => {
-      console.log(element.experiment_name)
       arr.push(element.experiment_name);
     });
     setExpData(arr.sort());
-    console.log(111 , arr.sort());
   };
 
   const options = [
@@ -46,8 +42,8 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
 
   const options2 = [
     { id: '1', value: 'please choose', label: 'Select one' },
-    { id: '2', optionsid: '2', value: 'Remote', label: 'Remote' },
-    { id: '3', optionsid: '2', value: 'Local', label: 'Local' }
+    { id: '2', optionsid: '2', value: 'Remote', label: 'Remote' }
+    //{ id: '3', optionsid: '2', value: 'Local', label: 'Local' }
   ];
   const onChange = (value: string) => {
     setUsecase(value);
@@ -66,20 +62,34 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     sessionStorage.setItem('Experiment Name', value);
   };
 
+  // const fetchRecommendationData = async (value) => {
+  //   const response = await fetch(list_recommendations_url);
+  //   const data = await response.json();
+  //   const arr: any = [];
+
+  //   data[0].kubernetes_objects[0].containers.map((container_name, index) => {
+  //     arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value]);
+  //   });
+
+  //   props.setReccData(arr);
+  // };
+
   const handleClick = async () => {
     try {
+      // changes tab
+      props.switchTab(1);
+      // calls api data
       const data = await (await fetch(list_recommendations_url)).json();
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
 
       var endtime: any[] = [];
-      endtime = [
-        'Select End Time',
-        ...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort()
-      ];
+      endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
 
       props.setEndTimeArray(endtime);
+      // fetchRecommendationData(props.endTimeArray[0]);
+      // props.setEndTime(props.endTimeArray[0]);
 
       var containerArray: any[] = [];
       for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
@@ -115,17 +125,15 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
           </GridItem>
           <GridItem span={3}></GridItem>
           <GridItem span={3} component="li">
-            {usecase === 'Monitoring' ? (
+            {usecase === 'Monitoring' && (
               <FormSelect value={nestedUsecase} onChange={onNestedChange} aria-label="FormSelect Input">
                 {options2.map((option, index) => (
                   <FormSelectOption key={index} value={option.value} label={option.label} />
                 ))}
               </FormSelect>
-            ) : (
-              <></>
             )}
           </GridItem>
-          {usecase === 'Monitoring' && nestedUsecase === 'Remote' ? (
+          {usecase === 'Monitoring' && nestedUsecase === 'Remote' && (
             <>
               {/* <TextContent>
                   <Text component={TextVariants.h3}>Container Selection</Text>
@@ -146,11 +154,8 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
               </TextContent>
               <GridItem span={4} component="li">
                 <FormSelect value={expName} onChange={onChangeExpName} aria-label="FormSelect Input">
-                  {expData != null ? (
-                    expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)
-                  ) : (
-                    <></>
-                  )}
+                  {expData != null &&
+                    expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
                 </FormSelect>
               </GridItem>
               <GridItem span={10}></GridItem>
@@ -160,8 +165,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                 </Button>
               </GridItem>
             </>
-          ) : (
-            <></>
           )}
         </Grid>
       </Flex>

@@ -5,8 +5,7 @@ import Kubernetes_image from '!!url-loader!@app/Assets/images/Kubernetes_image.p
 import Avatar_image from '!!url-loader!@app/Assets/images/Avatar_image.svg';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import nodeContext from '@app/ContextStore/nodeContext';
-import {getHostname, getPort} from "@app/CentralConfig";
+import { getHostname, getPort } from '@app/CentralConfig';
 
 const HorizontalNav = () => {
   const [activeItem, setActiveItem] = useState(0);
@@ -14,17 +13,8 @@ const HorizontalNav = () => {
   const [clusterStatus, setClusterStatus] = useState(false);
 
   const ip = getHostname();
-  console.log(ip);
   const port = getPort();
-  console.log(port);
-
-  let k_url: string;
-
-  if (ip) {
-    k_url = ip + ':' + port;
-  } else {
-    k_url = 'kruize';
-  }
+  const k_url = ip + ':' + port;
 
   useEffect(() => {
     if (ip) {
@@ -74,11 +64,7 @@ const HorizontalNav = () => {
         >
           Community Call
         </NavItem>
-        <NavItem
-          itemId={3}
-          isActive={activeItem === 3}
-          to="https://calendar.google.com/calendar/embed?src=0ccjmebd5q8rgv86ugr8ooc5j0%40group.calendar.google.com&ctz=Asia%2FKolkata"
-        >
+        <NavItem itemId={3} isActive={activeItem === 3} to="#">
           What's New
         </NavItem>
       </NavList>

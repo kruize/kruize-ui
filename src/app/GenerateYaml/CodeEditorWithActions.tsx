@@ -18,14 +18,14 @@ import { SaveIcon, PencilAltIcon } from '@patternfly/react-icons';
 
 export const CodeEditorWithActions = (props: { data; setData }) => {
   const onEditorDidMount = (editor, monaco) => {
-    console.log(editor.getValue());
+    // console.log(editor.getValue());
     editor.layout();
     editor.focus();
     monaco.editor.getModels()[0].updateOptions({ tabSize: 5 });
   };
   const [editing, setEditing] = useState(false);
   const onChange = (value) => {
-    console.log(value);
+    // console.log(value);
   };
   var parsable_net_equation = props.data.net_eq.replace(/[`]+/g, '');
 
