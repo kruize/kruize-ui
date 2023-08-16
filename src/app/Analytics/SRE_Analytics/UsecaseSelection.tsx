@@ -12,10 +12,9 @@ import {
   GridItem
 } from '@patternfly/react-core';
 import React, { useContext, useState } from 'react';
-import {getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams} from "@app/CentralConfig";
+import { getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
-
   const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
   const list_experiment_url: string = getListExperimentsURL();
 
@@ -29,13 +28,13 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     const response = await fetch(list_experiment_url);
     const data = await response.json();
     const arr: any = ['Select Experiment Name'];
-    console.log(data)
+    console.log(data);
     data.map((element, index) => {
-      console.log(element.experiment_name)
+      // console.log(element.experiment_name)
       arr.push(element.experiment_name);
     });
     setExpData(arr.sort());
-    console.log(111 , arr.sort());
+    // console.log(111 , arr.sort());
   };
 
   const options = [
