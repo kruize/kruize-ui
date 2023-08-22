@@ -1,19 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import nodeContext from '@app/ContextStore/nodeContext';
-import {
-  TableComposable,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  ExpandableRowContent,
-  ActionsColumn,
-  IAction
-} from '@patternfly/react-table';
-import { Tab, Tabs, TabTitleText, TextContent, TextVariants, Text } from '@patternfly/react-core';
-import {getRecommendationsURL} from "@app/CentralConfig";
-// API ----
+import React from 'react';
+import { TableComposable, Thead, Tr, Th, Tbody, Td, ExpandableRowContent } from '@patternfly/react-table';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 // Tables
 interface Table {
@@ -320,19 +307,6 @@ const TabOptions = () => {
 };
 
 const MonitoringTable = () => {
-
-  // Not sure why list_experiments_url is pointed to listRecommendations, implementing the same to keep code matching the earlier flow
-  const list_experiments_url = getRecommendationsURL();
-
-  useEffect(() => {
-    fetch(list_experiments_url)
-      .then((res) => res.json())
-      .then((res) => console.log(' outp' + res))
-      .catch((err) => {
-        console.log('Errr' + err);
-      });
-  }, []);
-
   // In real usage, this data would come from some external source like an API via props.
   const tables: Table[] = [
     {
@@ -379,9 +353,7 @@ const MonitoringTable = () => {
     deployment: 'Deployments',
     status: 'Status'
   };
-  // In this example, expanded rows are tracked by the repo names from each row. This could be any unique identifier.
-  // This is to prevent state from being based on row order index in case we later add sorting.
-  // Note that this behavior is very similar to selection state.
+
   const initialExpandedRepoNames = tables.filter((repo) => !!repo.nestedComponent).map((repo) => repo.srno); // Default to all expanded
   const [expandedRepoNames, setExpandedRepoNames] = React.useState<string[]>(initialExpandedRepoNames);
   const setRepoExpanded = (repo: Table, isExpanding = true) =>

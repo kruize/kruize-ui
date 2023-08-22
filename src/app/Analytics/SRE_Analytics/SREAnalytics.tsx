@@ -5,35 +5,11 @@ import {
   TextContent,
   Text,
   TextVariants,
-  Title,
-  FormFieldGroupExpandable,
-  FormFieldGroupHeader,
-  FormGroup,
-  TextInput,
-  Button,
-  Form,
-  FormFieldGroup,
-  Flex,
-  Select,
-  SelectOption,
-  SelectVariant,
-  FormSelectOption,
-  FormSelect,
   Tabs,
   Tab,
-  TabTitleText,
-  FlexItem,
-  DatePicker,
-  ToggleGroupItemProps,
-  TimePicker
+  TabTitleText
 } from '@patternfly/react-core';
-import { TableIcon } from '@patternfly/react-icons';
-import { Table } from './Table';
-import { MonitoringTable } from './MonitoringTable';
-import { useState, useEffect } from 'react';
-import { AnalyticsNamespace } from '../User_Analytics/AnalyticsNamespace';
-import { ExperimentTable } from '../User_Analytics/ExperimentTable';
-import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
+import { useState } from 'react';
 import { RecommendationTables } from './RecommendationTables';
 import { UsecaseSelection } from './UsecaseSelection';
 
@@ -54,6 +30,10 @@ const SREAnalytics = () => {
     event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
     tabIndex: string | number
   ) => {
+    setActiveTabKey(tabIndex);
+  };
+
+  const switchTab = (tabIndex) => {
     setActiveTabKey(tabIndex);
   };
 
@@ -80,6 +60,7 @@ const SREAnalytics = () => {
             endTimeArray={endTimeArray}
             setSREdata={setSREdata}
             SREdata={SREdata}
+            switchTab={switchTab}
           />
         </Tab>
 
