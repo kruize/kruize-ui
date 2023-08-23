@@ -123,7 +123,7 @@ const TableShort = ({ parameter }) => {
               <Td dataLabel={columnNames.cpuRequestS} textCenter>
                 {parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount !== undefined &&
                 parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount.toPrecision(3) +
+                  ? parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount.toFixed(3) +
                     ' ' +
                     parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format
                   : NaN}{' '}
@@ -132,7 +132,7 @@ const TableShort = ({ parameter }) => {
               <Td dataLabel={columnNames.mmrRequestS} textCenter>
                 {parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount !== undefined &&
                 parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount.toPrecision(3) +
+                  ? parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount.toFixed(3) +
                     ' ' +
                     parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format
                   : NaN}{' '}
@@ -140,7 +140,7 @@ const TableShort = ({ parameter }) => {
               <Td dataLabel={columnNames.cpuRequestM} textCenter>
                 {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount !== undefined &&
                 parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount.toPrecision(3) +
+                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount.toFixed(3) +
                     ' ' +
                     parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format
                   : NaN}{' '}
@@ -148,7 +148,7 @@ const TableShort = ({ parameter }) => {
               <Td dataLabel={columnNames.mmrRequestM} textCenter>
                 {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount !== undefined &&
                 parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount.toPrecision(3) +
+                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount.toFixed(3) +
                     ' ' +
                     parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.memory?.format
                   : NaN}{' '}
@@ -156,7 +156,7 @@ const TableShort = ({ parameter }) => {
               <Td dataLabel={columnNames.cpuRequestL} textCenter>
                 {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount !== undefined &&
                 parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount.toPrecision(3) +
+                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount.toFixed(3) +
                     ' ' +
                     parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.cpu?.format
                   : NaN}{' '}
@@ -164,7 +164,7 @@ const TableShort = ({ parameter }) => {
               <Td dataLabel={columnNames.mmrRequestL} textCenter>
                 {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount !== undefined &&
                 parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount.toPrecision(3) +
+                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount.toFixed(3) +
                     ' ' +
                     parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.memory?.format
                   : NaN}{' '}
@@ -215,7 +215,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
 
   useEffect(() => {
     // console.log('changes on changing end time');
-    if (props.endTimeArray === null || props.endTimeArray.length === 1) {
+    if (props.endTimeArray === null) {
       // console.log(props.endTimeArray, 'no time stamps');
       setShow(false);
       return () => {
