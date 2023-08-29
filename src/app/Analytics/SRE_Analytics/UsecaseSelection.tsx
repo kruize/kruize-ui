@@ -83,7 +83,10 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
-
+      var cluster_name = data[0].cluster_name;
+      var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
+      // console.log(data[0].kubernetes_objects[0].containers[0].container_name);
+      // console.log(data);
       var endtime: any[] = [];
       endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
 
@@ -101,7 +104,9 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         containerArray: containerArray,
         namespace: namespace,
         name: name,
-        type: type
+        type: type,
+        cluster_name: cluster_name,
+        container_name: container_name
       });
     } catch (err) {
       console.log('processing');

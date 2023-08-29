@@ -15,6 +15,8 @@ import { UsecaseSelection } from './UsecaseSelection';
 
 const SREdataa = {
   experiment_name: '',
+  container_name: '',
+  cluster_name: '',
   namespace: '',
   name: '',
   type: '',
