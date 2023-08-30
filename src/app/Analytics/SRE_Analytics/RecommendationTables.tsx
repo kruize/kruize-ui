@@ -1,4 +1,16 @@
-import { TextContent, TextVariants, Flex, FlexItem, FormSelect, FormSelectOption, Text } from '@patternfly/react-core';
+import {
+  TextContent,
+  TextVariants,
+  Flex,
+  FlexItem,
+  FormSelect,
+  FormSelectOption,
+  Text,
+  Split,
+  SplitItem,
+  Stack,
+  StackItem
+} from '@patternfly/react-core';
 import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
@@ -135,6 +147,8 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
 
   const [show, setShow] = useState(false);
 
+  const [day, setDay] = useState('');
+
   useEffect(() => {
     if (props.endTimeArray) {
       fetchRecommendationData(props.endTimeArray[0]);
@@ -144,6 +158,16 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const onChange = async (value: string) => {
     setEndtime(value);
     fetchRecommendationData(value);
+  };
+
+  const days = [
+    { id: '1', value: '1 Day', label: 'Last 1 day', disabled: false },
+    { id: '2', value: '7 Days', label: 'Last 7 days', disabled: false },
+    { id: '3', value: '15 Days', label: 'Last 15 days', disabled: false }
+  ];
+
+  const onDayChange = (value: string) => {
+    setDay(value);
   };
 
   const fetchRecommendationData = async (value) => {
@@ -180,50 +204,73 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   }, [props.endTimeArray]);
 
   return (
-    <>
-      <WorkloadDetails
-        experimentData={{
-          experiment_name: props.SREdata.experiment_name,
-          namespace: props.SREdata.namespace,
-          name: props.SREdata.name,
-          type: props.SREdata.type,
-          cluster_name: props.SREdata.cluster_name,
-          container_name: props.SREdata.container_name
-        }}
-      />
-      <br />
+    <Stack hasGutter>
+      <StackItem>
+        <WorkloadDetails
+          experimentData={{
+            experiment_name: props.SREdata.experiment_name,
+            namespace: props.SREdata.namespace,
+            name: props.SREdata.name,
+            type: props.SREdata.type
+          }}
+        />
+      </StackItem>
 
-      {show && (
-        <>
-          <Flex>
-            <FlexItem>
-              <TextContent>
-                <Text component={TextVariants.h3}>Monitoring End Time</Text>
-              </TextContent>
-              <br />
-              <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
-                {props.endTimeArray &&
-                  props.endTimeArray.map((option, index) => (
-                    <FormSelectOption key={index} value={option} label={option} />
-                  ))}
-              </FormSelect>
-            </FlexItem>
-          </Flex>
-          <br /> <br />
-          <TextContent>
-            <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
-          </TextContent>
-          <br />
-          <TableShort
-            parameter={{
-              containerArray: props.SREdata.containerArray,
-              dataA: data
-            }}
-          />
-          {/* {console.log(fetchRecommendationData(props.endTimeArray[0]))} */}
-        </>
-      )}
-    </>
+      <StackItem>
+        {show && (
+          <Stack hasGutter>
+            <Flex className="example-border">
+              <Flex>
+                <FlexItem>
+                  <Split hasGutter>
+                    <SplitItem>
+                      <TextContent>
+                        <Text component={TextVariants.p}>Monitoring End Time</Text>
+                      </TextContent>
+                    </SplitItem>
+
+                    <SplitItem>
+                      <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
+                        {props.endTimeArray &&
+                          props.endTimeArray.map((option, index) => (
+                            <FormSelectOption key={index} value={option} label={option} />
+                          ))}
+                      </FormSelect>
+                    </SplitItem>
+                  </Split>
+                </FlexItem>
+              </Flex>
+              <FlexItem>
+                <Split hasGutter>
+                  <SplitItem>
+                    <TextContent>
+                      <Text component={TextVariants.p}>View optimization based on </Text>
+                    </TextContent>
+                  </SplitItem>
+
+                  <SplitItem>
+                    <FormSelect value={day} onChange={onDayChange} aria-label="days dropdown">
+                      {days.map((selection, index) => (
+                        <FormSelectOption key={index} value={selection.value} label={selection.label} />
+                      ))}
+                    </FormSelect>
+                  </SplitItem>
+                </Split>
+              </FlexItem>
+            </Flex>
+            {/* <StackItem><TabSection /></StackItem> */}
+            <StackItem>
+              <TableShort
+                parameter={{
+                  containerArray: props.SREdata.containerArray,
+                  dataA: data
+                }}
+              />
+            </StackItem>
+          </Stack>
+        )}
+      </StackItem>
+    </Stack>
   );
 };
 
