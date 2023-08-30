@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FormGroup, FormSelect, FormSelectOption, Form, FormSection, Checkbox } from '@patternfly/react-core';
-import nodeContext from '@app/ContextStore/nodeContext';
+import nodeContext from '@app/components/common/ContextStore/nodeContext';
 
 const RegularSection = () => {
   const Context = useContext(nodeContext);

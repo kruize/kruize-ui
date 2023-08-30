@@ -1,18 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Wizard, Grid, GridItem } from '@patternfly/react-core';
 import RE from './RE';
-import { ExperimentStatus } from '@app/ExperimentStatus/ExperimentStatus';
-import { ExperimentDetails } from '@app/ExperimentStatus/MoreExperimentStuff/ExperimentDetails';
-import { CodeEditorWithActions } from '@app/GenerateYaml/CodeEditorWithActions';
-import nodeContext from '@app/ContextStore/nodeContext';
-import EnvState from '@app/ContextStore/EnvState';
-import { Final_equation } from 'src/app/ExperimentStatus/MoreExperimentStuff/Final_equation';
-import { Throughput_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Throughput_details';
-import { Response_time_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Response_time_details';
-import { Resource_usage_details } from 'src/app/ExperimentStatus/MoreExperimentStuff/Resource_usage_details';
+import { ExperimentStatus } from '../ExperimentStatus/ExperimentStatus';
+import nodeContext from '@app/components/Common/ContextStore/nodeContext';
 import { DefineGoals } from './DefineGoals';
 import { PerformanceProfiles } from './PerformanceProfilePages/PerformanceProfiles';
-import { FinishedStep } from '@app/FinishedStep/FinishedStep';
+import { Throughput_details } from '../ExperimentStatus/MoreExperimentStuff/Throughput_details';
+import { ExperimentDetails } from '../ExperimentStatus/MoreExperimentStuff/ExperimentDetails';
+import { Response_time_details } from '../ExperimentStatus/MoreExperimentStuff/Response_time_details';
+import { Resource_usage_details } from '../ExperimentStatus/MoreExperimentStuff/Resource_usage_details';
+import { Final_equation } from '../ExperimentStatus/MoreExperimentStuff/Final_equation';
+import { CodeEditorWithActions } from '../GenerateYaml/CodeEditorWithActions';
+import { FinishedStep } from '../FinishedStep/FinishedStep';
+import EnvState from '@app/components/common/ContextStore/EnvState';
 const dataa = {
   exp_name: '',
   namespace: '',

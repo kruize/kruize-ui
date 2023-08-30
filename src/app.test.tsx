@@ -1,7 +1,7 @@
 import * as React from 'react';
-import App from '@app/index';
 import { mount, shallow } from 'enzyme';
 import { Button } from '@patternfly/react-core';
+import App from './App';
 
 describe('App tests', () => {
   test('should render default App component', () => {

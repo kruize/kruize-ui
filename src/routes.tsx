@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { About } from '@app/About/About';
-import { RunExperiment } from '@app/RunExperiment/RunExperiment';
-import { SREAnalytics } from '@app/Analytics/SRE_Analytics/SREAnalytics';
-import { UserAnalytics } from './Analytics/User_Analytics/UserAnalytics';
-import { ObjectiveFunction } from '@app/AdvancedUser/ObjectiveFunction';
-import { LayerDefination } from '@app/AdvancedUser/LayerDefination';
-import { TrialSettings } from '@app/AdvancedUser/TrialSettings';
 import { InstallationGuide } from '@app/Documentation/InstallationGuide';
-import { FAQs } from './Documentation/FAQs';
-import { Glossary } from './Documentation/Glossary';
-import { CommunityCall } from './Documentation/CommunityCall';
-import { NotFound } from '@app/NotFound/NotFound';
+import { FAQs } from './app/Documentation/FAQs';
+import { Glossary } from './app/Documentation/Glossary';
+import { CommunityCall } from './app/Documentation/CommunityCall';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+import { About } from '@app/components/pages/About/About';
+import { RunExperiment } from '@app/components/pages/RunExperiment/RunExperiment';
+import { SREAnalytics } from '@app/components/pages/Analytics/SRE_Analytics/SREAnalytics';
+import { ObjectiveFunction } from '@app/components/pages/AdvancedUser/ObjectiveFunction';
+import { LayerDefination } from '@app/components/pages/AdvancedUser/LayerDefination';
+import { TrialSettings } from '@app/components/pages/AdvancedUser/TrialSettings';
+import { NotFound } from '@app/components/pages/NotFound/NotFound';
+import { UserAnalytics } from '@app/components/pages/Analytics/User_Analytics/UserAnalytics';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -64,7 +64,7 @@ const routes: AppRouteConfig[] = [
         title: 'SRE View'
       }
       // {
-      //   component: UserAnalytics,
+      // component: UserAnalytics,
       //   exact: true,
       //   label: 'User View',
       //   path: '/analytics_user',
