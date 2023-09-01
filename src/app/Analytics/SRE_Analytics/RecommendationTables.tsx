@@ -142,66 +142,50 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   );
 
   const [endtime, setEndtime] = useState<any | null>('');
-
   const [data, setdata] = useState<any | null>('');
+  const [day, setDay] = useState('short_term');
 
-  const [show, setShow] = useState(false);
-
-  const [day, setDay] = useState('');
+  const days = [
+    { id: '1', value: 'short_term', label: 'Last 1 day', disabled: false },
+    { id: '2', value: 'medium_term', label: 'Last 7 days', disabled: false },
+    { id: '3', value: 'long_term', label: 'Last 15 days', disabled: false }
+  ];
 
   useEffect(() => {
     if (props.endTimeArray) {
-      fetchRecommendationData(props.endTimeArray[0]);
+      setEndtime(props.endTimeArray[0]);
     }
   }, [props.endTimeArray]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (endtime && day) {
+        const response = await fetch(list_recommendations_url);
+        const result = await response.json();
+        const arr: any = [];
+
+        result[0].kubernetes_objects[0].containers.forEach((container) => {
+          const recommendationData = container.recommendations?.data[endtime]?.duration_based?.[day];
+          if (recommendationData) {
+            arr.push(recommendationData);
+          }
+        });
+
+        setdata(arr);
+        console.log(arr);
+      }
+    };
+
+    fetchData();
+  }, [endtime, day]);
+
   const onChange = async (value: string) => {
     setEndtime(value);
-    fetchRecommendationData(value);
   };
-
-  const days = [
-    { id: '1', value: '1 Day', label: 'Last 1 day', disabled: false },
-    { id: '2', value: '7 Days', label: 'Last 7 days', disabled: false },
-    { id: '3', value: '15 Days', label: 'Last 15 days', disabled: false }
-  ];
 
   const onDayChange = (value: string) => {
     setDay(value);
   };
-
-  const fetchRecommendationData = async (value) => {
-    const response = await fetch(list_recommendations_url);
-    const data = await response.json();
-    const arr: any = [];
-
-    data[0].kubernetes_objects[0].containers.map((container_name, index) => {
-      arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value]);
-    });
-
-    setdata(arr);
-  };
-
-  useEffect(() => {
-    // console.log('changes on changing end time');
-    if (props.endTimeArray === null) {
-      // console.log(props.endTimeArray, 'no time stamps');
-      setShow(false);
-      return () => {
-        <TextContent>
-          <Text component={TextVariants.h3}>No time stamp no recommendation</Text>
-        </TextContent>;
-      };
-    } else {
-      // console.log(props.endTimeArray, 'time spant');
-      setShow(true);
-      return () => {
-        <TextContent>
-          <Text component={TextVariants.h3}>recommendation avaliable</Text>
-        </TextContent>;
-      };
-    }
-  }, [props.endTimeArray]);
 
   return (
     <Stack hasGutter>
@@ -211,64 +195,64 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
             experiment_name: props.SREdata.experiment_name,
             namespace: props.SREdata.namespace,
             name: props.SREdata.name,
-            type: props.SREdata.type
+            type: props.SREdata.type,
+            cluster_name: props.SREdata.cluster_name,
+            container_name: props.SREdata.container_name
           }}
         />
       </StackItem>
 
       <StackItem>
-        {show && (
-          <Stack hasGutter>
-            <Flex className="example-border">
-              <Flex>
-                <FlexItem>
-                  <Split hasGutter>
-                    <SplitItem>
-                      <TextContent>
-                        <Text component={TextVariants.p}>Monitoring End Time</Text>
-                      </TextContent>
-                    </SplitItem>
-
-                    <SplitItem>
-                      <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
-                        {props.endTimeArray &&
-                          props.endTimeArray.map((option, index) => (
-                            <FormSelectOption key={index} value={option} label={option} />
-                          ))}
-                      </FormSelect>
-                    </SplitItem>
-                  </Split>
-                </FlexItem>
-              </Flex>
+        <Stack hasGutter>
+          <Flex className="example-border">
+            <Flex>
               <FlexItem>
                 <Split hasGutter>
                   <SplitItem>
                     <TextContent>
-                      <Text component={TextVariants.p}>View optimization based on </Text>
+                      <Text component={TextVariants.p}>Monitoring End Time</Text>
                     </TextContent>
                   </SplitItem>
 
                   <SplitItem>
-                    <FormSelect value={day} onChange={onDayChange} aria-label="days dropdown">
-                      {days.map((selection, index) => (
-                        <FormSelectOption key={index} value={selection.value} label={selection.label} />
-                      ))}
+                    <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
+                      {props.endTimeArray &&
+                        props.endTimeArray.map((option, index) => (
+                          <FormSelectOption key={index} value={option} label={option} />
+                        ))}
                     </FormSelect>
                   </SplitItem>
                 </Split>
               </FlexItem>
             </Flex>
-            {/* <StackItem><TabSection /></StackItem> */}
-            <StackItem>
-              <TableShort
-                parameter={{
-                  containerArray: props.SREdata.containerArray,
-                  dataA: data
-                }}
-              />
-            </StackItem>
-          </Stack>
-        )}
+            <FlexItem>
+              <Split hasGutter>
+                <SplitItem>
+                  <TextContent>
+                    <Text component={TextVariants.p}>View optimization based on </Text>
+                  </TextContent>
+                </SplitItem>
+
+                <SplitItem>
+                  <FormSelect value={day} onChange={onDayChange} aria-label="days dropdown">
+                    {days.map((selection, index) => (
+                      <FormSelectOption key={index} value={selection.value} label={selection.label} />
+                    ))}
+                  </FormSelect>
+                </SplitItem>
+              </Split>
+            </FlexItem>
+          </Flex>
+          {/* <StackItem><TabSection /></StackItem> */}
+          <StackItem>
+            {/* <TableShort
+              parameter={{
+                containerArray: props.SREdata.containerArray,
+                dataA: data
+              }}
+            /> */}
+          </StackItem>
+        </Stack>
       </StackItem>
     </Stack>
   );
