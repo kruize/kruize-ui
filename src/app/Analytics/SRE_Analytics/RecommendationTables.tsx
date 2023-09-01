@@ -142,34 +142,52 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   );
 
   const [endtime, setEndtime] = useState<any | null>('');
-
   const [data, setdata] = useState<any | null>('');
+  const [day, setDay] = useState('short_term');
 
-  const [show, setShow] = useState(false);
-
-  const [day, setDay] = useState('');
+  const days = [
+    { id: '1', value: 'short_term', label: 'Last 1 day', disabled: false },
+    { id: '2', value: 'medium_term', label: 'Last 7 days', disabled: false },
+    { id: '3', value: 'long_term', label: 'Last 15 days', disabled: false }
+  ];
 
   useEffect(() => {
     if (props.endTimeArray) {
-      fetchRecommendationData(props.endTimeArray[0]);
+      setEndtime(props.endTimeArray[0]);
     }
   }, [props.endTimeArray]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (endtime && day) {
+        const response = await fetch(list_recommendations_url);
+        const result = await response.json();
+        const arr: any = [];
+
+        result[0].kubernetes_objects[0].containers.forEach((container) => {
+          const recommendationData = container.recommendations?.data[endtime]?.duration_based?.[day];
+          if (recommendationData) {
+            arr.push(recommendationData);
+          }
+        });
+
+        setdata(arr);
+        console.log(arr);
+      }
+    };
+
+    fetchData();
+  }, [endtime, day]);
+
   const onChange = async (value: string) => {
     setEndtime(value);
-    fetchRecommendationData(value);
   };
-
-  const days = [
-    { id: '1', value: '1 Day', label: 'Last 1 day', disabled: false },
-    { id: '2', value: '7 Days', label: 'Last 7 days', disabled: false },
-    { id: '3', value: '15 Days', label: 'Last 15 days', disabled: false }
-  ];
 
   const onDayChange = (value: string) => {
     setDay(value);
   };
 
+<<<<<<< HEAD
   const fetchRecommendationData = async (value) => {
     const response = await fetch(list_recommendations_url);
     const data = await response.json();
@@ -182,6 +200,8 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
     setdata(arr);
   };
 
+=======
+>>>>>>> 1c22ecb (adds api functionality to days dropdown)
   return (
     <Stack hasGutter>
       <StackItem>
@@ -240,12 +260,20 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           </Flex>
           {/* <StackItem><TabSection /></StackItem> */}
           <StackItem>
+<<<<<<< HEAD
             <TableShort
+=======
+            {/* <TableShort
+>>>>>>> 1c22ecb (adds api functionality to days dropdown)
               parameter={{
                 containerArray: props.SREdata.containerArray,
                 dataA: data
               }}
+<<<<<<< HEAD
             />
+=======
+            /> */}
+>>>>>>> 1c22ecb (adds api functionality to days dropdown)
           </StackItem>
         </Stack>
       </StackItem>
