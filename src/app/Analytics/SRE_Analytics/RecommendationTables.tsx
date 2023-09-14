@@ -159,9 +159,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   };
 
   useEffect(() => {
-    // console.log('changes on changing end time');
     if (props.endTimeArray === null) {
-      // console.log(props.endTimeArray, 'no time stamps');
       setShow(false);
       return () => {
         <TextContent>
@@ -169,7 +167,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         </TextContent>;
       };
     } else {
-      // console.log(props.endTimeArray, 'time spant');
       setShow(true);
       return () => {
         <TextContent>
@@ -220,7 +217,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
               dataA: data
             }}
           />
-          {/* {console.log(fetchRecommendationData(props.endTimeArray[0]))} */}
         </>
       )}
     </>
