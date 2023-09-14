@@ -11,128 +11,10 @@ import {
   Stack,
   StackItem
 } from '@patternfly/react-core';
-import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 import { WorkloadDetails } from './ReccomendationComponents/WorkloadDetails';
-
-const TableShort = ({ parameter }) => {
-  const columnNames = {
-    containers: 'Containers',
-    short_term: 'Short Term',
-    medium_term: 'Medium Term',
-    long_term: 'Long Term',
-    cpuRequestS: 'CPU Request',
-    mmrRequestS: 'Mem Request',
-    cpuRequestM: 'CPU Request',
-    mmrRequestM: 'Mem Request',
-    cpuRequestL: 'CPU Request',
-    mmrRequestL: 'Mem Request'
-  };
-
-  return (
-    <React.Fragment>
-      <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
-        <Thead hasNestedHeader>
-          <Tr>
-            <Th hasRightBorder textCenter colSpan={1}>
-              {columnNames.containers}
-            </Th>
-            <Th hasRightBorder textCenter colSpan={2}>
-              {columnNames.short_term}
-            </Th>
-            <Th hasRightBorder textCenter colSpan={2}>
-              {columnNames.medium_term}
-            </Th>
-            <Th hasRightBorder textCenter colSpan={2}>
-              {columnNames.long_term}
-            </Th>
-          </Tr>
-          <Tr>
-            <Th hasRightBorder />
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.cpuRequestS}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.mmrRequestS}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.cpuRequestM}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.mmrRequestM}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.cpuRequestL}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.mmrRequestL}
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {parameter.containerArray.map((containerName, index) => (
-            <Tr key={index}>
-              <Td dataLabel={columnNames.containers} textCenter>
-                {containerName}
-              </Td>
-
-              <Td dataLabel={columnNames.cpuRequestS} textCenter>
-                {parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format
-                  : NaN}{' '}
-              </Td>
-
-              <Td dataLabel={columnNames.mmrRequestS} textCenter>
-                {parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format
-                  : NaN}{' '}
-              </Td>
-              <Td dataLabel={columnNames.cpuRequestM} textCenter>
-                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format
-                  : NaN}{' '}
-              </Td>
-              <Td dataLabel={columnNames.mmrRequestM} textCenter>
-                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.memory?.format
-                  : NaN}{' '}
-              </Td>
-              <Td dataLabel={columnNames.cpuRequestL} textCenter>
-                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.cpu?.format
-                  : NaN}{' '}
-              </Td>
-              <Td dataLabel={columnNames.mmrRequestL} textCenter>
-                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.memory?.format
-                  : NaN}{' '}
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </TableComposable>
-    </React.Fragment>
-  );
-};
+import { TabSection } from './ReccomendationComponents/TabSection';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
@@ -142,7 +24,8 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   );
 
   const [endtime, setEndtime] = useState<any | null>('');
-  const [data, setdata] = useState<any | null>('');
+  const [currentData, setCurrentData] = useState([]);
+  const [recommendedData, setRecommendedData] = useState([]);
   const [day, setDay] = useState('short_term');
 
   const days = [
@@ -162,22 +45,34 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
       if (endtime && day) {
         const response = await fetch(list_recommendations_url);
         const result = await response.json();
-        const arr: any = [];
+        const recommended_arr: any = [];
+        const current_arr: any = [];
 
-        result[0].kubernetes_objects[0].containers.forEach((container) => {
-          const recommendationData = container.recommendations?.data[endtime]?.duration_based?.[day];
-          if (recommendationData) {
-            arr.push(recommendationData);
+        // const currentDat = result[0].kubernetes_objects[0].containers[0].recommendations?.data[endtime]?.current;
+        // current_arr.push(currentDat);
+        // console.log()
+        result[0].kubernetes_objects[0].containers.map((container, index) => {
+          const currentDat = container.recommendations?.data[endtime]?.current;
+
+          if (currentDat) {
+            current_arr.push(currentDat);
           }
         });
 
-        setdata(arr);
-        console.log(arr);
+        result[0].kubernetes_objects[0].containers.map((container, index) => {
+          const recommendationDataNewAPI = container.recommendations.data[endtime]?.recommendation_terms[day];
+          if (recommendationDataNewAPI) {
+            recommended_arr.push(recommendationDataNewAPI);
+          }
+        });
+
+        setCurrentData(current_arr);
+        setRecommendedData(recommended_arr);
       }
     };
 
     fetchData();
-  }, [endtime, day]);
+  }, [endtime, day, props.SREdata.experiment_name]);
 
   const onChange = async (value: string) => {
     setEndtime(value);
@@ -201,7 +96,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           }}
         />
       </StackItem>
-
       <StackItem>
         <Stack hasGutter>
           <Flex className="example-border">
@@ -243,14 +137,8 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
               </Split>
             </FlexItem>
           </Flex>
-          {/* <StackItem><TabSection /></StackItem> */}
           <StackItem>
-            {/* <TableShort
-              parameter={{
-                containerArray: props.SREdata.containerArray,
-                dataA: data
-              }}
-            /> */}
+            <TabSection recommendedData={recommendedData} currentData={currentData} />
           </StackItem>
         </Stack>
       </StackItem>
