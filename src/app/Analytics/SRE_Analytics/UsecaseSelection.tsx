@@ -62,34 +62,20 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     sessionStorage.setItem('Experiment Name', value);
   };
 
-  // const fetchRecommendationData = async (value) => {
-  //   const response = await fetch(list_recommendations_url);
-  //   const data = await response.json();
-  //   const arr: any = [];
-
-  //   data[0].kubernetes_objects[0].containers.map((container_name, index) => {
-  //     arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value]);
-  //   });
-
-  //   props.setReccData(arr);
-  // };
-
   const handleClick = async () => {
     try {
-      // changes tab
       props.switchTab(1);
-      // calls api data
       const data = await (await fetch(list_recommendations_url)).json();
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
+      var cluster_name = data[0].cluster_name;
+      var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
 
       var endtime: any[] = [];
       endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
 
       props.setEndTimeArray(endtime);
-      // fetchRecommendationData(props.endTimeArray[0]);
-      // props.setEndTime(props.endTimeArray[0]);
 
       var containerArray: any[] = [];
       for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
@@ -101,7 +87,9 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         containerArray: containerArray,
         namespace: namespace,
         name: name,
-        type: type
+        type: type,
+        cluster_name: cluster_name,
+        container_name: container_name
       });
     } catch (err) {
       console.log('processing');
@@ -135,20 +123,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
           </GridItem>
           {usecase === 'Monitoring' && nestedUsecase === 'Remote' && (
             <>
-              {/* <TextContent>
-                  <Text component={TextVariants.h3}>Container Selection</Text>
-                </TextContent>
-                <FormGroup label="Cluster Name" isRequired fieldId="simple-form-email-01">
-                  <FormSelect value={clusteName} onChange={onClusterNameChange} aria-label="FormSelect Input">
-                    {options3.map((option, index) => (
-                      <FormSelectOption key={index} value={option.value} label={option.label} />
-                    ))}
-                  </FormSelect>
-                </FormGroup>
-                <FormGroup label="Namespace" isRequired fieldId="simple-form-email-01">
-                  <AnalyticsNamespace />
-  
-                </FormGroup> */}
               <TextContent>
                 <Text component={TextVariants.h3}>Experiment Name</Text>
               </TextContent>

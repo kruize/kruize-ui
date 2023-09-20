@@ -2,62 +2,7 @@ import { TextContent, TextVariants, Flex, FlexItem, FormSelect, FormSelectOption
 import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
-
-const WorkloadTable = ({ experimentData }) => {
-  const columnNames = {
-    exp_name: 'Experiment Name',
-    workload: 'Workload',
-    namespace: 'Namespace',
-    name: 'Name',
-    type: 'Type'
-  };
-
-  return (
-    <React.Fragment>
-      <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
-        <Thead hasNestedHeader>
-          <Tr>
-            <Th hasRightBorder textCenter colSpan={1}>
-              {columnNames.exp_name}
-            </Th>
-            <Th hasRightBorder textCenter colSpan={3}>
-              {columnNames.workload}
-            </Th>
-          </Tr>
-
-          <Tr>
-            <Th hasRightBorder />
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.namespace}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.name}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.type}
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr key={experimentData.experiment_name}>
-            <Td dataLabel={columnNames.exp_name} textCenter>
-              {experimentData.experiment_name}
-            </Td>
-            <Td dataLabel={columnNames.namespace} textCenter>
-              {experimentData.namespace}
-            </Td>
-            <Td dataLabel={columnNames.name} textCenter>
-              {experimentData.name}
-            </Td>
-            <Td dataLabel={columnNames.type} textCenter>
-              {experimentData.type}
-            </Td>
-          </Tr>
-        </Tbody>
-      </TableComposable>
-    </React.Fragment>
-  );
-};
+import { WorkloadDetails } from './ReccomendationComponents/WorkloadDetails';
 
 const TableShort = ({ parameter }) => {
   const columnNames = {
@@ -214,9 +159,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   };
 
   useEffect(() => {
-    // console.log('changes on changing end time');
     if (props.endTimeArray === null) {
-      // console.log(props.endTimeArray, 'no time stamps');
       setShow(false);
       return () => {
         <TextContent>
@@ -224,7 +167,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         </TextContent>;
       };
     } else {
-      // console.log(props.endTimeArray, 'time spant');
       setShow(true);
       return () => {
         <TextContent>
@@ -236,17 +178,14 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
 
   return (
     <>
-      <br />
-      <TextContent>
-        <Text component={TextVariants.h1}>Recommendations</Text>
-      </TextContent>
-      <br />
-      <WorkloadTable
+      <WorkloadDetails
         experimentData={{
           experiment_name: props.SREdata.experiment_name,
           namespace: props.SREdata.namespace,
           name: props.SREdata.name,
-          type: props.SREdata.type
+          type: props.SREdata.type,
+          cluster_name: props.SREdata.cluster_name,
+          container_name: props.SREdata.container_name
         }}
       />
       <br />
@@ -278,7 +217,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
               dataA: data
             }}
           />
-          {/* {console.log(fetchRecommendationData(props.endTimeArray[0]))} */}
         </>
       )}
     </>
