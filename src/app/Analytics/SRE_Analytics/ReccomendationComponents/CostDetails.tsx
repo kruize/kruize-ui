@@ -13,8 +13,18 @@ import {
 import ReusableCodeBlock from './ReusableCodeBlock';
 
 const CostDetails = (props: { recommendedData; currentData }) => {
-  const NumberFormat = (number) =>
-    typeof number === 'number' && !isNaN(number) ? (number % 1 !== 0 ? number.toFixed(3) : number) : '';
+  const NumberFormat = (num) => {
+    if (num === undefined) {
+      return '';
+    }
+    const decimalCount = (num.toString().split('.')[1] || '').length;
+    if (decimalCount > 3) {
+      return num.toFixed(3);
+    } else {
+      return num.toString();
+    }
+  };
+  // typeof number === 'number' && !isNaN(number) ? (number % 1 !== 0 ? number.toFixed(3) : number) : '';
 
   const UnitFormat = (unit) => unit || '';
 
@@ -59,28 +69,28 @@ const CostDetails = (props: { recommendedData; currentData }) => {
   )}`;
 
   return (
-    <PageSection variant={PageSectionVariants.light}>
-      <Grid hasGutter>
-        <GridItem span={6} rowSpan={8}>
-          <Card ouiaId="BasicCard" isFullHeight>
-            <CardTitle>Current State</CardTitle>
-            <CardBody>
-              <Text component={TextVariants.h5}>Current Configuration</Text>
-              <ReusableCodeBlock code={current_code} />
-            </CardBody>
-          </Card>
-        </GridItem>
-        <GridItem span={6} rowSpan={8}>
-          <Card ouiaId="BasicCard">
-            <CardTitle>Recommendation</CardTitle>
-            <CardBody>
-              <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
-              <ReusableCodeBlock code={recommended_code} />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </Grid>
-    </PageSection>
+    // <PageSection variant={PageSectionVariants.light}>
+    <Grid hasGutter>
+      <GridItem span={6} rowSpan={8}>
+        <Card ouiaId="BasicCard" isFullHeight>
+          <CardTitle>Current State</CardTitle>
+          <CardBody>
+            <Text component={TextVariants.h5}>Current Configuration</Text>
+            <ReusableCodeBlock code={current_code} includeActions={false} />
+          </CardBody>
+        </Card>
+      </GridItem>
+      <GridItem span={6} rowSpan={8}>
+        <Card ouiaId="BasicCard">
+          <CardTitle>Recommendation</CardTitle>
+          <CardBody>
+            <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
+            <ReusableCodeBlock code={recommended_code} includeActions={true} />
+          </CardBody>
+        </Card>
+      </GridItem>
+    </Grid>
+    // </PageSection>
   );
 };
 
