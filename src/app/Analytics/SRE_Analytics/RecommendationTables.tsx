@@ -143,6 +143,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         </Stack>
       </StackItem>
     </Stack>
+
   );
 };
 
