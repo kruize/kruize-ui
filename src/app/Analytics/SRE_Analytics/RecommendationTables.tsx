@@ -1,4 +1,16 @@
-import { TextContent, TextVariants, Flex, FlexItem, FormSelect, FormSelectOption, Text } from '@patternfly/react-core';
+import {
+  TextContent,
+  TextVariants,
+  Flex,
+  FlexItem,
+  FormSelect,
+  FormSelectOption,
+  Text,
+  Split,
+  SplitItem,
+  Stack,
+  StackItem
+} from '@patternfly/react-core';
 import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
@@ -130,96 +142,120 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   );
 
   const [endtime, setEndtime] = useState<any | null>('');
-
   const [data, setdata] = useState<any | null>('');
+  const [day, setDay] = useState('short_term');
 
-  const [show, setShow] = useState(false);
+  const days = [
+    { id: '1', value: 'short_term', label: 'Last 1 day', disabled: false },
+    { id: '2', value: 'medium_term', label: 'Last 7 days', disabled: false },
+    { id: '3', value: 'long_term', label: 'Last 15 days', disabled: false }
+  ];
 
   useEffect(() => {
     if (props.endTimeArray) {
-      fetchRecommendationData(props.endTimeArray[0]);
+      setEndtime(props.endTimeArray[0]);
     }
   }, [props.endTimeArray]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (endtime && day) {
+        const response = await fetch(list_recommendations_url);
+        const result = await response.json();
+        const arr: any = [];
+
+        result[0].kubernetes_objects[0].containers.forEach((container) => {
+          const recommendationData = container.recommendations?.data[endtime]?.duration_based?.[day];
+          if (recommendationData) {
+            arr.push(recommendationData);
+          }
+        });
+
+        setdata(arr);
+        console.log(arr);
+      }
+    };
+
+    fetchData();
+  }, [endtime, day]);
 
   const onChange = async (value: string) => {
     setEndtime(value);
-    fetchRecommendationData(value);
   };
 
-  const fetchRecommendationData = async (value) => {
-    const response = await fetch(list_recommendations_url);
-    const data = await response.json();
-    const arr: any = [];
-
-    data[0].kubernetes_objects[0].containers.map((container_name, index) => {
-      arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value]);
-    });
-
-    setdata(arr);
+  const onDayChange = (value: string) => {
+    setDay(value);
   };
-
-  useEffect(() => {
-    if (props.endTimeArray === null) {
-      setShow(false);
-      return () => {
-        <TextContent>
-          <Text component={TextVariants.h3}>No time stamp no recommendation</Text>
-        </TextContent>;
-      };
-    } else {
-      setShow(true);
-      return () => {
-        <TextContent>
-          <Text component={TextVariants.h3}>recommendation avaliable</Text>
-        </TextContent>;
-      };
-    }
-  }, [props.endTimeArray]);
 
   return (
-    <>
-      <WorkloadDetails
-        experimentData={{
-          experiment_name: props.SREdata.experiment_name,
-          namespace: props.SREdata.namespace,
-          name: props.SREdata.name,
-          type: props.SREdata.type,
-          cluster_name: props.SREdata.cluster_name,
-          container_name: props.SREdata.container_name
-        }}
-      />
-      <br />
+    <Stack hasGutter>
+      <StackItem>
+        <WorkloadDetails
+          experimentData={{
+            experiment_name: props.SREdata.experiment_name,
+            namespace: props.SREdata.namespace,
+            name: props.SREdata.name,
+            type: props.SREdata.type,
+            cluster_name: props.SREdata.cluster_name,
+            container_name: props.SREdata.container_name
+          }}
+        />
+      </StackItem>
 
-      {show && (
-        <>
-          <Flex>
+      <StackItem>
+        <Stack hasGutter>
+          <Flex className="example-border">
+            <Flex>
+              <FlexItem>
+                <Split hasGutter>
+                  <SplitItem>
+                    <TextContent>
+                      <Text component={TextVariants.p}>Monitoring End Time</Text>
+                    </TextContent>
+                  </SplitItem>
+
+                  <SplitItem>
+                    <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
+                      {props.endTimeArray &&
+                        props.endTimeArray.map((option, index) => (
+                          <FormSelectOption key={index} value={option} label={option} />
+                        ))}
+                    </FormSelect>
+                  </SplitItem>
+                </Split>
+              </FlexItem>
+            </Flex>
             <FlexItem>
-              <TextContent>
-                <Text component={TextVariants.h3}>Monitoring End Time</Text>
-              </TextContent>
-              <br />
-              <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
-                {props.endTimeArray &&
-                  props.endTimeArray.map((option, index) => (
-                    <FormSelectOption key={index} value={option} label={option} />
-                  ))}
-              </FormSelect>
+              <Split hasGutter>
+                <SplitItem>
+                  <TextContent>
+                    <Text component={TextVariants.p}>View optimization based on </Text>
+                  </TextContent>
+                </SplitItem>
+
+                <SplitItem>
+                  <FormSelect value={day} onChange={onDayChange} aria-label="days dropdown">
+                    {days.map((selection, index) => (
+                      <FormSelectOption key={index} value={selection.value} label={selection.label} />
+                    ))}
+                  </FormSelect>
+                </SplitItem>
+              </Split>
             </FlexItem>
           </Flex>
-          <br /> <br />
-          <TextContent>
-            <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
-          </TextContent>
-          <br />
-          <TableShort
-            parameter={{
-              containerArray: props.SREdata.containerArray,
-              dataA: data
-            }}
-          />
-        </>
-      )}
-    </>
+          {/* <StackItem><TabSection /></StackItem> */}
+          <StackItem>
+            {/* <TableShort
+
+              parameter={{
+                containerArray: props.SREdata.containerArray,
+                dataA: data
+              }}
+              /> */}
+          </StackItem>
+        </Stack>
+      </StackItem>
+    </Stack>
   );
 };
 
