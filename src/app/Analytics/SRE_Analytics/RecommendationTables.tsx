@@ -187,21 +187,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
     setDay(value);
   };
 
-<<<<<<< HEAD
-  const fetchRecommendationData = async (value) => {
-    const response = await fetch(list_recommendations_url);
-    const data = await response.json();
-    const arr: any = [];
-
-    data[0].kubernetes_objects[0].containers.map((container_name, index) => {
-      arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value]);
-    });
-
-    setdata(arr);
-  };
-
-=======
->>>>>>> 1c22ecb (adds api functionality to days dropdown)
   return (
     <Stack hasGutter>
       <StackItem>
@@ -260,20 +245,13 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           </Flex>
           {/* <StackItem><TabSection /></StackItem> */}
           <StackItem>
-<<<<<<< HEAD
-            <TableShort
-=======
             {/* <TableShort
->>>>>>> 1c22ecb (adds api functionality to days dropdown)
+
               parameter={{
                 containerArray: props.SREdata.containerArray,
                 dataA: data
               }}
-<<<<<<< HEAD
-            />
-=======
-            /> */}
->>>>>>> 1c22ecb (adds api functionality to days dropdown)
+              /> */}
           </StackItem>
         </Stack>
       </StackItem>
