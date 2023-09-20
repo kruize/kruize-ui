@@ -48,9 +48,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         const recommended_arr: any = [];
         const current_arr: any = [];
 
-        // const currentDat = result[0].kubernetes_objects[0].containers[0].recommendations?.data[endtime]?.current;
-        // current_arr.push(currentDat);
-        // console.log()
         result[0].kubernetes_objects[0].containers.map((container, index) => {
           const currentDat = container.recommendations?.data[endtime]?.current;
 
@@ -143,7 +140,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         </Stack>
       </StackItem>
     </Stack>
-
   );
 };
 
