@@ -1,0 +1,74 @@
+[
+  {
+    "layer_id": "2466a805ce446743f92e3e9f055d09e5516bae872efe0e3ea05a78bb636ca205",
+    "layer_level": 0,
+    "tunables": [
+      {
+        "value_type": "double",
+        "lower_bound": "150.0Mi",
+        "name": "memoryRequest",
+        "step": 1,
+        "query_url": "container_memory_working_set_bytes{container=\"\", pod=\"$POD$\"}",
+        "upper_bound": "300.0Mi"
+      },
+      {
+        "value_type": "double",
+        "lower_bound": "1.0",
+        "name": "cpuRequest",
+        "step": 0.01,
+        "query_url": "(container_cpu_usage_seconds_total{container!=\"POD\", pod=\"$POD$\"}[1m])",
+        "upper_bound": "3.0"
+      }
+    ],
+    "layer_name": "container",
+    "layer_details": "generic container tunables"
+  },
+  {
+    "layer_id": "b91469159554d276136609b3f372096021bfcc1926fb32f7d853939e4314dcd1",
+    "layer_level": 1,
+    "tunables": [
+      {
+        "value_type": "integer",
+        "lower_bound": "9",
+        "name": "MaxInlineLevel",
+        "step": 1,
+        "query_url": "jvm_memory_used_bytes{area=\"heap\", container=\"\", pod=\"$POD$\"}",
+        "upper_bound": "50"
+      }
+    ],
+    "layer_name": "hotspot",
+    "layer_details": "hotspot tunables"
+  },
+  {
+    "layer_id": "de841c74180086b46224cca2a974a9297584b7b5a4f4643a4aa790435cc4b9e6",
+    "layer_level": 2,
+    "tunables": [
+      {
+        "value_type": "integer",
+        "lower_bound": "1",
+        "name": "quarkus.thread-pool.core-threads",
+        "step": 1,
+        "query_url": "none",
+        "upper_bound": "10"
+      },
+      {
+        "value_type": "integer",
+        "lower_bound": "1",
+        "name": "quarkus.thread-pool.queue-size",
+        "step": 1,
+        "query_url": "none",
+        "upper_bound": "100"
+      },
+      {
+        "value_type": "integer",
+        "lower_bound": "1",
+        "name": "quarkus.hibernate-orm.jdbc.statement-fetch-size",
+        "step": 1,
+        "query_url": "none",
+        "upper_bound": "50"
+      }
+    ],
+    "layer_name": "quarkus",
+    "layer_details": "quarkus tunables"
+  }
+]

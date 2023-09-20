@@ -1,73 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
-    Button,
-    Card,
-    CardBody, DropdownItem, DropdownSeparator,
-    Grid,
-    GridItem,
-    Spinner,
+  Button,
+  PageSection,
+  PageSectionVariants,
+  Toolbar,
+  ToolbarContent,
+  FormGroup,
+  TextInput,
+  Grid,
+  GridItem,
+  TextContent,
+  Text,
+  TextVariants,
+  WizardContext
 } from '@patternfly/react-core';
+import NameSpaceDropDown from './NameSpaceDropDown';
+import DeploymentsDropdown from './DeploymentsDropdown';
+import nodeContext from '@app/ContextStore/nodeContext';
 
-import NameSpaceDropDown from "./NameSpaceDropDown";
-import DeploymentsDropdown from "./DeploymentsDropdown";
-// import ThroughputSlider from "./ThroughputSlider";
-// import ResponseTimeSlider from "./ResponseTimeSlider";
-// import ResourceUsageSlider from "./ResourceUsageSlider";
-// import LayerDropdown from './LayerDropdown';
-// import TunableDropdown from './TunableDropdown';
+const RE = (props: { setData; data }) => {
+  const [exp_name, setExp_name] = useState('--');
+  const Context = useContext(nodeContext);
 
+  useEffect(() => {
+    props.setData({ ...{ ...props.data }, exp_name: exp_name });
+  }, [exp_name]);
 
-const RE: React.FunctionComponent = () => {
-    const dropd = (
-        <Card>
+  useEffect(() => {
+    setExp_name(sessionStorage.getItem('Exp name Value')!);
+  }, []);
 
-            <CardBody>
+  const onTextInputHandler = (exp_name) => {
+    sessionStorage.setItem('Exp name Value', exp_name);
+    setExp_name(exp_name);
+  };
 
-                <Grid hasGutter>
-
-                    <GridItem span={2}></GridItem>
-                    <GridItem span={8}>
-
-                        <Grid hasGutter>
-                            <GridItem span={6}>
-                                <NameSpaceDropDown />
-                            </GridItem>
-                            <GridItem span={6}>
-                                <DeploymentsDropdown />
-                            </GridItem>
-                        </Grid>
-                        <br />
-
-
-
-                        <Grid hasGutter>
-                            <GridItem span={5} >
-                                <Button variant="secondary" >
-                                    Submit
-                                </Button>
-
-                            </GridItem>
-                            <GridItem span={2}> </GridItem>
-                            <GridItem span={3}>
-                                <Button variant="secondary">Reset </Button>
-                            </GridItem>
-                        </Grid>
-                        <br />
-                    </GridItem>
-                    <GridItem span={2}></GridItem>
-                </Grid>
-
-                <Grid>
-
-                </Grid>
-            </CardBody>
-        </Card>
-    )
+  const dropd = () => {
     return (
-        <div>{dropd} </div>
-    )
-
+      <>
+        <PageSection variant={PageSectionVariants.light}>
+          <Toolbar>
+            <ToolbarContent style={{ paddingLeft: 0 }}>
+              <TextContent>
+                <Text component={TextVariants.h1}>New Experiment</Text>
+                <Text component={TextVariants.p}>
+                  Select your specific Namespace and Deployment to start with Experiment.
+                </Text>
+              </TextContent>
+            </ToolbarContent>
+          </Toolbar>
+          <Grid hasGutter>
+            <GridItem span={8}>
+              <Grid hasGutter>
+                <GridItem span={6}>
+                  <FormGroup isRequired label="Experiment Name" fieldId="horizontal-form-email">
+                    <TextInput
+                      value={exp_name || ''}
+                      name="experiment_name_textbox"
+                      onChange={onTextInputHandler}
+                      aria-label="Text inp 101"
+                    />
+                    <br />
+                  </FormGroup>
+                </GridItem>
+                <GridItem span={6}>
+                  <FormGroup isRequired label="Namespace" fieldId="horizontal-form-email"></FormGroup>
+                  <NameSpaceDropDown data={props.data} setData={props.setData} />
+                </GridItem>
+                <GridItem span={6}>
+                  <FormGroup isRequired label="Deployment" fieldId="horizontal-form-email"></FormGroup>
+                  <DeploymentsDropdown data={props.data} setData={props.setData} />
+                </GridItem>
+              </Grid>
+            </GridItem>
+          </Grid>
+        </PageSection>
+      </>
+    );
+  };
+  return <div>{dropd()}</div>;
 };
 
 export default RE;
-

@@ -1,27 +1,26 @@
+FROM node:16 AS builder
 
-FROM node:14.17.0 AS builder
-
-WORKDIR /builder
-
-COPY package.json ./
-
-RUN npm install --save
+WORKDIR /app
 
 COPY . ./
 
-RUN npm run build
+RUN npm config set legacy-peer-deps true \
+  && npm install \
+  && KRUIZE_UI_ENV=production npm run build
 
+FROM nginx:latest
 
-# Production image
+RUN rm /etc/nginx/conf.d/default.conf \
+  &&mkdir -p /var/cache/nginx/client_temp /var/run/nginx \
+  && chown -R nginx:nginx /var/cache/nginx /var/run/nginx \
+  && touch /var/run/nginx.pid \
+  && chown nginx:nginx /var/run/nginx.pid
 
-FROM node:14.17.0
+# Switch to the non-root user
+USER nginx
 
-COPY --from=builder /builder/dist ./dist
+COPY --from=builder /app/dist/* /usr/share/nginx/html/
 
-RUN npm install -g serve 
+EXPOSE 80
 
-CMD ["serve", "-s", "dist"]
-
-
-
-
+CMD ["nginx", "-g", "daemon off;"]

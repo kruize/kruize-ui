@@ -12,8 +12,9 @@ import {
 } from '@patternfly/react-core';
 import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
-
-
+import EnvState from '@app/ContextStore/EnvState';
+import Footer from '@app/Footer/Footer';
+import KruizeLogo from '!!url-loader!@app/Assets/images/kruize_icon.png';
 interface IAppLayout {
   children: React.ReactNode;
 }
@@ -22,6 +23,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const [isNavOpen, setIsNavOpen] = React.useState(true);
   const [isMobileView, setIsMobileView] = React.useState(true);
   const [isNavOpenMobile, setIsNavOpenMobile] = React.useState(false);
+  const location = useLocation();
   const onNavToggleMobile = () => {
     setIsNavOpenMobile(!isNavOpenMobile);
   };
@@ -31,20 +33,18 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const onPageResize = (props: { mobileView: boolean; windowSize: number }) => {
     setIsMobileView(props.mobileView);
   };
-  /*
-    function LogoImg() {
-      const history = useHistory();
-      function handleClick() {
-        history.push('/');
-      }
-      return (
-        <img src={logo} onClick={handleClick} alt="PatternFly Logo" />
-      );
+
+  function LogoImg() {
+    const history = useHistory();
+    function handleClick() {
+      history.push('/');
     }
-  
-  */
+    return <img src={KruizeLogo} onClick={handleClick} alt="Kruize Logo" width="40" height="40" />;
+  }
+
   const Header = (
     <PageHeader
+      logo={<LogoImg />}
       headerTools={<HorizontalNav />}
       showNavToggle
       isNavOpen={isNavOpen}
@@ -52,8 +52,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     />
   );
 
-
-  const location = useLocation();
+  const footer = <Footer />;
 
   const renderNavItem = (route: IAppRoute, index: number) => (
     <NavItem key={`${route.label}-${index}`} id={`${route.label}-${index}`} isActive={route.path === location.pathname}>
@@ -78,39 +77,42 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     <Nav id="nav-primary-simple" theme="dark">
       <NavList id="nav-list-simple">
         {routes.map(
-          (route, idx) => route.label && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx))
+          (route, idx) =>
+            route.label && route.menu && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx))
         )}
       </NavList>
     </Nav>
   );
 
-  const Sidebar = (
-    <PageSidebar
-      theme="dark"
-      nav={Navigation}
-      isNavOpen={isMobileView ? isNavOpenMobile : isNavOpen} />
-  );
+  const Sidebar = <PageSidebar theme="dark" nav={Navigation} isNavOpen={isMobileView ? isNavOpenMobile : isNavOpen} />;
 
   const pageId = 'primary-app-container';
 
   const PageSkipToContent = (
-    <SkipToContent onClick={(event) => {
-      event.preventDefault();
-      const primaryContentContainer = document.getElementById(pageId);
-      primaryContentContainer && primaryContentContainer.focus();
-    }} href={`#${pageId}`}>
+    <SkipToContent
+      onClick={(event) => {
+        event.preventDefault();
+        const primaryContentContainer = document.getElementById(pageId);
+        primaryContentContainer && primaryContentContainer.focus();
+      }}
+      href={`#${pageId}`}
+    >
       Skip to Content
     </SkipToContent>
   );
   return (
-    <Page
-      mainContainerId={pageId}
-      header={Header}
-      sidebar={Sidebar}
-      onPageResize={onPageResize}
-      skipToContent={PageSkipToContent}>
-      {children}
-    </Page>
+    <EnvState>
+      <Page
+        mainContainerId={pageId}
+        header={Header}
+        sidebar={Sidebar}
+        onPageResize={onPageResize}
+        skipToContent={PageSkipToContent}
+      >
+        {children}
+        {/* <Footer /> */}
+      </Page>
+    </EnvState>
   );
 };
 

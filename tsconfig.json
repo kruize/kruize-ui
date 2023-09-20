@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
+    "typeRoots": [ "<types-directory-created-in-#1>", "./node_modules/@types"],
+
     "baseUrl": ".",
     "rootDir": ".",
     "outDir": "dist",
     "module": "esnext",
-    "target": "es5",
-    "lib": ["es6", "dom"],
+    "target": "es2017",
+    "lib": ["es6","es5", "dom"],
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
@@ -23,6 +26,7 @@
     },
     "importHelpers": true,
     "skipLibCheck": true
+
   },
   "include": [
     "**/*.ts",
