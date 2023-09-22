@@ -4,7 +4,7 @@ import React from 'react';
 export const WorkloadDetails = ({ experimentData }) => {
   return (
     <TextContent>
-      <Text component={TextVariants.h3}>Recomendations</Text>
+      <Text component={TextVariants.h3}>Recommendations</Text>
       <Text component={TextVariants.h5}>{experimentData.container_name}</Text>
       <Text component={TextVariants.p}>
         Cluster name: {experimentData.cluster_name}
