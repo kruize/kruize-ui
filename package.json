@@ -132,7 +132,7 @@
     "react-monaco-editor": "^0.41.2",
     "react-router-last-location": "^2.0.1",
     "react-tinder-card": "^1.6.2",
-    "resolve": "^1.22.1",
+    "resolve": "^1.22.6",
     "sirv-cli": "^1.0.12",
     "tts-loader": "^0.3.0",
     "zero-md": "^2.3.3"
