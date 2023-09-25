@@ -84,7 +84,7 @@
     "webpack-bundle-analyzer": "^4.9.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.9.0"
   },
   "peerDependencies": {
     "monaco-editor": "^0.21.3",
