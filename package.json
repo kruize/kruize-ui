@@ -118,7 +118,7 @@
     "kubernetes-client": "^9.0.0",
     "markdown-loader": "^8.0.0",
     "markdown-to-jsx": "^7.1.7",
-    "marked": "^4.0.12",
+    "marked": "^9.0.3",
     "mathjax-react": "^2.0.1",
     "minimal-package": "^1.0.0",
     "monaco-editor": "^0.21.3",
