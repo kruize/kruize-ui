@@ -69,28 +69,28 @@ const CostDetails = (props: { recommendedData; currentData }) => {
   )}`;
 
   return (
-    // <PageSection variant={PageSectionVariants.light}>
-    <Grid hasGutter>
-      <GridItem span={6} rowSpan={8}>
-        <Card ouiaId="BasicCard" isFullHeight>
-          <CardTitle>Current State</CardTitle>
-          <CardBody>
-            <Text component={TextVariants.h5}>Current Configuration</Text>
-            <ReusableCodeBlock code={current_code} includeActions={false} />
-          </CardBody>
-        </Card>
-      </GridItem>
-      <GridItem span={6} rowSpan={8}>
-        <Card ouiaId="BasicCard">
-          <CardTitle>Recommendation</CardTitle>
-          <CardBody>
-            <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
-            <ReusableCodeBlock code={recommended_code} includeActions={true} />
-          </CardBody>
-        </Card>
-      </GridItem>
-    </Grid>
-    // </PageSection>
+    <PageSection variant={PageSectionVariants.light}>
+      <Grid hasGutter>
+        <GridItem span={6} rowSpan={8}>
+          <Card ouiaId="BasicCard" isFullHeight>
+            <CardTitle>Current State</CardTitle>
+            <CardBody>
+              <Text component={TextVariants.h5}>Current Configuration</Text>
+              <ReusableCodeBlock code={current_code} includeActions={false} />
+            </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem span={6} rowSpan={8}>
+          <Card ouiaId="BasicCard">
+            <CardTitle>Recommendation</CardTitle>
+            <CardBody>
+              <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
+              <ReusableCodeBlock code={recommended_code} includeActions={true} />
+            </CardBody>
+          </Card>
+        </GridItem>
+      </Grid>
+    </PageSection>
   );
 };
 

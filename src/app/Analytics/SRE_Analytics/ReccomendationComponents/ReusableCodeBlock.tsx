@@ -33,11 +33,7 @@ const ReusableCodeBlock: React.FunctionComponent<{ code; includeActions: boolean
       )}
     </CodeBlockAction>
   );
-  const fontFamilyStyle = {
-    fontFamily: 'monospace',
-    fontWeight: 'normal'
-    // color: '#ffc0cb'
-  };
+
   return (
     <CodeBlock actions={actions}>
       <CodeBlockCode id="code-content">{code}</CodeBlockCode>
