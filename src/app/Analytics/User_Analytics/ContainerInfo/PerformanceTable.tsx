@@ -1,6 +1,6 @@
 import React from 'react';
-import { ToggleGroup, ToggleGroupItem, ToggleGroupItemProps } from '@patternfly/react-core';
-import { TableComposable, Caption, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
+
+import { Table /* data-codemods */, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 
 interface Repository {
   monitoringStartTime: string | null;
@@ -36,7 +36,7 @@ const PerformanceTable = () => {
   };
 
   return (
-    <TableComposable aria-label="Simple table" variant="compact">
+    <Table aria-label="Simple table" variant="compact">
       <Thead>
         <Tr>
           <Th>{columnNames.monitoringStartTime}</Th>
@@ -59,7 +59,7 @@ const PerformanceTable = () => {
           </Tr>
         ))}
       </Tbody>
-    </TableComposable>
+    </Table>
   );
 };
 

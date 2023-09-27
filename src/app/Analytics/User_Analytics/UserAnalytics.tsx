@@ -11,7 +11,7 @@ import {
   Divider,
   Grid,
   GridItem,
-  Checkbox
+  
 } from '@patternfly/react-core';
 import NameSpaceDropDown from '@app/RunExperiment/NameSpaceDropDown';
 import { AnalyticsNamespace } from './AnalyticsNamespace';

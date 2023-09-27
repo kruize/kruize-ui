@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import {
+	Select,
+	SelectOption,
+	SelectVariant
+} from '@patternfly/react-core/deprecated';
 import nodeContext from '@app/ContextStore/nodeContext';
 import { ExperimentTable } from './ExperimentTable';
 

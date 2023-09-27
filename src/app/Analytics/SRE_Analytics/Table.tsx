@@ -1,20 +1,16 @@
 /* eslint-disable no-console */
 import React from 'react';
 import {
-  TableComposable,
+  Table /* data-codemods */,
   Thead,
   Tr,
   Th,
   Tbody,
   Td,
   ExpandableRowContent,
-  ActionsColumn,
-  IAction
+  
 } from '@patternfly/react-table';
 import {
-  TextContent,
-  TextVariants,
-  Text,
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -159,7 +155,7 @@ const Table = () => {
     });
   const isRepoExpanded = (repo: Repository) => expandedRepoNames.includes(repo.srno);
   return (
-    <TableComposable aria-label="exp table">
+    <Table aria-label="exp table">
       <Thead>
         <Tr>
           <Td />
@@ -204,7 +200,7 @@ const Table = () => {
           ) : null}
         </Tbody>
       ))}
-    </TableComposable>
+    </Table>
   );
 };
 

@@ -1,14 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Button,
-  PageSection,
-  PageSectionVariants,
-  Text,
-  TextVariants,
-  TextContent,
-  Title
-} from '@patternfly/react-core';
+import { PageSection, PageSectionVariants, Text, TextVariants, TextContent } from '@patternfly/react-core';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
 const About = () => (
   <PageSection variant={PageSectionVariants.light}>

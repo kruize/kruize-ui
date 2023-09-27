@@ -82,6 +82,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   return (
     <Stack hasGutter>
       <StackItem>
+        <br />
         <WorkloadDetails
           experimentData={{
             experiment_name: props.SREdata.experiment_name,
@@ -106,7 +107,11 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
                   </SplitItem>
 
                   <SplitItem>
-                    <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
+                    <FormSelect
+                      value={endtime}
+                      onChange={(_event, value: string) => onChange(value)}
+                      aria-label="FormSelect Input"
+                    >
                       {props.endTimeArray &&
                         props.endTimeArray.map((option, index) => (
                           <FormSelectOption key={index} value={option} label={option} />
@@ -125,7 +130,11 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
                 </SplitItem>
 
                 <SplitItem>
-                  <FormSelect value={day} onChange={onDayChange} aria-label="days dropdown">
+                  <FormSelect
+                    value={day}
+                    onChange={(_event, value: string) => onDayChange(value)}
+                    aria-label="days dropdown"
+                  >
                     {days.map((selection, index) => (
                       <FormSelectOption key={index} value={selection.value} label={selection.label} />
                     ))}

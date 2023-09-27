@@ -3,12 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import {
   PageSection,
   PageSectionVariants,
-  Toolbar,
-  ToolbarContent,
-  TextContent,
-  Text,
-  TextVariants,
-  Title
+  
 } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
 

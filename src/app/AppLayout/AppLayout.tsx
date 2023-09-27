@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import {
-  Nav,
-  NavList,
-  NavItem,
-  NavExpandable,
-  Page,
-  PageHeader,
-  PageSidebar,
-  SkipToContent
+	Nav,
+	NavList,
+	NavItem,
+	NavExpandable,
+	Page,
+	PageSidebar,
+	SkipToContent, PageSidebarBody
 } from '@patternfly/react-core';
+import {
+	PageHeader
+} from '@patternfly/react-core/deprecated';
 import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
 import EnvState from '@app/ContextStore/EnvState';
@@ -84,7 +86,11 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     </Nav>
   );
 
-  const Sidebar = <PageSidebar theme="dark" nav={Navigation} isNavOpen={isMobileView ? isNavOpenMobile : isNavOpen} />;
+  const Sidebar = <PageSidebar theme="dark" isSidebarOpen={isMobileView ? isNavOpenMobile : isNavOpen} >
+<PageSidebarBody>
+{Navigation}
+</PageSidebarBody>
+</PageSidebar>;
 
   const pageId = 'primary-app-container';
 
@@ -106,7 +112,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
         mainContainerId={pageId}
         header={Header}
         sidebar={Sidebar}
-        onPageResize={onPageResize}
+        onPageResize={(_event, props: { mobileView: boolean; windowSize: number }) => onPageResize(props)}
         skipToContent={PageSkipToContent}
       >
         {children}

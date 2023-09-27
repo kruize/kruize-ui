@@ -3,9 +3,8 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
-  EmptyStateSecondaryActions,
-  Progress,
-  Title
+  Progress, EmptyStateActions, EmptyStateHeader, EmptyStateFooter,
+  
 } from '@patternfly/react-core';
 import { CogsIcon } from '@patternfly/react-icons';
 import React, { useEffect, useState } from 'react';
@@ -36,21 +35,18 @@ const FinishedStep = () => {
 
   return (
     <div className="pf-l-bullseye">
-      <EmptyState variant="large">
-        <EmptyStateIcon icon={CogsIcon} />
-        <Title headingLevel="h4" size="lg">
-          {percent === 100 ? 'YAML Applied ' : 'Applying the YAML to Kruize '}
-        </Title>
+      <EmptyState variant="lg">
+        <EmptyStateHeader titleText={<>{percent === 100 ? 'YAML Applied ' : 'Applying the YAML to Kruize '}</>} icon={<EmptyStateIcon icon={CogsIcon} />} headingLevel="h4" />
         <EmptyStateBody>
           <Progress value={percent} measureLocation="outside" aria-label="validation-progress" />
-        </EmptyStateBody>
+        </EmptyStateBody><EmptyStateFooter>
         <EmptyStateBody>
           We are sending a post request to the backend, with the experiment details provided.
         </EmptyStateBody>
-        <EmptyStateSecondaryActions>
+        <EmptyStateActions>
           <Button isDisabled={percent !== 100}>Back to console</Button>
-        </EmptyStateSecondaryActions>
-      </EmptyState>
+        </EmptyStateActions>
+      </EmptyStateFooter></EmptyState>
     </div>
   );
 };

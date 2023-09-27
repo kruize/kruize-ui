@@ -1,5 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Wizard, Grid, GridItem } from '@patternfly/react-core';
+import {
+	Grid,
+	GridItem
+} from '@patternfly/react-core';
+import {
+	Wizard
+} from '@patternfly/react-core/deprecated';
 import RE from './RE';
 import { ExperimentStatus } from '@app/ExperimentStatus/ExperimentStatus';
 import { ExperimentDetails } from '@app/ExperimentStatus/MoreExperimentStuff/ExperimentDetails';

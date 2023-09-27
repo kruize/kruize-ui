@@ -4,7 +4,6 @@ import {
   TextVariants,
   FormSelect,
   FormSelectOption,
-  TextInput,
   Button,
   Text,
   Grid,
@@ -105,7 +104,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         </TextContent>
         <Grid hasGutter component="ul">
           <GridItem span={3} component="li">
-            <FormSelect value={usecase} onChange={onChange} aria-label="FormSelect Input">
+            <FormSelect value={usecase} onChange={(_event, value: string) => onChange(value)} aria-label="FormSelect Input">
               {options.map((option, index) => (
                 <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
               ))}
@@ -114,7 +113,11 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
           <GridItem span={3}></GridItem>
           <GridItem span={3} component="li">
             {usecase === 'Monitoring' && (
-              <FormSelect value={nestedUsecase} onChange={onNestedChange} aria-label="FormSelect Input">
+              <FormSelect
+                value={nestedUsecase}
+                onChange={(_event, value: string) => onNestedChange(value)}
+                aria-label="FormSelect Input"
+              >
                 {options2.map((option, index) => (
                   <FormSelectOption key={index} value={option.value} label={option.label} />
                 ))}
@@ -127,7 +130,11 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                 <Text component={TextVariants.h3}>Experiment Name</Text>
               </TextContent>
               <GridItem span={4} component="li">
-                <FormSelect value={expName} onChange={onChangeExpName} aria-label="FormSelect Input">
+                <FormSelect
+                  value={expName}
+                  onChange={(_event, value: string) => onChangeExpName(value)}
+                  aria-label="FormSelect Input"
+                >
                   {expData != null &&
                     expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
                 </FormSelect>
