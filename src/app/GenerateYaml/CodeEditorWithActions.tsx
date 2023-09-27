@@ -11,7 +11,8 @@ import {
   FormGroup,
   Grid,
   GridItem,
-  Button
+  Button,
+  Icon
 } from '@patternfly/react-core';
 import yaml from './ab';
 import { SaveIcon, PencilAltIcon } from '@patternfly/react-icons';
@@ -62,7 +63,9 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
           <GridItem span={1} rowSpan={1}>
             {editing ? (
               <Button variant="secondary" onClick={() => setEditing(false)}>
-                <SaveIcon color="blue" /> &nbsp; Save
+                <Icon style={{ color: 'blue' }}>
+                  <SaveIcon /> &nbsp; Save
+                </Icon>
               </Button>
             ) : (
               <Button variant="secondary" onClick={() => setEditing(true)}>

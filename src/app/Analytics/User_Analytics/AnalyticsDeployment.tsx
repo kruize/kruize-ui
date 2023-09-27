@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  Button,
-  FormFieldGroup,
-  FormFieldGroupExpandable,
-  FormFieldGroupHeader,
-  Select,
-  SelectOption,
-  SelectVariant
+	FormFieldGroup,
+	
 } from '@patternfly/react-core';
+
 import nodeContext from '@app/ContextStore/nodeContext';
-import { TableIcon } from '@patternfly/react-icons';
+
 
 const AnalyticsDeployment = () => {
   const [deployments, setDeployments] = useState([]);

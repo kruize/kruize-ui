@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, PageSectionVariants, PageSection } from '@patternfly/react-core';
+import { PageSectionVariants, PageSection } from '@patternfly/react-core';
 import ReactMarkdown from 'react-markdown';
 
 const Glossary = () => {

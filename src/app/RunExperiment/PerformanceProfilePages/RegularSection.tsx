@@ -29,13 +29,13 @@ const RegularSection = () => {
     fetchProfiles(performance_profile_url);
   }, []);
 
-  const handleProfileChange = (value) => {
+  const handleProfileChange = (_event: React.FormEvent<HTMLSelectElement>, value) => {
     setProfile(value);
   };
-  const handleModeChange = (value) => {
+  const handleModeChange = (_event: React.FormEvent<HTMLSelectElement>, value) => {
     setMode(value);
   };
-  const handleClusterChange = (value) => {
+  const handleClusterChange = (_event: React.FormEvent<HTMLSelectElement>, value) => {
     setCluster(value);
   };
 
@@ -51,7 +51,7 @@ const RegularSection = () => {
   const PerfProfileDropDown = () => {
     return (
       <FormGroup label="Select Profile" isRequired fieldId="horizontal-form-name">
-        <FormSelect value={profile} onChange={handleProfileChange} aria-label="profiles">
+        <FormSelect value={profile} onChange={handleProfileChange} aria-label="profiles" ouiaId="BasicFormSelect">
           {profiles.map((data, index) => (
             <FormSelectOption key={index} value={data.name} label={data.name} />
           ))}
@@ -63,7 +63,7 @@ const RegularSection = () => {
   const modeDropDown = () => {
     return (
       <FormGroup label="Select mode" isRequired fieldId="horizontal-form-name">
-        <FormSelect value={mode} onChange={handleModeChange} aria-label="mode">
+        <FormSelect value={mode} onChange={handleModeChange} aria-label="mode" ouiaId="BasicFormSelect">
           {modes.map((option, index) => (
             <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
           ))}
@@ -75,7 +75,7 @@ const RegularSection = () => {
   const clusterDropDown = () => {
     return (
       <FormGroup label="Select cluster" isRequired fieldId="horizontal-form-name">
-        <FormSelect value={cluster} onChange={handleClusterChange} aria-label="cluster">
+        <FormSelect value={cluster} onChange={handleClusterChange} aria-label="cluster" ouiaId="BasicFormSelect">
           {clusters.map((option, index) => (
             <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
           ))}
