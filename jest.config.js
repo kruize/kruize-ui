@@ -28,10 +28,16 @@ module.exports = {
   preset: "ts-jest/presets/js-with-ts",
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ['<rootDir>/test-setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
 
   // The test environment that will be used for testing.
-  testEnvironment: "jsdom",
+  testEnvironment: "jest-environment-jsdom",
+
+  testMatch: ["**/*.(spec|steps|test).[jt]s?(x)"],
+
+  transformIgnorePatterns: [
+    "node_modules/(?!@patternfly/react-icons|@patternfly/react-tokens|@novnc|@popperjs|lodash|monaco-editor|react-monaco-editor|byte-size|uniforms)",
+  ],
 
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   snapshotSerializers: ['enzyme-to-json/serializer'],

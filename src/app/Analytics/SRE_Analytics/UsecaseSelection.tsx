@@ -105,7 +105,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         </TextContent>
         <Grid hasGutter component="ul">
           <GridItem span={3} component="li">
-            <FormSelect value={usecase} onChange={onChange} aria-label="FormSelect Input">
+            <FormSelect value={usecase} onChange={onChange} aria-label="FormSelect Input" data-testId="select">
               {options.map((option, index) => (
                 <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
               ))}

@@ -22,7 +22,8 @@
     "strict": true,
     "paths": {
       "@app/*": ["src/app/*"],
-      "@assets/*": ["node_modules/@patternfly/react-core/dist/styles/assets/*"]
+      "@assets/*": ["node_modules/@patternfly/react-core/dist/styles/assets/*"],
+      "test-utils": ["src/app/utils/testUtils"]
     },
     "importHelpers": true,
     "skipLibCheck": true
@@ -32,7 +33,9 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.jsx",
-    "**/*.js"
+    "**/*.js",
+    "setupTests.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "types": ["node", "jest", "@testing-library/jest-dom"],
 }

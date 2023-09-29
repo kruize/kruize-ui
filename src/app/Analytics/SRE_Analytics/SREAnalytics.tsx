@@ -55,7 +55,7 @@ const SREAnalytics = () => {
         <Tab
           eventKey={0}
           title={<TabTitleText>UseCase Selections</TabTitleText>}
-          aria-label="Tabs filled example content users"
+         
         >
           <UsecaseSelection
             setEndTimeArray={setEndTimeArray}
