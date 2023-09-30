@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 import { WorkloadDetails } from './ReccomendationComponents/WorkloadDetails';
 import { TabSection } from './ReccomendationComponents/TabSection';
+import { end } from '@patternfly/react-core/dist/esm/helpers/Popper/thirdparty/popper-core';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
@@ -26,6 +27,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const [endtime, setEndtime] = useState<any | null>('');
   const [currentData, setCurrentData] = useState([]);
   const [recommendedData, setRecommendedData] = useState([]);
+  const [chartDetailsData, setChartDetailsData] = useState([]);
   const [day, setDay] = useState('short_term');
 
   const days = [
@@ -47,10 +49,10 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         const result = await response.json();
         const recommended_arr: any = [];
         const current_arr: any = [];
+        const chartDetailsObject = [];
 
         result[0].kubernetes_objects[0].containers.map((container, index) => {
           const currentDat = container.recommendations?.data[endtime]?.current;
-
           if (currentDat) {
             current_arr.push(currentDat);
           }
@@ -63,8 +65,32 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           }
         });
 
+        // all data before a particular time stamp
+        result[0].kubernetes_objects[0].containers.map((container, index) => {
+          const allRecommData = container.recommendations.data;
+          const endTimeSortedKeys = Object.keys(allRecommData).sort();
+
+          for (const key of endTimeSortedKeys) {
+            chartDetailsObject[key] = allRecommData[key];
+            if (key === endtime) {
+              break;
+            }
+          }
+          JSON.stringify(chartDetailsObject);
+          for (const key in chartDetailsObject) {
+            const value = chartDetailsObject[key];
+            console.log(`${key}`, value);
+
+            if (key === endtime) {
+              break;
+            }
+          }
+          console.log(chartDetailsObject);
+        });
+
         setCurrentData(current_arr);
         setRecommendedData(recommended_arr);
+        setChartDetailsData(chartDetailsObject);
       }
     };
 

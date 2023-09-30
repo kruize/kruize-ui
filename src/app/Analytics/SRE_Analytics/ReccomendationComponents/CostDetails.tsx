@@ -11,6 +11,7 @@ import {
   PageSectionVariants
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
+import { HistoricCharts } from './HistoricChart';
 
 const CostDetails = (props: { recommendedData; currentData }) => {
   const NumberFormat = (number) =>
@@ -80,6 +81,7 @@ const CostDetails = (props: { recommendedData; currentData }) => {
           </Card>
         </GridItem>
       </Grid>
+      <HistoricCharts />
     </PageSection>
   );
 };
