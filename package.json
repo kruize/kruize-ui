@@ -98,7 +98,7 @@
     "@patternfly/react-code-editor": "^4.62.3",
     "@patternfly/react-core": "^4.276.12",
     "@patternfly/react-icons": "^4.32.1",
-    "@patternfly/react-styles": "^4.31.1",
+    "@patternfly/react-styles": "^5.1.1",
     "@patternfly/react-table": "^4.112.6",
     "@storybook/builder-webpack5": "^6.2.9",
     "algebra.js": "^0.2.6",
