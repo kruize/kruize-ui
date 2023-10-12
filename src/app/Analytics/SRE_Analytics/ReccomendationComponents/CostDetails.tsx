@@ -11,7 +11,7 @@ import {
   PageSectionVariants
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
-import { HistoricCharts } from './HistoricChart';
+import { CostHistoricCharts } from './CostHistoricCharts';
 import { addPlusSign } from './ChatDataPreparation';
 
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime }) => {
@@ -82,7 +82,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
           </Card>
         </GridItem>
       </Grid>
-      <HistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />
+      <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />
     </PageSection>
   );
 };
