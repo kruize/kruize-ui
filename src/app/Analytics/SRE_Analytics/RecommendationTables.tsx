@@ -13,8 +13,8 @@ import {
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
-import { WorkloadDetails } from './ReccomendationComponents/WorkloadDetails';
-import { TabSection } from './ReccomendationComponents/TabSection';
+import { TabSection } from './RecommendationComponents/TabSection';
+import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
