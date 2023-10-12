@@ -11,10 +11,9 @@ import {
   PageSectionVariants
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
-import { CostHistoricCharts } from './CostHistoricCharts';
-import { addPlusSign } from './ChatDataPreparation';
 
-const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime }) => {
+const PerfDetails = (props: { recommendedData; currentData }) => {
+  //console.log(props.recommendedData[0]?.recommendation_engines.performance);
   const NumberFormat = (number) =>
     typeof number === 'number' && !isNaN(number) ? (number % 1 !== 0 ? number.toFixed(3) : number) : '';
 
@@ -35,29 +34,29 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   const recommended_code = `resources: 
   requests: 
     memory: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.amount
+      props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.memory.amount
     )}${UnitFormat(
-    props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.format
-  )}"    # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.amount)
-  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.format)}
+    props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.memory.format
+  )}"    # ${NumberFormat(
+    props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.amount
+  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.format)}
     cpu: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.cost.config.requests.cpu.amount
-    )}"            # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.cpu.amount)
+      props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.cpu.amount
+    )}"            # ${NumberFormat(
+    props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.cpu.amount
   )}
   limits: 
     memory: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.amount
+      props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.memory.amount
     )}${UnitFormat(
-    props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.format
-  )}"    # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.amount)
-  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.format)}   
+    props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.memory.format
+  )}"    # ${NumberFormat(
+    props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.amount
+  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.format)}   
     cpu: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.cost.config.limits.cpu.amount
-    )}"            # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.cpu.amount)
+      props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.cpu.amount
+    )}"            # ${NumberFormat(
+    props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.cpu.amount
   )}`;
 
   return (
@@ -68,7 +67,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             <CardTitle>Current State</CardTitle>
             <CardBody>
               <Text component={TextVariants.h5}>Current Configuration</Text>
-              <ReusableCodeBlock code={current_code} />
+              <ReusableCodeBlock code={current_code} includeActions={false} />
             </CardBody>
           </Card>
         </GridItem>
@@ -77,14 +76,12 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             <CardTitle>Recommendation</CardTitle>
             <CardBody>
               <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
-              <ReusableCodeBlock code={recommended_code} />
+              <ReusableCodeBlock code={recommended_code} includeActions={false} />
             </CardBody>
           </Card>
         </GridItem>
       </Grid>
-      <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />
     </PageSection>
   );
 };
-
-export { CostDetails };
+export { PerfDetails };

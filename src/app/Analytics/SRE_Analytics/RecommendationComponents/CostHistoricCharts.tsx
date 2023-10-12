@@ -1,7 +1,7 @@
 import React from 'react';
 import { Chart, ChartAxis, ChartGroup, ChartLine, ChartVoronoiContainer } from '@patternfly/react-charts';
 import { formatTimestamps, filterDataByTerm, formatNumber } from './ChatDataPreparation';
-import { Split, SplitItem } from '@patternfly/react-core';
+import { Grid, GridItem, Split, SplitItem } from '@patternfly/react-core';
 
 const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const termFilteredData = filterDataByTerm(props.chartData, props.endtime, props.day);
@@ -149,10 +149,14 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   };
 
   return (
-    <Split hasGutter>
-      <SplitItem>{cpuChart()}</SplitItem>
-      <SplitItem>{memoryChart()}</SplitItem>
-    </Split>
+    <Grid hasGutter>
+      <GridItem span={6} rowSpan={8}>
+        {cpuChart()}
+      </GridItem>
+      <GridItem span={6} rowSpan={8}>
+        {memoryChart()}
+      </GridItem>
+    </Grid>
   );
 };
 
