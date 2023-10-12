@@ -10,7 +10,7 @@ import {
   Grid,
   GridItem
 } from '@patternfly/react-core';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; switchTab }) => {
@@ -74,7 +74,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
 
       var endtime: any[] = [];
       endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
-      console.log(Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort());
+
       props.setEndTimeArray(endtime);
 
       var containerArray: any[] = [];

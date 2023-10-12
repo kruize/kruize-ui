@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Tabs, Tab, TabTitleText } from '@patternfly/react-core';
 import { CostDetails } from './CostDetails';
 
-const TabSection = (props: { recommendedData: any; currentData }) => {
+const TabSection = (props: { recommendedData: any; currentData; chartData; day; endtime }) => {
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
 
   const handleTabClick = (
@@ -23,7 +23,13 @@ const TabSection = (props: { recommendedData: any; currentData }) => {
         title={<TabTitleText>Cost optimizations</TabTitleText>}
         aria-label="Tabs filled example content users"
       >
-        <CostDetails recommendedData={props.recommendedData} currentData={props.currentData} />
+        <CostDetails
+          recommendedData={props.recommendedData}
+          currentData={props.currentData}
+          chartData={props.chartData}
+          day={props.day}
+          endtime={props.endtime}
+        />
       </Tab>
 
       <Tab eventKey={1} title={<TabTitleText>Performance optimizations</TabTitleText>}></Tab>

@@ -12,8 +12,9 @@ import {
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { HistoricCharts } from './HistoricChart';
+import { addPlusSign } from './ChatDataPreparation';
 
-const CostDetails = (props: { recommendedData; currentData }) => {
+const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime }) => {
   const NumberFormat = (number) =>
     typeof number === 'number' && !isNaN(number) ? (number % 1 !== 0 ? number.toFixed(3) : number) : '';
 
@@ -37,26 +38,26 @@ const CostDetails = (props: { recommendedData; currentData }) => {
       props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.amount
     )}${UnitFormat(
     props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.format
-  )}"    # ${NumberFormat(
-    props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.amount
+  )}"    # ${addPlusSign(
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.amount)
   )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.format)}
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost.config.requests.cpu.amount
-    )}"            # ${NumberFormat(
-    props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.cpu.amount
+    )}"            # ${addPlusSign(
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.cpu.amount)
   )}
   limits: 
     memory: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.amount
     )}${UnitFormat(
     props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.format
-  )}"    # ${NumberFormat(
-    props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.amount
+  )}"    # ${addPlusSign(
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.amount)
   )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.format)}   
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost.config.limits.cpu.amount
-    )}"            # ${NumberFormat(
-    props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.cpu.amount
+    )}"            # ${addPlusSign(
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.cpu.amount)
   )}`;
 
   return (
@@ -81,7 +82,7 @@ const CostDetails = (props: { recommendedData; currentData }) => {
           </Card>
         </GridItem>
       </Grid>
-      <HistoricCharts />
+      <HistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />
     </PageSection>
   );
 };

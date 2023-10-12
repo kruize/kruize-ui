@@ -15,7 +15,6 @@ import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 import { WorkloadDetails } from './ReccomendationComponents/WorkloadDetails';
 import { TabSection } from './ReccomendationComponents/TabSection';
-import { end } from '@patternfly/react-core/dist/esm/helpers/Popper/thirdparty/popper-core';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
@@ -79,13 +78,12 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           JSON.stringify(chartDetailsObject);
           for (const key in chartDetailsObject) {
             const value = chartDetailsObject[key];
-            console.log(`${key}`, value);
+            // console.log(`${key}`, value);
 
             if (key === endtime) {
               break;
             }
           }
-          console.log(chartDetailsObject);
         });
 
         setCurrentData(current_arr);
@@ -161,7 +159,13 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
             </FlexItem>
           </Flex>
           <StackItem>
-            <TabSection recommendedData={recommendedData} currentData={currentData} />
+            <TabSection
+              recommendedData={recommendedData}
+              currentData={currentData}
+              chartData={chartDetailsData}
+              day={day}
+              endtime={endtime}
+            />
           </StackItem>
         </Stack>
       </StackItem>

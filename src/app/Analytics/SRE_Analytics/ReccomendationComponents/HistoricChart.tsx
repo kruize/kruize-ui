@@ -1,72 +1,80 @@
 import React from 'react';
 import { Chart, ChartAxis, ChartGroup, ChartLine, ChartVoronoiContainer } from '@patternfly/react-charts';
+import { formatTimestamps, filterDataByTerm, formatNumber } from './ChatDataPreparation';
 
-const HistoricCharts = () => (
-  <div style={{ height: '250px', width: '600px' }}>
-    <Chart
-      ariaDesc="Average number of pets"
-      ariaTitle="Line chart example"
-      containerComponent={
-        <ChartVoronoiContainer labels={({ datum }) => `${datum.name}: ${datum.y}`} constrainToVisibleArea />
-      }
-      legendData={[{ name: 'Cats' }, { name: 'Dogs', symbol: { type: 'dash' } }, { name: 'Birds' }, { name: 'Mice' }]}
-      legendOrientation="vertical"
-      legendPosition="right"
-      height={250}
-      maxDomain={{ y: 10 }}
-      minDomain={{ y: 0 }}
-      name="chart1"
-      padding={{
-        bottom: 50,
-        left: 50,
-        right: 200, // Adjusted to accommodate legend
-        top: 50
-      }}
-      width={600}
-    >
-      <ChartAxis tickValues={[2, 3, 4]} />
-      <ChartAxis dependentAxis showGrid tickValues={[2, 5, 8]} />
-      <ChartGroup>
-        <ChartLine
-          data={[
-            { name: 'Cats', x: '2015', y: 1 },
-            { name: 'Cats', x: '2016', y: 2 },
-            { name: 'Cats', x: '2017', y: 5 },
-            { name: 'Cats', x: '2018', y: 3 }
-          ]}
-        />
-        <ChartLine
-          data={[
-            { name: 'Dogs', x: '2015', y: 2 },
-            { name: 'Dogs', x: '2016', y: 1 },
-            { name: 'Dogs', x: '2017', y: 7 },
-            { name: 'Dogs', x: '2018', y: 4 }
-          ]}
+const HistoricCharts = (props: { chartData; day; endtime }) => {
+  const termFilteredData = filterDataByTerm(props.chartData, props.endtime, props.day);
+
+  const timeStampFormattedData = formatTimestamps(termFilteredData);
+
+  const historicdata = Object.entries(timeStampFormattedData).map(([key, value]) => {
+    const cpuAmount = formatNumber(
+      (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config.requests.cpu.amount
+    );
+    const displayKey = props.day === 'short_term' ? key.split(' ')[1] : key.split(' ')[0];
+    return {
+      name: 'CPU',
+      x: displayKey,
+      y: cpuAmount
+    };
+  });
+
+  const filteredhistoricdata = historicdata.filter((dataPoint) => typeof dataPoint.y === 'number');
+
+  return (
+    <div style={{ height: '250px', width: '600px' }}>
+      <Chart
+        ariaDesc="CPU Recommendations"
+        ariaTitle="Recommendation Values"
+        containerComponent={
+          <ChartVoronoiContainer
+            labels={({ datum }) => `${datum.name}: ${datum.y} : ${datum.x}`}
+            constrainToVisibleArea
+          />
+        }
+        legendData={[{ name: 'CPU' }]}
+        legendOrientation="vertical"
+        legendPosition="right"
+        height={250}
+        name="Cost CPU Recommendations"
+        domainPadding={{ y: [30, 25], x: [30, 25] }}
+        padding={{
+          bottom: 70,
+          left: 100,
+          right: 100,
+          top: 50
+        }}
+        width={600}
+      >
+        <ChartAxis
+          tickCount={7}
           style={{
-            data: {
-              strokeDasharray: '3,3'
-            }
+            tickLabels: {
+              angle: -45,
+              transform: 'translate(-20, 10)',
+              textAnchor: 'end',
+              fontSize: 12,
+              margin: '50px 0',
+              paddingTop: '10px'
+            } // Add margin to adjust distance
           }}
         />
-        <ChartLine
-          data={[
-            { name: 'Birds', x: '2015', y: 3 },
-            { name: 'Birds', x: '2016', y: 4 },
-            { name: 'Birds', x: '2017', y: 9 },
-            { name: 'Birds', x: '2018', y: 5 }
-          ]}
+        <ChartAxis
+          dependentAxis
+          showGrid
+          label="cores"
+          tickFormat={(d) => formatNumber(d)}
+          style={{
+            axisLabel: { padding: 60 } // Adjust the value to control the padding
+          }}
         />
-        <ChartLine
-          data={[
-            { name: 'Mice', x: '2015', y: 3 },
-            { name: 'Mice', x: '2016', y: 3 },
-            { name: 'Mice', x: '2017', y: 8 },
-            { name: 'Mice', x: '2018', y: 7 }
-          ]}
-        />
-      </ChartGroup>
-    </Chart>
-  </div>
-);
+
+        <ChartGroup>
+          <ChartLine data={filteredhistoricdata} />
+        </ChartGroup>
+      </Chart>
+    </div>
+  );
+};
 
 export { HistoricCharts };
