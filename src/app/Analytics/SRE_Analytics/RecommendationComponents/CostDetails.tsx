@@ -68,7 +68,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             <CardTitle>Current State</CardTitle>
             <CardBody>
               <Text component={TextVariants.h5}>Current Configuration</Text>
-              <ReusableCodeBlock code={current_code} />
+              <ReusableCodeBlock code={current_code} includeActions={false} />
             </CardBody>
           </Card>
         </GridItem>
@@ -77,7 +77,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             <CardTitle>Recommendation</CardTitle>
             <CardBody>
               <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
-              <ReusableCodeBlock code={recommended_code} />
+              <ReusableCodeBlock code={recommended_code} includeActions={true} />
             </CardBody>
           </Card>
         </GridItem>
