@@ -8,7 +8,6 @@ import {
   Tab,
   TabTitleText,
   TabTitleIcon,
-  Checkbox,
   TextContent,
   Text,
   TextVariants
@@ -47,16 +46,15 @@ const PerformanceProfiles = () => {
             <Tab
               eventKey={0}
               title={
-                <>
+                <TabTitleText>
                   <GridItem span={5}>
                     <TabTitleIcon>
                       <CubeIcon />
                     </TabTitleIcon>{' '}
                     <TabTitleText>Regular Settings</TabTitleText>{' '}
                   </GridItem>
-                </>
+                </TabTitleText>
               }
-              aria-label="filled tabs with icons content users"
             >
               <RegularSection />
             </Tab>
@@ -65,14 +63,14 @@ const PerformanceProfiles = () => {
             <Tab
               eventKey={1}
               title={
-                <>
+                <TabTitleText>
                   <GridItem span={5}>
                     <TabTitleIcon>
                       <CubesIcon />
                     </TabTitleIcon>{' '}
                     <TabTitleText>Advanced Settings</TabTitleText>{' '}
                   </GridItem>
-                </>
+                </TabTitleText>
               }
             >
               <AdvancedSection />
