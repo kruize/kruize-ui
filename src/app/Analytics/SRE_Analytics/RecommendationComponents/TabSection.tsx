@@ -33,7 +33,13 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
         />
       </Tab>
       <Tab eventKey={1} title={<TabTitleText>Performance optimizations</TabTitleText>}>
-        <PerfDetails recommendedData={props.recommendedData} currentData={props.currentData} />
+        <PerfDetails
+          recommendedData={props.recommendedData}
+          currentData={props.currentData}
+          chartData={props.chartData}
+          day={props.day}
+          endtime={props.endtime}
+        />
       </Tab>
     </Tabs>
   );
