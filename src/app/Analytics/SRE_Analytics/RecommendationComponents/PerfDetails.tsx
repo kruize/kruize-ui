@@ -14,7 +14,7 @@ import ReusableCodeBlock from './ReusableCodeBlock';
 import { PerfHistoricCharts } from './PerfHistoricCharts';
 import { addPlusSign } from './ChatDataPreparation';
 
-const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime }) => {
+const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
   //console.log(props.recommendedData[0]?.recommendation_engines.performance);
   const NumberFormat = (number) =>
     typeof number === 'number' && !isNaN(number) ? (number % 1 !== 0 ? number.toFixed(3) : number) : '';
@@ -83,7 +83,7 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
           </Card>
         </GridItem>
       </Grid>
-      <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />
+      {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
     </PageSection>
   );
 };

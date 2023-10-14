@@ -3,7 +3,7 @@ import { Tabs, Tab, TabTitleText } from '@patternfly/react-core';
 import { CostDetails } from './CostDetails';
 import { PerfDetails } from './PerfDetails';
 
-const TabSection = (props: { recommendedData: any; currentData; chartData; day; endtime }) => {
+const TabSection = (props: { recommendedData: any; currentData; chartData; day; endtime; displayChart }) => {
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
 
   const handleTabClick = (
@@ -30,6 +30,7 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
           chartData={props.chartData}
           day={props.day}
           endtime={props.endtime}
+          displayChart={props.displayChart}
         />
       </Tab>
       <Tab eventKey={1} title={<TabTitleText>Performance optimizations</TabTitleText>}>
@@ -39,6 +40,7 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
           chartData={props.chartData}
           day={props.day}
           endtime={props.endtime}
+          displayChart={props.displayChart}
         />
       </Tab>
     </Tabs>
