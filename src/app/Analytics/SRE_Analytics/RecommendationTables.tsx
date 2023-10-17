@@ -28,6 +28,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const [recommendedData, setRecommendedData] = useState([]);
   const [chartDetailsData, setChartDetailsData] = useState([]);
   const [day, setDay] = useState('short_term');
+  const [displayChart, setDisplayChart] = useState(true);
 
   const days = [
     { id: '1', value: 'short_term', label: 'Last 1 day', disabled: false },
@@ -85,7 +86,12 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
             }
           }
         });
-
+        if (recommended_arr[0].recommendation_engines) {
+          // console.log('render ', recommended_arr);
+          setDisplayChart(true);
+        } else {
+          setDisplayChart(false);
+        }
         setCurrentData(current_arr);
         setRecommendedData(recommended_arr);
         setChartDetailsData(chartDetailsObject);
@@ -165,6 +171,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
               chartData={chartDetailsData}
               day={day}
               endtime={endtime}
+              displayChart={displayChart}
             />
           </StackItem>
         </Stack>

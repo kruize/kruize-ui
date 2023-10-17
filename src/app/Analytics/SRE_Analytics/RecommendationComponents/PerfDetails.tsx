@@ -11,8 +11,10 @@ import {
   PageSectionVariants
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
+import { PerfHistoricCharts } from './PerfHistoricCharts';
+import { addPlusSign } from './ChatDataPreparation';
 
-const PerfDetails = (props: { recommendedData; currentData }) => {
+const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
   //console.log(props.recommendedData[0]?.recommendation_engines.performance);
   const NumberFormat = (number) =>
     typeof number === 'number' && !isNaN(number) ? (number % 1 !== 0 ? number.toFixed(3) : number) : '';
@@ -37,26 +39,26 @@ const PerfDetails = (props: { recommendedData; currentData }) => {
       props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.memory.amount
     )}${UnitFormat(
     props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.memory.format
-  )}"    # ${NumberFormat(
-    props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.amount
+  )}"    # ${addPlusSign(
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.amount)
   )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.format)}
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.cpu.amount
-    )}"            # ${NumberFormat(
-    props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.cpu.amount
+    )}"            # ${addPlusSign(
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.cpu.amount)
   )}
   limits: 
     memory: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.memory.amount
     )}${UnitFormat(
     props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.memory.format
-  )}"    # ${NumberFormat(
-    props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.amount
+  )}"    # ${addPlusSign(
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.amount)
   )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.format)}   
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.cpu.amount
-    )}"            # ${NumberFormat(
-    props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.cpu.amount
+    )}"            # ${addPlusSign(
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.cpu.amount)
   )}`;
 
   return (
@@ -76,11 +78,12 @@ const PerfDetails = (props: { recommendedData; currentData }) => {
             <CardTitle>Recommendation</CardTitle>
             <CardBody>
               <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
-              <ReusableCodeBlock code={recommended_code} includeActions={false} />
+              <ReusableCodeBlock code={recommended_code} includeActions={true} />
             </CardBody>
           </Card>
         </GridItem>
       </Grid>
+      {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
     </PageSection>
   );
 };
