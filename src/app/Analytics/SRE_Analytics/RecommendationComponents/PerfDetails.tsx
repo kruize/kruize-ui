@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { PerfHistoricCharts } from './PerfHistoricCharts';
-import { addPlusSign } from './ChatDataPreparation';
+import { addPlusSign } from './ChartDataPreparation';
 
 const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
   //console.log(props.recommendedData[0]?.recommendation_engines.performance);

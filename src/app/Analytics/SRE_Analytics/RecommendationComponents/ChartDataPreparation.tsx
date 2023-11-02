@@ -15,6 +15,13 @@
 //   return filteredData;
 // }
 
+/**
+ * function filters the data as per the term selected by the user
+ * @param data
+ * @param givenDay
+ * @param term
+ * @returns
+ */
 export function filterDataByTerm(data, givenDay, term) {
   let numDays;
 
@@ -64,6 +71,12 @@ export function addPlusSign(str) {
   return str; // Return the original string if it's not a non-negative number
 }
 
+/**
+ * function provides last n data for the seleted term
+ * @param data
+ * @param givenDay
+ * @param numDays
+ */
 export function filterLastNDayData(data, givenDay, numDays) {
   const oneDayInMillis = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
   const givenDayMillis = Date.parse(givenDay);
@@ -88,3 +101,37 @@ export function filterLastNDayData(data, givenDay, numDays) {
 
   return filteredData;
 }
+
+// export function filterLastNDayData(data, givenDay, numDays) {
+//   const oneDayInMillis = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+//   const givenDayMillis = Date.parse(givenDay);
+//   const filteredData = {};
+
+//   for (const key in data) {
+//     if (data.hasOwnProperty(key)) {
+//       const timestampMillis = Date.parse(key);
+//       const isGivenTime =
+//         new Date(key).getHours() === new Date(givenDay).getHours() &&
+//         new Date(key).getMinutes() === new Date(givenDay).getMinutes();
+
+//       // if (
+//       //   givenDayMillis - timestampMillis < oneDayInMillis * numDays &&
+//       //   givenDayMillis - timestampMillis >= 0 &&
+//       //   !isGivenTime
+//       // ) {
+//       //   filteredData[key] = data[key];
+//       // }
+//       if (
+//         (givenDayMillis - timestampMillis < oneDayInMillis * numDays ||
+//           (givenDayMillis - timestampMillis === oneDayInMillis &&
+//             new Date(key).getHours() > new Date(givenDay).getHours())) &&
+//         givenDayMillis - timestampMillis >= 0 &&
+//         !isGivenTime
+//       ) {
+//         filteredData[key] = data[key];
+//       }
+//     }
+//   }
+
+//   return filteredData;
+// }
