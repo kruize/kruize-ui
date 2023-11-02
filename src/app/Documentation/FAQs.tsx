@@ -8,14 +8,8 @@ import {
   FlexItem,
   PageSectionVariants,
   TextVariants,
-  SearchInput,
   PageSection,
-  Card,
-  CardTitle,
-  CardBody,
-  CardFooter,
-  Gallery,
-  GalleryItem
+  
 } from '@patternfly/react-core';
 import faqs from './faq.json';
 
@@ -52,9 +46,9 @@ const FAQs = () => {
             <ExpandableSection
               key={faq.id}
               toggleText={isExpanded ? faq.question : faq.question}
-              onToggle={onToggle}
+              onToggle={(_event, i: boolean) => onToggle(i)}
               //isExpanded={}
-              displaySize="large"
+              displaySize="lg"
               isWidthLimited
             >
               {faq.answer

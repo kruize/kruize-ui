@@ -174,7 +174,7 @@ const Throughput_details = (props: { data; setData }) => {
           isInputVisible
           inputValue={inputValueContinuous1}
           inputLabel="%"
-          onChange={onChangeContinuous1}
+          onChange={(_event, value, inputValue, setLocalInputValue) => onChangeContinuous1(value, inputValue, setLocalInputValue)}
           isDisabled={!editing}
         />
       </FormGroup>
@@ -185,7 +185,7 @@ const Throughput_details = (props: { data; setData }) => {
       <FormGroup label="Operator" isRequired fieldId="horizontal-form-name">
         <FormSelect
           value={operatorOption}
-          onChange={handleOperatorChange}
+          onChange={(_event, operatorOption: string) => handleOperatorChange(operatorOption)}
           isDisabled={!editing}
           aria-label="operator options"
         >
@@ -203,7 +203,7 @@ const Throughput_details = (props: { data; setData }) => {
           value={query}
           isRequired
           name="horizontal-form-query"
-          onChange={handleQueryChange}
+          onChange={(_event, query: string) => handleQueryChange(query)}
           isDisabled={!editing}
           aria-label="query throughput"
         />
@@ -213,7 +213,7 @@ const Throughput_details = (props: { data; setData }) => {
   const formDatasource = () => {
     return (
       <FormGroup label="Data source" fieldId="horizontal-form-title">
-        <FormSelect value={option} onChange={handleOptionChange} isDisabled={!editing} aria-label="options">
+        <FormSelect value={option} onChange={(_event, value: string) => handleOptionChange(value, _event)} isDisabled={!editing} aria-label="options">
           {options.map((option, index) => (
             <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
           ))}
@@ -225,7 +225,7 @@ const Throughput_details = (props: { data; setData }) => {
   const formValuetype = () => {
     return (
       <FormGroup label="Value Type" fieldId="horizontal-form-title">
-        <FormSelect value={valueType} onChange={handelValueTypeChange} isDisabled={!editing} aria-label="value type">
+        <FormSelect value={valueType} onChange={(_event, valueType: string) => handelValueTypeChange(valueType)} isDisabled={!editing} aria-label="value type">
           {valueOptions.map((option, index) => (
             <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
           ))}
@@ -241,7 +241,7 @@ const Throughput_details = (props: { data; setData }) => {
           name="horizontal-inline-radio"
           label="Maximize"
           id="horizontal-inline-radio-01"
-          onChange={handelRadioChange}
+          onChange={(_event, value) => handelRadioChange(value)}
           isChecked={direction === 'max'}
           isDisabled={!editing}
         />
@@ -249,7 +249,7 @@ const Throughput_details = (props: { data; setData }) => {
           name="horizontal-inline-radio"
           label="Minimize"
           id="horizontal-inline-radio-02"
-          onChange={handelRadioChange}
+          onChange={(_event, value) => handelRadioChange(value)}
           isChecked={direction === 'min'}
           isDisabled={!editing}
         />

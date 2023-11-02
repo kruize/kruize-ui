@@ -1,9 +1,10 @@
 import React from 'react';
-import { TableComposable, Thead, Tr, Th, Tbody, Td, ExpandableRowContent } from '@patternfly/react-table';
+import { Thead, Tr, Th, Tbody, Td, ExpandableRowContent } from '@patternfly/react-table';
+import { Table } from '@patternfly/react-table/deprecated';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 
 // Tables
-interface Table {
+interface Tables {
   srno: string;
   experimentname: string;
   namespace: string;
@@ -82,7 +83,7 @@ const CPUMetricsTable = () => {
     cpuThrottleMax: 'Max'
   };
   return (
-    <TableComposable aria-label="cpu metrics table" gridBreakPoint="" isStickyHeader>
+    <Table aria-label="cpu metrics table" gridBreakPoint="" isStickyHeader>
       <Thead hasNestedHeader>
         <Tr>
           <Th hasRightBorder colSpan={2}>
@@ -155,7 +156,7 @@ const CPUMetricsTable = () => {
           </Tr>
         ))}
       </Tbody>
-    </TableComposable>
+    </Table>
   );
 };
 const MMRMetricsTable = () => {
@@ -195,7 +196,7 @@ const MMRMetricsTable = () => {
     memoryThrottleMax: 'Max'
   };
   return (
-    <TableComposable aria-label="mmr metrics table 2" gridBreakPoint="" isStickyHeader>
+    <Table aria-label="mmr metrics table 2" gridBreakPoint="" isStickyHeader>
       <Thead hasNestedHeader>
         <Tr>
           <Th hasRightBorder colSpan={2}>
@@ -268,7 +269,7 @@ const MMRMetricsTable = () => {
           </Tr>
         ))}
       </Tbody>
-    </TableComposable>
+    </Table>
   );
 };
 
@@ -292,6 +293,7 @@ const TabOptions = () => {
         isBox={true}
         aria-label="cpu mmr tabs"
         role="region"
+        mountOnEnter
       >
         <Tab eventKey={0} title={<TabTitleText>CPU Container Metrics</TabTitleText>} aria-label="cpu tab">
           <br />
@@ -308,7 +310,7 @@ const TabOptions = () => {
 
 const MonitoringTable = () => {
   // In real usage, this data would come from some external source like an API via props.
-  const tables: Table[] = [
+  const tables: Tables[] = [
     {
       srno: '1',
       experimentname: 'quarkus-resteasy-autotune-min-http-response-time-db4',
@@ -356,15 +358,15 @@ const MonitoringTable = () => {
 
   const initialExpandedRepoNames = tables.filter((repo) => !!repo.nestedComponent).map((repo) => repo.srno); // Default to all expanded
   const [expandedRepoNames, setExpandedRepoNames] = React.useState<string[]>(initialExpandedRepoNames);
-  const setRepoExpanded = (repo: Table, isExpanding = true) =>
+  const setRepoExpanded = (repo: Tables, isExpanding = true) =>
     setExpandedRepoNames((prevExpanded) => {
       const otherExpandedRepoNames = prevExpanded.filter((r) => r !== repo.srno);
       return isExpanding ? [...otherExpandedRepoNames, repo.srno] : otherExpandedRepoNames;
     });
-  const isRepoExpanded = (repo: Table) => expandedRepoNames.includes(repo.srno);
+  const isRepoExpanded = (repo: Tables) => expandedRepoNames.includes(repo.srno);
   return (
     <>
-      <TableComposable aria-label="experiments table">
+      <Table aria-label="experiments table">
         <Thead>
           <Tr>
             <Td />
@@ -409,7 +411,7 @@ const MonitoringTable = () => {
             ) : null}
           </Tbody>
         ))}
-      </TableComposable>
+      </Table>
     </>
   );
 };

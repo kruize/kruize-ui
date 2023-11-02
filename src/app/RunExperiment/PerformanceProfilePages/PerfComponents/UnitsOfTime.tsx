@@ -13,7 +13,7 @@ const UnitsOfTime = () => {
     { value: '3', label: 'Minutes', disabled: false }
   ];
   return (
-    <FormSelect value={unit} onChange={handleUnitChange} aria-label="mode">
+    <FormSelect value={unit} onChange={(_event, value) => handleUnitChange(value)} aria-label="mode">
       {units.map((option, index) => (
         <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
       ))}

@@ -1,18 +1,15 @@
 import {
-  FormFieldGroupExpandable,
-  FormFieldGroupHeader,
   TextInput,
   Form,
   FormSection,
   FormGroup,
   Radio,
-  FlexProps,
   Flex,
-  OptionsMenu,
-  FormSelect,
-  FormSelectOption,
-  FlexItem
+  FlexItem,
+  TextInputGroup,
+  TextInputGroupMain
 } from '@patternfly/react-core';
+
 import React, { useState } from 'react';
 import { NumberValueComponent } from './PerfComponents/NumberValueComponent';
 import { UnitsOfTime } from './PerfComponents/UnitsOfTime';
@@ -23,13 +20,15 @@ const AdvancedSection = () => {
     return (
       <FormSection title="Recommendation Settings" titleElement="h3">
         <FormGroup label="threshold" isRequired fieldId="simple-form-section-2-input">
-          <TextInput
-            isRequired
-            type="text"
-            id="simple-form-section-2-input"
-            name="simple-form-section-2-input"
-            value={0.1}
-          />
+          <TextInputGroup>
+            <TextInputGroupMain
+              required
+              type="text"
+              id="simple-form-section-2-input"
+              name="simple-form-section-2-input"
+              value={0.1}
+            />
+          </TextInputGroup>
         </FormGroup>
       </FormSection>
     );

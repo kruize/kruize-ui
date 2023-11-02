@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid, GridItem, ToggleGroup, ToggleGroupItem, ToggleGroupItemProps } from '@patternfly/react-core';
-import { TableComposable, Caption, Thead, Tr, Th, Tbody, Td, InnerScrollContainer } from '@patternfly/react-table';
+import { Grid, GridItem,  } from '@patternfly/react-core';
+import { Table /* data-codemods */, Thead, Tr, Th, Tbody, Td,  } from '@patternfly/react-table';
 import { VerticalSlider } from './VerticalSlider';
 
 interface Repository {
@@ -130,7 +130,7 @@ const CostTable = () => {
         <VerticalSlider />
       </GridItem>
       <GridItem span={11} rowSpan={2}>
-        <TableComposable aria-label="Simple table" variant="compact" gridBreakPoint="" isStickyHeader>
+        <Table aria-label="Simple table" variant="compact" gridBreakPoint="" isStickyHeader>
           <Thead>
             <Tr>
               <Th>{columnNames.monitoringStartTime}</Th>
@@ -153,7 +153,7 @@ const CostTable = () => {
               </Tr>
             ))}
           </Tbody>
-        </TableComposable>
+        </Table>
       </GridItem>
     </Grid>
   );

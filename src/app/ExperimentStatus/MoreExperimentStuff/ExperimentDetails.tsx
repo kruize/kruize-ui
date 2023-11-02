@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
-  PageSection,
-  Text,
-  Wizard,
-  Toolbar,
-  PageSectionVariants,
-  TextContent,
-  TextVariants,
-  Tile,
-  ToolbarContent
+	PageSection,
+	Text,
+	Toolbar,
+	PageSectionVariants,
+	TextContent,
+	TextVariants,
+	ToolbarContent
 } from '@patternfly/react-core';
+
 import { Final_equation } from './Final_equation';
 import { Throughput_details } from './Throughput_details';
 import { Response_time_details } from './Response_time_details';

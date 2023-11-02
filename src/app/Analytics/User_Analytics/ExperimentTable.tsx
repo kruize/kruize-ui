@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { TableComposable, Thead, Tr, Th, Tbody, Td, ThProps } from '@patternfly/react-table';
+import { Table /* data-codemods */, Thead, Tr, Th, Tbody, Td, ThProps } from '@patternfly/react-table';
 import {
-  Toolbar,
-  ToolbarContent,
-  ToolbarItem,
-  OptionsMenu,
-  OptionsMenuItemGroup,
-  OptionsMenuItem,
-  OptionsMenuSeparator,
-  OptionsMenuToggle
+	Toolbar,
+	ToolbarContent,
+	ToolbarItem
 } from '@patternfly/react-core';
+import {
+	OptionsMenu,
+	OptionsMenuItemGroup,
+	OptionsMenuItem,
+	OptionsMenuSeparator,
+	OptionsMenuToggle
+} from '@patternfly/react-core/deprecated';
 import SortAmountDownIcon from '@patternfly/react-icons/dist/esm/icons/sort-amount-down-icon';
 
 interface Repository {
@@ -141,7 +143,7 @@ const ExperimentTable = () => {
           </ToolbarItem>
         </ToolbarContent>
       </Toolbar>
-      <TableComposable aria-label="Sortable table custom toolbar">
+      <Table aria-label="Sortable table custom toolbar">
         <Thead>
           <Tr>
             <Th sort={getSortParams(0)}>{columnNames.experimentName}</Th>
@@ -154,7 +156,7 @@ const ExperimentTable = () => {
               key={rowIndex}
               onRowClick={() => setSelectedExperimentName(repo.experimentName)}
               isSelectable
-              isHoverable
+              isClickable
               isRowSelected={selectedExperimentName === repo.experimentName}
             >
               <Td dataLabel={columnNames.experimentName}>{repo.experimentName}</Td>
@@ -162,7 +164,7 @@ const ExperimentTable = () => {
             </Tr>
           ))}
         </Tbody>
-      </TableComposable>
+      </Table>
     </React.Fragment>
   );
 };
