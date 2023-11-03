@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Popover, Nav, TextContent, Avatar, Text, TextVariants, NavItem, NavList, Flex } from '@patternfly/react-core';
+import { Popover, Nav, TextContent, Avatar, Text, TextVariants, NavItem, NavList, Icon } from '@patternfly/react-core';
 import Kubernetes_image from '!!url-loader!@app/Assets/images/Kubernetes_image.png';
 // import Kruize_logo from '!!url-loader!@app/assets/images/kruize_icon.png';
 import Avatar_image from '!!url-loader!@app/Assets/images/Avatar_image.svg';
@@ -35,7 +35,7 @@ const HorizontalNav = () => {
   };
 
   const nav = (
-    <Nav onSelect={onSelect} variant="horizontal" className="nav">
+    <Nav onSelect={(_event, result) => onSelect(result)} variant="horizontal" className="nav">
       <NavList>
         <TextContent className="--pf-c-content">
           <Text component={TextVariants.h1}>Kruize</Text>
@@ -107,9 +107,13 @@ const HorizontalNav = () => {
         )}
       </div>
       {autotuneOn === true ? (
-        <CheckCircleIcon size="md" color="green" />
+        <Icon size="lg">
+          <CheckCircleIcon color="green" />
+        </Icon>
       ) : (
-        <ExclamationCircleIcon size="md" color="red" />
+        <Icon size="md">
+          <ExclamationCircleIcon color="red" />
+        </Icon>
       )}
     </React.Fragment>
   );

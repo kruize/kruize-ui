@@ -1,18 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
 import {
-  Button,
   PageSection,
   PageSectionVariants,
   Toolbar,
   ToolbarContent,
   FormGroup,
-  TextInput,
   Grid,
   GridItem,
   TextContent,
   Text,
   TextVariants,
-  WizardContext
+  TextInputGroup,
+  TextInputGroupMain
 } from '@patternfly/react-core';
 import NameSpaceDropDown from './NameSpaceDropDown';
 import DeploymentsDropdown from './DeploymentsDropdown';
@@ -54,12 +53,15 @@ const RE = (props: { setData; data }) => {
               <Grid hasGutter>
                 <GridItem span={6}>
                   <FormGroup isRequired label="Experiment Name" fieldId="horizontal-form-email">
-                    <TextInput
-                      value={exp_name || ''}
-                      name="experiment_name_textbox"
-                      onChange={onTextInputHandler}
-                      aria-label="Text inp 101"
-                    />
+                    <TextInputGroup>
+                      <TextInputGroupMain
+                        value={exp_name || ''}
+                        name="experiment_name_textbox"
+                        onChange={(_event, exp_name) => onTextInputHandler(exp_name)}
+                        aria-label="Text inp 101"
+                      />
+                    </TextInputGroup>
+
                     <br />
                   </FormGroup>
                 </GridItem>

@@ -1,126 +1,20 @@
-import { TextContent, TextVariants, Flex, FlexItem, FormSelect, FormSelectOption, Text } from '@patternfly/react-core';
-import { TableComposable, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
+import {
+  TextContent,
+  TextVariants,
+  Flex,
+  FlexItem,
+  FormSelect,
+  FormSelectOption,
+  Text,
+  Split,
+  SplitItem,
+  Stack,
+  StackItem
+} from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
-import { WorkloadDetails } from './ReccomendationComponents/WorkloadDetails';
-
-const TableShort = ({ parameter }) => {
-  const columnNames = {
-    containers: 'Containers',
-    short_term: 'Short Term',
-    medium_term: 'Medium Term',
-    long_term: 'Long Term',
-    cpuRequestS: 'CPU Request',
-    mmrRequestS: 'Mem Request',
-    cpuRequestM: 'CPU Request',
-    mmrRequestM: 'Mem Request',
-    cpuRequestL: 'CPU Request',
-    mmrRequestL: 'Mem Request'
-  };
-
-  return (
-    <React.Fragment>
-      <TableComposable aria-label="Nested column headers table" gridBreakPoint="" isStickyHeader>
-        <Thead hasNestedHeader>
-          <Tr>
-            <Th hasRightBorder textCenter colSpan={1}>
-              {columnNames.containers}
-            </Th>
-            <Th hasRightBorder textCenter colSpan={2}>
-              {columnNames.short_term}
-            </Th>
-            <Th hasRightBorder textCenter colSpan={2}>
-              {columnNames.medium_term}
-            </Th>
-            <Th hasRightBorder textCenter colSpan={2}>
-              {columnNames.long_term}
-            </Th>
-          </Tr>
-          <Tr>
-            <Th hasRightBorder />
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.cpuRequestS}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.mmrRequestS}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.cpuRequestM}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.mmrRequestM}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.cpuRequestL}
-            </Th>
-            <Th isSubheader hasRightBorder textCenter>
-              {columnNames.mmrRequestL}
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {parameter.containerArray.map((containerName, index) => (
-            <Tr key={index}>
-              <Td dataLabel={columnNames.containers} textCenter>
-                {containerName}
-              </Td>
-
-              <Td dataLabel={columnNames.cpuRequestS} textCenter>
-                {parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.short_term?.config.requests.cpu.format
-                  : NaN}{' '}
-              </Td>
-
-              <Td dataLabel={columnNames.mmrRequestS} textCenter>
-                {parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.short_term?.config?.requests?.memory.format
-                  : NaN}{' '}
-              </Td>
-              <Td dataLabel={columnNames.cpuRequestM} textCenter>
-                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.cpu?.format
-                  : NaN}{' '}
-              </Td>
-              <Td dataLabel={columnNames.mmrRequestM} textCenter>
-                {parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.medium_term?.config?.requests.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.medium_term?.config?.requests?.memory?.format
-                  : NaN}{' '}
-              </Td>
-              <Td dataLabel={columnNames.cpuRequestL} textCenter>
-                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.cpu.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.cpu?.format
-                  : NaN}{' '}
-              </Td>
-              <Td dataLabel={columnNames.mmrRequestL} textCenter>
-                {parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount !== undefined &&
-                parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.format !== undefined
-                  ? parameter.dataA[index]?.duration_based?.long_term?.config?.requests.memory.amount.toFixed(3) +
-                    ' ' +
-                    parameter.dataA[index]?.duration_based?.long_term?.config?.requests?.memory?.format
-                  : NaN}{' '}
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </TableComposable>
-    </React.Fragment>
-  );
-};
+import { TabSection } from './RecommendationComponents/TabSection';
+import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
@@ -130,96 +24,168 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   );
 
   const [endtime, setEndtime] = useState<any | null>('');
+  const [currentData, setCurrentData] = useState([]);
+  const [recommendedData, setRecommendedData] = useState([]);
+  const [chartDetailsData, setChartDetailsData] = useState([]);
+  const [day, setDay] = useState('short_term');
+  const [displayChart, setDisplayChart] = useState(true);
 
-  const [data, setdata] = useState<any | null>('');
-
-  const [show, setShow] = useState(false);
+  const days = [
+    { id: '1', value: 'short_term', label: 'Last 1 day', disabled: false },
+    { id: '2', value: 'medium_term', label: 'Last 7 days', disabled: false },
+    { id: '3', value: 'long_term', label: 'Last 15 days', disabled: false }
+  ];
 
   useEffect(() => {
     if (props.endTimeArray) {
-      fetchRecommendationData(props.endTimeArray[0]);
+      setEndtime(props.endTimeArray[0]);
     }
   }, [props.endTimeArray]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (endtime && day) {
+        const response = await fetch(list_recommendations_url);
+        const result = await response.json();
+        const recommended_arr: any = [];
+        const current_arr: any = [];
+        const chartDetailsObject = [];
+
+        result[0].kubernetes_objects[0].containers.map((container, index) => {
+          const currentDat = container.recommendations?.data[endtime]?.current;
+          if (currentDat) {
+            current_arr.push(currentDat);
+          }
+        });
+
+        result[0].kubernetes_objects[0].containers.map((container, index) => {
+          const recommendationDataNewAPI = container.recommendations.data[endtime]?.recommendation_terms[day];
+          if (recommendationDataNewAPI) {
+            recommended_arr.push(recommendationDataNewAPI);
+          }
+        });
+
+        // all data before a particular time stamp
+        result[0].kubernetes_objects[0].containers.map((container, index) => {
+          const allRecommData = container.recommendations.data;
+          const endTimeSortedKeys = Object.keys(allRecommData).sort();
+
+          for (const key of endTimeSortedKeys) {
+            chartDetailsObject[key] = allRecommData[key];
+            if (key === endtime) {
+              break;
+            }
+          }
+          JSON.stringify(chartDetailsObject);
+          for (const key in chartDetailsObject) {
+            const value = chartDetailsObject[key];
+            // console.log(`${key}`, value);
+
+            if (key === endtime) {
+              break;
+            }
+          }
+        });
+        if (recommended_arr[0].recommendation_engines) {
+          // console.log('render ', recommended_arr);
+          setDisplayChart(true);
+        } else {
+          setDisplayChart(false);
+        }
+        setCurrentData(current_arr);
+        setRecommendedData(recommended_arr);
+        setChartDetailsData(chartDetailsObject);
+      }
+    };
+
+    fetchData();
+  }, [endtime, day, props.SREdata.experiment_name]);
 
   const onChange = async (value: string) => {
     setEndtime(value);
-    fetchRecommendationData(value);
   };
 
-  const fetchRecommendationData = async (value) => {
-    const response = await fetch(list_recommendations_url);
-    const data = await response.json();
-    const arr: any = [];
-
-    data[0].kubernetes_objects[0].containers.map((container_name, index) => {
-      arr.push(data[0].kubernetes_objects[0].containers[index].recommendations?.data[value]);
-    });
-
-    setdata(arr);
+  const onDayChange = (value: string) => {
+    setDay(value);
   };
-
-  useEffect(() => {
-    if (props.endTimeArray === null) {
-      setShow(false);
-      return () => {
-        <TextContent>
-          <Text component={TextVariants.h3}>No time stamp no recommendation</Text>
-        </TextContent>;
-      };
-    } else {
-      setShow(true);
-      return () => {
-        <TextContent>
-          <Text component={TextVariants.h3}>recommendation avaliable</Text>
-        </TextContent>;
-      };
-    }
-  }, [props.endTimeArray]);
 
   return (
-    <>
-      <WorkloadDetails
-        experimentData={{
-          experiment_name: props.SREdata.experiment_name,
-          namespace: props.SREdata.namespace,
-          name: props.SREdata.name,
-          type: props.SREdata.type,
-          cluster_name: props.SREdata.cluster_name,
-          container_name: props.SREdata.container_name
-        }}
-      />
-      <br />
+    <Stack hasGutter>
+      <StackItem>
+        <br />
+        <WorkloadDetails
+          experimentData={{
+            experiment_name: props.SREdata.experiment_name,
+            namespace: props.SREdata.namespace,
+            name: props.SREdata.name,
+            type: props.SREdata.type,
+            cluster_name: props.SREdata.cluster_name,
+            container_name: props.SREdata.container_name
+          }}
+        />
+      </StackItem>
+      <StackItem>
+        <Stack hasGutter>
+          <Flex className="example-border">
+            <Flex>
+              <FlexItem>
+                <Split hasGutter>
+                  <SplitItem>
+                    <TextContent>
+                      <Text component={TextVariants.p}>Monitoring End Time</Text>
+                    </TextContent>
+                  </SplitItem>
 
-      {show && (
-        <>
-          <Flex>
+                  <SplitItem>
+                    <FormSelect
+                      value={endtime}
+                      onChange={(_event, value: string) => onChange(value)}
+                      aria-label="FormSelect Input"
+                    >
+                      {props.endTimeArray &&
+                        props.endTimeArray.map((option, index) => (
+                          <FormSelectOption key={index} value={option} label={option} />
+                        ))}
+                    </FormSelect>
+                  </SplitItem>
+                </Split>
+              </FlexItem>
+            </Flex>
             <FlexItem>
-              <TextContent>
-                <Text component={TextVariants.h3}>Monitoring End Time</Text>
-              </TextContent>
-              <br />
-              <FormSelect value={endtime} onChange={onChange} aria-label="FormSelect Input">
-                {props.endTimeArray &&
-                  props.endTimeArray.map((option, index) => (
-                    <FormSelectOption key={index} value={option} label={option} />
-                  ))}
-              </FormSelect>
+              <Split hasGutter>
+                <SplitItem>
+                  <TextContent>
+                    <Text component={TextVariants.p}>View optimization based on </Text>
+                  </TextContent>
+                </SplitItem>
+
+                <SplitItem>
+                  <FormSelect
+                    value={day}
+                    onChange={(_event, value: string) => onDayChange(value)}
+                    aria-label="days dropdown"
+                  >
+                    {days.map((selection, index) => (
+                      <FormSelectOption key={index} value={selection.value} label={selection.label} />
+                    ))}
+                  </FormSelect>
+                </SplitItem>
+              </Split>
             </FlexItem>
           </Flex>
-          <br /> <br />
-          <TextContent>
-            <Text component={TextVariants.h3}>Duration Based Recommendations</Text>
-          </TextContent>
-          <br />
-          <TableShort
-            parameter={{
-              containerArray: props.SREdata.containerArray,
-              dataA: data
-            }}
-          />
-        </>
-      )}
-    </>
+          <StackItem>
+            <TabSection
+              recommendedData={recommendedData}
+              currentData={currentData}
+              chartData={chartDetailsData}
+              day={day}
+              endtime={endtime}
+              displayChart={displayChart}
+            />
+          </StackItem>
+        </Stack>
+      </StackItem>
+    </Stack>
   );
 };
 

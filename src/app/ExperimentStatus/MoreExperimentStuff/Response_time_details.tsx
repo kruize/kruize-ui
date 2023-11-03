@@ -106,10 +106,10 @@ const Response_time_details = (props: { data; setData }) => {
   const handelValueTypeChange = (valueType: string) => {
     setValueType(valueType);
   };
-  const handleOptionChange = (value: string, _event: React.FormEvent<HTMLSelectElement>) => {
+  const handleOptionChange = (value: string) => {
     setOption(value);
   };
-  const handelRadioChange = (value, x) => {
+  const handelRadioChange = (x) => {
     console.log('hrc' + x);
     if (direction === 'min') {
       setDirection('max');
@@ -175,7 +175,9 @@ const Response_time_details = (props: { data; setData }) => {
           isInputVisible
           inputValue={inputValueContinuous1}
           inputLabel="%"
-          onChange={onChangeContinuous1}
+          onChange={(_event, value, inputValue, setLocalInputValue) =>
+            onChangeContinuous1(value, inputValue, setLocalInputValue)
+          }
           isDisabled={!editing}
         />
       </FormGroup>
@@ -186,7 +188,7 @@ const Response_time_details = (props: { data; setData }) => {
       <FormGroup label="Operator" isRequired fieldId="horizontal-form-name">
         <FormSelect
           value={operatorOption}
-          onChange={handleOperatorChange}
+          onChange={(_event, operatorOption: string) => handleOperatorChange(operatorOption)}
           isDisabled={!editing}
           aria-label="operator options"
         >
@@ -204,7 +206,7 @@ const Response_time_details = (props: { data; setData }) => {
           value={query}
           isRequired
           name="horizontal-form-query"
-          onChange={handleQueryChange}
+          onChange={(_event, query: string) => handleQueryChange(query)}
           isDisabled={!editing}
           aria-label="query response_time"
         />
@@ -214,7 +216,12 @@ const Response_time_details = (props: { data; setData }) => {
   const formDatasource = () => {
     return (
       <FormGroup label="Data source" fieldId="horizontal-form-title">
-        <FormSelect value={option} onChange={handleOptionChange} isDisabled={!editing} aria-label="options">
+        <FormSelect
+          value={option}
+          onChange={(_event, value: string) => handleOptionChange(value)}
+          isDisabled={!editing}
+          aria-label="options"
+        >
           {options.map((option, index) => (
             <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
           ))}
@@ -226,7 +233,12 @@ const Response_time_details = (props: { data; setData }) => {
   const formValuetype = () => {
     return (
       <FormGroup label="Value Type" fieldId="horizontal-form-title">
-        <FormSelect value={valueType} onChange={handelValueTypeChange} isDisabled={!editing} aria-label="value type">
+        <FormSelect
+          value={valueType}
+          onChange={(_event, valueType: string) => handelValueTypeChange(valueType)}
+          isDisabled={!editing}
+          aria-label="value type"
+        >
           {valueOptions.map((option, index) => (
             <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
           ))}
@@ -242,7 +254,7 @@ const Response_time_details = (props: { data; setData }) => {
           name="horizontal-inline-radio"
           label="Maximize"
           id="horizontal-inline-radio-01"
-          onChange={handelRadioChange}
+          onChange={(_event, x) => handelRadioChange(x)}
           isChecked={direction === 'max'}
           isDisabled={!editing}
         />
@@ -250,7 +262,7 @@ const Response_time_details = (props: { data; setData }) => {
           name="horizontal-inline-radio"
           label="Minimize"
           id="horizontal-inline-radio-02"
-          onChange={handelRadioChange}
+          onChange={(_event, x) => handelRadioChange(x)}
           isChecked={direction === 'min'}
           isDisabled={!editing}
         />

@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import {
   Grid,
   GridItem,
-  PageSection,
-  PageSectionVariants,
   Tabs,
   Tab,
   TabTitleText,
   TabTitleIcon,
-  Checkbox,
   TextContent,
   Text,
   TextVariants
