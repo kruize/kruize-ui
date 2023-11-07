@@ -24,6 +24,9 @@ npm run start:dev
 ## Testing the UI
 
 To run End-2-End tests for the UI `npm run cypress-test`
+To view the End-2-End tests running in the cypress ui `npx cypress open`
+To get a report of the End-2-End tests `npm run cypress-report`. It will create a "result.html" report in the folder
+
 ## Code Origin
 
 This repository uses the patternfly-react-seed base code as taken from [Patternfly Seed](https://github.com/patternfly/patternfly-react-seed).

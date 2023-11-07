@@ -15,6 +15,7 @@
     "start:dev": "webpack serve --color --progress --config webpack.dev.js",
     "test": "jest --watch",
     "cypress-test": "cypress run",
+    "cypress-report": "cypress run --reporter junit --reporter-options mochaFile=result.html,toConsole=true",
     "test:coverage": "jest --coverage",
     "eslint": "eslint --ext .tsx,.js ./src/",
     "lint": "npm run eslint",
