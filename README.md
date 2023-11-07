@@ -21,6 +21,9 @@ export KRUIZE_PORT=$(kubectl -n monitoring  get svc kruize --no-headers -o=custo
 npm run start:dev
 ```
 
+## Testing the UI
+
+To run End-2-End tests for the UI `npm run cypress-test`
 ## Code Origin
 
 This repository uses the patternfly-react-seed base code as taken from [Patternfly Seed](https://github.com/patternfly/patternfly-react-seed).
