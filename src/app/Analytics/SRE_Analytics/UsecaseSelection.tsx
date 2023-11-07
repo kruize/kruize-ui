@@ -143,7 +143,9 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                   aria-label="FormSelect Input"
                 >
                   {expData != null &&
-                    expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
+                    expData.map((option, index) => (
+                      <FormSelectOption id="exp_name_option" key={index} value={option} label={option} />
+                    ))}
                 </FormSelect>
               </GridItem>
               {expName && (

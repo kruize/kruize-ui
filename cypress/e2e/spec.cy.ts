@@ -1,7 +1,6 @@
 let exp_len, exp_name;
-
+let ip, port;
 describe('API Tests', () => {
-  let ip, port;
   it('should check and get ip and port for all apis to be called', () => {
     cy.visit('http://localhost:9000');
     cy.get('img[alt="Kubernetes wheel"]').should('be.visible');
@@ -11,7 +10,7 @@ describe('API Tests', () => {
       .invoke('text')
       .then((text) => {
         const regex = /http:\/\/([\d.]+):(\d+)/;
-        const match = text.match(regex);
+        const match = RegExp(regex).exec(text);
 
         if (match) {
           ip = match[1];
@@ -30,20 +29,9 @@ describe('API Tests', () => {
       exp_len = response.body.length;
     });
   });
-
-  // it('should check that the List Recommendations API is working', () => {
-  //   cy.request('GET', `http://${ip}:${port}/listRecommendations?experiment_name=${exp_name}&latest=false`).then(
-  //     (response) => {
-  //       expect(response.status).to.eq(200);
-  //       cy.log(response.body[0].experiment_name);
-  //       expect(response.body[0]).to.have.property('experiment_name');
-  //       exp_len = response.body.length;
-  //     }
-  //   );
-  // });
 });
 
-describe('My First Test', () => {
+describe('Mimics User Clicks in the UI', () => {
   //Checks if kruize ui page is loaded successfully
   it('Check page is loaded successfully', () => {
     cy.visit('http://localhost:9000');
@@ -52,7 +40,7 @@ describe('My First Test', () => {
   });
 
   //open up SRE Analytics page
-  it('click on hamburger icon & select SRE Analytics from Analytics', () => {
+  it('Clicks on hamburger icon & navigate to SRE Analytics', () => {
     cy.visit('http://localhost:9000');
     cy.get('button[aria-label="Global navigation"]').click();
     cy.get('#Analytics-2').should('be.visible').click();
@@ -62,7 +50,7 @@ describe('My First Test', () => {
   });
 
   //
-  it('perform additional actions on SRE Analytics page', () => {
+  it('Navigates Usecase Selection on SRE Analytics page', () => {
     cy.log(`${exp_len}`);
     const randomIndex = Number(Math.floor(Math.random() * (Number(exp_len) - 1)) + 1);
     cy.log(`${randomIndex}`);
@@ -71,17 +59,27 @@ describe('My First Test', () => {
     cy.contains('Analytics - SRE View');
     cy.contains('UseCase Selection').click();
     cy.get('select[aria-label="FormSelect Input"]').should('be.visible');
-    cy.get('#usecase-selection').should('be.visible'); // Click to open the dropdown
-    cy.get('#usecase-selection').select('Monitoring'); // Replace 'Monitoring' with the actual value of the option
-    cy.get('#local-or-remote').should('be.visible'); // Click to open the dropdown
+    cy.get('#usecase-selection').should('be.visible');
+    cy.get('#usecase-selection').select('Monitoring');
+    cy.get('#local-or-remote').should('be.visible');
     cy.get('#local-or-remote').select('Remote');
     cy.get('#exp-name-select').should('be.visible');
     // test list exp api over here
     cy.get('#exp-name-select').select(randomIndex);
+    cy.get('option#exp_name_option').invoke('val').as('exp_name_value');
+    cy.window().its('sessionStorage').invoke('getItem', 'Experiment Name').as('selected');
     cy.get('#get-recommendations').click();
-  });
+    // testing List Recommendations api
+    cy.get('@selected').then((value) => {
+      cy.request('GET', `http://${ip}:${port}/listRecommendations?experiment_name=${value}&latest=false`).then(
+        (response) => {
+          expect(response.status).to.eq(200);
+          cy.log(response.body[0].cluster_name);
+          expect(response.body[0].kubernetes_objects[0].containers[0]).to.have.property('recommendations');
+        }
+      );
+    });
 
-  // it('goes to view recommendations', () => {
-  //   cy.contains('Recommendations').click();
-  // });
+    cy.get('#Workload_details').should('be.visible');
+  });
 });

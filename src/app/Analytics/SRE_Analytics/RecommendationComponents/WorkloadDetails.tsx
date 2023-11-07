@@ -6,7 +6,7 @@ export const WorkloadDetails = ({ experimentData }) => {
     <TextContent>
       <Text component={TextVariants.h3}>Recommendations</Text>
       <Text component={TextVariants.h5}>{experimentData.container_name}</Text>
-      <Text component={TextVariants.p}>
+      <Text component={TextVariants.p} id="Workload_details">
         Cluster name: {experimentData.cluster_name}
         <br />
         Project name: {experimentData.namespace}
