@@ -1,27 +1,5 @@
-// export function filterLastNDayData(data, givenDay, numDays) {
-//   const oneDayInMillis = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
-//   const givenDayMillis = Date.parse(givenDay);
-//   const filteredData = {};
+import { filterLastNDayData } from './FilterData';
 
-//   for (const key in data) {
-//     if (data.hasOwnProperty(key)) {
-//       const timestampMillis = Date.parse(key);
-//       if (givenDayMillis - timestampMillis <= oneDayInMillis * numDays && givenDayMillis - timestampMillis >= 0) {
-//         filteredData[key] = data[key];
-//       }
-//     }
-//   }
-
-//   return filteredData;
-// }
-
-/**
- * function filters the data as per the term selected by the user
- * @param data
- * @param givenDay
- * @param term
- * @returns
- */
 export function filterDataByTerm(data, givenDay, term) {
   let numDays;
 
@@ -53,14 +31,14 @@ export function formatTimestamps(timestampsData) {
 
 export function formatNumber(input) {
   if (typeof input === 'number') {
-    return parseFloat(input.toFixed(3)); // Format the number to 3 decimal places and convert to number
+    return parseFloat(input.toFixed(3));
   } else if (!isNaN(input)) {
-    return parseFloat(Number(input).toFixed(3)); // Format the number to 3 decimal places and convert to number
+    return parseFloat(Number(input).toFixed(3));
   }
   return input;
 }
 export function addPlusSign(str) {
-  const number = parseFloat(str); // Try to convert the string to a number
+  const number = parseFloat(str);
 
   if (!isNaN(number) && isFinite(number)) {
     if (number >= 0) {
@@ -68,17 +46,11 @@ export function addPlusSign(str) {
     }
   }
 
-  return str; // Return the original string if it's not a non-negative number
+  return str;
 }
 
-/**
- * function provides last n data for the seleted term
- * @param data
- * @param givenDay
- * @param numDays
- */
-export function filterLastNDayData(data, givenDay, numDays) {
-  const oneDayInMillis = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+export function filterLastNNDayData(data, givenDay, numDays) {
+  const oneDayInMillis = 24 * 60 * 60 * 1000;
   const givenDayMillis = Date.parse(givenDay);
   const filteredData = {};
 
@@ -101,37 +73,3 @@ export function filterLastNDayData(data, givenDay, numDays) {
 
   return filteredData;
 }
-
-// export function filterLastNDayData(data, givenDay, numDays) {
-//   const oneDayInMillis = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
-//   const givenDayMillis = Date.parse(givenDay);
-//   const filteredData = {};
-
-//   for (const key in data) {
-//     if (data.hasOwnProperty(key)) {
-//       const timestampMillis = Date.parse(key);
-//       const isGivenTime =
-//         new Date(key).getHours() === new Date(givenDay).getHours() &&
-//         new Date(key).getMinutes() === new Date(givenDay).getMinutes();
-
-//       // if (
-//       //   givenDayMillis - timestampMillis < oneDayInMillis * numDays &&
-//       //   givenDayMillis - timestampMillis >= 0 &&
-//       //   !isGivenTime
-//       // ) {
-//       //   filteredData[key] = data[key];
-//       // }
-//       if (
-//         (givenDayMillis - timestampMillis < oneDayInMillis * numDays ||
-//           (givenDayMillis - timestampMillis === oneDayInMillis &&
-//             new Date(key).getHours() > new Date(givenDay).getHours())) &&
-//         givenDayMillis - timestampMillis >= 0 &&
-//         !isGivenTime
-//       ) {
-//         filteredData[key] = data[key];
-//       }
-//     }
-//   }
-
-//   return filteredData;
-// }
