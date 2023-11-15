@@ -1,12 +1,12 @@
 import React from 'react';
 import { Chart, ChartAxis, ChartGroup, ChartLine, ChartVoronoiContainer } from '@patternfly/react-charts';
 import { formatTimestamps, filterDataByTerm, formatNumber } from './ChartDataPreparation';
-import { Grid, GridItem, Split, SplitItem } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 
 const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const termFilteredData = filterDataByTerm(props.chartData, props.endtime, props.day);
   const timeStampFormattedData = formatTimestamps(termFilteredData);
-  console.log(props.chartData);
+
   const cpuChart = () => {
     const historicdata = Object.entries(timeStampFormattedData).map(([key, value]) => {
       const cpuAmount = formatNumber(

@@ -1,5 +1,3 @@
-import { filterLastNDayData } from './FilterData';
-
 export function filterDataByTerm(data, givenDay, term) {
   let numDays;
 
@@ -13,7 +11,21 @@ export function filterDataByTerm(data, givenDay, term) {
     throw new Error("Invalid term. Use 'short_term', 'medium_term', or 'long_term'.");
   }
 
-  return filterLastNDayData(data, givenDay, numDays);
+  const oneDayInMillis = 24 * 60 * 60 * 1000;
+  const givenDayMillis = Date.parse(givenDay);
+  const filteredData = {};
+
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      const timestampMillis = Date.parse(key);
+
+      if (givenDayMillis - timestampMillis <= oneDayInMillis * numDays && givenDayMillis - timestampMillis >= 0) {
+        filteredData[key] = data[key];
+      }
+    }
+  }
+
+  return filteredData;
 }
 
 export function formatTimestamps(timestampsData) {
@@ -47,29 +59,4 @@ export function addPlusSign(str) {
   }
 
   return str;
-}
-
-export function filterLastNNDayData(data, givenDay, numDays) {
-  const oneDayInMillis = 24 * 60 * 60 * 1000;
-  const givenDayMillis = Date.parse(givenDay);
-  const filteredData = {};
-
-  for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      const timestampMillis = Date.parse(key);
-      const isGivenTime =
-        new Date(key).getHours() === new Date(givenDay).getHours() &&
-        new Date(key).getMinutes() === new Date(givenDay).getMinutes();
-
-      if (
-        givenDayMillis - timestampMillis <= oneDayInMillis * numDays &&
-        givenDayMillis - timestampMillis >= 0 &&
-        !isGivenTime
-      ) {
-        filteredData[key] = data[key];
-      }
-    }
-  }
-
-  return filteredData;
 }

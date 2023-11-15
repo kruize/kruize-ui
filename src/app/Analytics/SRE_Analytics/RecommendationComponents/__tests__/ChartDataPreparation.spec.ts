@@ -1,100 +1,78 @@
-import {
-  filterLastNNDayData,
-  addPlusSign,
-  formatNumber,
-  formatTimestamps,
-  filterDataByTerm
-} from '../ChartDataPreparation';
-import * as filterDataModule from '../FilterData';
+import { addPlusSign, formatNumber, formatTimestamps, filterDataByTerm } from '../ChartDataPreparation';
 
-describe('filterLastNNDayData', () => {
-  it('should filter data within the last 1 day and exclude the given time', () => {
-    const data = {
-      '2023-10-26T010:00:00.000Z': 'Data 1',
-      '2023-10-27T08:45:00.000Z': 'Data 2',
-      '2023-10-27T10:00:00.000Z': 'Data 3',
-      '2023-10-28T11:30:00.000Z': 'Data 4'
-    };
-    const givenDay = '2023-10-27T10:00:00.000Z';
-    const numDays = 1;
-
-    const result = filterLastNNDayData(data, givenDay, numDays);
-    console.log(result);
-    // Expect data for the last 1 day, excluding the given time
-    expect(result).toEqual({
-      '2023-10-27T08:45:00.000Z': 'Data 2'
-    });
-  });
-
-  it('should filter data within the last 7 days and exclude the given time', () => {
-    const data = {
-      '2023-10-21T15:00:00.000Z': 'Data 1',
-      '2023-10-22T08:30:00.000Z': 'Data 2',
-      '2023-10-22T10:00:00.000Z': 'Data 3',
-      '2023-10-24T12:45:00.000Z': 'Data 4',
-      '2023-10-28T14:00:00.000Z': 'Data 5'
-    };
-    const givenDay = '2023-10-24T12:45:00.000Z';
-    const numDays = 7;
-
-    const result = filterLastNNDayData(data, givenDay, numDays);
-
-    // Expect data for the last 7 days, excluding the given time
-    expect(result).toEqual({
-      '2023-10-21T15:00:00.000Z': 'Data 1',
-      '2023-10-22T08:30:00.000Z': 'Data 2',
-      '2023-10-22T10:00:00.000Z': 'Data 3'
-    });
-  });
-  it('should filter data within the last 15 days and exclude the given time', () => {
-    const data = {
-      '2023-10-10T10:00:00.000Z': 'Data 1',
-      '2023-10-15T15:00:00.000Z': 'Data 2',
-      '2023-10-20T08:30:00.000Z': 'Data 3',
-      '2023-10-25T12:45:00.000Z': 'Data 4',
-      '2023-10-26T09:30:00.000Z': 'Data 5'
-    };
-    const givenDay = '2023-10-20T08:30:00.000Z'; // A date within the data
-    const numDays = 15;
-
-    const result = filterLastNNDayData(data, givenDay, numDays);
-
-    // Expect data for the last 15 days, excluding the given time
-    expect(result).toEqual({
-      '2023-10-10T10:00:00.000Z': 'Data 1',
-      '2023-10-15T15:00:00.000Z': 'Data 2'
-    });
-  });
+describe('filterDataByTerm', () => {
   const data = {
-    '2023-10-29T08:00:00.000Z': 'Data1',
-    '2023-10-29T12:00:00.000Z': 'Data2',
-    '2023-10-30T08:00:00.000Z': 'Data3',
-    '2023-10-31T08:00:00.000Z': ' Data4',
-    '2023-11-01T08:00:00.000Z': 'Data5'
+    '2023-10-01T08:00:00.000Z': 'Data 1',
+    '2023-10-02T10:30:00.000Z': 'Data 2',
+    '2023-10-03T12:45:00.000Z': 'Data 3',
+    '2023-10-04T14:15:00.000Z': 'Data 4',
+    '2023-10-05T09:30:00.000Z': 'Data 5',
+    '2023-10-06T11:00:00.000Z': 'Data 6',
+    '2023-10-07T13:20:00.000Z': 'Data 7',
+    '2023-10-08T15:45:00.000Z': 'Data 8',
+    '2023-10-09T08:30:00.000Z': 'Data 9',
+    '2023-10-10T10:00:00.000Z': 'Data 10',
+    '2023-10-11T12:15:00.000Z': 'Data 11',
+    '2023-10-12T14:30:00.000Z': 'Data 12',
+    '2023-10-13T09:45:00.000Z': 'Data 13',
+    '2023-10-14T11:30:00.000Z': 'Data 14',
+    '2023-10-15T13:00:00.000Z': 'Data 15'
   };
 
-  it('should return an empty object if numDays is 0', () => {
-    const givenDay = '2023-10-31T08:00:00.000Z';
-    const numDays = 0;
-    const filtered = filterLastNNDayData(data, givenDay, numDays);
+  const givenDay = '2023-10-15T11:00:00.000Z';
 
-    expect(Object.keys(filtered)).toHaveLength(0);
+  it('should filter data for short-term correctly', () => {
+    const term = 'short_term';
+    const result = filterDataByTerm(data, givenDay, term);
+
+    expect(result).toEqual({
+      '2023-10-14T11:30:00.000Z': 'Data 14'
+    });
   });
 
-  it('should return an empty object if givenDay is not in the data', () => {
-    const givenDay = '2023-11-02T08:00:00.000Z';
-    const numDays = 2;
-    const filtered = filterLastNNDayData(data, givenDay, numDays);
+  it('should filter data for medium-term correctly', () => {
+    const term = 'medium_term';
+    const result = filterDataByTerm(data, givenDay, term);
 
-    expect(Object.keys(filtered)).toHaveLength(0);
+    expect(result).toEqual({
+      '2023-10-08T15:45:00.000Z': 'Data 8',
+      '2023-10-09T08:30:00.000Z': 'Data 9',
+      '2023-10-10T10:00:00.000Z': 'Data 10',
+      '2023-10-11T12:15:00.000Z': 'Data 11',
+      '2023-10-12T14:30:00.000Z': 'Data 12',
+      '2023-10-13T09:45:00.000Z': 'Data 13',
+      '2023-10-14T11:30:00.000Z': 'Data 14'
+    });
   });
 
-  it('should handle the case when the data object is empty', () => {
-    const givenDay = '2023-10-31T08:00:00.000Z';
-    const numDays = 2;
-    const filtered = filterLastNNDayData({}, givenDay, numDays);
+  it('should filter data for long-term correctly', () => {
+    const term = 'long_term';
+    const result = filterDataByTerm(data, givenDay, term);
 
-    expect(Object.keys(filtered)).toHaveLength(0);
+    expect(result).toEqual({
+      '2023-10-01T08:00:00.000Z': 'Data 1',
+      '2023-10-02T10:30:00.000Z': 'Data 2',
+      '2023-10-03T12:45:00.000Z': 'Data 3',
+      '2023-10-04T14:15:00.000Z': 'Data 4',
+      '2023-10-05T09:30:00.000Z': 'Data 5',
+      '2023-10-06T11:00:00.000Z': 'Data 6',
+      '2023-10-07T13:20:00.000Z': 'Data 7',
+      '2023-10-08T15:45:00.000Z': 'Data 8',
+      '2023-10-09T08:30:00.000Z': 'Data 9',
+      '2023-10-10T10:00:00.000Z': 'Data 10',
+      '2023-10-11T12:15:00.000Z': 'Data 11',
+      '2023-10-12T14:30:00.000Z': 'Data 12',
+      '2023-10-13T09:45:00.000Z': 'Data 13',
+      '2023-10-14T11:30:00.000Z': 'Data 14'
+    });
+  });
+
+  it('should throw an error for an invalid term', () => {
+    const term = 'invalid_term';
+
+    expect(() => filterDataByTerm(data, givenDay, term)).toThrowError(
+      "Invalid term. Use 'short_term', 'medium_term', or 'long_term'."
+    );
   });
 });
 
@@ -171,49 +149,5 @@ describe('formatTimestamps', () => {
     const formattedData = formatTimestamps(timestampsData);
 
     expect(formattedData).toEqual({});
-  });
-});
-
-jest.mock('../FilterData.tsx', () => ({
-  filterLastNDayData: jest.fn()
-}));
-
-describe('filterDataByTerm', () => {
-  const data = {
-    '2023-10-10T10:00:00.000Z': 'Data 1',
-    '2023-10-15T15:00:00.000Z': 'Data 2',
-    '2023-10-20T08:30:00.000Z': 'Data 3'
-  };
-
-  const givenDay = '2023-10-20T10:00:00.000Z';
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should call filterLastNDayData with the correct arguments for short-term', () => {
-    const term = 'short_term';
-    filterDataByTerm(data, givenDay, term);
-    expect(filterDataModule.filterLastNDayData).toHaveBeenCalledWith(data, givenDay, 1);
-  });
-
-  it('should call filterLastNDayData with the correct arguments for medium-term', () => {
-    const term = 'medium_term';
-    filterDataByTerm(data, givenDay, term);
-    expect(filterDataModule.filterLastNDayData).toHaveBeenCalledWith(data, givenDay, 7);
-  });
-
-  it('should call filterLastNDayData with the correct arguments for long-term', () => {
-    const term = 'long_term';
-    filterDataByTerm(data, givenDay, term);
-    expect(filterDataModule.filterLastNDayData).toHaveBeenCalledWith(data, givenDay, 15);
-  });
-
-  it('should throw an error for an invalid term', () => {
-    const term = 'invalid_term';
-    expect(() => filterDataByTerm(data, givenDay, term)).toThrowError(
-      "Invalid term. Use 'short_term', 'medium_term', or 'long_term'."
-    );
-    expect(filterDataModule.filterLastNDayData).not.toHaveBeenCalled();
   });
 });
