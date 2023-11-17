@@ -24,7 +24,6 @@ const HorizontalNav = () => {
 
   useEffect(() => {
     if (ip === null) {
-      console.log(ip, 11);
       setAutotuneOn(false);
     } else {
       setAutotuneOn(true);
