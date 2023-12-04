@@ -7,7 +7,9 @@ import {
   Button,
   Text,
   Grid,
-  GridItem
+  GridItem,
+  TextInput,
+  ValidatedOptions
 } from '@patternfly/react-core';
 import React, { useState } from 'react';
 import { getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
@@ -18,9 +20,9 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
 
   const [usecase, setUsecase] = useState('Select one');
   const [nestedUsecase, setNestedUsecase] = useState('Select nested');
-  const [value, setValue] = useState('');
   const [expName, setExpName] = useState<any | null>('');
   const [expData, setExpData] = useState([]);
+  const [validationStatus, setValidationStatus] = useState(ValidatedOptions.default);
 
   const fetchData = async () => {
     const response = await fetch(list_experiment_url);
@@ -53,12 +55,30 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     fetchData();
   };
 
-  const onChangeExpName = (value: string) => {
-    setValue(value);
+  // const onChangeExpName = (value: string) => {
+  //   setValue(value);
+  //   setExpName(value);
+
+  //   props.setSREdata({ ...{ ...props.SREdata }, experiment_name: value });
+  //   sessionStorage.setItem('Experiment Name', value);
+  // };
+
+  const handleInputChange = (_event, value) => {
     setExpName(value);
 
-    props.setSREdata({ ...{ ...props.SREdata }, experiment_name: value });
-    sessionStorage.setItem('Experiment Name', value);
+    const isValid = /^[a-zA-Z0-9_*-|]+$/.test(value);
+
+    if (isValid) {
+      // Validate the input length
+      if (value.length > 3) {
+        setValidationStatus(ValidatedOptions.success);
+      } else {
+        setValidationStatus(ValidatedOptions.error);
+      }
+    } else {
+      // Special character detected
+      setValidationStatus(ValidatedOptions.warning);
+    }
   };
 
   const handleClick = async () => {
@@ -104,7 +124,11 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         </TextContent>
         <Grid hasGutter component="ul">
           <GridItem span={3} component="li">
-            <FormSelect value={usecase} onChange={(_event, value: string) => onChange(value)} aria-label="FormSelect Input">
+            <FormSelect
+              value={usecase}
+              onChange={(_event, value: string) => onChange(value)}
+              aria-label="FormSelect Input"
+            >
               {options.map((option, index) => (
                 <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
               ))}
@@ -130,14 +154,30 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                 <Text component={TextVariants.h3}>Experiment Name</Text>
               </TextContent>
               <GridItem span={4} component="li">
-                <FormSelect
+                <TextInput
+                  isRequired
+                  value={expName}
+                  validated={validationStatus}
+                  type="text"
+                  onChange={handleInputChange}
+                  aria-label="text input example"
+                />
+                {validationStatus === ValidatedOptions.error && (
+                  <div style={{ color: 'red' }}>Input must be more than 3 characters</div>
+                )}
+                {validationStatus === ValidatedOptions.warning && (
+                  <div style={{ color: 'yellow' }}>
+                    Invalid character detected. Only letters, numbers, and '*' are allowed.
+                  </div>
+                )}
+                {/* <FormSelect
                   value={expName}
                   onChange={(_event, value: string) => onChangeExpName(value)}
                   aria-label="FormSelect Input"
                 >
                   {expData != null &&
                     expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
-                </FormSelect>
+                </FormSelect> */}
               </GridItem>
               <GridItem span={10}></GridItem>
               <GridItem span={3} component="li">
