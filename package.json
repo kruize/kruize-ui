@@ -102,7 +102,7 @@
     "@patternfly/react-icons": "^5.0.1",
     "@patternfly/react-styles": "^5.0.1",
     "@patternfly/react-table": "^5.0.1 ",
-    "@storybook/builder-webpack5": "^6.2.9",
+    "@storybook/builder-webpack5": "^7.6.4",
     "@types/minipass": "^3.3.5",
     "algebra.js": "^0.2.6",
     "axios": "^1.5.1",
