@@ -284,9 +284,12 @@ const[clickedExpName, setClickedExpName] = useState<any | null>('');
 
                   {isButtonClicked &&   expName &&     
                   <>
-                { visibleItems.map((experiment_name, index) => <Button key={index} variant="link" isInline onClick={() => handleClick(experiment_name)}>
+                  <List>
+                { 
+                visibleItems.map((experiment_name, index) => <ListItem><Button key={index} variant="link" isInline onClick={() => handleClick(experiment_name)}>
                   {experiment_name}
-                </Button> )}
+                </Button> </ListItem> )}
+                </List>
                 <Pagination
                     itemCount={expData.length}
                     perPage={perPage}
