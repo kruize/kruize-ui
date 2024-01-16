@@ -97,7 +97,7 @@ const HorizontalNav = () => {
 
                 <div>
                   <br />
-                  <label>Kruize URL : http://{k_url}</label>
+                  <label id="kruize-url">Kruize URL: http://{k_url}</label>
                 </div>
               </div>
             }

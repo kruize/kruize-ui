@@ -104,7 +104,12 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         </TextContent>
         <Grid hasGutter component="ul">
           <GridItem span={3} component="li">
-            <FormSelect value={usecase} onChange={(_event, value: string) => onChange(value)} aria-label="FormSelect Input">
+            <FormSelect
+              id="usecase-selection"
+              value={usecase}
+              onChange={(_event, value: string) => onChange(value)}
+              aria-label="FormSelect Input"
+            >
               {options.map((option, index) => (
                 <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
               ))}
@@ -114,6 +119,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
           <GridItem span={3} component="li">
             {usecase === 'Monitoring' && (
               <FormSelect
+                id="local-or-remote"
                 value={nestedUsecase}
                 onChange={(_event, value: string) => onNestedChange(value)}
                 aria-label="FormSelect Input"
@@ -131,20 +137,27 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
               </TextContent>
               <GridItem span={4} component="li">
                 <FormSelect
+                  id="exp-name-select"
                   value={expName}
                   onChange={(_event, value: string) => onChangeExpName(value)}
                   aria-label="FormSelect Input"
                 >
                   {expData != null &&
-                    expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
+                    expData.map((option, index) => (
+                      <FormSelectOption id="exp_name_option" key={index} value={option} label={option} />
+                    ))}
                 </FormSelect>
               </GridItem>
-              <GridItem span={10}></GridItem>
-              <GridItem span={3} component="li">
-                <Button variant="primary" onClick={handleClick}>
-                  Get Recommendations
-                </Button>
-              </GridItem>
+              {expName && (
+                <>
+                  <GridItem span={10}></GridItem>
+                  <GridItem span={3} component="li">
+                    <Button id="get-recommendations" variant="primary" onClick={handleClick}>
+                      Get Recommendations
+                    </Button>
+                  </GridItem>
+                </>
+              )}
             </>
           )}
         </Grid>
