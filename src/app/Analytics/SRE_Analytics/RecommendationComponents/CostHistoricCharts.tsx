@@ -1,7 +1,7 @@
 import React from 'react';
 import { Chart, ChartAxis, ChartGroup, ChartLine, ChartVoronoiContainer } from '@patternfly/react-charts';
-import { formatTimestamps, filterDataByTerm, formatNumber } from './ChatDataPreparation';
-import { Grid, GridItem, Split, SplitItem } from '@patternfly/react-core';
+import { formatTimestamps, filterDataByTerm, formatNumber } from './ChartDataPreparation';
+import { Grid, GridItem } from '@patternfly/react-core';
 
 const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const termFilteredData = filterDataByTerm(props.chartData, props.endtime, props.day);

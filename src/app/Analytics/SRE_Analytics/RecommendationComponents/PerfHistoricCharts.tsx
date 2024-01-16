@@ -1,6 +1,6 @@
 import React from 'react';
 import { Chart, ChartAxis, ChartGroup, ChartLine, ChartVoronoiContainer } from '@patternfly/react-charts';
-import { formatTimestamps, filterDataByTerm, formatNumber } from './ChatDataPreparation';
+import { formatTimestamps, filterDataByTerm, formatNumber } from './ChartDataPreparation';
 import { Grid, GridItem, Split, SplitItem } from '@patternfly/react-core';
 
 const PerfHistoricCharts = (props: { chartData; day; endtime }) => {

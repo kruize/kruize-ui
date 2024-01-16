@@ -3,3 +3,7 @@ node_modules/
 
 # Distribution directories
 dist/
+
+#jest coverage file
+/coverage
+

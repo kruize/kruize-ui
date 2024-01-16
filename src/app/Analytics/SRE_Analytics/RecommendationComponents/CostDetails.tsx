@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { CostHistoricCharts } from './CostHistoricCharts';
-import { addPlusSign } from './ChatDataPreparation';
+import { addPlusSign } from './ChartDataPreparation';
 
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
   // console.log(props.recommendedData[0].recommendation_engines);
