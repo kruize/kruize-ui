@@ -7,31 +7,62 @@ import {
   Button,
   Text,
   Grid,
-  GridItem
+  GridItem,
+  TextInput,
+  ValidatedOptions,
+  List,
+  ListItem,
+  HelperText,
+  HelperTextItem,
+  Form,
+  FormGroup,
+  FormHelperText,
+  Pagination
 } from '@patternfly/react-core';
-import React, { useState } from 'react';
-import { getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
+import React, { useEffect, useState } from 'react';
+import {
+  getListExperimentsURLWithParams,
+  getRecommendationsURL,
+  getRecommendationsURLWithParams
+} from '@app/CentralConfig';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; switchTab }) => {
-  const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
-  const list_experiment_url: string = getListExperimentsURL();
+  // const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
+
 
   const [usecase, setUsecase] = useState('Select one');
   const [nestedUsecase, setNestedUsecase] = useState('Select nested');
-  const [value, setValue] = useState('');
   const [expName, setExpName] = useState<any | null>('');
   const [expData, setExpData] = useState([]);
+  const [validationStatus, setValidationStatus] = useState(ValidatedOptions.default);
+  const [validationMessage, setValidationMessage] = useState('');
+const[clickedExpName, setClickedExpName] = useState<any | null>('');
 
-  const fetchData = async () => {
-    const response = await fetch(list_experiment_url);
-    const data = await response.json();
-    const arr: any = ['Select Experiment Name'];
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
-    data.map((element, index) => {
-      arr.push(element.experiment_name);
-    });
-    setExpData(arr.sort());
+  // const list_recommendations_url: string = getRecommendationsURLWithParams(clickedExpName, 'false');
+
+  const list_experiments_url: string = getListExperimentsURLWithParams(props.SREdata.experiment_name);
+
+  const [page, setPage] = React.useState(1);
+  const [perPage, setPerPage] = React.useState(20);
+  const onSetPage = (_event: React.MouseEvent | React.KeyboardEvent | MouseEvent, newPage: number) => {
+    setPage(newPage);
   };
+
+  const onPerPageSelect = (
+    _event: React.MouseEvent | React.KeyboardEvent | MouseEvent,
+    newPerPage: number,
+    newPage: number
+  ) => {
+    setPerPage(newPerPage);
+    setPage(newPage);
+  };
+  const startIndex = (page - 1) * perPage;
+  const endIndex = Math.min(startIndex + perPage, expData.length);
+
+  // Get the items to display on the current page
+  const visibleItems = expData.slice(startIndex, endIndex);
 
   const options = [
     { id: '1', value: 'please choose', label: 'Select one', disabled: false },
@@ -44,27 +75,75 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     { id: '2', optionsid: '2', value: 'Remote', label: 'Remote' }
     //{ id: '3', optionsid: '2', value: 'Local', label: 'Local' }
   ];
+
+
+
   const onChange = (value: string) => {
     setUsecase(value);
   };
 
   const onNestedChange = (value: string) => {
     setNestedUsecase(value);
-    fetchData();
+    // fetchData();
   };
 
-  const onChangeExpName = (value: string) => {
-    setValue(value);
+  // const onChangeExpName = (value: string) => {
+  //   setValue(value);
+  //   setExpName(value);
+
+  // };
+
+  const handleInputChange = (_event, value) => {
     setExpName(value);
-
     props.setSREdata({ ...{ ...props.SREdata }, experiment_name: value });
-    sessionStorage.setItem('Experiment Name', value);
+
+
+    const isValid = /^[a-zA-Z0-9_*-|]+$/.test(value);
+
+    if (value.length > 3) {
+      // Validate the input length
+      if (isValid) {
+        setValidationStatus(ValidatedOptions.default);
+        setValidationMessage('')
+      } else {
+        setValidationStatus(ValidatedOptions.error);
+        setValidationMessage("Invalid character detected. Only letters, numbers, and '*' are allowed")
+      }
+    } else {
+      // Special character detected
+      setValidationStatus(ValidatedOptions.error);
+      setValidationMessage("Input must be more than 3 characters")
+
+    }
   };
 
-  const handleClick = async () => {
+  const fetchData = async () => {
+   try{ const response = await fetch(list_experiments_url);
+    const data = await response.json();
+    setExpData(data.experimentNames)
+    setIsButtonClicked(true);
+    // const arr: any = ['Select Experiment Name'];
+
+    // data.map((element, index) => {
+    //   arr.push(element.experiment_name);
+    // });
+    // setExpData(arr.sort());
+   }
+   catch {
+    console.log("exp name unavaliable")
+   }
+  };
+
+  const handleClick = async (experiment_name : string) => {
     try {
-      props.switchTab(1);
+      setClickedExpName(experiment_name)
+  
+  props.setSREdata({ ...{ ...props.SREdata }, experiment_name: experiment_name });
+  sessionStorage.setItem('Experiment Name', experiment_name);
+  const list_recommendations_url: string =  getRecommendationsURLWithParams(experiment_name, 'false')
+       props.switchTab(1);
       const data = await (await fetch(list_recommendations_url)).json();
+      console.log(data)
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
@@ -102,16 +181,38 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         <TextContent>
           <Text component={TextVariants.h3}>UseCase Selection</Text>
         </TextContent>
-        <Grid hasGutter component="ul">
-          <GridItem span={3} component="li">
-            <FormSelect value={usecase} onChange={(_event, value: string) => onChange(value)} aria-label="FormSelect Input">
+        <Form>
+      <FormGroup
+       label="Usecase Selection"
+        isRequired
+        fieldId="simple-form-name-01"
+
+        >
+          <FormSelect
+              value={usecase}
+              onChange={(_event, value: string) => onChange(value)}
+              aria-label="FormSelect Input"
+            >
               {options.map((option, index) => (
                 <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
               ))}
             </FormSelect>
-          </GridItem>
-          <GridItem span={3}></GridItem>
-          <GridItem span={3} component="li">
+          </FormGroup>
+          
+        {/* <Grid hasGutter component="ul">
+          <GridItem span={3} component="li"> */}
+            {/* <FormSelect
+              value={usecase}
+              onChange={(_event, value: string) => onChange(value)}
+              aria-label="FormSelect Input"
+            >
+              {options.map((option, index) => (
+                <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
+              ))}
+            </FormSelect> */}
+          {/* </GridItem> */}
+          {/* <GridItem span={3}></GridItem> */}
+          {/* <GridItem span={3} component="li"> */}
             {usecase === 'Monitoring' && (
               <FormSelect
                 value={nestedUsecase}
@@ -123,31 +224,93 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                 ))}
               </FormSelect>
             )}
-          </GridItem>
+          {/* </GridItem> */}
           {usecase === 'Monitoring' && nestedUsecase === 'Remote' && (
             <>
-              <TextContent>
+              {/* <TextContent>
                 <Text component={TextVariants.h3}>Experiment Name</Text>
-              </TextContent>
-              <GridItem span={4} component="li">
-                <FormSelect
+              </TextContent> */}
+
+              <FormGroup
+       label="Experiment name"
+        isRequired
+        fieldId="simple-form-name-02"
+
+        >
+              {/* <GridItem span={4} component="li"> */}
+                <TextInput
+                  isRequired
+                  value={expName}
+                  validated={validationStatus}
+                  type="text"
+                  onChange={handleInputChange}
+                  aria-label="text input example"
+                /> <FormHelperText>
+                <HelperText>
+                  <HelperTextItem>Input must be more than 3 characters</HelperTextItem>
+                </HelperText>
+              </FormHelperText>
+              </FormGroup>
+                {/* {validationStatus === ValidatedOptions.error && (
+                  <HelperText>
+                  <HelperTextItem variant="error">
+                  {validationMessage}
+                  </HelperTextItem>
+                </HelperText>  
+                         
+                )} */}
+                {/* <FormSelect
                   value={expName}
                   onChange={(_event, value: string) => onChangeExpName(value)}
                   aria-label="FormSelect Input"
                 >
                   {expData != null &&
                     expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
-                </FormSelect>
-              </GridItem>
-              <GridItem span={10}></GridItem>
-              <GridItem span={3} component="li">
-                <Button variant="primary" onClick={handleClick}>
-                  Get Recommendations
+                </FormSelect> */}
+              {/* </GridItem> */}
+              </>
+              )}
+{/* <GridItem span={10}></GridItem> */}
+              {expName &&            
+              // <GridItem span={3} component="li">
+                <Button variant="primary" onClick={fetchData}>
+                  Get Experiments
                 </Button>
-              </GridItem>
-            </>
-          )}
-        </Grid>
+
+              // </GridItem>
+              
+}{console.log(props.SREdata.experiment_name)}
+              {/* <GridItem> */}
+
+                  {isButtonClicked &&   expName &&     
+                  <>
+                  <List>
+                { 
+                visibleItems.map((experiment_name, index) => <ListItem><Button key={index} variant="link" isInline onClick={() => handleClick(experiment_name)}>
+                  {experiment_name}
+                </Button> </ListItem> )}
+                </List>
+                <Pagination
+                    itemCount={expData.length}
+                    perPage={perPage}
+                    page={page}
+                    onSetPage={onSetPage}
+                    widgetId="top-example"
+                    onPerPageSelect={onPerPageSelect}
+                    ouiaId="PaginationTop"
+                  />
+                  </>}
+              {/* </GridItem>
+              <GridItem span={10}></GridItem>
+              <GridItem span={3} component="li"> */}
+                {/* <Button variant="primary" onClick={handleClick}>
+                  Get Recommendations
+                </Button> */}
+              {/* </GridItem> */}
+              
+              </Form>
+          
+        {/* </Grid> */}
       </Flex>
     </>
   );
