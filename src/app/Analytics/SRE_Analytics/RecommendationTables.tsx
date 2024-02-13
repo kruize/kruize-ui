@@ -9,12 +9,14 @@ import {
   Split,
   SplitItem,
   Stack,
-  StackItem
+  StackItem,
+  Card
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 import { TabSection } from './RecommendationComponents/TabSection';
 import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
+import BoxPlot from './RecommendationComponents/BoxPlot/BoxPlot';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
@@ -182,6 +184,11 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
               endtime={endtime}
               displayChart={displayChart}
             />
+          </StackItem>
+          <StackItem>
+          <Card>
+              <BoxPlot />
+            </Card>
           </StackItem>
         </Stack>
       </StackItem>

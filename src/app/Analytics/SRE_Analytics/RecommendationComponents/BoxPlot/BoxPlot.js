@@ -1,7 +1,7 @@
 import React from 'react';
 import { Chart, ChartAxis, ChartBoxPlot, ChartCursorFlyout, ChartCursorTooltip, ChartThemeColor, createContainer } from '@patternfly/react-charts';
 
-const BoxPlotJs = () => {
+const BoxPlot = () => {
   const baseStyles = {
     color: '#f0f0f0',
     fontFamily: 'RedHatText, Overpass, overpass, helvetica, arial, sans-serif',
@@ -110,4 +110,4 @@ const BoxPlotJs = () => {
       </div>
     );
   };
-export default BoxPlotJs;
+export default BoxPlot;
