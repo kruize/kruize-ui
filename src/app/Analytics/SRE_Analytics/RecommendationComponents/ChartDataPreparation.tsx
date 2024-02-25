@@ -27,6 +27,7 @@ export function formatTimestamps(timestampsData) {
   return formattedData;
 }
 
+
 export function formatNumber(input) {
   if (typeof input === 'number') {
     return parseFloat(input.toFixed(3)); // Format the number to 3 decimal places and convert to number
