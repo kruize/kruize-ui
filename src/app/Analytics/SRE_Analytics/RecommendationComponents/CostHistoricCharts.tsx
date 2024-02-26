@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Chart, ChartAxis, ChartGroup, ChartLine, ChartVoronoiContainer } from '@patternfly/react-charts';
 import { formatTimestamps, filterDataByTerm, formatNumber } from './ChartDataPreparation';
 import { Grid, GridItem } from '@patternfly/react-core';
@@ -10,7 +10,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const cpuChart = () => {
     const historicdata = Object.entries(timeStampFormattedData).map(([key, value]) => {
       const cpuAmount = formatNumber(
-        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config.requests.cpu.amount
+        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config?.requests?.cpu?.amount
       );
       const displayKey = props.day === 'short_term' ? key.split(' ')[1] : key.split(' ')[0];
       return {
@@ -22,6 +22,13 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
 
     const filteredhistoricdata = historicdata.filter((dataPoint) => typeof dataPoint.y === 'number');
 
+    const uniqueData = filteredhistoricdata.reduce((acc, current) => {
+      const existing = acc.find(item => item.x === current.x && item.y === current.y);
+      if (!existing) {
+        acc.push(current); // If it doesn't exist, then add it
+      }
+      return acc;
+    }, []);
     return (
       <div style={{ height: '250px', width: '600px' }}>
         <Chart
@@ -31,6 +38,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
             <ChartVoronoiContainer
               labels={({ datum }) => `${datum.name}: ${datum.y} : ${datum.x}`}
               constrainToVisibleArea
+              voronoiDimension="x"
             />
           }
           legendData={[{ name: 'CPU' }]}
@@ -57,7 +65,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
                 fontSize: 12,
                 margin: '50px 0',
                 paddingTop: '10px'
-              } // Add margin to adjust distance
+              } 
             }}
           />
           <ChartAxis
@@ -66,12 +74,12 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
             label="cores"
             tickFormat={(d) => formatNumber(d)}
             style={{
-              axisLabel: { padding: 60 } // Adjust the value to control the padding
+              axisLabel: { padding: 60 } 
             }}
           />
 
           <ChartGroup>
-            <ChartLine data={filteredhistoricdata} />
+            <ChartLine data={uniqueData} />
           </ChartGroup>
         </Chart>
       </div>
@@ -80,7 +88,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const memoryChart = () => {
     const historicdata = Object.entries(timeStampFormattedData).map(([key, value]) => {
       const memoryAmount = formatNumber(
-        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config.requests.memory.amount
+        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config?.requests?.memory?.amount
       );
       const displayKey = props.day === 'short_term' ? key.split(' ')[1] : key.split(' ')[0];
       return {
@@ -101,11 +109,12 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
             <ChartVoronoiContainer
               labels={({ datum }) => `${datum.name}: ${datum.y} : ${datum.x}`}
               constrainToVisibleArea
+              voronoiDimension="x"
             />
           }
+          legendPosition="right"
           legendData={[{ name: 'Memory' }]}
           legendOrientation="vertical"
-          legendPosition="right"
           height={250}
           name="Cost Memory Recommendations"
           domainPadding={{ y: [30, 25], x: [30, 25] }}
