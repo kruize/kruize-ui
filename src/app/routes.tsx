@@ -13,6 +13,7 @@ import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+import { LocalMonitoring } from './LocalMonitoring/LocalMonitoring';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -62,14 +63,14 @@ const routes: AppRouteConfig[] = [
         label: 'SRE View',
         path: '/analytics_sre',
         title: 'SRE View'
-      }
-      // {
-      //   component: UserAnalytics,
-      //   exact: true,
-      //   label: 'User View',
-      //   path: '/analytics_user',
-      //   title: 'User View'
-      // } Hiding the component from screen
+      },
+      {
+        component: LocalMonitoring,
+        exact: true,
+        label: 'Local Monitoring POC',
+        path: '/local_monitoring',
+        title: 'Local Monitoring'
+      } 
     ],
     menu: true
   },
