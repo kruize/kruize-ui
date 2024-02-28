@@ -30,7 +30,7 @@ import {
       const response = await fetch(list_datasources_url);
       const data = await response.json();
       setDatasourcesData(data);
-      console.log(data);
+      // console.log(data);
     };
    
    

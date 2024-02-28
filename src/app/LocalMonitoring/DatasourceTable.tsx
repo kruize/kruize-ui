@@ -1,4 +1,4 @@
-import { Button, OverflowMenu, OverflowMenuContent, OverflowMenuGroup, OverflowMenuItem } from "@patternfly/react-core";
+import { Button, OverflowMenu, OverflowMenuContent, OverflowMenuGroup, OverflowMenuItem, TextContent } from "@patternfly/react-core";
 import { Table, Thead, Tr, Th, Tbody, Td } from "@patternfly/react-table";
 import React, { useState } from "react";
 import ClusterData from './ImportMeta.json';
@@ -27,13 +27,15 @@ const DatasourceTable = (props: {fetchDatasourcesData}) => {
        // const data = await response.json();
        const data = ClusterData;
        setClusteGroupData(ClusterData);
-       console.log(data);
+    //    console.log(data);
       
      };
   
   
    return(
-       <React.Fragment>     
+       <React.Fragment>    
+        <TextContent> 
+        Data Sources Table</TextContent>
      <Table aria-label="Data Sources Table">
        <Thead>
          <Tr>
@@ -72,7 +74,11 @@ const DatasourceTable = (props: {fetchDatasourcesData}) => {
        </Tbody>
   
      </Table>
+     <br /> <br/>
+     {clusterGroupData ? <>
+      <TextContent> Cluster Groups Table </TextContent>
      <ClusterGroupTables clusterGroupData = {clusterGroupData}/>
+     </> : <></>}
    </React.Fragment>
    )
 

@@ -1,161 +1,166 @@
 {
-    "version": "1.0",
+  "version": "1.0",
+  "cluster_groups": {
     "cluster_group1": {
-      "cluster_group_name": "cluster_group1",
+    "cluster_group_name": "cluster_group1",
+    "clusters": {
       "cluster-one-division-bell": {
-        "cluster_name": "cluster-one-division-bell",
-        "default": {
-          "namespace": "default",
-          "daemonset": {
-            "type": "daemonset",
-            "workload_name": "",
-            "containers": [
-              {
-                "container_name": "tfb-server-0",
-                "container_image_name": "kruize/tfb-db:1.15"
-              },
-              {
-                "container_name": "tfb-server-1",
-                "container_image_name": "kruize/tfb-db:1.15"
-              }
-            ]
-          },
-          "deployment": {},
-          "replicaset": {},
-          "statefulset": {}
+      "cluster_name": "cluster-one-division-bell",
+      "default": {
+        "namespace": "default",
+        "daemonset": {
+          "type": "daemonset",
+          "workload_name": "",
+          "containers": [
+            {
+              "container_name": "tfb-server-0",
+              "container_image_name": "kruize/tfb-db:1.15"
+            },
+            {
+              "container_name": "tfb-server-1",
+              "container_image_name": "kruize/tfb-db:1.15"
+            }
+          ]
         },
-        "openshift-tuning": {
-          "namespace": "openshift-tuning",
-          "deployment": {
-            "type": "deployment",
-            "containers": [
-              {
-                "container_name": "kruize"
-              },
-              {
-                "container_name": "kruize-ui"
-              }
-            ]
-          },
-          "replicaset": {},
-          "statefulset": {}
-        }
+        "deployment": {},
+        "replicaset": {},
+        "statefulset": {}
       },
-      "cluster-two": {
-        "cluster_name": "cluster-two",
-        "default": {
-          "namespace": "default",
-          "deployment": {
-            "type": "deployment",
-            "containers": [
-              {
-                "container_name": "tfb-server-0"
-              },
-              {
-                "container_name": "tfb-server-1"
-              }
-            ]
-          },
-          "replicaset": {},
-          "statefulset": {}
-        }
-      },
-      "cluster-three": {
-        "cluster_name": "cluster-three",
-        "default": {
-          "namespace": "default",
-          "deployment": {
-            "type": "deployment",
-            "containers": [
-              {
-                "container_name": "tfb-server-0"
-              },
-              {
-                "container_name": "tfb-server-1"
-              }
-            ]
-          },
-          "replicaset": {},
-          "statefulset": {}
-        }
+      "openshift-tuning": {
+        "namespace": "openshift-tuning",
+        "deployment": {
+          "type": "deployment",
+          "containers": [
+            {
+              "container_name": "kruize"
+            },
+            {
+              "container_name": "kruize-ui"
+            }
+          ]
+        },
+        "replicaset": {},
+        "statefulset": {}
       }
     },
-    "cluster_group2": {
-      "cluster_group_name": "cluster_group2",
-      "cluster-one-division-bell": {
-        "cluster_name": "cluster-one-division-bell",
-        "default": {
-          "namespace": "default",
-          "daemonset": {
-            "type": "daemonset",
-            "containers": [
-              {
-                "container_name": "tfb-server-0"
-              },
-              {
-                "container_name": "tfb-server-1"
-              }
-            ]
-          },
-          "deployment": {},
-          "replicaset": {},
-          "statefulset": {}
-        },
-        "openshift-tuning": {
-          "namespace": "openshift-tuning",
-          "deployment": {
-            "type": "deployment",
-            "containers": [
-              {
-                "container_name": "kruize"
-              },
-              {
-                "container_name": "kruize-ui"
-              }
-            ]
-          },
-          "replicaset": {},
-          "statefulset": {}
-        }
-      },
       "cluster-two": {
-        "cluster_name": "cluster-two",
-        "default": {
-          "namespace": "default",
-          "deployment": {
-            "type": "deployment",
-            "containers": [
-              {
-                "container_name": "tfb-server-0"
-              },
-              {
-                "container_name": "tfb-server-1"
-              }
-            ]
-          },
-          "replicaset": {},
-          "statefulset": {}
-        }
-      },
+      "cluster_name": "cluster-two",
+      "default": {
+        "namespace": "default",
+        "deployment": {
+          "type": "deployment",
+          "containers": [
+            {
+              "container_name": "tfb-server-0"
+            },
+            {
+              "container_name": "tfb-server-1"
+            }
+          ]
+        },
+        "replicaset": {},
+        "statefulset": {}
+      }
+    },
       "cluster-three": {
-        "cluster_name": "cluster-three",
-        "default": {
-          "namespace": "default",
-          "deployment": {
-            "type": "deployment",
-            "containers": [
-              {
-                "container_name": "tfb-server-0"
-              },
-              {
-                "container_name": "tfb-server-1"
-              }
-            ]
-          },
-          "replicaset": {},
-          "statefulset": {}
-        }
+      "cluster_name": "cluster-three",
+      "default": {
+        "namespace": "default",
+        "deployment": {
+          "type": "deployment",
+          "containers": [
+            {
+              "container_name": "tfb-server-0"
+            },
+            {
+              "container_name": "tfb-server-1"
+            }
+          ]
+        },
+        "replicaset": {},
+        "statefulset": {}
       }
     }
+      }
+  },
+    "cluster_group2": {
+    "cluster_group_name": "cluster_group2",
+    "clusters": {
+    "cluster-one-division-bell": {
+      "cluster_name": "cluster-one-division-bell",
+      "default": {
+        "namespace": "default",
+        "daemonset": {
+          "type": "daemonset",
+          "containers": [
+            {
+              "container_name": "tfb-server-0"
+            },
+            {
+              "container_name": "tfb-server-1"
+            }
+          ]
+        },
+        "deployment": {},
+        "replicaset": {},
+        "statefulset": {}
+      },
+      "openshift-tuning": {
+        "namespace": "openshift-tuning",
+        "deployment": {
+          "type": "deployment",
+          "containers": [
+            {
+              "container_name": "kruize"
+            },
+            {
+              "container_name": "kruize-ui"
+            }
+          ]
+        },
+        "replicaset": {},
+        "statefulset": {}
+      }
+    },
+    "cluster-two": {
+      "cluster_name": "cluster-two",
+      "default": {
+        "namespace": "default",
+        "deployment": {
+          "type": "deployment",
+          "containers": [
+            {
+              "container_name": "tfb-server-0"
+            },
+            {
+              "container_name": "tfb-server-1"
+            }
+          ]
+        },
+        "replicaset": {},
+        "statefulset": {}
+      }
+    },
+    "cluster-three": {
+      "cluster_name": "cluster-three",
+      "default": {
+        "namespace": "default",
+        "deployment": {
+          "type": "deployment",
+          "containers": [
+            {
+              "container_name": "tfb-server-0"
+            },
+            {
+              "container_name": "tfb-server-1"
+            }
+          ]
+        },
+        "replicaset": {},
+        "statefulset": {}
+      }
+    }
+    }
   }
- 
+  }
+}
