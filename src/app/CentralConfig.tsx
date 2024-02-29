@@ -9,8 +9,9 @@ const getBaseUrl = () => {
     }
 }
 
+
 const getDatasourcesURL = () => {
-    return getBaseUrl() + '/api/kruize/v1/datasource';
+    return getBaseUrl() + '/listDataSources';
  } 
 
 const getRecommendationsURLWithParams = (experiment_name: string, latest: string) => {

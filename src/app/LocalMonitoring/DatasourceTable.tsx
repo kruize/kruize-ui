@@ -10,19 +10,19 @@ const DatasourceTable = (props: {fetchDatasourcesData}) => {
 
    const [clusterGroupData, setClusteGroupData] = useState<any>();
    const handleImportMetadata = async (dataSourceName) => {
-       // const payload = {
-       //   version: "v1.0",
-       //   datasource: dataSourceName
-       // };
+       const payload = {
+         version: "v1.0",
+         datasource: dataSourceName
+       };
 
 
-       // const response = await fetch('YOUR_API_ENDPOINT', {
-       // method: 'POST',
-       // headers: {
-       //   'Content-Type': 'application/json',
-       // },
-       // body: JSON.stringify(payload)
-       // });
+       const response = await fetch('YOUR_API_ENDPOINT', {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+       },
+       body: JSON.stringify(payload)
+       });
   
        // const data = await response.json();
        const data = ClusterData;

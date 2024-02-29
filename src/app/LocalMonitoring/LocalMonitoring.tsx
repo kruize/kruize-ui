@@ -14,8 +14,8 @@ import {
    const LocalMonitoring = () => {
     const [formSelectValue, setFormSelectValue] = useState('local-monitoring');
     const [datasourcesData, setDatasourcesData] = useState();
-    const list_datasources_url: string = 'https://mocki.io/v1/2d8a2843-ff1f-4162-b51f-4af7bb8cb286';
-    // const list_datasources_url: string = getDatasourcesURL();
+    // const list_datasources_url: string = 'https://mocki.io/v1/2d8a2843-ff1f-4162-b51f-4af7bb8cb286';
+    const list_datasources_url: string = getDatasourcesURL();
    
    
     const onChange = (_event: React.FormEvent<HTMLSelectElement>, value: string) => {

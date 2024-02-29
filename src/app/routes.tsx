@@ -14,6 +14,7 @@ import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 import { LocalMonitoring } from './LocalMonitoring/LocalMonitoring';
+import { ClusterDataTable } from './LocalMonitoring/ClusterDataTable';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -73,6 +74,19 @@ const routes: AppRouteConfig[] = [
       } 
     ],
     menu: true
+  },
+  {
+    label: 'Cluster Table',
+    routes: [
+      {
+        component: ClusterDataTable,
+        exact: true,
+        label: 'cluster data',
+        path: '/local_monitoring/cluster_data',
+        title: 'cluster data'
+      }
+    ],
+    menu: false
   },
   {
     label: 'Advanced User',

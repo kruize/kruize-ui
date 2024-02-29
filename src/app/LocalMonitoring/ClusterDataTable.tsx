@@ -2,7 +2,17 @@ import { TextContent, OverflowMenu, OverflowMenuContent, OverflowMenuGroup, Over
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useState } from 'react';
 
-const ClusterDataTable = (props: { clusterGroupData }) => {
+const ClusterDataTable = (props: {clusterSpecificData}) => {
+
+    const clusterSpecificData = props.clusterSpecificData;
+    // console.log(clusterSpecificData)
+    // const cluterData = Object.entries(clusterSpecificData).forEach([key,  => {
+    //     console.log(key)
+
+    //     return
+
+    // })
+    // console.log(cluterData)
     return(
         <React.Fragment>    
          <TextContent> Cluster Table</TextContent>
@@ -17,13 +27,30 @@ const ClusterDataTable = (props: { clusterGroupData }) => {
           </Tr>
         </Thead>
    <Tbody>
-          {props.fetchDatasourcesData.datasources.map((source, index) => (
+          {/* {clusterSpecificData && Object.keys(clusterSpecificData).map((clusterName, index) => (
+            console.log(clusterName)
+            console.log(source)
             <Tr key={index}>
-              <Td dataLabel="Cluster Name">{source.name}</Td>
-              <Td dataLabel="Namespace">{source.provider}</Td>
-              <Td dataLabel="Workloads">{source.serviceName}</Td>
-              <Td dataLabel="Containers">{source.namespace}</Td>
-              <Td isActionCell>
+              <Td dataLabel="Cluster Name">{clusterName}</Td>
+           {   Object.values(source.namespaces).map((namespace : any) => (
+            <React.Fragment key={namespace.namespace}>
+            <Td dataLabel="Namespace">{namespace.namespace}</Td>
+           
+           { Object.values(namespace.workloads).map((workload : any) => (
+            <React.Fragment key={workload.workload_name}>
+                <Td dataLabel="Workloads">{workload.workload_name}</Td>
+
+            {
+                Object.values(workload.containers).map((container : any) => (
+                    <React.Fragment key={container.container_name}>
+                    <Td dataLabel="Containers">{container.container_name}</Td>
+
+                    </React.Fragment>   ))}
+                </React.Fragment>  ))}
+              </React.Fragment>))}
+              </Tr>
+          ))} */}
+              {/* <Td isActionCell>
               <OverflowMenu breakpoint="lg">
                   <OverflowMenuContent>
                     <OverflowMenuGroup groupType="button">
@@ -36,9 +63,8 @@ const ClusterDataTable = (props: { clusterGroupData }) => {
                       </OverflowMenuGroup>
                       </OverflowMenuContent>
                       </OverflowMenu>
-              </Td>
-            </Tr>
-          ))}
+              </Td> */}
+           
         </Tbody>
       </Table>
     </React.Fragment>
