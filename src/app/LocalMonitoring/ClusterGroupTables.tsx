@@ -22,6 +22,8 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
   const clusterDataFunction = (clusterGroupName: string, clusterName: string) => {
     const clusterSpec = clusterGroupsData.cluster_groups[clusterGroupName].clusters[clusterName];
     setClusterSpecificData(clusterSpec);
+    // console.log(clusterGroupsData.cluster_groups[clusterGroupName])
+    console.log(clusterSpec)
     setShowComponent(true);
   };
 

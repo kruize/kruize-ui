@@ -1,21 +1,27 @@
-import { TextContent, OverflowMenu, OverflowMenuContent, OverflowMenuGroup, OverflowMenuItem, Button } from '@patternfly/react-core';
+import {
+  TextContent,
+  OverflowMenu,
+  OverflowMenuContent,
+  OverflowMenuGroup,
+  OverflowMenuItem,
+  Button
+} from '@patternfly/react-core';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useState } from 'react';
 
-const ClusterDataTable = (props: {clusterSpecificData}) => {
+const ClusterDataTable = (props: { clusterSpecificData }) => {
+  const clusterSpecificData = props.clusterSpecificData;
+  // console.log(clusterSpecificData)
+  // const cluterData = Object.entries(clusterSpecificData).forEach([key,  => {
+  //     console.log(key)
 
-    const clusterSpecificData = props.clusterSpecificData;
-    // console.log(clusterSpecificData)
-    // const cluterData = Object.entries(clusterSpecificData).forEach([key,  => {
-    //     console.log(key)
+  //     return
 
-    //     return
-
-    // })
-    // console.log(cluterData)
-    return(
-        <React.Fragment>    
-         <TextContent> Cluster Table</TextContent>
+  // })
+  // console.log(cluterData)
+  return (
+    <React.Fragment>
+      <TextContent> Cluster Table</TextContent>
       <Table aria-label="Cluster Table">
         <Thead>
           <Tr>
@@ -26,13 +32,17 @@ const ClusterDataTable = (props: {clusterSpecificData}) => {
             <Th>Actions</Th>
           </Tr>
         </Thead>
-   <Tbody>
-          {/* {clusterSpecificData && Object.keys(clusterSpecificData).map((clusterName, index) => (
-            console.log(clusterName)
-            console.log(source)
-            <Tr key={index}>
-              <Td dataLabel="Cluster Name">{clusterName}</Td>
-           {   Object.values(source.namespaces).map((namespace : any) => (
+        <Tbody>
+          {/* {clusterSpecificData &&
+            Object.keys(clusterSpecificData).map((clusterName, index) => (
+              // console.log(clusterName)
+              // console.log(source)
+              <Tr key={index}>
+                <Td dataLabel="Cluster Name">{clusterSpecificData[clusterName]}</Td>
+              </Tr>
+            ))} */}
+
+          {/*  {   Object.values(source.namespaces).map((namespace : any) => (
             <React.Fragment key={namespace.namespace}>
             <Td dataLabel="Namespace">{namespace.namespace}</Td>
            
@@ -50,7 +60,7 @@ const ClusterDataTable = (props: {clusterSpecificData}) => {
               </React.Fragment>))}
               </Tr>
           ))} */}
-              {/* <Td isActionCell>
+          {/* <Td isActionCell>
               <OverflowMenu breakpoint="lg">
                   <OverflowMenuContent>
                     <OverflowMenuGroup groupType="button">
@@ -64,11 +74,10 @@ const ClusterDataTable = (props: {clusterSpecificData}) => {
                       </OverflowMenuContent>
                       </OverflowMenu>
               </Td> */}
-           
         </Tbody>
       </Table>
     </React.Fragment>
-    )
+  );
 };
 
 export { ClusterDataTable };

@@ -3,20 +3,22 @@ import { Table, Thead, Tr, Th, Tbody, Td } from "@patternfly/react-table";
 import React, { useState } from "react";
 import ClusterData from './ImportMeta.json';
 import { ClusterGroupTables } from "./ClusterGroupTables";
+import { importDataSourcesMetadataURL } from "@app/CentralConfig";
 
 
 const DatasourceTable = (props: {fetchDatasourcesData}) => {
 
-
    const [clusterGroupData, setClusteGroupData] = useState<any>();
-   const handleImportMetadata = async (dataSourceName) => {
+
+   const handleImportMetadata = async (dataSourceName :string) => {
+    console.log(dataSourceName)
        const payload = {
-         version: "v1.0",
-         datasource: dataSourceName
+         "version": "v1.0",
+         "datasource_name": dataSourceName
        };
+      //  const list_datasources_url: string = importDataSourcesMetadataURL();
 
-
-       const response = await fetch('YOUR_API_ENDPOINT', {
+       const response = await fetch(importDataSourcesMetadataURL(), {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json',
@@ -24,10 +26,9 @@ const DatasourceTable = (props: {fetchDatasourcesData}) => {
        body: JSON.stringify(payload)
        });
   
-       // const data = await response.json();
-       const data = ClusterData;
-       setClusteGroupData(ClusterData);
-    //    console.log(data);
+       const data = await response.json();
+       setClusteGroupData(data);
+      //  console.log(data);
       
      };
   
