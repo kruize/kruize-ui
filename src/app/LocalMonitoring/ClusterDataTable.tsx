@@ -4,12 +4,19 @@ import {
   OverflowMenuContent,
   OverflowMenuGroup,
   OverflowMenuItem,
-  Button
+  Button,
+  CodeBlockAction,
+  ClipboardCopyButton,
+  CodeBlock,
+  CodeBlockCode
 } from '@patternfly/react-core';
+import { PlayIcon } from '@patternfly/react-icons';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useState } from 'react';
 
 const ClusterDataTable = (props: { clusterSpecificData }) => {
+
+
   const clusterSpecificData = props.clusterSpecificData;
   // console.log(clusterSpecificData)
   // const cluterData = Object.entries(clusterSpecificData).forEach([key,  => {
@@ -33,15 +40,25 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {/* {clusterSpecificData &&
-            Object.keys(clusterSpecificData).map((clusterName, index) => (
-              // console.log(clusterName)
-              // console.log(source)
-              <Tr key={index}>
-                <Td dataLabel="Cluster Name">{clusterSpecificData[clusterName]}</Td>
-              </Tr>
-            ))} */}
-
+  {/* {clusterSpecificData && Object.keys(clusterSpecificData).map((clusterGroupName, index) => (
+    Object.keys(clusterSpecificData[clusterGroupName].clusters).map((clusterName, clusterIndex) => (
+      Object.values(clusterSpecificData[clusterGroupName].clusters[clusterName].namespaces).map((namespace: any) => (
+        <Tr key={`${index}-${clusterIndex}-${namespace.namespace}`}>
+          <Td dataLabel="Cluster Group Name">{clusterGroupName}</Td>
+          <Td dataLabel="Cluster Name">{clusterName}</Td>
+          <Td dataLabel="Namespace">{namespace.namespace}</Td>
+          {Object.values(namespace.workloads).map((workload: any, workloadIndex) => (
+            <React.Fragment key={`${index}-${clusterIndex}-${namespace.namespace}-${workloadIndex}`}>
+              <Td dataLabel="Workload Name">{workload.workload_name}</Td>
+              {Object.values(workload.containers).map((container: any, containerIndex) => (
+                <Td key={`${index}-${clusterIndex}-${namespace.namespace}-${workloadIndex}-${containerIndex}`} dataLabel="Container Name">{container.container_name}</Td>
+              ))}
+            </React.Fragment>
+          ))}
+        </Tr>
+      ))
+    ))
+  ))} */}
           {/*  {   Object.values(source.namespaces).map((namespace : any) => (
             <React.Fragment key={namespace.namespace}>
             <Td dataLabel="Namespace">{namespace.namespace}</Td>
