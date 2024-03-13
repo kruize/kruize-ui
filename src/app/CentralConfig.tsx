@@ -10,11 +10,15 @@ const getBaseUrl = () => {
 }
 
 const getDatasourcesURL = () => {
-    return getBaseUrl() + '/listDataSources';
+    return getBaseUrl() + '/datasources';
 }
 
 const importDataSourcesMetadataURL = () => {
-    return getBaseUrl() + '/importDataSourceMetadata' ;
+    return getBaseUrl() + '/dsmetadata' ;
+}
+
+const getMetaDataURL = (datasource_name : string) => {
+    return getBaseUrl() + '/dsmetadata?datasource=' + datasource_name + '&verbose=true'
 }
 
 const getRecommendationsURLWithParams = (experiment_name: string, latest: string) => {
@@ -46,4 +50,4 @@ const getPort = () => {
     }
 }
 
-export { getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, importDataSourcesMetadataURL};
+export { getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, importDataSourcesMetadataURL, getMetaDataURL};
