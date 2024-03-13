@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { About } from '@app/About/About';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
-import { SREAnalytics } from '@app/Analytics/SRE_Analytics/SREAnalytics';
+import { RemoteMonitoring } from '@app/Analytics/RemoteMonitoring/RemoteMonitoring';
 import { UserAnalytics } from './Analytics/User_Analytics/UserAnalytics';
 import { ObjectiveFunction } from '@app/AdvancedUser/ObjectiveFunction';
 import { LayerDefination } from '@app/AdvancedUser/LayerDefination';
@@ -13,8 +13,8 @@ import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
-import { LocalMonitoring } from './LocalMonitoring/LocalMonitoring';
-import { ClusterDataTable } from './LocalMonitoring/ClusterDataTable';
+import { LocalMonitoring } from './Analytics/LocalMonitoring/LocalMonitoring';
+import { ClusterDataTable } from './Analytics/LocalMonitoring/ClusterDataTable';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -56,19 +56,19 @@ const routes: AppRouteConfig[] = [
     menu: false
   },
   {
-    label: 'Analytics',
+    label: 'SRE Analytics',
     routes: [
       {
-        component: SREAnalytics,
+        component: RemoteMonitoring,
         exact: true,
-        label: 'SRE View',
-        path: '/analytics_sre',
-        title: 'SRE View'
+        label: 'Remote Monitoring',
+        path: '/remote_monitoring',
+        title: 'Remote Monitoring'
       },
       {
         component: LocalMonitoring,
         exact: true,
-        label: 'Local Monitoring POC',
+        label: 'Local Monitoring',
         path: '/local_monitoring',
         title: 'Local Monitoring'
       } 
