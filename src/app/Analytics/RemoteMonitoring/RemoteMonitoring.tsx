@@ -23,7 +23,7 @@ const SREdataa = {
   containerArray: []
 };
 
-const SREAnalytics = () => {
+const RemoteMonitoring = () => {
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
   const [SREdata, setSREdata] = useState(SREdataa);
   const [endTimeArray, setEndTimeArray] = useState<any | null>(null);
@@ -42,8 +42,9 @@ const SREAnalytics = () => {
   return (
     <PageSection variant={PageSectionVariants.light}>
       <TextContent>
-        <Text component={TextVariants.h1}>Analytics - SRE View</Text>
+        <Text component={TextVariants.h1}>Remote Monitoring</Text>
       </TextContent>
+      <br />
       <Tabs
         isFilled
         activeKey={activeTabKey}
@@ -54,7 +55,7 @@ const SREAnalytics = () => {
       >
         <Tab
           eventKey={0}
-          title={<TabTitleText>UseCase Selections</TabTitleText>}
+          title={<TabTitleText>Experiment Selection</TabTitleText>}
           aria-label="Tabs filled example content users"
         >
           <UsecaseSelection
@@ -79,4 +80,4 @@ const SREAnalytics = () => {
   );
 };
 
-export { SREAnalytics };
+export { RemoteMonitoring };
