@@ -14,11 +14,19 @@ const getDatasourcesURL = () => {
 }
 
 const importDataSourcesMetadataURL = () => {
-    return getBaseUrl() + '/dsmetadata' ;
+    return getBaseUrl() + '/dsmetadata'; 
 }
 
-const getMetaDataURL = (datasource_name : string) => {
-    return getBaseUrl() + '/dsmetadata?datasource=' + datasource_name + '&verbose=true'
+const importCreateExperimentJsonURL = () =>{
+    return getBaseUrl() + '/createExperiment';
+}
+
+const getDatasourceMetadataURL = (datasource_name : string) => {
+    return getBaseUrl() + '/dsmetadata?datasource=' + datasource_name + '&verbose=false'
+}
+
+const getClusterMetadataURL = (datasource_name : string, cluster_name : string) => {
+    return getBaseUrl() + '/dsmetadata?datasource=' + datasource_name + '&cluster_name=' + cluster_name +  '&verbose=true' 
 }
 
 const getRecommendationsURLWithParams = (experiment_name: string, latest: string) => {
@@ -50,4 +58,5 @@ const getPort = () => {
     }
 }
 
-export { getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, importDataSourcesMetadataURL, getMetaDataURL};
+export { getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, 
+    importDataSourcesMetadataURL, getDatasourceMetadataURL, getClusterMetadataURL, importCreateExperimentJsonURL};
