@@ -99,54 +99,26 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     <>
       <br />
       <Flex direction={{ default: 'column' }}>
-        <TextContent>
-          <Text component={TextVariants.h3}>UseCase Selection</Text>
-        </TextContent>
         <Grid hasGutter component="ul">
-          <GridItem span={3} component="li">
-            <FormSelect value={usecase} onChange={(_event, value: string) => onChange(value)} aria-label="FormSelect Input">
-              {options.map((option, index) => (
-                <FormSelectOption isDisabled={option.disabled} key={index} value={option.value} label={option.label} />
-              ))}
+          <TextContent>
+            <Text component={TextVariants.h3}>Experiment Name</Text>
+          </TextContent>
+          <GridItem span={4} component="li">
+            <FormSelect
+              value={expName}
+              onChange={(_event, value: string) => onChangeExpName(value)}
+              aria-label="FormSelect Input"
+            >
+              {expData != null &&
+                expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
             </FormSelect>
           </GridItem>
-          <GridItem span={3}></GridItem>
+          <GridItem span={10}></GridItem>
           <GridItem span={3} component="li">
-            {usecase === 'Monitoring' && (
-              <FormSelect
-                value={nestedUsecase}
-                onChange={(_event, value: string) => onNestedChange(value)}
-                aria-label="FormSelect Input"
-              >
-                {options2.map((option, index) => (
-                  <FormSelectOption key={index} value={option.value} label={option.label} />
-                ))}
-              </FormSelect>
-            )}
+            <Button variant="primary" onClick={handleClick}>
+              Get Recommendations
+            </Button>
           </GridItem>
-          {usecase === 'Monitoring' && nestedUsecase === 'Remote' && (
-            <>
-              <TextContent>
-                <Text component={TextVariants.h3}>Experiment Name</Text>
-              </TextContent>
-              <GridItem span={4} component="li">
-                <FormSelect
-                  value={expName}
-                  onChange={(_event, value: string) => onChangeExpName(value)}
-                  aria-label="FormSelect Input"
-                >
-                  {expData != null &&
-                    expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
-                </FormSelect>
-              </GridItem>
-              <GridItem span={10}></GridItem>
-              <GridItem span={3} component="li">
-                <Button variant="primary" onClick={handleClick}>
-                  Get Recommendations
-                </Button>
-              </GridItem>
-            </>
-          )}
         </Grid>
       </Flex>
     </>

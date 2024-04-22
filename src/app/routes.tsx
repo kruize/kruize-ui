@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { About } from '@app/About/About';
 import { RunExperiment } from '@app/RunExperiment/RunExperiment';
-import { SREAnalytics } from '@app/Analytics/SRE_Analytics/SREAnalytics';
+import { RemoteMonitoring } from '@app/Analytics/RemoteMonitoring/RemoteMonitoring';
 import { UserAnalytics } from './Analytics/User_Analytics/UserAnalytics';
 import { ObjectiveFunction } from '@app/AdvancedUser/ObjectiveFunction';
 import { LayerDefination } from '@app/AdvancedUser/LayerDefination';
@@ -13,6 +13,10 @@ import { Glossary } from './Documentation/Glossary';
 import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+import { LocalMonitoring } from './Analytics/LocalMonitoring/LocalMonitoring';
+import { ClusterDataTable } from './Analytics/LocalMonitoring/ClusterDataTable';
+import { ClusterGroupTables } from './Analytics/LocalMonitoring/ClusterGroupTables';
+import { CreateExperiment } from './Analytics/LocalMonitoring/CreateExperiment';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -54,24 +58,64 @@ const routes: AppRouteConfig[] = [
     menu: false
   },
   {
-    label: 'Analytics',
+    label: 'SRE Analytics',
     routes: [
       {
-        component: SREAnalytics,
+        component: RemoteMonitoring,
         exact: true,
-        label: 'SRE View',
-        path: '/analytics_sre',
-        title: 'SRE View'
+        label: 'Remote Monitoring',
+        path: '/remote_monitoring',
+        title: 'Remote Monitoring'
+      },
+      {
+        component: LocalMonitoring,
+        exact: true,
+        label: 'Local Monitoring',
+        path: '/local_monitoring',
+        title: 'Local Monitoring'
       }
-      // {
-      //   component: UserAnalytics,
-      //   exact: true,
-      //   label: 'User View',
-      //   path: '/analytics_user',
-      //   title: 'User View'
-      // } Hiding the component from screen
     ],
     menu: true
+  },
+  // {
+  //   label: 'Cluster Table',
+  //   routes: [
+  //     {
+  //       component: ClusterDataTable,
+  //       exact: true,
+  //       label: 'cluster data',
+  //       path: '/local_monitoring/cluster_data',
+  //       title: 'cluster data'
+  //     }
+  //   ],
+  //   menu: false
+  // },
+  {
+    label: 'Datasources',
+    routes: [
+      {
+        component: ClusterGroupTables,
+        exact: true,
+        label: 'Cluster Group Tables',
+        path: '/datasources',
+        title: 'cluster group'
+      },
+      {
+        component: ClusterDataTable,
+        exact: true,
+        label: 'Cluster Details',
+        path: '/cluster',
+        title: 'cluster '
+      },
+      {
+        component: CreateExperiment,
+        exact: true,
+        label: 'Experiment create',
+        path: '/createexp',
+        title: 'createexp '
+      }
+    ],
+    menu: false
   },
   {
     label: 'Advanced User',

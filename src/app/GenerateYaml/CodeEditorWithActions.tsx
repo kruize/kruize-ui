@@ -108,6 +108,3 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
     </>
   );
 };
-// function UseState(arg0: boolean): [any, any] {
-//   throw new Error('Function not implemented.');
-// }

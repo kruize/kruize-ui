@@ -8,7 +8,7 @@
     "outDir": "dist",
     "module": "esnext",
     "target": "es2017",
-    "lib": ["es6","es5", "dom"],
+    "lib": ["ES2019","es6","es5", "dom"],
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
