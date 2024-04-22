@@ -1,0 +1,16 @@
+{
+    "cluster_name": "cluster-one-division-bell",
+    "kubernetes_objects": [
+        {
+            "type": "deployment",
+            "name": "tfb-qrh-deployment",
+            "namespace": "default",
+            "containers": [
+                {
+                    "container_image_name": "kruize/tfb-qrh:1.13.2.F_et17",
+                    "container_name": "tfb-server-1"
+                }
+            ]
+        }
+    ]
+}

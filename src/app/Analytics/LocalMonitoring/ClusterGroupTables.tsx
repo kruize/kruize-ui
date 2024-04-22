@@ -6,7 +6,7 @@ import { getDatasourceMetadataURL } from '@app/CentralConfig';
 import {Link} from 'react-router-dom';
 
 interface LocationState {
-  datasources: string; // Adjust the type according to the actual data you expect
+  datasources: string; 
 }
 
 const ClusterGroupTables = (props: { clusterGroupData }) => {
@@ -17,14 +17,12 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
   // fetching the ds name via react-router-dom
   const location = useLocation<LocationState>(); 
   const datasources = location.state?.datasources;
-  // console.log(datasources);
 
   // calling get api with parameter ds
   const fetchDatasources = async () => {
     const response = await fetch(getDatasourceMetadataURL(datasources));
     const data = await response.json();
     setDatasourcesData(data);
-    // console.log(data);
 
   };
 
@@ -41,7 +39,6 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
 
 
 
-  // console.log(datsourcesData?.cluster_groups)
   const cluster_row_data = Object.entries(datsourcesData?.cluster_groups || {}).flatMap(
     ([groupName, groupDetail]) => {
       const clusters = (groupDetail as any).clusters || {};
@@ -55,8 +52,6 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
   const clusterDataFunction = (clusterGroupName: string, clusterName: string) => {
     const clusterSpec = datasourcesData?.cluster_groups[clusterGroupName].clusters[clusterName];
     setClusterSpecificData(clusterSpec);
-    // console.log(clusterGroupsData.cluster_groups[clusterGroupName])
-    // console.log(clusterSpec)
     setShowComponent(true);
   };
 
@@ -92,7 +87,6 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
         </Table>
         <br />
         <br />
-        {/* {showComponent && <ClusterDataTable clusterSpecificData={clusterSpecificData}/>} */}
       </React.Fragment>
     </PageSection>
   );
