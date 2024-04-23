@@ -20,7 +20,7 @@ export default `[
         }
       ],
       "trial_settings": {
-        "measurement_duration": "60min"
+        "measurement_duration": "15min"
       },
       "recommendation_settings": {
         "threshold": "0.1"

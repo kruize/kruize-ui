@@ -32,9 +32,7 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
     setDatasourcesData(data);
 
   };
-
-
-
+  
   useEffect(() => {
     try {
       fetchDatasources();
@@ -42,9 +40,6 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
       console.log('Datasources get URL not working');
     }
   }, []);
-
-
-
 
   const cluster_row_data = Object.entries(datasourcesData?.datasources || {}).flatMap(
     ([groupName, groupDetail]) => {
@@ -55,14 +50,6 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
     }));
     }
   );
-
-  // const clusterDataFunction = (clusterGroupName: string, clusterName: string) => {
-  //   const clusterSpec = datasourcesData?.datasources[clusterGroupName].clusters[clusterName];
-  //   setClusterSpecificData(clusterSpec);
-  //   setShowComponent(true);
-  // };
-
-
 
   return (
     <PageSection variant={PageSectionVariants.light}>

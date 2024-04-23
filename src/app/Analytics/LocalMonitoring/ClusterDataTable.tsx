@@ -60,6 +60,7 @@ interface TableData {
   workloadType: string;
   clusterName: string;
   containerImageName: string;
+
 }
 
 const ClusterDataTable = (props: { clusterSpecificData }) => {
@@ -141,7 +142,7 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
               <Td dataLabel="Workload names">{row_data.workloadName}</Td>
               <Td dataLabel="Workload types">{row_data.workloadType}</Td>
               <Td dataLabel="Cluster names">{row_data.clusterName}</Td>
-              {/* <Td dataLabel="Container image names">{row_data.containerImageName}</Td> */}
+              {/* <Td dataLabel="DS name">{location.state.datasource}</Td> */}
               <Td isActionCell>
                 <OverflowMenu breakpoint="lg">
                   <OverflowMenuContent>

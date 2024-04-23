@@ -27,7 +27,7 @@ const CreateExperiment = (props: { clusterGroupData }) => {
     containerName: location.state?.containerName,
     clusterName: location.state?.clusterName,
     containerImageName: location.state?.containerImageName,
-    dataSourceName: location.state?.datasourceName
+    datasourceName: location.state?.datasourceName
   };
   const [data, setData] = useState(create_experiment_json_data);
 
