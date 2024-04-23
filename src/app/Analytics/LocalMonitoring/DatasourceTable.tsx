@@ -8,7 +8,7 @@ import {
   Text,
   TextVariants
 } from '@patternfly/react-core';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Table, Thead, Tr, Th, Tbody, Td, ExpandableRowContent } from '@patternfly/react-table';
 import React, { useState } from 'react';
 import { ClusterGroupTables } from './ClusterGroupTables';
@@ -73,17 +73,7 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
                   }}
                 />
                 <Td dataLabel="DataSource Name">
-                  <div>
-                    {clusterGroupData ? (
-                      
-                      <Link to={{
-                        pathname: '/datasources',
-                        state: {datasources: source.name}
-                      }}>{source.name}</Link>
-                    ) : (
-                      source.name
-                    )}
-                  </div>
+                  <div>{clusterGroupData ? source.name : source.name}</div>
                   {expandedRows[index] && (
                     <div style={{ paddingTop: '10px', fontSize: 'smaller' }}>
                       URL: {source.url} <br />
@@ -100,13 +90,20 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
                     <OverflowMenuContent>
                       <OverflowMenuGroup groupType="button">
                         <OverflowMenuItem>
-                          <Button
-                            variant="primary"
-                            isDisabled={buttonStatus}
-                            onClick={() => handleImportMetadata(source.name)}
+                          <Link
+                            to={{
+                              pathname: '/datasources',
+                              state: { datasources: source.name }
+                            }}
                           >
-                            Import Metadata
-                          </Button>
+                            <Button
+                              variant="primary"
+                              isDisabled={buttonStatus}
+                              onClick={() => handleImportMetadata(source.name)}
+                            >
+                              Import Metadata{' '}
+                            </Button>
+                          </Link>
                         </OverflowMenuItem>
                       </OverflowMenuGroup>
                     </OverflowMenuContent>

@@ -8,14 +8,9 @@ import {
   Toolbar,
   PageSectionVariants,
   ToolbarContent,
-  FormGroup,
-  Grid,
-  GridItem,
-  Button,
-  Icon
+  Button
 } from '@patternfly/react-core';
 import expyaml from './createExperimentYAML'
-import { SaveIcon, PencilAltIcon } from '@patternfly/react-icons';
 import { importCreateExperimentJsonURL } from '@app/CentralConfig';
 
 export const CodeEditorWithActions = (props: { data; setData }) => {
@@ -24,8 +19,6 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
     editor.focus();
     monaco.editor.getModels()[0].updateOptions({ tabSize: 5 });
   };
-  const [editing, setEditing] = useState(false);
-
   var obj = {
     subsitute_namespace: props.data.projectName,
     subsitute_experiment_name: props.data.exp_name,
@@ -33,13 +26,13 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
     subsitute_workload_type: props.data.workloadType,
     subsitute_workload_name: props.data.workloadName,
     subsitute_container_name: props.data.containerName,
-    subsitute_container_image: props.data.containerImageName
+    subsitute_container_image: props.data.containerImageName,
+    subsitute_datasource_name: props.data.datasourceName
    
   };
   const data = expyaml.toString();
-  // console.log(data)
   const data2 = data.replace(
-    /\b(subsitute_experiment_name|subsitute_container_image|subsitute_namespace|subsitute_cluster_name|subsitute_workload_name|subsitute_workload_type|subsitute_container_name)\b/gi,
+    /\b(subsitute_experiment_name|subsitute_container_image|subsitute_namespace|subsitute_cluster_name|subsitute_workload_name|subsitute_workload_type|subsitute_container_name|subsitute_datasource_name)\b/gi,
     function (matched) {
       return obj[matched];
     }
@@ -53,37 +46,10 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
     console.log(typeof(value));
   };
 
-  const formMode = () => {
-    return (
-      <FormGroup>
-        <Grid>
-          <GridItem span={1} rowSpan={1}>
-            {editing ? (
-              <Button variant="secondary" onClick={() => setEditing(false)}>
-                <Icon style={{ color: 'blue' }}>
-                  <SaveIcon /> &nbsp; Save
-                </Icon>
-              </Button>
-            ) : (
-              <Button variant="secondary" onClick={() => setEditing(true)}>
-                <PencilAltIcon color="blue" /> &nbsp; Edit
-              </Button>
-            )}
-          </GridItem>
-          <GridItem></GridItem>
-        </Grid>
-      </FormGroup>
-    );
-  };
-
   /// POST API call
 
   const handlePostExperimentJson = async (codeEditorData) => {
-    console.log(codeEditorData)
-    const payload =codeEditorData;
-    console.log("Sending data to API:", payload);
     let parsedPayload = JSON.parse(codeEditorData);
-    console.log(parsedPayload);
     try {
       const response = await fetch(importCreateExperimentJsonURL(), {
         method: 'POST',
@@ -118,13 +84,12 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
           </ToolbarContent>
         </Toolbar>
       </PageSection>
-      {formMode}
       <CodeEditor
         isLanguageLabelVisible
         isDarkTheme={true}
         code={data2}
         onChange={onChange}
-        language={Language.yaml}
+        // language={Language.yaml}
         onEditorDidMount={onEditorDidMount}
         height="sizeToFit"
         isReadOnly={false}

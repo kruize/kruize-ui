@@ -10,14 +10,12 @@ import {
   GridItem
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
-import { getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
+import { getListExperimentsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; switchTab }) => {
   const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
   const list_experiment_url: string = getListExperimentsURL();
 
-  const [usecase, setUsecase] = useState('Select one');
-  const [nestedUsecase, setNestedUsecase] = useState('Select nested');
   const [value, setValue] = useState('');
   const [expName, setExpName] = useState<any | null>('');
   const [expData, setExpData] = useState([]);
@@ -32,15 +30,11 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     });
     setExpData(arr.sort());
   };
-
   useEffect(() => {
-    try {
-      fetchData();
-    } catch {
-      console.log('list experiemnts not working');
-    }
+   fetchData();
   }, []);
-  
+
+
   const onChangeExpName = (value: string) => {
     setValue(value);
     setExpName(value);

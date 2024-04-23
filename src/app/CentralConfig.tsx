@@ -37,6 +37,9 @@ const getRecommendationsURL = () => {
     return getBaseUrl() + '/listRecommendations';
 }
 
+const getListExperimentsURLWithParams = (experiment_name: string) => {
+    return getBaseUrl() + '/listExperiments?experiment_name=' + experiment_name
+}
 
 const getListExperimentsURL = () => {
     return getBaseUrl() + '/listExperiments'
@@ -59,4 +62,4 @@ const getPort = () => {
 }
 
 export { getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, 
-    importDataSourcesMetadataURL, getDatasourceMetadataURL, getClusterMetadataURL, importCreateExperimentJsonURL};
+    importDataSourcesMetadataURL, getListExperimentsURLWithParams, getDatasourceMetadataURL, getClusterMetadataURL, importCreateExperimentJsonURL};
