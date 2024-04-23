@@ -42,7 +42,7 @@ const Monitoring = () => {
   return (
     <PageSection variant={PageSectionVariants.light}>
       <TextContent>
-        <Text component={TextVariants.h1}>Remote Monitoring</Text>
+        <Text component={TextVariants.h1}>Monitoring</Text>
       </TextContent>
       <br />
       <Tabs

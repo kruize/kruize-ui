@@ -3,10 +3,10 @@ import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getDatasourceMetadataURL } from '@app/CentralConfig';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface LocationState {
-  datasources: string; 
+  datasources: string;
 }
 
 const ClusterGroupTables = (props: { clusterGroupData }) => {
@@ -15,7 +15,7 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
   const [datsourcesData, setDatasourcesData] = useState([]);
 
   // fetching the ds name via react-router-dom
-  const location = useLocation<LocationState>(); 
+  const location = useLocation<LocationState>();
   const datasources = location.state?.datasources;
 
   // calling get api with parameter ds
@@ -41,11 +41,11 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
 
   const cluster_row_data = Object.entries(datsourcesData?.cluster_groups || {}).flatMap(
     ([groupName, groupDetail]) => {
-      const clusters = (groupDetail as any).clusters || {};
-      return Object.keys(clusters).map((clusterKey) => ({
-        groupName: groupName,
-        clusterName: clusters[clusterKey].cluster_name
-      }));
+    const clusters = (groupDetail as any).clusters || {};
+    return Object.keys(clusters).map((clusterKey) => ({
+      groupName: groupName,
+      clusterName: clusters[clusterKey].cluster_name
+    }));
     }
   );
 
@@ -68,22 +68,26 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
             </Tr>
           </Thead>
           <Tbody>
-          {cluster_row_data.map((row, index) => (
-            <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
-              <Td dataLabel="Cluster Group">{row.groupName}</Td>
-              <Td dataLabel="Cluster">
-                <Link to={{
-                        pathname: '/cluster',
-                        state: {
-                          datasource: datasources , 
-                          cluster: row.clusterName}
-                      }}>   {row.clusterName}
-                      </Link>
-                      
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
+            {cluster_row_data.map((row, index) => (
+              <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
+                <Td dataLabel="Cluster Group">{row.groupName}</Td>
+                <Td dataLabel="Cluster">
+                  <Link
+                    to={{
+                      pathname: '/cluster',
+                      state: {
+                        datasource: datasources,
+                        cluster: row.clusterName
+                      }
+                    }}
+                  >
+                    {' '}
+                    {row.clusterName}
+                  </Link>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
         </Table>
         <br />
         <br />

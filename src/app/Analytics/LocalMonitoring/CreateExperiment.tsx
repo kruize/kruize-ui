@@ -72,7 +72,7 @@ const CreateExperiment = (props: { clusterGroupData }) => {
     <PageSection variant={PageSectionVariants.light}>
       <React.Fragment>
         {experimentsNotFound == true ? <CodeEditorWithActions setData={setData} data={data} /> 
-        : <div>trasfer to rm demo 
+        : <div>
           <Monitoring/>
           </div>}
       </React.Fragment>

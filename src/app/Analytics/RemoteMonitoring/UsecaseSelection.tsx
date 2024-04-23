@@ -9,7 +9,7 @@ import {
   Grid,
   GridItem
 } from '@patternfly/react-core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getListExperimentsURL, getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; switchTab }) => {
@@ -33,26 +33,14 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     setExpData(arr.sort());
   };
 
-  const options = [
-    { id: '1', value: 'please choose', label: 'Select one', disabled: false },
-    { id: '2', value: 'Monitoring', label: 'Monitoring', disabled: false }
-    // { id: "3", value: 'Autotune', label: 'Autotune', disabled: false },
-  ];
-
-  const options2 = [
-    { id: '1', value: 'please choose', label: 'Select one' },
-    { id: '2', optionsid: '2', value: 'Remote', label: 'Remote' }
-    //{ id: '3', optionsid: '2', value: 'Local', label: 'Local' }
-  ];
-  const onChange = (value: string) => {
-    setUsecase(value);
-  };
-
-  const onNestedChange = (value: string) => {
-    setNestedUsecase(value);
-    fetchData();
-  };
-
+  useEffect(() => {
+    try {
+      fetchData();
+    } catch {
+      console.log('list experiemnts not working');
+    }
+  }, []);
+  
   const onChangeExpName = (value: string) => {
     setValue(value);
     setExpName(value);
