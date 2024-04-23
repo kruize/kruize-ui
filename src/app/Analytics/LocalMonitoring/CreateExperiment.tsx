@@ -12,10 +12,11 @@ interface LocationState {
   workloadType: string;
   clusterName: string;
   containerImageName: string;
+  datasourceName: string;
 }
 
 const CreateExperiment = (props: { clusterGroupData }) => {
-  const [experimentsNotFound, setExperimentsNotFound] = useState();
+  const [experimentsNotFound, setExperimentsNotFound] = useState(false);
   const location = useLocation<LocationState>();
 
   const create_experiment_json_data = {
@@ -26,24 +27,15 @@ const CreateExperiment = (props: { clusterGroupData }) => {
     containerName: location.state?.containerName,
     clusterName: location.state?.clusterName,
     containerImageName: location.state?.containerImageName,
+    dataSourceName: location.state?.datasourceName
   };
   const [data, setData] = useState(create_experiment_json_data);
 
-  //  const handlelistExperimentJson = async (experiment_name) => {
-  //   try {
-  //     const response = await fetch(getListExperimentsURLWithParams(experiment_name));
-  //     const data = await response.json();
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error('There was a problem with the fetch operation:', error);
-  //   }
-  // };
   const handleListExperimentJson = async (experiment_name) => {
     try {
         const response = await fetch(getListExperimentsURLWithParams(experiment_name));
         if (!response.ok) {
             if (response.status === 400) {
-                console.error('Received a 400 Bad Request response');
                 setExperimentsNotFound(true);
                 const errorData = await response.json();
                 console.error('Error details:', errorData);
@@ -72,9 +64,7 @@ const CreateExperiment = (props: { clusterGroupData }) => {
     <PageSection variant={PageSectionVariants.light}>
       <React.Fragment>
         {experimentsNotFound == true ? <CodeEditorWithActions setData={setData} data={data} /> 
-        : <div>
-          <Monitoring/>
-          </div>}
+        : <Monitoring/> }
       </React.Fragment>
     </PageSection>
   );

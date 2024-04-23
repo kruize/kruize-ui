@@ -4,6 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getDatasourceMetadataURL } from '@app/CentralConfig';
 import { Link } from 'react-router-dom';
+interface DatasourceDetail {
+  clusters: { [key: string]: { cluster_name: string } };
+}
+
+interface Datasources {
+  [key: string]: DatasourceDetail;
+}
 
 interface LocationState {
   datasources: string;
@@ -12,7 +19,7 @@ interface LocationState {
 const ClusterGroupTables = (props: { clusterGroupData }) => {
   const [clusterSpecificData, setClusterSpecificData] = useState([]);
   const [showComponent, setShowComponent] = useState(false);
-  const [datsourcesData, setDatasourcesData] = useState([]);
+  const [datasourcesData, setDatasourcesData] = useState<Datasources | null>(null);
 
   // fetching the ds name via react-router-dom
   const location = useLocation<LocationState>();
@@ -39,7 +46,7 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
 
 
 
-  const cluster_row_data = Object.entries(datsourcesData?.datasources || {}).flatMap(
+  const cluster_row_data = Object.entries(datasourcesData?.datasources || {}).flatMap(
     ([groupName, groupDetail]) => {
     const clusters = (groupDetail as any).clusters || {};
     return Object.keys(clusters).map((clusterKey) => ({
@@ -49,11 +56,11 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
     }
   );
 
-  const clusterDataFunction = (clusterGroupName: string, clusterName: string) => {
-    const clusterSpec = datasourcesData?.datasources[clusterGroupName].clusters[clusterName];
-    setClusterSpecificData(clusterSpec);
-    setShowComponent(true);
-  };
+  // const clusterDataFunction = (clusterGroupName: string, clusterName: string) => {
+  //   const clusterSpec = datasourcesData?.datasources[clusterGroupName].clusters[clusterName];
+  //   setClusterSpecificData(clusterSpec);
+  //   setShowComponent(true);
+  // };
 
 
 

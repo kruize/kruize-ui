@@ -156,7 +156,8 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
                               workloadName: row_data?.workloadName,
                               workloadType: row_data?.workloadType,
                               clusterName: row_data?.clusterName,
-                              containerImageName: row_data?.containerImageName
+                              containerImageName: row_data?.containerImageName,
+                              datasourceName: location.state.datasource
                             }
                           }}
                         >

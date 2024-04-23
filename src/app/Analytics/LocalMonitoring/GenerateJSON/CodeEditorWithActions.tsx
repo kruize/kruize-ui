@@ -26,12 +26,13 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
     subsitute_workload_type: props.data.workloadType,
     subsitute_workload_name: props.data.workloadName,
     subsitute_container_name: props.data.containerName,
-    subsitute_container_image: props.data.containerImageName
+    subsitute_container_image: props.data.containerImageName,
+    subsitute_datasource_name: props.data.dataSourceName
    
   };
   const data = expyaml.toString();
   const data2 = data.replace(
-    /\b(subsitute_experiment_name|subsitute_container_image|subsitute_namespace|subsitute_cluster_name|subsitute_workload_name|subsitute_workload_type|subsitute_container_name)\b/gi,
+    /\b(subsitute_experiment_name|subsitute_container_image|subsitute_namespace|subsitute_cluster_name|subsitute_workload_name|subsitute_workload_type|subsitute_container_name|susitute_datasource_name)\b/gi,
     function (matched) {
       return obj[matched];
     }

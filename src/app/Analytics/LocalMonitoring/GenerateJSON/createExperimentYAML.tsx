@@ -24,6 +24,7 @@ export default `[
       },
       "recommendation_settings": {
         "threshold": "0.1"
-      }
+      },
+      "datasource":"subsitute_datasource_name"
     }
   ]`;

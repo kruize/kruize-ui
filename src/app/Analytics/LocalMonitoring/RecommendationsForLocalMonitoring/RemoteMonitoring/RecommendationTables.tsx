@@ -86,7 +86,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
             }
           }
         });
-        if (recommended_arr[0].recommendation_engines) {
+        if (recommended_arr[0]?.recommendation_engines) {
           // console.log('render ', recommended_arr);
           setDisplayChart(true);
         } else {
