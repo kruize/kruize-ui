@@ -16,11 +16,11 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
 
   // fetching the ds name via react-router-dom
   const location = useLocation<LocationState>();
-  const datasources = location.state?.datasources;
+  const datasource_name = location.state?.datasources;
 
   // calling get api with parameter ds
   const fetchDatasources = async () => {
-    const response = await fetch(getDatasourceMetadataURL(datasources));
+    const response = await fetch(getDatasourceMetadataURL(datasource_name));
     const data = await response.json();
     setDatasourcesData(data);
 
@@ -39,7 +39,7 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
 
 
 
-  const cluster_row_data = Object.entries(datsourcesData?.cluster_groups || {}).flatMap(
+  const cluster_row_data = Object.entries(datsourcesData?.datasources || {}).flatMap(
     ([groupName, groupDetail]) => {
     const clusters = (groupDetail as any).clusters || {};
     return Object.keys(clusters).map((clusterKey) => ({
@@ -50,7 +50,7 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
   );
 
   const clusterDataFunction = (clusterGroupName: string, clusterName: string) => {
-    const clusterSpec = datasourcesData?.cluster_groups[clusterGroupName].clusters[clusterName];
+    const clusterSpec = datasourcesData?.datasources[clusterGroupName].clusters[clusterName];
     setClusterSpecificData(clusterSpec);
     setShowComponent(true);
   };
@@ -76,7 +76,7 @@ const ClusterGroupTables = (props: { clusterGroupData }) => {
                     to={{
                       pathname: '/cluster',
                       state: {
-                        datasource: datasources,
+                        datasource: datasource_name,
                         cluster: row.clusterName
                       }
                     }}

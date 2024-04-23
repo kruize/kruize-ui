@@ -45,12 +45,12 @@ interface Cluster {
 }
 
 interface ClusterGroup {
-  cluster_group_name: string;
+  datasource_name: string;
   clusters: Record<string, Cluster>;
 }
 
 interface ApiData {
-  cluster_groups: Record<string, ClusterGroup>;
+  datasources: Record<string, ClusterGroup>;
 }
 
 interface TableData {
@@ -75,7 +75,7 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
     const response = await fetch(getClusterMetadataURL(datasource, cluster));
     const data = await response.json();
     setClusterData(data);
-    setNamespaceData(data.cluster_groups[datasource].clusters[cluster]);
+    setNamespaceData(data.datasources[datasource].clusters[cluster]);
   };
 
   useEffect(() => {
@@ -89,8 +89,8 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
   function extractTableData(apiData: ApiData): TableData[] {
     const tableData: TableData[] = [];
 
-    if (apiData && apiData.cluster_groups) {
-      for (const clusterGroup of Object.values(apiData.cluster_groups)) {
+    if (apiData && apiData.datasources) {
+      for (const clusterGroup of Object.values(apiData.datasources)) {
         for (const cluster of Object.values(clusterGroup.clusters)) {
           for (const [namespaceName, namespace] of Object.entries(cluster.namespaces)) {
             if (!namespace.workloads) continue;
