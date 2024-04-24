@@ -37,15 +37,15 @@ const CreateExperiment = (props: { clusterGroupData }) => {
         if (!response.ok) {
             if (response.status === 400) {
                 setExperimentsNotFound(true);
-                const errorData = await response.json();
-                console.error('Error details:', errorData);
+                // const errorData = await response.json();
+                // console.error('Error details:', errorData);
                 return; 
             }
             throw new Error('Network response was not ok: ' + response.status);
         }
         const data = await response.json();
         setExperimentsNotFound(false);
-        console.log(data);
+        // console.log(data);
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
     }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CodeEditor, Language } from '@patternfly/react-code-editor';
 import {
   PageSection,
   TextContent,
@@ -11,13 +12,13 @@ import {
 } from '@patternfly/react-core';
 import expyaml from './createExperimentYAML'
 import { importCreateExperimentJsonURL } from '@app/CentralConfig';
-import ReusableCodeBlock from '../RecommendationsForLocalMonitoring/RemoteMonitoring/RecommendationComponents/ReusableCodeBlock';
-import { Alert } from '@patternfly/react-core';
-
 
 export const CodeEditorWithActions = (props: { data; setData }) => {
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-
+  const onEditorDidMount = (editor, monaco) => {
+    editor.layout();
+    editor.focus();
+    monaco.editor.getModels()[0].updateOptions({ tabSize: 5 });
+  };
   var obj = {
     subsitute_namespace: props.data.projectName,
     subsitute_experiment_name: props.data.exp_name,
@@ -39,6 +40,12 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
 
   const [codeEditorData, setCodeEditorData] = useState([data2]);
 
+  const onChange = (value) => {
+    setCodeEditorData(value);
+    console.log(value);
+    console.log(typeof(value));
+  };
+
   /// POST API call
 
   const handlePostExperimentJson = async (codeEditorData) => {
@@ -53,25 +60,17 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
       });
 
       const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-      setShowSuccessAlert(true);
-      // Optionally reset the alert visibility after a few seconds
-      setTimeout(() => setShowSuccessAlert(false), 3000);
-    }
+     console.log(data);
 
     } catch (error) {
       console.error('Error during data import:', error);
-      setShowSuccessAlert(false);
+      
     }
   };
 
   return (
     <>
       <PageSection variant={PageSectionVariants.light}>
-      {showSuccessAlert && (
-      <Alert variant="success" title="Experiment Successfully Created" ouiaId="SuccessAlert" />
-    )}
         <Toolbar>
           <ToolbarContent style={{ paddingLeft: 0 }}>
             <TextContent>
@@ -85,10 +84,17 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
           </ToolbarContent>
         </Toolbar>
       </PageSection>
-   
-      <ReusableCodeBlock code={data2} includeActions={true} />
+      <CodeEditor
+        isLanguageLabelVisible
+        isDarkTheme={true}
+        code={data2}
+        onChange={onChange}
+        // language={Language.yaml}
+        onEditorDidMount={onEditorDidMount}
+        height="sizeToFit"
+        isReadOnly={false}
+      />
       <br/>
-      
         <Button
           variant="primary"
           onClick={() => handlePostExperimentJson(codeEditorData)}
