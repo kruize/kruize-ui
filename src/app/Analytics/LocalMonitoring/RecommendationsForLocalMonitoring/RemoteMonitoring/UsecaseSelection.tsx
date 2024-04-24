@@ -7,10 +7,11 @@ import {
   Button,
   Text,
   Grid,
-  GridItem
+  GridItem,
+  Alert
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
-import { getListExperimentsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
+import { generateRecommendationsURL, getListExperimentsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; switchTab }) => {
   const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
@@ -19,6 +20,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   const [value, setValue] = useState('');
   const [expName, setExpName] = useState<any | null>('');
   const [expData, setExpData] = useState([]);
+  const [showFailureAlert, setShowFailureAlert] = useState(false);
 
   const fetchData = async () => {
     const response = await fetch(list_experiment_url);
@@ -77,10 +79,37 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     }
   };
 
+  const handleGenerateRecommendationClick = async (expName) => {
+
+    try {
+      const response = await fetch(generateRecommendationsURL(expName), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        // body: JSON.stringify(parsedPayload)
+      });
+
+      // console.log(response)
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        setShowFailureAlert(false);
+        setTimeout(() => setShowFailureAlert(false), 3000);
+        handleClick();                              
+      }
+    } catch (error) {
+      console.error('Error during data import:', error);
+      setShowFailureAlert(true);
+    }
+  }
   return (
     <>
       <br />
+      {showFailureAlert && <Alert variant="warning" title="Unable to Generate Recommendations" ouiaId="FailureAlert" />}
+
       <Flex direction={{ default: 'column' }}>
+
         <Grid hasGutter component="ul">
           <TextContent>
             <Text component={TextVariants.h3}>Experiment Name</Text>
@@ -97,10 +126,15 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
           </GridItem>
           <GridItem span={10}></GridItem>
           <GridItem span={3} component="li">
+            <Button variant="primary" onClick={()=>handleGenerateRecommendationClick(expName)}>
+              Generate Recommendations
+            </Button>
+          </GridItem>
+          {/* <GridItem span={3} component="li">
             <Button variant="primary" onClick={handleClick}>
               Get Recommendations
             </Button>
-          </GridItem>
+          </GridItem> */}
         </Grid>
       </Flex>
     </>
