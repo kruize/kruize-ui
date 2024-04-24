@@ -66,7 +66,7 @@ interface TableData {
 const ClusterDataTable = (props: { clusterSpecificData }) => {
   const [clusterData, setClusterData] = useState([]);
   const [namespaceData, setNamespaceData] = useState([]);
-
+ 
   // fetching the ds name via react-router-dom
   const location = useLocation<LocationState>();
   const datasource = location.state?.datasource;
@@ -123,28 +123,27 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
   return (
     <PageSection variant={PageSectionVariants.light}>
       <TextContent>Cluster Specific Details</TextContent>
-      <Table aria-label="Cluster Details" variant='compact'>
+      <Table aria-label="Cluster Details" variant='compact' borders >
         <Thead>
           <Tr>
-            <Th>Container names</Th>
-            <Th>Project names</Th>
-            <Th>Workload names</Th>
-            <Th>Workload types</Th>
-            <Th>Cluster names</Th>
-            <Th>Actions</Th>
-          </Tr>
+            <Th width={20} modifier="wrap">Container names</Th>
+            <Th width={20} modifier="wrap">Project names</Th>
+            <Th width={20} modifier="wrap">Workload names</Th>
+            <Th width={20} modifier="wrap">Workload types</Th>
+            <Th  modifier="wrap">Cluster names</Th>
+            <Th  modifier="wrap" >Action</Th>     
+            </Tr>
         </Thead>
         <Tbody>
           {tableData.map((row_data, index) => (
             <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
-              <Td dataLabel="Container names">{row_data.containerName}</Td>
-              <Td dataLabel="Project names">{row_data.projectName}</Td>
-              <Td dataLabel="Workload names">{row_data.workloadName}</Td>
-              <Td dataLabel="Workload types">{row_data.workloadType}</Td>
-              <Td dataLabel="Cluster names">{row_data.clusterName}</Td>
-              {/* <Td dataLabel="DS name">{location.state.datasource}</Td> */}
-              <Td isActionCell>
-                <OverflowMenu breakpoint="lg">
+              <Td  dataLabel="Container names">{row_data.containerName}</Td>
+              <Td  dataLabel="Project names">{row_data.projectName}</Td>
+              <Td  dataLabel="Workload names">{row_data.workloadName}</Td>
+              <Td  dataLabel="Workload types">{row_data.workloadType}</Td>
+              <Td  dataLabel="Cluster names">{row_data.clusterName}</Td>
+              <Td  dataLabel='Actions' isActionCell>
+               <OverflowMenu breakpoint="lg">
                   <OverflowMenuContent>
                     <OverflowMenuGroup groupType="button">
                       <OverflowMenuItem>
@@ -167,11 +166,11 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
                           </Tooltip>
                         </Link>
                       </OverflowMenuItem>
-                      <OverflowMenuItem>
+                      {/* <OverflowMenuItem>
                         <Tooltip content={<div> List Recommendation</div>} position={TooltipPosition.top}>
                           <BlueprintIcon color='#0066CC' />
                         </Tooltip>
-                      </OverflowMenuItem>
+                      </OverflowMenuItem> */}
                     </OverflowMenuGroup>
                   </OverflowMenuContent>
                 </OverflowMenu>
