@@ -52,7 +52,7 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
 
   return (
     <React.Fragment>
-      <Text component={TextVariants.h3}>Data Sources</Text>
+      {/* <Text component={TextVariants.h3}>Data Sources</Text> */}
       <div style={{ width: '800px' }}>
         <Table aria-label="Data Sources Table">
           <Thead>

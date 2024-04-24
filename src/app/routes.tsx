@@ -60,19 +60,21 @@ const routes: AppRouteConfig[] = [
   {
     label: 'SRE Analytics',
     routes: [
-      {
-        component: RemoteMonitoring,
-        exact: true,
-        label: 'Remote Monitoring',
-        path: '/remote_monitoring',
-        title: 'Remote Monitoring'
-      },
+      // {
+      //   component: RemoteMonitoring,
+      //   exact: true,
+      //   label: 'Remote Monitoring',
+      //   path: '/remote_monitoring',
+      //   title: 'Remote Monitoring',
+      //   menu: false
+      // },
       {
         component: LocalMonitoring,
         exact: true,
-        label: 'Local Monitoring',
+        label: 'Monitoring',
         path: '/local_monitoring',
-        title: 'Local Monitoring'
+        title: 'Local Monitoring',
+        menu: true
       }
     ],
     menu: true
