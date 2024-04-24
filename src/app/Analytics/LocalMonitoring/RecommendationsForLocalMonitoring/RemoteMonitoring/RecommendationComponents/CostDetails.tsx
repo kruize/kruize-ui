@@ -17,8 +17,16 @@ import { addPlusSign } from './ChatDataPreparation';
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
   // console.log(props.recommendedData[0].recommendation_engines);
 
-  const NumberFormat = (number) =>
-    typeof number === 'number' && !isNaN(number) ? (number % 1 !== 0 ? number.toFixed(3) : number) : '';
+  const NumberFormat = (number) =>{
+    const parsedNumber = parseFloat(number);
+  if (!isNaN(parsedNumber) && isFinite(parsedNumber)) {
+    if (Math.floor(parsedNumber) !== parsedNumber) {
+      return parsedNumber.toFixed(3);
+    }
+    return parsedNumber.toString();
+  }
+  return '';
+};
 
   const UnitFormat = (unit) => unit || '';
 
