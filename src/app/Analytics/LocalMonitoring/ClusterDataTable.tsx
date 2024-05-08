@@ -1,11 +1,6 @@
 import {
-  Button,
-  Dropdown,
-  DropdownList,
-  MenuToggle,
   OverflowMenu,
   OverflowMenuContent,
-  OverflowMenuControl,
   OverflowMenuGroup,
   OverflowMenuItem,
   PageSection,
@@ -18,7 +13,7 @@ import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getClusterMetadataURL } from '@app/CentralConfig';
-import { PlusIcon, BlueprintIcon } from '@patternfly/react-icons';
+import { PlusIcon } from '@patternfly/react-icons';
 interface LocationState {
   cluster: string;
   datasource: string;
@@ -62,6 +57,15 @@ interface TableData {
   containerImageName: string;
 
 }
+
+/*
+  This page contains the Data for a selcted cluster the contianer name, nsp name, workload details etc.
+  it take up user selected data from previous pages via the location state
+  calls api with user selected datasource and cluster name. Then processes the data in the extractTableData
+  function, converts it in a way that the patternfly component wants and that tabledata is passed to patternfly table.
+  For each container name an Action item is avaliable which uses link to pass user selected data to another page. 
+
+*/
 
 const ClusterDataTable = (props: { clusterSpecificData }) => {
   const [clusterData, setClusterData] = useState([]);

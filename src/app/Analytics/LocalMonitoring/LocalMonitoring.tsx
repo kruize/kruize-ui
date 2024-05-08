@@ -11,7 +11,12 @@ import React, { useEffect, useState } from 'react';
 import { getDatasourcesURL } from '@app/CentralConfig';
 import { DatasourceTable } from './DatasourceTable';
 
+/*
+  This is the first page of Local Monitoring use case on the ui 
+  it calls the fetchDatasources api as page is refreshed
+  and displays datasources table if data avaliable
 
+*/
 
 const LocalMonitoring = () => {
   const [datasourcesData, setDatasourcesData] = useState();
