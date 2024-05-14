@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardTitle,
@@ -8,7 +8,8 @@ import {
   GridItem,
   Text,
   TextVariants,
-  PageSectionVariants
+  PageSectionVariants,
+  Alert
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { CostHistoricCharts } from './CostHistoricCharts';
@@ -87,9 +88,37 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
       NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount)
     )}`;
 
+  /// Alert for over and under utlized
+  useEffect(() => {
+    if (props.recommendedData !== null) {
+      utilizationAlert(props.recommendedData);
+    }
+  }, [props.recommendedData]);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const utilizationAlert = (recommendation) => {
+    const notifications = recommendation[0]?.recommendation_engines?.cost?.notifications;
+    try {
+      Object.values(notifications).forEach((notification : any, index) => {
+        setTimeout(() => {
+          setAlertMessage(`${notification.code} - ${notification.message}`);
+          setShowSuccessAlert(true);
+          setTimeout(() => {
+            setShowSuccessAlert(false);
+          }, 2000);
+        }, index * 2500);
+      });
+    } catch (error) {
+      console.error('Error during data import:', error);
+      setShowSuccessAlert(false);
+    }
+  };
+
   return (
     <PageSection variant={PageSectionVariants.light}>
       <Grid hasGutter>
+        {showSuccessAlert && <Alert variant="info" title={alertMessage} ouiaId="InfoAlert" />}
         <GridItem span={6} rowSpan={8}>
           <Card ouiaId="BasicCard" isFullHeight>
             <CardTitle>Current State</CardTitle>

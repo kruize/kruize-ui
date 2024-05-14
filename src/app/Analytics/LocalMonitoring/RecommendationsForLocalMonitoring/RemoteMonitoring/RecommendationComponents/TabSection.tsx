@@ -41,6 +41,7 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
           day={props.day}
           endtime={props.endtime}
           displayChart={props.displayChart}
+          tab={activeTabKey}
         />
       </Tab>
     </Tabs>
