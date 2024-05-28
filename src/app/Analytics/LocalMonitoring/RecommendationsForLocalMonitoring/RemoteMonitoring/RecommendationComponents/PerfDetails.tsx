@@ -91,8 +91,12 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
       utilizationAlert(props.recommendedData);
     }
   } , [props.tab]);
+
+  type alertVarient =  'success' | 'danger' | 'warning' | 'info' | 'custom';
+ 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [notificationType, setNotificationType] = useState<alertVarient>('info');
 
   const utilizationAlert = (recommendation) => {
     const notifications = recommendation[0]?.recommendation_engines?.performance?.notifications;
@@ -100,6 +104,12 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
       Object.values(notifications).forEach((notification : any, index) => {
         setTimeout(() => {
           setAlertMessage(`${notification.code} - ${notification.message}`);
+          if(notification.type == "notice") {
+            setNotificationType('info'); 
+          }
+          else if (notification.type == "error"){
+            setNotificationType('danger');
+          }
           setShowSuccessAlert(true);
           setTimeout(() => {
             setShowSuccessAlert(false);
@@ -115,7 +125,7 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
   return (
     <PageSection variant={PageSectionVariants.light}>
       <Grid hasGutter>
-        {showSuccessAlert && <Alert variant="info" title={alertMessage} ouiaId="InfoAlert" />}
+        {showSuccessAlert && <Alert variant={notificationType} title={alertMessage} ouiaId="InfoAlert" />}
         <GridItem span={6} rowSpan={8}>
           <Card ouiaId="BasicCard" isFullHeight>
             <CardTitle>Current State</CardTitle>
