@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardTitle,
@@ -16,59 +16,71 @@ import { addPlusSign } from './ChatDataPreparation';
 
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
   // console.log(props.recommendedData[0].recommendation_engines);
+  const convertBytes = (bytes: string): string => {
+    let value: any = parseFloat(bytes);
+    let unit = 'Bytes';
 
-  const NumberFormat = (number) =>{
-    const parsedNumber = parseFloat(number);
-  if (!isNaN(parsedNumber) && isFinite(parsedNumber)) {
-    if (Math.floor(parsedNumber) !== parsedNumber) {
-      return parsedNumber.toFixed(3);
+    if (value >= 1024 ** 3) {
+      value = (value / 1024 ** 3).toFixed(2);
+      unit = 'Gi';
+    } else if (value >= 1024 ** 2) {
+      value = (value / 1024 ** 2).toFixed(2);
+      unit = 'Mi';
+    } else if (value >= 1024) {
+      value = (value / 1024).toFixed(2);
+      unit = 'Ki';
     }
-    return parsedNumber.toString();
-  }
-  return '';
-};
 
-  const UnitFormat = (unit) => unit || '';
+    return `${value} ${unit}`;
+  };
+
+  const MemoryFormat = (number) => {
+    if (!number) return '';
+    return convertBytes(number);
+  };
+
+  const NumberFormat = (number) => {
+    let parsedNo = parseFloat(number)
+    if (!isNaN(parsedNo) && isFinite(parsedNo)) {
+      if (Math.floor(parsedNo) !== parsedNo) {
+        return parsedNo.toFixed(2);
+      }
+      return parsedNo.toString();
+    }
+    return '';
+  };
 
   const current_code = `resources: 
   requests: 
-    memory: "${NumberFormat(props.currentData[0]?.requests?.memory?.amount)}${UnitFormat(
-    props.currentData[0]?.requests?.memory?.format
-  )}" 
+    memory: "${MemoryFormat(props.currentData[0]?.requests?.memory?.amount)}" 
     cpu: "${NumberFormat(props.currentData[0]?.requests?.cpu?.amount)}" 
   limits: 
-    memory: "${NumberFormat(props.currentData[0]?.limits?.memory?.amount)}${UnitFormat(
-    props.currentData[0]?.limits?.memory?.format
-  )}" 
+    memory: "${MemoryFormat(props.currentData[0]?.limits?.memory?.amount)}" 
     cpu: "${NumberFormat(props.currentData[0]?.limits?.cpu?.amount)}"`;
 
   const recommended_code = `resources: 
   requests: 
-    memory: "${NumberFormat(
+    memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.amount
-    )}${UnitFormat(
-    props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.format
-  )}"    # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.amount)
-  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.format)}
+    )}"    # ${addPlusSign(
+      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.amount)
+    )}
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost.config.requests.cpu.amount
     )}"            # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.cpu.amount)
-  )}
+      NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.cpu.amount)
+    )}
   limits: 
-    memory: "${NumberFormat(
+    memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.amount
-    )}${UnitFormat(
-    props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.format
-  )}"    # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.amount)
-  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.format)}   
+    )}"    # ${addPlusSign(
+      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.amount)
+    )}  
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost.config.limits.cpu.amount
     )}"            # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.cpu.amount)
-  )}`;
+      NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.cpu.amount)
+    )}`;
 
   return (
     <PageSection variant={PageSectionVariants.light}>
