@@ -13,21 +13,23 @@ import {
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { CostHistoricCharts } from './CostHistoricCharts';
 import { addPlusSign } from './ChatDataPreparation';
+import { parse } from 'postcss';
 
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
   // console.log(props.recommendedData[0].recommendation_engines);
-  const convertBytes = (bytes: string): string => {
+
+  const convertBytes = (bytes) => {
     let value: any = parseFloat(bytes);
     let unit = 'Bytes';
 
     if (value >= 1024 ** 3) {
-      value = (value / 1024 ** 3).toFixed(2);
+      value = Math.round(value / 1024 ** 3);
       unit = 'Gi';
     } else if (value >= 1024 ** 2) {
-      value = (value / 1024 ** 2).toFixed(2);
+      value = Math.round(value / 1024 ** 2);
       unit = 'Mi';
     } else if (value >= 1024) {
-      value = (value / 1024).toFixed(2);
+      value = Math.round(value / 1024);
       unit = 'Ki';
     }
 
@@ -35,15 +37,18 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   };
 
   const MemoryFormat = (number) => {
-    if (!number) return '';
-    return convertBytes(number);
+    console.log(typeof(number))
+    let parsedNo = parseFloat(number)
+    if (!parsedNo) return '';
+    return convertBytes(parsedNo);
   };
 
   const NumberFormat = (number) => {
     let parsedNo = parseFloat(number)
+    console.log(parsedNo)
     if (!isNaN(parsedNo) && isFinite(parsedNo)) {
       if (Math.floor(parsedNo) !== parsedNo) {
-        return parsedNo.toFixed(2);
+        return parsedNo.toFixed(3);
       }
       return parsedNo.toString();
     }
@@ -61,25 +66,25 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   const recommended_code = `resources: 
   requests: 
     memory: "${MemoryFormat(
-      props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.amount
+      props.recommendedData[0]?.recommendation_engines?.cost?.config?.requests?.memory?.amount
     )}"    # ${addPlusSign(
-      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.amount)
+      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.memory?.amount)
     )}
     cpu: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.cost.config.requests.cpu.amount
+      props.recommendedData[0]?.recommendation_engines?.cost?.config?.requests?.cpu?.amount
     )}"            # ${addPlusSign(
-      NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.cpu.amount)
+      NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.cpu?.amount)
     )}
   limits: 
     memory: "${MemoryFormat(
-      props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.amount
+      props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.memory?.amount
     )}"    # ${addPlusSign(
-      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.amount)
+      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.memory.amount)
     )}  
     cpu: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.cost.config.limits.cpu.amount
+      props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.cpu?.amount
     )}"            # ${addPlusSign(
-      NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.cpu.amount)
+      NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount)
     )}`;
 
   return (
