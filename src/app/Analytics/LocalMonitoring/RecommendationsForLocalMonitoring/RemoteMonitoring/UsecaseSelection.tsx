@@ -33,9 +33,8 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     setExpData(arr.sort());
   };
   useEffect(() => {
-   fetchData();
+    fetchData();
   }, []);
-
 
   const onChangeExpName = (value: string) => {
     setValue(value);
@@ -80,13 +79,12 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   };
 
   const handleGenerateRecommendationClick = async (expName) => {
-
     try {
       const response = await fetch(generateRecommendationsURL(expName), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        },
+        }
         // body: JSON.stringify(parsedPayload)
       });
 
@@ -96,20 +94,19 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       if (response.ok) {
         setShowFailureAlert(false);
         setTimeout(() => setShowFailureAlert(false), 3000);
-        handleClick();                              
+        handleClick();
       }
     } catch (error) {
       console.error('Error during data import:', error);
       setShowFailureAlert(true);
     }
-  }
+  };
   return (
     <>
       <br />
       {showFailureAlert && <Alert variant="warning" title="Unable to Generate Recommendations" ouiaId="FailureAlert" />}
 
       <Flex direction={{ default: 'column' }}>
-
         <Grid hasGutter component="ul">
           <TextContent>
             <Text component={TextVariants.h3}>Experiment Name</Text>
@@ -126,7 +123,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
           </GridItem>
           <GridItem span={10}></GridItem>
           <GridItem span={3} component="li">
-            <Button variant="primary" onClick={()=>handleGenerateRecommendationClick(expName)}>
+            <Button variant="primary" onClick={() => handleGenerateRecommendationClick(expName)}>
               Generate Recommendations
             </Button>
           </GridItem>

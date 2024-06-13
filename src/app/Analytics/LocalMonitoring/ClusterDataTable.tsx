@@ -64,7 +64,7 @@ interface TableData {
 }
 
 const ClusterDataTable = (props: { clusterSpecificData }) => {
-  const [clusterData, setClusterData] = useState([]);
+  const [clusterData, setClusterData] = useState<ApiData | null>(null);
   const [namespaceData, setNamespaceData] = useState([]);
  
   // fetching the ds name via react-router-dom
@@ -118,8 +118,8 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
     return tableData;
   }
 
-  const tableData = extractTableData(clusterData);
-
+  const tableData = clusterData ? extractTableData(clusterData) : [];
+  
   return (
     <PageSection variant={PageSectionVariants.light}>
       <TextContent>Cluster Specific Details</TextContent>
