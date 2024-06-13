@@ -16,6 +16,12 @@ interface LocationState {
   datasources: string;
 }
 
+/* 
+  This page has all the cluster groups for selected datasource
+  calls get api with parameter datasource name and a same link to redirect info to next page /cluster
+
+*/
+
 const ClusterGroupTables = (props: { clusterGroupData }) => {
   const [clusterSpecificData, setClusterSpecificData] = useState([]);
   const [showComponent, setShowComponent] = useState(false);

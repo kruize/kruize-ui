@@ -1,4 +1,14 @@
 // config.ts
+
+/*
+
+    This file captures the set environment variables and create the base Kruize URL
+    this base url is called in all the API functions to get the entire API calls
+    each of these functions are exported and used in all other components.
+    This makes the api call code reuseable
+
+*/
+
 const isProduction = process.env.KRUIZE_UI_ENV === 'production';
 
 const getBaseUrl = () => {

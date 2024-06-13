@@ -4,15 +4,22 @@ import {
   OverflowMenuContent,
   OverflowMenuGroup,
   OverflowMenuItem,
-  TextContent,
-  Text,
-  TextVariants
+
 } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
-import { Table, Thead, Tr, Th, Tbody, Td, ExpandableRowContent } from '@patternfly/react-table';
+import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useState } from 'react';
-import { ClusterGroupTables } from './ClusterGroupTables';
 import { importDataSourcesMetadataURL } from '@app/CentralConfig';
+
+/*
+
+  This is the Datasources table which gets display, takes data from fetchDS api call
+  it also represents the data in an expandable row  and has an import metadata button 
+  which calls import metadata api and redirects user to the next page, this redirection 
+  is does with the help of Link tag and its state property to pass data across pages
+
+
+*/
 
 const DatasourceTable = (props: { fetchDatasourcesData }) => {
   const [clusterGroupData, setClusteGroupData] = useState<any>();
