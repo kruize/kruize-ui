@@ -92,11 +92,11 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
     }
   } , [props.tab]);
 
-  type alertVarient =  'success' | 'danger' | 'warning' | 'info' | 'custom';
+  type alertVariant =  'success' | 'danger' | 'warning' | 'info' | 'custom';
  
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [notificationType, setNotificationType] = useState<alertVarient>('info');
+  const [notificationType, setNotificationType] = useState<alertVariant>('info');
 
   const utilizationAlert = (recommendation) => {
     const notifications = recommendation[0]?.recommendation_engines?.performance?.notifications;
