@@ -17,6 +17,7 @@ import { LocalMonitoring } from './Analytics/LocalMonitoring/LocalMonitoring';
 import { ClusterDataTable } from './Analytics/LocalMonitoring/ClusterDataTable';
 import { ClusterGroupTables } from './Analytics/LocalMonitoring/ClusterGroupTables';
 import { CreateExperiment } from './Analytics/LocalMonitoring/CreateExperiment';
+import { Monitoring } from './Analytics/LocalMonitoring/RecommendationsForLocalMonitoring/RemoteMonitoring/Monitoring';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -60,18 +61,18 @@ const routes: AppRouteConfig[] = [
   {
     label: 'SRE Analytics',
     routes: [
-      // {
-      //   component: RemoteMonitoring,
-      //   exact: true,
-      //   label: 'Remote Monitoring',
-      //   path: '/remote_monitoring',
-      //   title: 'Remote Monitoring',
-      //   menu: false
-      // },
+      {
+        component: Monitoring,
+        exact: true,
+        label: 'Experiment',
+        path: '/experiments',
+        title: 'createexp ',
+        menu: true
+      },
       {
         component: LocalMonitoring,
         exact: true,
-        label: 'Monitoring',
+        label: 'DataSource',
         path: '/local_monitoring',
         title: 'Local Monitoring',
         menu: true
