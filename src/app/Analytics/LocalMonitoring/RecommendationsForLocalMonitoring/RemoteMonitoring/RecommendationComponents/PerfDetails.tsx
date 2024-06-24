@@ -15,7 +15,14 @@ import ReusableCodeBlock from './ReusableCodeBlock';
 import { PerfHistoricCharts } from './PerfHistoricCharts';
 import { addPlusSign } from './ChatDataPreparation';
 
-const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart ; tab}) => {
+type AlertType = 'info' | 'danger' | 'warning';
+
+interface Alert {
+  message: string;
+  type: AlertType;
+}
+
+const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; tab }) => {
   //console.log(props.recommendedData[0]?.recommendation_engines.performance);
 
   const convertBytes = (bytes) => {
@@ -37,7 +44,7 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
   };
 
   const MemoryFormat = (number) => {
-    let parsedNo = parseFloat(number)
+    let parsedNo = parseFloat(number);
     if (!parsedNo) return '';
     return convertBytes(parsedNo);
   };
@@ -85,47 +92,55 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
       NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.cpu?.amount)
     )}`;
 
-  /// Alert for over and under utlized
+  // Code for Alert / Notifications
+
   useEffect(() => {
     if (props.recommendedData !== null) {
       utilizationAlert(props.recommendedData);
     }
-  } , [props.tab]);
+  }, [props.tab]);
 
-  type alertVariant =  'success' | 'danger' | 'warning' | 'info' | 'custom';
- 
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [notificationType, setNotificationType] = useState<alertVariant>('info');
+  const [alerts, setAlerts] = useState<Alert[]>([]);
 
   const utilizationAlert = (recommendation) => {
-    const notifications = recommendation[0]?.recommendation_engines?.performance?.notifications;
+    const notifications = recommendation[0]?.recommendation_engines?.cost?.notifications;
     try {
-      Object.values(notifications).forEach((notification : any, index) => {
-        setTimeout(() => {
-          setAlertMessage(`${notification.code} - ${notification.message}`);
-          if(notification.type == "notice") {
-            setNotificationType('info'); 
-          }
-          else if (notification.type == "error"){
-            setNotificationType('danger');
-          }
-          setShowSuccessAlert(true);
-          setTimeout(() => {
-            setShowSuccessAlert(false);
-          }, 2000);
-        }, index * 2500);
+      const newAlerts: Alert[] = [];
+      Object.values(notifications).forEach((notification: any, index) => {
+        const message = `${notification.code} - ${notification.message}`;
+        let type: AlertType = 'info';
+
+        if (notification.type == 'notice' || notification.type == 'info') {
+          type = 'info';
+        } else if (notification.type == 'error' || notification.type == 'critical') {
+          type = 'danger';
+        } else if (notification.type == 'warning') {
+          type = 'warning';
+        }
+        newAlerts.push({ message, type });
+        setAlerts(newAlerts);
+        setShowSuccessAlert(true);
+        // setTimeout(() => {
+        //   setAlerts([]);
+        //   setShowSuccessAlert(false);
+        // }, 2000);
       });
     } catch (error) {
       console.error('Error during data import:', error);
+      setAlerts([]);
       setShowSuccessAlert(false);
     }
   };
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   return (
     <PageSection variant={PageSectionVariants.light}>
       <Grid hasGutter>
-        {showSuccessAlert && <Alert variant={notificationType} title={alertMessage} ouiaId="InfoAlert" />}
+        {showSuccessAlert == true ? (
+          alerts.map((alert) => <Alert variant={alert.type} title={alert.message} ouiaId="InfoAlert" />)
+        ) : (
+          <></>
+        )}
         <GridItem span={6} rowSpan={8}>
           <Card ouiaId="BasicCard" isFullHeight>
             <CardTitle>Current State</CardTitle>
