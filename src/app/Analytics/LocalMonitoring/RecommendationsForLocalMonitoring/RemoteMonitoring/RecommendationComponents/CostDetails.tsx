@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardTitle,
@@ -8,12 +8,19 @@ import {
   GridItem,
   Text,
   TextVariants,
-  PageSectionVariants
+  PageSectionVariants,
+  Alert
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { CostHistoricCharts } from './CostHistoricCharts';
 import { addPlusSign } from './ChatDataPreparation';
-import { parse } from 'postcss';
+
+type AlertType = 'info' | 'danger' | 'warning';
+
+interface Alert {
+  message: string;
+  type: AlertType;
+}
 
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
   // console.log(props.recommendedData[0].recommendation_engines);
@@ -37,15 +44,15 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   };
 
   const MemoryFormat = (number) => {
-    console.log(typeof(number))
-    let parsedNo = parseFloat(number)
+    console.log(typeof number);
+    let parsedNo = parseFloat(number);
     if (!parsedNo) return '';
     return convertBytes(parsedNo);
   };
 
   const NumberFormat = (number) => {
-    let parsedNo = parseFloat(number)
-    console.log(parsedNo)
+    let parsedNo = parseFloat(number);
+    console.log(parsedNo);
     if (!isNaN(parsedNo) && isFinite(parsedNo)) {
       if (Math.floor(parsedNo) !== parsedNo) {
         return parsedNo.toFixed(3);
@@ -87,9 +94,49 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
       NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount)
     )}`;
 
+  // Code for Alert / Notifications
+
+  useEffect(() => {
+    if (props.recommendedData !== null) {
+      utilizationAlert(props.recommendedData);
+    }
+  }, [props.recommendedData]);
+
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+
+  const utilizationAlert = (recommendation) => {
+    const notifications = recommendation[0]?.recommendation_engines?.cost?.notifications;
+    try {
+      const newAlerts: Alert[] = [];
+      Object.values(notifications).forEach((notification: any, index) => {
+        const message = `${notification.code} - ${notification.message}`;
+        let type: AlertType = 'info';
+
+        if (notification.type == 'notice' || notification.type == 'info') {
+          type = 'info';
+        } else if (notification.type == 'error' || notification.type == 'critical') {
+          type = 'danger';
+        } else if (notification.type == 'warning') {
+          type = 'warning';
+        }
+        newAlerts.push({ message, type });
+        setAlerts(newAlerts);
+        // setTimeout(() => {
+        //   setAlerts([]);
+        // }, 2000);
+      });
+    } catch (error) {
+      console.error('Error during data import:', error);
+      setAlerts([]);
+    }
+  };
+
   return (
     <PageSection variant={PageSectionVariants.light}>
       <Grid hasGutter>
+        {alerts.map((alert) => (
+          <Alert variant={alert.type} title={alert.message} ouiaId="InfoAlert" />
+        ))}
         <GridItem span={6} rowSpan={8}>
           <Card ouiaId="BasicCard" isFullHeight>
             <CardTitle>Current State</CardTitle>
