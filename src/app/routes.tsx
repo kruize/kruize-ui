@@ -64,7 +64,7 @@ const routes: AppRouteConfig[] = [
       {
         component: Monitoring,
         exact: true,
-        label: 'Experiment',
+        label: 'Experiments',
         path: '/experiments',
         title: 'createexp ',
         menu: true
@@ -72,7 +72,7 @@ const routes: AppRouteConfig[] = [
       {
         component: LocalMonitoring,
         exact: true,
-        label: 'DataSource',
+        label: 'DataSources',
         path: '/local_monitoring',
         title: 'Local Monitoring',
         menu: true
