@@ -1,16 +1,9 @@
-import {
-  Button,
-  OverflowMenu,
-  OverflowMenuContent,
-  OverflowMenuGroup,
-  OverflowMenuItem,
-
-} from '@patternfly/react-core';
+import { Button, OverflowMenu, OverflowMenuContent, OverflowMenuGroup, OverflowMenuItem } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useState } from 'react';
 import { importDataSourcesMetadataURL } from '@app/CentralConfig';
-
+import { ClusterGroupTables } from './ClusterGroupTables';
 /*
 
   This is the Datasources table which gets display, takes data from fetchDS api call
@@ -25,10 +18,12 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
   const [clusterGroupData, setClusteGroupData] = useState<any>();
   const [expandedRows, setExpandedRows] = useState({});
   const [buttonStatus, setButtonStatus] = useState(false);
+  const [isComponentVisible, setIsComponentVisible] = useState(false);
+  const [dsname, setdsname] = useState('');
 
   const handleImportMetadata = async (dataSourceName: string) => {
     setButtonStatus(true);
-
+    setdsname(dataSourceName);
     const payload = {
       version: 'v1.0',
       datasource_name: dataSourceName
@@ -44,6 +39,7 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
 
       const data = await response.json();
       setClusteGroupData(data);
+      setIsComponentVisible(true);
     } catch (error) {
       console.error('Error during data import:', error);
     }
@@ -60,7 +56,8 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
   return (
     <React.Fragment>
       {/* <Text component={TextVariants.h3}>Data Sources</Text> */}
-      <div style={{ width: '800px' }}>
+      {/* <div style={{ width: '800px' }}> */}
+      <div>
         <Table aria-label="Data Sources Table">
           <Thead>
             <Tr>
@@ -71,7 +68,7 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
           </Thead>
           <Tbody>
             {props.fetchDatasourcesData.datasources.map((source, index) => (
-              <Tr key={index}>
+              <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
                 <Td
                   expand={{
                     rowIndex: index,
@@ -97,20 +94,13 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
                     <OverflowMenuContent>
                       <OverflowMenuGroup groupType="button">
                         <OverflowMenuItem>
-                          <Link
-                            to={{
-                              pathname: '/datasources',
-                              state: { datasources: source.name }
-                            }}
+                          <Button
+                            variant="primary"
+                            isDisabled={buttonStatus}
+                            onClick={() => handleImportMetadata(source.name)}
                           >
-                            <Button
-                              variant="primary"
-                              isDisabled={buttonStatus}
-                              onClick={() => handleImportMetadata(source.name)}
-                            >
-                              Import Metadata{' '}
-                            </Button>
-                          </Link>
+                            Import Metadata{' '}
+                          </Button>
                         </OverflowMenuItem>
                       </OverflowMenuGroup>
                     </OverflowMenuContent>
@@ -120,8 +110,9 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
             ))}
           </Tbody>
         </Table>
+        {isComponentVisible && <ClusterGroupTables clusterGroupData={clusterGroupData}  dsname={dsname}/>}
       </div>
-      <br /> <br />
+
     </React.Fragment>
   );
 };
