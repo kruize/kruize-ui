@@ -67,14 +67,12 @@ interface TableData {
 
 */
 
-const ClusterDataTable = (props: { clusterSpecificData }) => {
+const ClusterDataTable = (props: { datasource, clustername }) => {
   const [clusterData, setClusterData] = useState<ApiData | null>(null);
   const [namespaceData, setNamespaceData] = useState([]);
  
-  // fetching the ds name via react-router-dom
-  const location = useLocation<LocationState>();
-  const datasource = location.state?.datasource;
-  const cluster = location.state?.cluster;
+  const datasource = props.datasource;
+  const cluster = props.clustername;
 
   const fetchCluster = async () => {
     const response = await fetch(getClusterMetadataURL(datasource, cluster));
@@ -161,7 +159,7 @@ const ClusterDataTable = (props: { clusterSpecificData }) => {
                               workloadType: row_data?.workloadType,
                               clusterName: row_data?.clusterName,
                               containerImageName: row_data?.containerImageName,
-                              datasourceName: location.state.datasource
+                              datasourceName: props.datasource
                             }
                           }}
                         >

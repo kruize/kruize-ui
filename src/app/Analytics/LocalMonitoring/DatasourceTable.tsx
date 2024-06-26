@@ -56,7 +56,8 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
   return (
     <React.Fragment>
       {/* <Text component={TextVariants.h3}>Data Sources</Text> */}
-      <div style={{ width: '800px' }}>
+      {/* <div style={{ width: '800px' }}> */}
+      <div>
         <Table aria-label="Data Sources Table">
           <Thead>
             <Tr>
@@ -67,7 +68,7 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
           </Thead>
           <Tbody>
             {props.fetchDatasourcesData.datasources.map((source, index) => (
-              <Tr key={index}>
+              <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
                 <Td
                   expand={{
                     rowIndex: index,
@@ -93,12 +94,6 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
                     <OverflowMenuContent>
                       <OverflowMenuGroup groupType="button">
                         <OverflowMenuItem>
-                          {/* <Link
-                            to={{
-                              pathname: '/datasources',
-                              state: { datasources: source.name }
-                            }}
-                          > */}
                           <Button
                             variant="primary"
                             isDisabled={buttonStatus}
@@ -106,7 +101,6 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
                           >
                             Import Metadata{' '}
                           </Button>
-                          {/* </Link> */}
                         </OverflowMenuItem>
                       </OverflowMenuGroup>
                     </OverflowMenuContent>
@@ -118,7 +112,7 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
         </Table>
         {isComponentVisible && <ClusterGroupTables clusterGroupData={clusterGroupData}  dsname={dsname}/>}
       </div>
-      <br /> <br />
+
     </React.Fragment>
   );
 };
