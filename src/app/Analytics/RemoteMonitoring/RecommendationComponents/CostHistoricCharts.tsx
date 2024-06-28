@@ -1,16 +1,16 @@
 import React from 'react';
 import { Chart, ChartAxis, ChartGroup, ChartLine, ChartVoronoiContainer } from '@patternfly/react-charts';
-import { formatTimestamps, filterDataByTerm, formatNumber } from './ChatDataPreparation';
-import { Grid, GridItem, Split, SplitItem } from '@patternfly/react-core';
+import { formatTimestamps, filterDataByTerm, formatNumber } from './ChartDataPreparation';
+import { Grid, GridItem } from '@patternfly/react-core';
 
-const PerfHistoricCharts = (props: { chartData; day; endtime }) => {
+const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const termFilteredData = filterDataByTerm(props.chartData, props.endtime, props.day);
   const timeStampFormattedData = formatTimestamps(termFilteredData);
 
   const cpuChart = () => {
     const historicdata = Object.entries(timeStampFormattedData).map(([key, value]) => {
       const cpuAmount = formatNumber(
-        (value as any).recommendation_terms[props.day]?.recommendation_engines?.performance?.config.requests.cpu.amount
+        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config.requests.cpu.amount
       );
       const displayKey = props.day === 'short_term' ? key.split(' ')[1] : key.split(' ')[0];
       return {
@@ -37,7 +37,7 @@ const PerfHistoricCharts = (props: { chartData; day; endtime }) => {
           legendOrientation="vertical"
           legendPosition="right"
           height={250}
-          name="Performance CPU Recommendations"
+          name="Cost CPU Recommendations"
           domainPadding={{ y: [30, 25], x: [30, 25] }}
           padding={{
             bottom: 70,
@@ -80,8 +80,7 @@ const PerfHistoricCharts = (props: { chartData; day; endtime }) => {
   const memoryChart = () => {
     const historicdata = Object.entries(timeStampFormattedData).map(([key, value]) => {
       const memoryAmount = formatNumber(
-        (value as any).recommendation_terms[props.day]?.recommendation_engines?.performance?.config.requests.memory
-          .amount
+        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config.requests.memory.amount
       );
       const displayKey = props.day === 'short_term' ? key.split(' ')[1] : key.split(' ')[0];
       return {
@@ -108,7 +107,7 @@ const PerfHistoricCharts = (props: { chartData; day; endtime }) => {
           legendOrientation="vertical"
           legendPosition="right"
           height={250}
-          name="Performance Memory Recommendations"
+          name="Cost Memory Recommendations"
           domainPadding={{ y: [30, 25], x: [30, 25] }}
           padding={{
             bottom: 70,
@@ -161,4 +160,4 @@ const PerfHistoricCharts = (props: { chartData; day; endtime }) => {
   );
 };
 
-export { PerfHistoricCharts };
+export { CostHistoricCharts };

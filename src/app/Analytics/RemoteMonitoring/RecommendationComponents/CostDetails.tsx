@@ -11,11 +11,12 @@ import {
   PageSectionVariants
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
-import { PerfHistoricCharts } from './PerfHistoricCharts';
-import { addPlusSign } from './ChatDataPreparation';
+import { CostHistoricCharts } from './CostHistoricCharts';
+import { addPlusSign } from './ChartDataPreparation';
 
-const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
-  //console.log(props.recommendedData[0]?.recommendation_engines.performance);
+const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
+  // console.log(props.recommendedData[0].recommendation_engines);
+
   const NumberFormat = (number) =>
     typeof number === 'number' && !isNaN(number) ? (number % 1 !== 0 ? number.toFixed(3) : number) : '';
 
@@ -36,29 +37,29 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
   const recommended_code = `resources: 
   requests: 
     memory: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.memory.amount
+      props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.amount
     )}${UnitFormat(
-    props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.memory.format
+    props.recommendedData[0]?.recommendation_engines?.cost.config.requests.memory.format
   )}"    # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.amount)
-  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.format)}
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.amount)
+  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.memory.format)}
     cpu: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.cpu.amount
+      props.recommendedData[0]?.recommendation_engines?.cost.config.requests.cpu.amount
     )}"            # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.cpu.amount)
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.requests.cpu.amount)
   )}
   limits: 
     memory: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.memory.amount
+      props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.amount
     )}${UnitFormat(
-    props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.memory.format
+    props.recommendedData[0]?.recommendation_engines?.cost.config.limits.memory.format
   )}"    # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.amount)
-  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.format)}   
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.amount)
+  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.memory.format)}   
     cpu: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.cpu.amount
+      props.recommendedData[0]?.recommendation_engines?.cost.config.limits.cpu.amount
     )}"            # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.cpu.amount)
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost.variation.limits.cpu.amount)
   )}`;
 
   return (
@@ -83,8 +84,9 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
           </Card>
         </GridItem>
       </Grid>
-      {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
+      {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
     </PageSection>
   );
 };
-export { PerfDetails };
+
+export { CostDetails };
