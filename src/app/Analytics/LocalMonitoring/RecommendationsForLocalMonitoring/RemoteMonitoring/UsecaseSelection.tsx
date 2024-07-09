@@ -101,10 +101,10 @@ console.log(usecase)
         }
         // body: JSON.stringify(parsedPayload)
       });
-
+      // ToDo : add notification check 
       // console.log(response)
       const data = await response.json();
-      // console.log(data);
+      console.log(data);
       if (response.ok) {
         setShowFailureAlert(false);
         setTimeout(() => setShowFailureAlert(false), 3000);
@@ -136,16 +136,16 @@ console.log(usecase)
             </FormSelect>
           </GridItem>
           <GridItem span={10}></GridItem>
-          <GridItem span={3} component="li">
+          {/* <GridItem span={3} component="li">
             <Button variant="primary" onClick={() => handleGenerateRecommendationClick(expName)}>
               Generate Recommendations
             </Button>
-          </GridItem>
-          {/* <GridItem span={3} component="li">
-            <Button variant="primary" onClick={handleClick}>
-              Get Recommendations
-            </Button>
           </GridItem> */}
+          <GridItem span={3} component="li">
+            <Button variant="primary" onClick={handleClick}>
+              Recommendations
+            </Button>
+          </GridItem>
         </Grid>
       </Flex>
     </>
