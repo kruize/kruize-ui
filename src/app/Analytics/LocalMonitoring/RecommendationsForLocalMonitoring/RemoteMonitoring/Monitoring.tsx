@@ -20,7 +20,8 @@ const SREdataa = {
   namespace: '',
   name: '',
   type: '',
-  containerArray: []
+  containerArray: [],
+  experiment_type: ''
 };
 
 const Monitoring = () => {

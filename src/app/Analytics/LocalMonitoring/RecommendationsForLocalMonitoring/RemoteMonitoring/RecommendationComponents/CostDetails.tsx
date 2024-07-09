@@ -44,7 +44,6 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   };
 
   const MemoryFormat = (number) => {
-    console.log(typeof number);
     let parsedNo = parseFloat(number);
     if (!parsedNo) return '';
     return convertBytes(parsedNo);
@@ -52,7 +51,6 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
 
   const NumberFormat = (number) => {
     let parsedNo = parseFloat(number);
-    console.log(parsedNo);
     if (!isNaN(parsedNo) && isFinite(parsedNo)) {
       if (Math.floor(parsedNo) !== parsedNo) {
         return parsedNo.toFixed(3);
