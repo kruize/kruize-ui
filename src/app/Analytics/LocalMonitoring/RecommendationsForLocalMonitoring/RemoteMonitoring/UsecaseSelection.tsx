@@ -87,7 +87,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         }
         // body: JSON.stringify(parsedPayload)
       });
-
+      // ToDo : add notification check 
       // console.log(response)
       const data = await response.json();
       console.log(data);
@@ -122,16 +122,16 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
             </FormSelect>
           </GridItem>
           <GridItem span={10}></GridItem>
-          <GridItem span={3} component="li">
+          {/* <GridItem span={3} component="li">
             <Button variant="primary" onClick={() => handleGenerateRecommendationClick(expName)}>
               Generate Recommendations
             </Button>
-          </GridItem>
-          {/* <GridItem span={3} component="li">
-            <Button variant="primary" onClick={handleClick}>
-              Get Recommendations
-            </Button>
           </GridItem> */}
+          <GridItem span={3} component="li">
+            <Button variant="primary" onClick={handleClick}>
+              Recommendations
+            </Button>
+          </GridItem>
         </Grid>
       </Flex>
     </>
