@@ -121,7 +121,8 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
             name: props.SREdata.name,
             type: props.SREdata.type,
             cluster_name: props.SREdata.cluster_name,
-            container_name: props.SREdata.container_name
+            container_name: props.SREdata.container_name,
+            experiment_type: props.SREdata.experiment_type
           }}
         />
       </StackItem>

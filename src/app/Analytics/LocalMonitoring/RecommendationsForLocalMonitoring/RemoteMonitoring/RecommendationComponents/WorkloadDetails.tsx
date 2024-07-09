@@ -14,6 +14,8 @@ export const WorkloadDetails = ({ experimentData }) => {
         Workload type: {experimentData.type}
         <br />
         Workload name: {experimentData.name}
+        <br />
+        Experiment type: {experimentData.experiment_type}
       </Text>
     </TextContent>
   );
