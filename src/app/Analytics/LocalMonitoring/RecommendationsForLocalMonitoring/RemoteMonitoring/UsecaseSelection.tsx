@@ -8,10 +8,17 @@ import {
   Text,
   Grid,
   GridItem,
-  Alert
+  Alert,
+  Tooltip
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
-import { generateRecommendationsURL, getListExperimentsURL, getListExperimentsURLWithParams, getRecommendationsURLWithParams } from '@app/CentralConfig';
+import {
+  generateRecommendationsURL,
+  getListExperimentsURL,
+  getListExperimentsURLWithParams,
+  getRecommendationsURLWithParams
+} from '@app/CentralConfig';
+import { SyncAltIcon } from '@patternfly/react-icons';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; switchTab }) => {
   const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
@@ -43,17 +50,14 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
 
     props.setSREdata({ ...{ ...props.SREdata }, experiment_name: value });
     sessionStorage.setItem('Experiment Name', value);
-    const response =  await fetch(getListExperimentsURLWithParams(value));
+    const response = await fetch(getListExperimentsURLWithParams(value));
     const data = await response.json();
     const experimentUsecase = data[0].experiment_usecase_type;
-    if(experimentUsecase) 
-    {const usecase = Object.keys(experimentUsecase).find(
-      key => experimentUsecase[key] === true
-    );
-console.log(usecase)
-    setExpUsecaseType(usecase);
+    if (experimentUsecase) {
+      const usecase = Object.keys(experimentUsecase).find((key) => experimentUsecase[key] === true);
+      console.log(usecase);
+      setExpUsecaseType(usecase);
     }
-
   };
 
   const handleClick = async () => {
@@ -101,7 +105,7 @@ console.log(usecase)
         }
         // body: JSON.stringify(parsedPayload)
       });
-      // ToDo : add notification check 
+      // ToDo : add notification check
       // console.log(response)
       const data = await response.json();
       console.log(data);
@@ -136,15 +140,18 @@ console.log(usecase)
             </FormSelect>
           </GridItem>
           <GridItem span={10}></GridItem>
-          {/* <GridItem span={3} component="li">
-            <Button variant="primary" onClick={() => handleGenerateRecommendationClick(expName)}>
-              Generate Recommendations
-            </Button>
-          </GridItem> */}
+
           <GridItem span={3} component="li">
             <Button variant="primary" onClick={handleClick}>
               Recommendations
             </Button>
+
+            <div style={{ marginLeft: '18px', display: 'inline-block' }}>
+              <Tooltip id="tooltip-ref1" content={<div>Calls Generate Reccomendations</div>}>
+                <SyncAltIcon onClick={() => handleGenerateRecommendationClick(expName)} />
+              </Tooltip>
+            </div>
+            {/* <SyncAltIcon onClick={() => handleGenerateRecommendationClick(expName)} /> */}
           </GridItem>
         </Grid>
       </Flex>
