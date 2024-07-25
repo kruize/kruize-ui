@@ -46,7 +46,7 @@ const Monitoring = () => {
         <Text component={TextVariants.h1}>Monitoring</Text>
       </TextContent>
       <br />
-      <Tabs
+      {/* <Tabs
         isFilled
         activeKey={activeTabKey}
         onSelect={handleTabClick}
@@ -58,7 +58,7 @@ const Monitoring = () => {
           eventKey={0}
           title={<TabTitleText>Experiment Selection</TabTitleText>}
           aria-label="Tabs filled example content users"
-        >
+        > */}
           <UsecaseSelection
             setEndTimeArray={setEndTimeArray}
             endTimeArray={endTimeArray}
@@ -66,17 +66,17 @@ const Monitoring = () => {
             SREdata={SREdata}
             switchTab={switchTab}
           />
-        </Tab>
+        {/* </Tab> */}
 
-        <Tab eventKey={1} title={<TabTitleText>Recommendations</TabTitleText>}>
+        {/* <Tab eventKey={1} title={<TabTitleText>Recommendations</TabTitleText>}> */}
           <RecommendationTables
             setEndTimeArray={setEndTimeArray}
             endTimeArray={endTimeArray}
             setSREdata={setSREdata}
             SREdata={SREdata}
           />
-        </Tab>
-      </Tabs>
+        {/* </Tab> */}
+      {/* </Tabs> */}
     </PageSection>
   );
 };

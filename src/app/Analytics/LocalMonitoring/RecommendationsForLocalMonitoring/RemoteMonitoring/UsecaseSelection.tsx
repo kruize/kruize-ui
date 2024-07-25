@@ -9,7 +9,8 @@ import {
   Grid,
   GridItem,
   Alert,
-  Tooltip
+  Tooltip,
+  FlexItem
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import {
@@ -130,21 +131,35 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
             <Text component={TextVariants.h3}>Experiment Name</Text>
           </TextContent>
           <GridItem span={4} component="li">
+            <Flex>
+              <FlexItem>
+              
             <FormSelect
-              value={expName}
+              // value={expName}
+              value="Exp name"
               onChange={(_event, value: string) => onChangeExpName(value)}
               aria-label="FormSelect Input"
             >
               {expData != null &&
                 expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
             </FormSelect>
+            </FlexItem>
+            <FlexItem>
+
+            </FlexItem>
+                <FlexItem>
+                   <Button variant="primary" onClick={handleClick}>
+              Recommendations
+            </Button>
+                </FlexItem>
+            </Flex>
           </GridItem>
           <GridItem span={10}></GridItem>
 
           <GridItem span={3} component="li">
-            <Button variant="primary" onClick={handleClick}>
+            {/* <Button variant="primary" onClick={handleClick}>
               Recommendations
-            </Button>
+            </Button> */}
 
             <div style={{ marginLeft: '18px', display: 'inline-block' }}>
               <Tooltip id="tooltip-ref1" content={<div>Calls Generate Reccomendations</div>}>
