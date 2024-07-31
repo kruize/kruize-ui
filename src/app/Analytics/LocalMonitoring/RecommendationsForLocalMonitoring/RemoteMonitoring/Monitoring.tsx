@@ -25,20 +25,21 @@ const SREdataa = {
 };
 
 const Monitoring = () => {
-  const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
+  // const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
   const [SREdata, setSREdata] = useState(SREdataa);
   const [endTimeArray, setEndTimeArray] = useState<any | null>(null);
+  const [displyRecc, setDisplayRecc] = useState<boolean>(false);
 
-  const handleTabClick = (
-    event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
-    tabIndex: string | number
-  ) => {
-    setActiveTabKey(tabIndex);
-  };
+  // const handleTabClick = (
+  //   event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
+  //   tabIndex: string | number
+  // ) => {
+  //   setActiveTabKey(tabIndex);
+  // };
 
-  const switchTab = (tabIndex) => {
-    setActiveTabKey(tabIndex);
-  };
+  // const switchTab = (tabIndex) => {
+  //   setActiveTabKey(tabIndex);
+  // };
 
   return (
     <PageSection variant={PageSectionVariants.light}>
@@ -59,23 +60,26 @@ const Monitoring = () => {
           title={<TabTitleText>Experiment Selection</TabTitleText>}
           aria-label="Tabs filled example content users"
         > */}
-          <UsecaseSelection
-            setEndTimeArray={setEndTimeArray}
-            endTimeArray={endTimeArray}
-            setSREdata={setSREdata}
-            SREdata={SREdata}
-            switchTab={switchTab}
-          />
-        {/* </Tab> */}
+      <UsecaseSelection
+        setEndTimeArray={setEndTimeArray}
+        endTimeArray={endTimeArray}
+        setSREdata={setSREdata}
+        SREdata={SREdata}
+        setDisplayRecc = {setDisplayRecc}
+        // switchTab={switchTab}
+      />
+      {/* </Tab> */}
 
-        {/* <Tab eventKey={1} title={<TabTitleText>Recommendations</TabTitleText>}> */}
-          <RecommendationTables
-            setEndTimeArray={setEndTimeArray}
-            endTimeArray={endTimeArray}
-            setSREdata={setSREdata}
-            SREdata={SREdata}
-          />
-        {/* </Tab> */}
+      {/* <Tab eventKey={1} title={<TabTitleText>Recommendations</TabTitleText>}> */}
+      { displyRecc &&
+      <RecommendationTables
+        setEndTimeArray={setEndTimeArray}
+        endTimeArray={endTimeArray}
+        setSREdata={setSREdata}
+        SREdata={SREdata}
+      />
+}
+      {/* </Tab> */}
       {/* </Tabs> */}
     </PageSection>
   );
