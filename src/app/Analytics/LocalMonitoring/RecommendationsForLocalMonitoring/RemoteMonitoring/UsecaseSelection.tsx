@@ -108,7 +108,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       // ToDo : add notification check
       // console.log(response)
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (response.ok) {
         setShowFailureAlert(false);
         setTimeout(() => setShowFailureAlert(false), 3000);
