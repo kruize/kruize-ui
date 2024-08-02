@@ -54,7 +54,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     const data = await response.json();
     const experimentUsecase = data[0].experiment_usecase_type;
     if (experimentUsecase) {
-      const usecase = Object.keys(experimentUsecase).find((key) => experimentUsecase[key] === true);
+      const usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + " ";
       console.log(usecase);
       setExpUsecaseType(usecase);
     }
