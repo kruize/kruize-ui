@@ -62,19 +62,19 @@ const routes: AppRouteConfig[] = [
     label: 'SRE Analytics',
     routes: [
       {
-        component: Monitoring,
-        exact: true,
-        label: 'Experiments',
-        path: '/experiments',
-        title: 'createexp ',
-        menu: true
-      },
-      {
         component: LocalMonitoring,
         exact: true,
         label: 'DataSources',
         path: '/local_monitoring',
         title: 'Local Monitoring',
+        menu: true
+      },
+      {
+        component: Monitoring,
+        exact: true,
+        label: 'Experiments',
+        path: '/experiments',
+        title: 'createexp ',
         menu: true
       }
     ],
