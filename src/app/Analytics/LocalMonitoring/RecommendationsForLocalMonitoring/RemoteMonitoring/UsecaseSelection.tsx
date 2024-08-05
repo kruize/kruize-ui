@@ -72,15 +72,16 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     const response = await fetch(getListExperimentsURLWithParams(value));
     const data = await response.json();
     const experimentUsecase = data[0].experiment_usecase_type;
+    let usecase ;
     if (experimentUsecase) {
-      const usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + " ";
+      usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + " ";
       console.log(usecase);
       setExpUsecaseType(usecase);
     }
-    handleClick(value);
+    handleClick(value , usecase);
   };
 
-  const handleClick = async (exp_name_value) => {
+  const handleClick = async (exp_name_value, usecase) => {
     try {
       props.setDisplayRecc(true);
       // props.switchTab(1);
@@ -113,7 +114,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         type: type,
         cluster_name: cluster_name,
         container_name: container_name,
-        experiment_type: expUsecaseType
+        experiment_type: usecase
       });
     } catch (err) {
       console.log('processing');
@@ -136,7 +137,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       if (response.ok) {
         setShowFailureAlert(false);
         setTimeout(() => setShowFailureAlert(false), 3000);
-        handleClick(expName);
+        handleClick(expName, expUsecaseType);
       }
     } catch (error) {
       console.error('Error during data import:', error);
@@ -173,7 +174,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                 </Button>
               </FlexItem> */}
               <FlexItem>
-                <Tooltip id="tooltip-ref1" content={<div> Generate Reccomendations</div>}>
+                <Tooltip id="tooltip-ref1" content={<div> Generate Recommendations</div>}>
                   <SyncAltIcon onClick={() => handleGenerateRecommendationClick(expName)} />
                 </Tooltip>
               </FlexItem>
