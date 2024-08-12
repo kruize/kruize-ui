@@ -21,7 +21,7 @@ import {
 } from '@app/CentralConfig';
 import { SyncAltIcon } from '@patternfly/react-icons';
 
-const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc}) => {
+const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc }) => {
   const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
   const list_experiment_url: string = getListExperimentsURL();
 
@@ -29,7 +29,9 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   const [expName, setExpName] = useState<any | null>('');
   const [expUsecaseType, setExpUsecaseType] = useState<string | undefined>('');
   const [expData, setExpData] = useState([]);
-  const [showFailureAlert, setShowFailureAlert] = useState(false);
+  const [showFailureAlert, setShowFailureAlert] = useState<boolean>();
+  const [showReccSuccessAlert, setShowReccSuccessAlert] = useState<boolean>();
+
 
   const fetchData = async () => {
     const response = await fetch(list_experiment_url);
@@ -46,7 +48,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   }, []);
 
   const onChangeExpName = async (value: string) => {
-
     setValue('');
     setExpName('');
     setExpUsecaseType('');
@@ -63,7 +64,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     props.setEndTimeArray([]);
     props.setDisplayRecc(false);
 
-    
     setValue(value);
     setExpName(value);
 
@@ -72,18 +72,20 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     const response = await fetch(getListExperimentsURLWithParams(value));
     const data = await response.json();
     const experimentUsecase = data[0].experiment_usecase_type;
-    let usecase ;
+    let usecase;
     if (experimentUsecase) {
-      usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + " ";
+      usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + ' ';
       console.log(usecase);
       setExpUsecaseType(usecase);
     }
-    handleClick(value , usecase);
+    handleClick(value, usecase);
   };
 
   const handleClick = async (exp_name_value, usecase) => {
     try {
       props.setDisplayRecc(true);
+      setShowReccSuccessAlert(true);
+      setTimeout(() => setShowReccSuccessAlert(false), 2000);
       // props.switchTab(1);
 
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
@@ -136,6 +138,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       // console.log(data);
       if (response.ok) {
         setShowFailureAlert(false);
+        setShowReccSuccessAlert(true);
         setTimeout(() => setShowFailureAlert(false), 3000);
         handleClick(expName, expUsecaseType);
       }
@@ -147,8 +150,12 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   return (
     <>
       <br />
-      {showFailureAlert && <Alert variant="warning" title="Unable to Generate Recommendations" ouiaId="FailureAlert" />}
-
+      {showFailureAlert &&
+        <Alert variant="warning" title="Unable to Generate Reccommendations" ouiaId="FailureAlert" /> }
+        {
+          showReccSuccessAlert &&
+        <Alert variant="success" title="Generating Reccommendations" />
+      }
       <Flex direction={{ default: 'column' }}>
         <Grid hasGutter component="ul">
           <TextContent>
@@ -167,7 +174,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                     expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
                 </FormSelect>
               </FlexItem>
-             
+
               {/* <FlexItem>
                 <Button variant="primary" onClick={handleClick} isDisabled={!expName}>
                   Recommendations
