@@ -29,11 +29,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const [chartDetailsData, setChartDetailsData] = useState([]);
   const [day, setDay] = useState('short_term');
   const [displayChart, setDisplayChart] = useState(true);
-
-
   const [boxPlotTranslatedData, setBoxPlotTranslatedData] = useState([]);
-
-
   const days = [
     { id: '1', value: 'short_term', label: 'Last 1 day', disabled: false },
     { id: '2', value: 'medium_term', label: 'Last 7 days', disabled: false },
@@ -56,8 +52,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         const current_arr: any = [];
         const chartDetailsObject = [];
 
-                // current data
-
+        // current data
         result[0].kubernetes_objects[0].containers.map((container, index) => {
           const currentDat = container.recommendations?.data[endtime]?.current;
           if (currentDat) {
@@ -139,7 +134,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
             });
   
             // for box plots data points
-  
           if (transformedData && transformedData.length > 0) {
             const { name, x, y } = transformedData[0];
   

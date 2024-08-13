@@ -22,7 +22,7 @@ interface Alert {
   type: AlertType;
 }
 
-                                                                      const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; tab; boxPlotData }) => {
+const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; tab; boxPlotData }) => {
   //console.log(props.recommendedData[0]?.recommendation_engines.performance);
 
   const convertBytes = (bytes) => {
