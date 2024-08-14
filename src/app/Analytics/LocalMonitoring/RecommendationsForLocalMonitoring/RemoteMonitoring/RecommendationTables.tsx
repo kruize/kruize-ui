@@ -18,10 +18,11 @@ import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
-  const list_recommendations_url: string = getRecommendationsURLWithParams(
-    sessionStorage.getItem('Experiment Name') || '',
-    'false'
-  );
+  // const list_recommendations_url: string = getRecommendationsURLWithParams(
+  //   sessionStorage.getItem('Experiment Name') || '',
+  //   'false'
+  // );
+  const list_recommendations_url: string = 'https://mocki.io/v1/a1b77535-31ae-488f-b927-01583e0b5103';
 
   const [endtime, setEndtime] = useState<any | null>('');
   const [currentData, setCurrentData] = useState([]);
@@ -41,6 +42,46 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
       setEndtime(props.endTimeArray[0]);
     }
   }, [props.endTimeArray]);
+
+  const processBoxPlotData = (boxPlotArr: any[]) => {
+    if (!boxPlotArr || boxPlotArr.length === 0) {
+      return [];
+    }
+
+    const timestamps = Object.keys(boxPlotArr[0]);
+    const cpuDetails = Object.values(boxPlotArr[0]).map((item: any) => item.cpuUsage);
+    const mmrDetails = Object.values(boxPlotArr[0]).map((item: any) => item.memoryUsage);
+
+    return [
+      {
+        name: 'cpu',
+        x: timestamps,
+        y: cpuDetails
+      },
+      {
+        name: 'mmr',
+        x: timestamps,
+        y: mmrDetails
+      }
+    ];
+  };
+
+  const transformData = (containerData: any, dataKey: 'y', name: string): any[] => {
+    if (!containerData || !Array.isArray(containerData[dataKey])) {
+      console.error(`Data for key '${dataKey}' is undefined or not an array.`);
+      return [];
+    }
+
+    const timestamps = containerData.x;
+    const dataPoints = containerData[dataKey].map((data: any) => [data.min, data.q1, data.median, data.q3, data.max]);
+
+    return timestamps.map((time: any, index: number) => ({
+      name: name,
+      x: time,
+      y: dataPoints[index]
+    }));
+  };
+  console.log(boxPlotTranslatedData)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,13 +107,13 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
             recommended_arr.push(recommendationDataNewAPI);
           }
         });
-         //box plot data
-         const boxPlotData =
-         result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime]?.recommendation_terms[day]?.plots
-           ?.plots_data;
-       if (boxPlotData) {
-         boxPlot_arr.push(boxPlotData);
-       }
+        //box plot data
+        const boxPlotData =
+          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime]?.recommendation_terms[day]?.plots
+            ?.plots_data;
+        if (boxPlotData) {
+          boxPlot_arr.push(boxPlotData);
+        }
 
         // all data before a particular time stamp
         result[0].kubernetes_objects[0].containers.map((container, index) => {
@@ -88,7 +129,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           JSON.stringify(chartDetailsObject);
           for (const key in chartDetailsObject) {
             const value = chartDetailsObject[key];
-            // console.log(`${key}`, value);
 
             if (key === endtime) {
               break;
@@ -96,7 +136,6 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           }
         });
         if (recommended_arr[0]?.recommendation_engines) {
-          // console.log('render ', recommended_arr);
           setDisplayChart(true);
         } else {
           setDisplayChart(false);
@@ -104,66 +143,84 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         setCurrentData(current_arr);
         setRecommendedData(recommended_arr);
         setChartDetailsData(chartDetailsObject);
-          // setBoxPlotData(boxPlot_arr);
 
-          const chartData = Object.keys(boxPlot_arr).map((key) => {
-            if (boxPlot_arr && boxPlot_arr[0]) {
-              const timestamps = Object.keys(boxPlot_arr[0]);
-              const cpuDetails = Object.values(boxPlot_arr[0]).map((key) => key.cpuUsage);
-  
-              return {
-                name: 'cpu',
-                x: timestamps,
-                y: cpuDetails
-              };
-            } else return 0;
-          });
-  
-          // console.log(chartData);
-          const transformedData =
-            chartData &&
-            chartData.map((containerData) => {
-              const timestamps = containerData.x;
-              const yData = containerData.y.map((data) => [data.min, data.q1, data.median, data.q3, data.max]);
-  
-              return {
-                name: 'cpu',
-                x: timestamps,
-                y: yData
-              };
-            });
-  
-            // for box plots data points
-          if (transformedData && transformedData.length > 0) {
-            const { name, x, y } = transformedData[0];
-  
-            const translatedData = x.map((time, index) => ({
-              name: name,
-              x: time,
-              y: y[index]
-            }));
-            setBoxPlotTranslatedData(translatedData);
-          } else {
-            console.log('currentData is empty or not structured as expected.');
-          }
-  
-          // for the limits & request line data points
-          if (transformedData && transformedData.length > 0) {
-            const { name, x, y } = transformedData[0];
-  
-            const translatedData = x.map((time, index) => ({
-              name: name,
-              x: time,
-              y: recommended_arr[0]?.recommendation_engines?.cost?.config?.limits?.cpu.amount
-            }));
-            console.log(translatedData)
-          } else {
-            console.log('currentData is empty or not structured as expected.');
-          }
+        // Processing box plot data
+
+        const chartData = processBoxPlotData(boxPlot_arr);
+        const [cpuData, mmrData] = chartData;
+
+        const cpuTranslatedData = transformData(cpuData, 'y', 'cpu');
+        const mmrTranslatedData = transformData(mmrData, 'y', 'mmr');
+
+        setBoxPlotTranslatedData({
+          cpu: cpuTranslatedData,
+          mmr: mmrTranslatedData,
+        });
+
+      
+
+        // const chartData = Object.keys(boxPlot_arr).map((key) => {
+        //   if (boxPlot_arr && boxPlot_arr[0]) {
+        //     const timestamps = Object.keys(boxPlot_arr[0]);
+        //     const cpuDetails = Object.values(boxPlot_arr[0]).map((key) => key.cpuUsage);
+        //     // const mmrDetails = Object.values(boxPlot_arr[0]).map((key) => key.mmrUsage);
+
+        //     return {
+        //       name: 'cpu+mmr',
+        //       x: timestamps,
+        //       y: cpuDetails,
+        //       // z: mmrDetails
+        //     };
+        //   } else return 0;
+        // });
+
+        // const transformedData =
+        //   chartData &&
+        //   chartData.map((containerData) => {
+        //     const timestamps = containerData.x;
+        //     const yData = containerData.y.map((data) => [data.min, data.q1, data.median, data.q3, data.max]);
+
+        //     return {
+        //       name: 'cpu+mmr',
+        //       x: timestamps,
+        //       y: yData
+        //       // z: zData
+        //     };
+        //   });
+
+        // //   // for box plots data points
+
+        // if (transformedData && transformedData.length > 0) {
+        //   const { name, x, y } = transformedData[0];
+
+        //   const translatedData = x.map((time, index) => ({
+        //     name: name,
+        //     x: time,
+        //     y: y[index],
+        //   }));
+
+        //   setBoxPlotTranslatedData(translatedData);
+        // } else {
+        //   console.log('currentData is empty or not structured as expected.');
+        // }
+
+        // // for the limits & request line data points
+        // if (transformedData && transformedData.length > 0) {
+        //   const { name, x, y} = transformedData[0];
+
+        //   const translatedData = x.map((time, index) => ({
+        //     name: name,
+        //     x: time,
+        //     y: recommended_arr[0]?.recommendation_engines?.cost?.config?.limits?.cpu.amount,
+        //   }));
+        //   console.log(translatedData)
+        // } else {
+        //   console.log('currentData is empty or not structured as expected.');
+        // }
       }
-    }
-      fetchData();
-    }, [endtime, day]);
+    };
+    fetchData();
+  }, [endtime, day]);
 
   const onChange = async (value: string) => {
     setEndtime(value);

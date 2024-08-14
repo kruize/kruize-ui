@@ -10,6 +10,7 @@ import {
   createContainer
 } from '@patternfly/react-charts';
 import chart_color_orange_300 from '@patternfly/react-tokens/dist/esm/chart_color_orange_300';
+import chart_color_blue_300 from '@patternfly/react-tokens/dist/esm/chart_color_blue_300';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -21,7 +22,7 @@ const formatDate = (dateString) => {
     minute: '2-digit'
   }).format(date);
 };
-const formatNumber = (number, decimals = 3) => {
+const formatNumber = (number, decimals = 2) => {
   if (isNaN(number)) {
     return ''; // Return an empty string or some default value if the value is not a number
   }
@@ -35,10 +36,15 @@ interface BoxPlotProps {
     x: string;
     y: number[];
   }>;
-  requestLimitsData:  Array<{
+  limitsThresholdChartData:  Array<{
     name: string;
     x: string;
     y: number[];
+  }>;
+  requestThresholdChartData:  Array<{
+    name: string;
+    x: string;
+    y: string;
   }>;
   chartTitle: string;
   ariaDesc: string;
@@ -47,13 +53,12 @@ interface BoxPlotProps {
   legendData: Array<{ name: string }>;
 }
 
-const BoxPlot: React.FC<BoxPlotProps> = ({ data, requestLimitsData, chartTitle, ariaDesc, domain, themeColor, legendData }) => {
+const BoxPlot: React.FC<BoxPlotProps> = ({ data, limitsThresholdChartData, requestThresholdChartData, chartTitle, ariaDesc, domain, themeColor, legendData }) => {
 
   const CursorVoronoiContainer = createContainer('voronoi', 'cursor');
-
   const HtmlLegendContent = ({ datum, text, title, x, y}) => (
     <g>
-       <foreignObject height="50%" width="100%" x={x} y={y-60}>
+       <foreignObject height="50%" width="100%" x={x+20} y={y-60}>
         {/* <div style={{ fontSize: '12px',  maxHeight: '150px', overflowY: 'auto' }}> */}
         <table style={{  whiteSpace: 'nowrap'  ,color: '#f0f0f0',}}>
 
@@ -66,24 +71,24 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ data, requestLimitsData, chartTitle, 
           </thead>
           <tbody>
           <tr>
-              <td style={{  }}>Max</td>
-              <td style={{  }}>{formatNumber(datum._max)}</td>
+              <td>Max</td>
+              <td>{formatNumber(datum._max)}</td>
             </tr>
             <tr>
-              <td style={{  }}>Median</td>
-              <td style={{  }}>{formatNumber(datum._median)}</td>
+              <td>Median</td>
+              <td>{formatNumber(datum._median)}</td>
             </tr>
             <tr>
-              <td style={{  }}>Min</td>
-              <td style={{  }}>{formatNumber(datum._min)}</td>
+              <td>Min</td>
+              <td>{formatNumber(datum._min)}</td>
             </tr>
             <tr>
-              <td style={{  }}>Q1</td>
-              <td style={{  }}>{formatNumber(datum._q1)}</td>
+              <td>Q1</td>
+              <td>{formatNumber(datum._q1)}</td>
             </tr>
             <tr>
-              <td style={{  }}>Q3</td>
-              <td style={{  }}>{formatNumber(datum._q3)}</td>
+              <td>Q3</td>
+              <td>{formatNumber(datum._q3)}</td>
             </tr>
           </tbody>
         </table>
@@ -94,7 +99,7 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ data, requestLimitsData, chartTitle, 
 
 
   return (
-    <div style={{ height: '300px', width: '600px' }}>
+    <div style={{ height: '300px', width: '800px' }}>
       <Chart
         ariaDesc={ariaDesc}
         ariaTitle={chartTitle}
@@ -124,7 +129,8 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ data, requestLimitsData, chartTitle, 
         domain={domain}
         domainPadding={{ x: [30, 25] }}
         legendData={legendData}
-        legendPosition="bottom"
+        legendOrientation="vertical"
+        legendPosition="right"
         height={300}
         name="chart4"
         padding={{
@@ -137,18 +143,42 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ data, requestLimitsData, chartTitle, 
         themeColor={themeColor}
         width={600}
       >
-        <ChartAxis tickFormat={(tick) => formatDate(tick)} />
-        <ChartAxis dependentAxis tickFormat={(tick) => formatNumber(tick)} showGrid />
-        <ChartBoxPlot data={data} />
-        {/* <ChartLine
-       data={requestLimitsData}
-        name="limit"
-        style={{
-          data: {
-            stroke: chart_color_orange_300.var
-          }
+        <ChartAxis tickFormat={(tick) => formatDate(tick)} 
+           style={{
+            tickLabels: {
+              angle: -45,
+              transform: 'translate(-20, 10)',
+              textAnchor: 'end',
+              fontSize: 12,
+              margin: '50px 0',
+              paddingTop: '10px'
+            } // Add margin to adjust distance
+          }}/>
+        <ChartAxis 
+         style={{
+          axisLabel: { padding: 60 } // Adjust the value to control the padding
         }}
-      /> */}
+        dependentAxis tickFormat={(tick) => formatNumber(tick)} 
+        showGrid />
+        <ChartBoxPlot data={data} />
+        <ChartThreshold
+            data={limitsThresholdChartData}
+            name="limit"
+            style={{
+              data: {
+                stroke: chart_color_orange_300.var
+              }
+            }}
+          />
+          <ChartThreshold
+            data={requestThresholdChartData}
+            name="request"
+            style={{
+              data: {
+                stroke: chart_color_blue_300.var
+              }
+            }}
+          />
       </Chart>
     </div>
   );

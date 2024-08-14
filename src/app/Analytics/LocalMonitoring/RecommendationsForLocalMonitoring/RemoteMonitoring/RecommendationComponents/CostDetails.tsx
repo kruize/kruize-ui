@@ -15,6 +15,7 @@ import ReusableCodeBlock from './ReusableCodeBlock';
 import { CostHistoricCharts } from './CostHistoricCharts';
 import { addPlusSign } from './ChatDataPreparation';
 import { CostBoxPlotCharts } from './BoxPlots/CostBoxPlotCharts';
+import BoxPlot from './BoxPlots/BoxPlot/BoxPlot';
 
 type AlertType = 'info' | 'danger' | 'warning';
 
@@ -23,43 +24,43 @@ interface Alert {
   type: AlertType;
 }
 
+const convertBytes = (bytes) => {
+  let value: any = parseFloat(bytes);
+  let unit = 'Bytes';
+
+  if (value >= 1024 ** 3) {
+    value = Math.round(value / 1024 ** 3);
+    unit = 'Gi';
+  } else if (value >= 1024 ** 2) {
+    value = Math.round(value / 1024 ** 2);
+    unit = 'Mi';
+  } else if (value >= 1024) {
+    value = Math.round(value / 1024);
+    unit = 'Ki';
+  }
+
+  return `${value} ${unit}`;
+};
+
+export const MemoryFormat = (number) => {
+  let parsedNo = parseFloat(number);
+  if (!parsedNo) return '';
+  return convertBytes(parsedNo);
+};
+
+const NumberFormat = (number) => {
+  let parsedNo = parseFloat(number);
+  if (!isNaN(parsedNo) && isFinite(parsedNo)) {
+    if (Math.floor(parsedNo) !== parsedNo) {
+      return parsedNo.toFixed(3);
+    }
+    return parsedNo.toString();
+  }
+  return '';
+};
+
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart ; boxPlotData}) => {
-  // console.log(props.recommendedData[0].recommendation_engines);
-
-  const convertBytes = (bytes) => {
-    let value: any = parseFloat(bytes);
-    let unit = 'Bytes';
-
-    if (value >= 1024 ** 3) {
-      value = Math.round(value / 1024 ** 3);
-      unit = 'Gi';
-    } else if (value >= 1024 ** 2) {
-      value = Math.round(value / 1024 ** 2);
-      unit = 'Mi';
-    } else if (value >= 1024) {
-      value = Math.round(value / 1024);
-      unit = 'Ki';
-    }
-
-    return `${value} ${unit}`;
-  };
-
-  const MemoryFormat = (number) => {
-    let parsedNo = parseFloat(number);
-    if (!parsedNo) return '';
-    return convertBytes(parsedNo);
-  };
-
-  const NumberFormat = (number) => {
-    let parsedNo = parseFloat(number);
-    if (!isNaN(parsedNo) && isFinite(parsedNo)) {
-      if (Math.floor(parsedNo) !== parsedNo) {
-        return parsedNo.toFixed(3);
-      }
-      return parsedNo.toString();
-    }
-    return '';
-  };
+  console.log(props.boxPlotData?.cpu);
 
   const current_code = `resources: 
   requests: 
@@ -154,9 +155,11 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             </CardBody>
           </Card>
         </GridItem>
-      </Grid>
+      <GridItem>
       <CostBoxPlotCharts boxPlotData={props.boxPlotData} limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config} />
       {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
+     </GridItem>
+      </Grid>
     </PageSection>
   );
 };
