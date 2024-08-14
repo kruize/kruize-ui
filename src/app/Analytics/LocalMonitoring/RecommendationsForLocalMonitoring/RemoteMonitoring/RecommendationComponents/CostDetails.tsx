@@ -154,9 +154,11 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             </CardBody>
           </Card>
         </GridItem>
-        </Grid>
+      <GridItem>
       <CostBoxPlotCharts boxPlotData={props.boxPlotData} limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config} />
       {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
+     </GridItem>
+      </Grid>
     </PageSection>
   );
 };
