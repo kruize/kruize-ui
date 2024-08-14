@@ -12,8 +12,9 @@ import {
   Alert
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
-import { PerfHistoricCharts } from './PerfHistoricCharts';
-import { addPlusSign } from './ChatDataPreparation';
+import { PerfHistoricCharts } from './LinePlot/PerfHistoricCharts';
+import { addPlusSign } from './LinePlot/ChartDataPreparation';
+import { PerfBoxPlotCharts } from './BoxPlots/PerfBoxPlotCharts';
 
 type AlertType = 'info' | 'danger' | 'warning';
 
@@ -24,7 +25,7 @@ interface Alert {
 
 const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; tab; boxPlotData }) => {
   //console.log(props.recommendedData[0]?.recommendation_engines.performance);
-
+console.log(props.boxPlotData)
   const convertBytes = (bytes) => {
     let value: any = parseFloat(bytes);
     let unit = 'Bytes';
@@ -160,6 +161,7 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
           </Card>
         </GridItem>
       </Grid>
+      <PerfBoxPlotCharts boxPlotData={props.boxPlotData} limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config} />
       {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
     </PageSection>
   );

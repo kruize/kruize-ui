@@ -18,12 +18,10 @@ import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
-  // const list_recommendations_url: string = getRecommendationsURLWithParams(
-  //   sessionStorage.getItem('Experiment Name') || '',
-  //   'false'
-  // );
-  const list_recommendations_url: string = 'https://mocki.io/v1/a1b77535-31ae-488f-b927-01583e0b5103';
-
+  const list_recommendations_url: string = getRecommendationsURLWithParams(
+    sessionStorage.getItem('Experiment Name') || '',
+    'false'
+  );
   const [endtime, setEndtime] = useState<any | null>('');
   const [currentData, setCurrentData] = useState([]);
   const [recommendedData, setRecommendedData] = useState([]);
@@ -155,68 +153,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
         setBoxPlotTranslatedData({
           cpu: cpuTranslatedData,
           mmr: mmrTranslatedData,
-        });
-
-      
-
-        // const chartData = Object.keys(boxPlot_arr).map((key) => {
-        //   if (boxPlot_arr && boxPlot_arr[0]) {
-        //     const timestamps = Object.keys(boxPlot_arr[0]);
-        //     const cpuDetails = Object.values(boxPlot_arr[0]).map((key) => key.cpuUsage);
-        //     // const mmrDetails = Object.values(boxPlot_arr[0]).map((key) => key.mmrUsage);
-
-        //     return {
-        //       name: 'cpu+mmr',
-        //       x: timestamps,
-        //       y: cpuDetails,
-        //       // z: mmrDetails
-        //     };
-        //   } else return 0;
-        // });
-
-        // const transformedData =
-        //   chartData &&
-        //   chartData.map((containerData) => {
-        //     const timestamps = containerData.x;
-        //     const yData = containerData.y.map((data) => [data.min, data.q1, data.median, data.q3, data.max]);
-
-        //     return {
-        //       name: 'cpu+mmr',
-        //       x: timestamps,
-        //       y: yData
-        //       // z: zData
-        //     };
-        //   });
-
-        // //   // for box plots data points
-
-        // if (transformedData && transformedData.length > 0) {
-        //   const { name, x, y } = transformedData[0];
-
-        //   const translatedData = x.map((time, index) => ({
-        //     name: name,
-        //     x: time,
-        //     y: y[index],
-        //   }));
-
-        //   setBoxPlotTranslatedData(translatedData);
-        // } else {
-        //   console.log('currentData is empty or not structured as expected.');
-        // }
-
-        // // for the limits & request line data points
-        // if (transformedData && transformedData.length > 0) {
-        //   const { name, x, y} = transformedData[0];
-
-        //   const translatedData = x.map((time, index) => ({
-        //     name: name,
-        //     x: time,
-        //     y: recommended_arr[0]?.recommendation_engines?.cost?.config?.limits?.cpu.amount,
-        //   }));
-        //   console.log(translatedData)
-        // } else {
-        //   console.log('currentData is empty or not structured as expected.');
-        // }
+        }); 
       }
     };
     fetchData();

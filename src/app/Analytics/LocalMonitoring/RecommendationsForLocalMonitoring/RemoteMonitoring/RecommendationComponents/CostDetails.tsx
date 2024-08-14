@@ -12,10 +12,9 @@ import {
   Alert
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
-import { CostHistoricCharts } from './CostHistoricCharts';
-import { addPlusSign } from './ChatDataPreparation';
+import { CostHistoricCharts } from './LinePlot/CostHistoricCharts';
+import { addPlusSign } from './LinePlot/ChartDataPreparation';
 import { CostBoxPlotCharts } from './BoxPlots/CostBoxPlotCharts';
-import BoxPlot from './BoxPlots/BoxPlot/BoxPlot';
 
 type AlertType = 'info' | 'danger' | 'warning';
 
@@ -155,11 +154,9 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             </CardBody>
           </Card>
         </GridItem>
-      <GridItem>
+        </Grid>
       <CostBoxPlotCharts boxPlotData={props.boxPlotData} limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config} />
       {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
-     </GridItem>
-      </Grid>
     </PageSection>
   );
 };
