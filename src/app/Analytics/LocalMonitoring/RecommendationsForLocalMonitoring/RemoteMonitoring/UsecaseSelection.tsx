@@ -22,7 +22,6 @@ import {
 import { SyncAltIcon } from '@patternfly/react-icons';
 
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc }) => {
-  const list_recommendations_url: string = getRecommendationsURLWithParams(props.SREdata.experiment_name, 'false');
   const list_experiment_url: string = getListExperimentsURL();
 
   const [value, setValue] = useState('');
@@ -75,7 +74,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     let usecase;
     if (experimentUsecase) {
       usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + ' ';
-      console.log(usecase);
       setExpUsecaseType(usecase);
     }
     handleClick(value, usecase);
@@ -84,9 +82,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   const handleClick = async (exp_name_value, usecase) => {
     try {
       props.setDisplayRecc(true);
-      setShowReccSuccessAlert(true);
-      setTimeout(() => setShowReccSuccessAlert(false), 2000);
-      // props.switchTab(1);
 
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
 
@@ -96,7 +91,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       var type = data[0].kubernetes_objects[0].type;
       var cluster_name = data[0].cluster_name;
       var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
-      // var experiment_type = data[0].kubernetes_objects[0];
 
       var endtime: any[] = [];
       endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
@@ -130,21 +124,16 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         headers: {
           'Content-Type': 'application/json'
         }
-        // body: JSON.stringify(parsedPayload)
       });
-      // ToDo : add notification check
-      // console.log(response)
-      const data = await response.json();
-      // console.log(data);
       if (response.ok) {
-        setShowFailureAlert(false);
         setShowReccSuccessAlert(true);
-        setTimeout(() => setShowFailureAlert(false), 3000);
+        setTimeout(() => setShowReccSuccessAlert(false), 3000);
         handleClick(expName, expUsecaseType);
       }
     } catch (error) {
       console.error('Error during data import:', error);
       setShowFailureAlert(true);
+      setTimeout(() => setShowFailureAlert(false), 3000);
     }
   };
   return (
