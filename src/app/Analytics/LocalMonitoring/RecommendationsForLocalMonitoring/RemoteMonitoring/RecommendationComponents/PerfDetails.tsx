@@ -23,9 +23,28 @@ interface Alert {
   type: AlertType;
 }
 
-const PerfDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; tab; boxPlotData }) => {
-  //console.log(props.recommendedData[0]?.recommendation_engines.performance);
-console.log(props.boxPlotData)
+const PerfDetails = (props: {
+  recommendedData;
+  currentData;
+  chartData;
+  day;
+  endtime;
+  displayChart;
+  tab;
+  boxPlotData;
+}) => {
+  const limits = props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits;
+  const config_keys = limits ? Object.keys(limits) : [];
+
+  let gpu_val;
+  let nvidiaKey = config_keys.find((key) => key.toLowerCase().includes('nvidia'));
+
+  if (nvidiaKey) {
+    gpu_val = limits[nvidiaKey]?.amount;
+  } else {
+    console.log("No 'nvidia' key found.");
+  }
+
   const convertBytes = (bytes) => {
     let value: any = parseFloat(bytes);
     let unit = 'Bytes';
@@ -104,7 +123,7 @@ console.log(props.boxPlotData)
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
   const utilizationAlert = (recommendation) => {
-    const notifications = recommendation[0]?.recommendation_engines?.cost?.notifications;
+    const notifications = recommendation[0]?.recommendation_engines?.performance?.notifications;
     try {
       const newAlerts: Alert[] = [];
       Object.values(notifications).forEach((notification: any, index) => {
@@ -156,12 +175,19 @@ console.log(props.boxPlotData)
             <CardTitle>Recommendation</CardTitle>
             <CardBody>
               <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
-              <ReusableCodeBlock code={recommended_code} includeActions={true} />
+              {config_keys && config_keys.length === 3 ? (
+                <ReusableCodeBlock code={`${recommended_code}\n    ${nvidiaKey}: "${gpu_val}"`} includeActions={true} />
+              ) : (
+                <ReusableCodeBlock code={recommended_code} includeActions={true} />
+              )}
             </CardBody>
           </Card>
         </GridItem>
       </Grid>
-      <PerfBoxPlotCharts boxPlotData={props.boxPlotData} limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config} />
+      <PerfBoxPlotCharts
+        boxPlotData={props.boxPlotData}
+        limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
+      />
       {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
     </PageSection>
   );
