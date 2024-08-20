@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ChartThemeColor,
+
 } from '@patternfly/react-charts';
 import { Flex, FlexItem } from '@patternfly/react-core';
 import BoxPlot from './BoxPlot';
+import chart_color_blue_300 from '@patternfly/react-tokens/dist/esm/chart_color_blue_300';
 
-const CostBoxPlotCharts = (props: { boxPlotData; limitRequestData }) => {
+const PerfBoxPlotCharts = (props: { boxPlotData; limitRequestData }) => {
   const cpuDataLimit = props.limitRequestData?.limits?.cpu.amount;
   const cpuDataRequest = props.limitRequestData?.requests?.cpu.amount;
 
@@ -37,7 +39,7 @@ console.log(mmrDataRequest)
   };
   const ab = convertMmrData(props.boxPlotData?.mmr)
   console.log(ab)
-  // cpu and mmr box plots for cost
+  // cpu and mmr box plots for performance
   return (
     <Flex direction={{ default: 'row' }} >
       <FlexItem style={{ width: '50%' }}>
@@ -69,4 +71,4 @@ console.log(mmrDataRequest)
   );
 };
 
-export { CostBoxPlotCharts };
+export { PerfBoxPlotCharts };

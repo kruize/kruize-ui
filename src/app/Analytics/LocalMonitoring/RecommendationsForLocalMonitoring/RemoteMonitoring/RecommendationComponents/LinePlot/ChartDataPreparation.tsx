@@ -1,20 +1,3 @@
-// export function filterLastNDayData(data, givenDay, numDays) {
-//   const oneDayInMillis = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
-//   const givenDayMillis = Date.parse(givenDay);
-//   const filteredData = {};
-
-//   for (const key in data) {
-//     if (data.hasOwnProperty(key)) {
-//       const timestampMillis = Date.parse(key);
-//       if (givenDayMillis - timestampMillis <= oneDayInMillis * numDays && givenDayMillis - timestampMillis >= 0) {
-//         filteredData[key] = data[key];
-//       }
-//     }
-//   }
-
-//   return filteredData;
-// }
-
 export function filterDataByTerm(data, givenDay, term) {
   let numDays;
 
@@ -43,6 +26,7 @@ export function formatTimestamps(timestampsData) {
 
   return formattedData;
 }
+
 
 export function formatNumber(input) {
   if (typeof input === 'number') {

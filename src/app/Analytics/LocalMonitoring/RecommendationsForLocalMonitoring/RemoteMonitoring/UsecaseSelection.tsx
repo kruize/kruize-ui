@@ -21,7 +21,9 @@ import {
 } from '@app/CentralConfig';
 import { SyncAltIcon } from '@patternfly/react-icons';
 
+
 const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc }) => {
+
   const list_experiment_url: string = getListExperimentsURL();
   const [value, setValue] = useState('');
   const [expName, setExpName] = useState<any | null>('');
@@ -85,7 +87,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
 
       const data = await (await fetch(list_recommendations_url)).json();
-      console.log(data[0].kubernetes_objects[0].containers[0].recommendations.data)
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
