@@ -14,6 +14,7 @@ import {
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { CostHistoricCharts } from './CostHistoricCharts';
 import { addPlusSign } from './ChatDataPreparation';
+import { CostBoxPlotCharts } from './BoxPlots/CostBoxPlotCharts';
 
 type AlertType = 'info' | 'danger' | 'warning';
 
@@ -22,7 +23,7 @@ interface Alert {
   type: AlertType;
 }
 
-const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart }) => {
+const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart ; boxPlotData}) => {
   // console.log(props.recommendedData[0].recommendation_engines);
 
   const convertBytes = (bytes) => {
@@ -154,6 +155,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
           </Card>
         </GridItem>
       </Grid>
+      <CostBoxPlotCharts boxPlotData={props.boxPlotData} limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config} />
       {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
     </PageSection>
   );
