@@ -58,8 +58,18 @@ const NumberFormat = (number) => {
   return '';
 };
 
-const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart ; boxPlotData}) => {
-  console.log(props.boxPlotData?.cpu);
+const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; boxPlotData }) => {
+  const limits = props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits;
+  const config_keys = limits ? Object.keys(limits) : [];
+
+  let gpu_val;
+  let nvidiaKey = config_keys.find((key) => key.toLowerCase().includes('nvidia'));
+
+  if (nvidiaKey) {
+    gpu_val = limits[nvidiaKey]?.amount;
+  } else {
+    console.log("No 'nvidia' key found.");
+  }
 
   const current_code = `resources: 
   requests: 
@@ -150,12 +160,19 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             <CardTitle>Recommendation</CardTitle>
             <CardBody>
               <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
-              <ReusableCodeBlock code={recommended_code} includeActions={true} />
+              {config_keys && config_keys.length === 3 ? (
+                <ReusableCodeBlock code={`${recommended_code}\n    ${nvidiaKey}: "${gpu_val}"`} includeActions={true} />
+              ) : (
+                <ReusableCodeBlock code={recommended_code} includeActions={true} />
+              )}
             </CardBody>
           </Card>
         </GridItem>
-        </Grid>
-      <CostBoxPlotCharts boxPlotData={props.boxPlotData} limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config} />
+      </Grid>
+      <CostBoxPlotCharts
+        boxPlotData={props.boxPlotData}
+        limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config}
+      />
       {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
     </PageSection>
   );
