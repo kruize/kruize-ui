@@ -84,7 +84,8 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     try {
       props.setDisplayRecc(true);
 
-      const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
+      const list_recommendations_url: string = 'https://mocki.io/v1/9dd25d7b-2d79-4a3b-b586-0a767e5dbf41'
+      // getRecommendationsURLWithParams(exp_name_value, 'false');
 
       const data = await (await fetch(list_recommendations_url)).json();
       var namespace = data[0].kubernetes_objects[0].namespace;
