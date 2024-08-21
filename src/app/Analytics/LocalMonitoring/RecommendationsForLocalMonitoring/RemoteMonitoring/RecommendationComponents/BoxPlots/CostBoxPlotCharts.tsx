@@ -32,7 +32,7 @@ console.log(mmrDataRequest)
   const convertMmrData = (data: any[]) => {
     return data?.map((item) => ({
       ...item,
-      y: item?.y?.map((value: number)=>(value/1024 ** 2))
+      y: item?.y?.map((value: number)=>(value/1024 ** 3))
     }));
   };
   const ab = convertMmrData(props.boxPlotData?.mmr)
@@ -47,7 +47,7 @@ console.log(mmrDataRequest)
         requestThresholdChartData={cpurequestChart}
         chartTitle="CPU"
         ariaDesc="CPU"
-        domain={{ y: [0, 0.1] }}
+        domain={{ y: [0, 4] }}
         themeColor={ChartThemeColor.orange}
         legendData={[{ name: 'CPU' }]}
       />
@@ -60,7 +60,7 @@ console.log(mmrDataRequest)
         requestThresholdChartData={mmrrequestChart}
         chartTitle="Memory"
         ariaDesc="Memory"
-        domain={{ y: [100,144] }}
+        domain={{ y: [1,9] }}
         themeColor={ChartThemeColor.orange}
         legendData={[{ name: 'Memory' }]}
       />

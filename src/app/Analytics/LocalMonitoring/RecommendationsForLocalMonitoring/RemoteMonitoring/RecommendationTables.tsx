@@ -18,10 +18,12 @@ import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
 
 const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
   // @ts-ignore
-  const list_recommendations_url: string = getRecommendationsURLWithParams(
-    sessionStorage.getItem('Experiment Name') || '',
-    'false'
-  );
+  // const list_recommendations_url: string = getRecommendationsURLWithParams(
+  //   sessionStorage.getItem('Experiment Name') || '',
+  //   'false'
+  // );
+  const list_recommendations_url: string = 'https://mocki.io/v1/9dd25d7b-2d79-4a3b-b586-0a767e5dbf41'
+
   const [endtime, setEndtime] = useState<any | null>('');
   const [currentData, setCurrentData] = useState([]);
   const [recommendedData, setRecommendedData] = useState([]);

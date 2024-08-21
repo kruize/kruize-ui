@@ -47,6 +47,24 @@ export const MemoryFormat = (number) => {
   return convertBytes(parsedNo);
 };
 
+export const MemoryFormatP = (number) => {
+  let parsedNo = parseFloat(number);
+  if (!parsedNo) return '';
+  console.log(addPlusSign(Math.round(parsedNo / 1024 ** 3)))
+  return addPlusSign(Math.round(parsedNo / 1024 ** 3))
+
+};
+
+export const NumberFormatP = (number) => {
+  let parsedNo = parseFloat(number);
+  if (!isNaN(parsedNo) && isFinite(parsedNo)) {
+    if (Math.floor(parsedNo) !== parsedNo) {
+      return addPlusSign(parsedNo.toFixed(3));
+    }
+    return addPlusSign(parsedNo.toString());
+  }
+  return '';
+};
 const NumberFormat = (number) => {
   let parsedNo = parseFloat(number);
   if (!isNaN(parsedNo) && isFinite(parsedNo)) {
@@ -83,25 +101,24 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   requests: 
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.requests?.memory?.amount
-    )}"    # ${addPlusSign(
-      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.memory?.amount)
-    )}
+    )}"    # ${MemoryFormatP(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.memory?.amount)
+    }
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.requests?.cpu?.amount
-    )}"            # ${addPlusSign(
-      NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.cpu?.amount)
-    )}
+    )}"      # ${
+      NumberFormatP(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.cpu?.amount)
+    }
   limits: 
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.memory?.amount
-    )}"    # ${addPlusSign(
-      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.memory?.amount)
-    )}  
+    )}"    # ${
+      MemoryFormatP(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.memory.amount)
+    }  
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.cpu?.amount
-    )}"            # ${addPlusSign(
-      NumberFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount)
-    )}`;
+    )}"      # ${
+      NumberFormatP(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount)
+    }`;
 
   // Code for Alert / Notifications
 
