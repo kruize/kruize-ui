@@ -10,7 +10,8 @@ import {
   GridItem,
   Alert,
   Tooltip,
-  FlexItem
+  FlexItem,
+  AlertGroup
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import {
@@ -31,8 +32,15 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   const [expData, setExpData] = useState([]);
   const [showFailureAlert, setShowFailureAlert] = useState<boolean>();
   const [showReccSuccessAlert, setShowReccSuccessAlert] = useState<boolean>();
+  const [notifications, setNotifications] = useState([]);
 
-
+  const alertVariantMap = {
+    info: 'info',
+    warning: 'warning',
+    error: 'danger',
+    critical: 'danger',
+  };
+  
   const fetchData = async () => {
     const response = await fetch(list_experiment_url);
     const data = await response.json();
@@ -85,7 +93,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       props.setDisplayRecc(true);
 
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
-
       const data = await (await fetch(list_recommendations_url)).json();
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
@@ -93,10 +100,16 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       var cluster_name = data[0].cluster_name;
       var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
 
+      // notifications 
+
+      setNotifications(data[0].kubernetes_objects[0].containers[0].recommendations.notifications)
+      // data
+
       var endtime: any[] = [];
       endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
 
       props.setEndTimeArray(endtime);
+
 
       var containerArray: any[] = [];
       for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
@@ -146,6 +159,19 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
           showReccSuccessAlert &&
         <Alert variant="success" title="Generating Reccommendations" />
       }
+      <AlertGroup isToast>
+      {Object.keys(notifications).map((key) => {
+        const notification = notifications[key];
+        return (
+          <Alert
+            key={notification.code}
+            variant={alertVariantMap[notification.type] || 'info'}
+            isInline
+            title={notification.message}
+          />
+        );
+      })}
+    </AlertGroup>
       <Flex direction={{ default: 'column' }}>
         <Grid hasGutter component="ul">
           <TextContent>
