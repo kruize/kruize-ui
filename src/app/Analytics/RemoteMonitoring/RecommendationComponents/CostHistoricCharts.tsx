@@ -10,7 +10,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const cpuChart = () => {
     const historicdata = Object.entries(timeStampFormattedData).map(([key, value]) => {
       const cpuAmount = formatNumber(
-        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config.requests.cpu.amount
+        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config?.requests?.cpu?.amount
       );
       const displayKey = props.day === 'short_term' ? key.split(' ')[1] : key.split(' ')[0];
       return {
@@ -80,7 +80,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const memoryChart = () => {
     const historicdata = Object.entries(timeStampFormattedData).map(([key, value]) => {
       const memoryAmount = formatNumber(
-        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config.requests.memory.amount
+        (value as any).recommendation_terms[props.day]?.recommendation_engines?.cost?.config?.requests?.memory?.amount
       );
       const displayKey = props.day === 'short_term' ? key.split(' ')[1] : key.split(' ')[0];
       return {

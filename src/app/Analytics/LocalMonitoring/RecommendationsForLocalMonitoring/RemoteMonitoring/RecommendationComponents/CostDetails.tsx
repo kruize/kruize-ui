@@ -95,7 +95,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.memory?.amount
     )}"    # ${addPlusSign(
-      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.memory.amount)
+      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.memory?.amount)
     )}  
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.cpu?.amount

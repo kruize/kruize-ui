@@ -8,11 +8,11 @@ import BoxPlot from './BoxPlot';
 import chart_color_blue_300 from '@patternfly/react-tokens/dist/esm/chart_color_blue_300';
 
 const PerfBoxPlotCharts = (props: { boxPlotData; limitRequestData }) => {
-  const cpuDataLimit = props.limitRequestData?.limits?.cpu.amount;
-  const cpuDataRequest = props.limitRequestData?.requests?.cpu.amount;
+  const cpuDataLimit = props.limitRequestData?.limits?.cpu?.amount;
+  const cpuDataRequest = props.limitRequestData?.requests?.cpu?.amount;
 
-  const mmrDataLimit = (props.limitRequestData?.limits?.memory.amount)/1024 ** 2;
-  const mmrDataRequest = (props.limitRequestData?.requests?.memory.amount)/1024 ** 2;
+  const mmrDataLimit = (props.limitRequestData?.limits?.memory?.amount)/1024 ** 2;
+  const mmrDataRequest = (props.limitRequestData?.requests?.memory?.amount)/1024 ** 2;
 console.log(mmrDataLimit)
 console.log(mmrDataRequest)
   const cpulimitsChart = props.boxPlotData?.cpu?.map((dict) => {
