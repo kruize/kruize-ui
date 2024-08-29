@@ -6,11 +6,11 @@ import { Flex, FlexItem } from '@patternfly/react-core';
 import BoxPlot from './BoxPlot';
 
 const CostBoxPlotCharts = (props: { boxPlotData; limitRequestData }) => {
-  const cpuDataLimit = props.limitRequestData?.limits?.cpu.amount;
-  const cpuDataRequest = props.limitRequestData?.requests?.cpu.amount;
+  const cpuDataLimit = props.limitRequestData?.limits?.cpu?.amount;
+  const cpuDataRequest = props.limitRequestData?.requests?.cpu?.amount;
 
-  const mmrDataLimit = (props.limitRequestData?.limits?.memory.amount)/1024 ** 2;
-  const mmrDataRequest = (props.limitRequestData?.requests?.memory.amount)/1024 ** 2;
+  const mmrDataLimit = (props.limitRequestData?.limits?.memory?.amount)/1024 ** 2;
+  const mmrDataRequest = (props.limitRequestData?.requests?.memory?.amount)/1024 ** 2;
 console.log(mmrDataLimit)
 console.log(mmrDataRequest)
   const cpulimitsChart = props.boxPlotData?.cpu?.map((dict) => {

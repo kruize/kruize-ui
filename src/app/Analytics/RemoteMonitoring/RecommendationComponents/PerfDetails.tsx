@@ -36,29 +36,29 @@ const PerfDetails = (props: { recommendedData; currentData; chartData; day; endt
   const recommended_code = `resources: 
   requests: 
     memory: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.memory.amount
+      props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.memory?.amount
     )}${UnitFormat(
-    props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.memory.format
+    props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.memory?.format
   )}"    # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.amount)
-  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.memory.format)}
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount)
+  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.format)}
     cpu: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config.requests.cpu.amount
+      props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.cpu?.amount
     )}"            # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.requests.cpu.amount)
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.cpu?.amount)
   )}
   limits: 
     memory: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.memory.amount
+      props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.memory?.amount
     )}${UnitFormat(
-    props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.memory.format
+    props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.memory?.format
   )}"    # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.amount)
-  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.memory.format)}   
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount)
+  )}${UnitFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.format)}   
     cpu: "${NumberFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config.limits.cpu.amount
+      props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.cpu?.amount
     )}"            # ${addPlusSign(
-    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation.limits.cpu.amount)
+    NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.cpu?.amount)
   )}`;
 
   return (
