@@ -2,6 +2,8 @@ import {
   TextContent,
   TextVariants,
   Flex,
+  Alert,
+  AlertGroup,
   FlexItem,
   FormSelect,
   FormSelectOption,
@@ -9,14 +11,35 @@ import {
   Split,
   SplitItem,
   Stack,
-  StackItem
+  StackItem,
+  CardHeader,
+  CardBody,
+  Card
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
 import { TabSection } from './RecommendationComponents/TabSection';
 import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
+import { InfoCircleIcon, ExclamationCircleIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
 
-const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata }) => {
+const alertIconMap = {
+  info: <InfoCircleIcon style={{ color: '#2B9AF3' }} />,
+  warning: <ExclamationTriangleIcon style={{ color: '#F0AB00' }} />,
+  error: <ExclamationCircleIcon style={{ color: '#C9190B' }} />,
+  critical: <ExclamationCircleIcon style={{ color: '#C9190B' }} />
+};
+interface Notification {
+  type: string;
+  message: string;
+}
+const RecommendationTables = (props: {
+  endTimeArray;
+  setEndTimeArray;
+  SREdata;
+  setSREdata;
+  notification;
+  setNotification;
+}) => {
   // @ts-ignore
   const list_recommendations_url: string = getRecommendationsURLWithParams(
     sessionStorage.getItem('Experiment Name') || '',
@@ -28,7 +51,10 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
   const [chartDetailsData, setChartDetailsData] = useState([]);
   const [day, setDay] = useState('short_term');
   const [displayChart, setDisplayChart] = useState(true);
-  const [boxPlotTranslatedData, setBoxPlotTranslatedData] = useState([]);
+  const [boxPlotTranslatedData, setBoxPlotTranslatedData] = useState<{ cpu: any[]; mmr: any[] }>({
+    cpu: [],
+    mmr: []
+  });
   const days = [
     { id: '1', value: 'short_term', label: 'Last 1 day', disabled: false },
     { id: '2', value: 'medium_term', label: 'Last 7 days', disabled: false },
@@ -79,7 +105,7 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
       y: dataPoints[index]
     }));
   };
-  console.log(boxPlotTranslatedData)
+  console.log(boxPlotTranslatedData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -152,8 +178,31 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
 
         setBoxPlotTranslatedData({
           cpu: cpuTranslatedData,
-          mmr: mmrTranslatedData,
-        }); 
+          mmr: mmrTranslatedData
+        });
+
+        // Notifications
+        const endTimeNotifications =
+          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime].notifications || [];
+        // we can ignore displying this notification for now
+        const termNotifications =
+          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime].recommendation_terms[day]
+            .notifications || [];
+
+        const mergedNotifications = { ...props.notification.level1, ...endTimeNotifications };
+        const entries = Object.entries(mergedNotifications) as [string, Notification][];
+
+        const infoNotifications = entries.filter(([key, notification]) => notification?.type === 'info');
+        const otherNotifications = entries.filter(([key, notification]) => notification?.type !== 'info');
+        const infNotifications = Object.fromEntries(infoNotifications);
+        const othNotifications = Object.fromEntries(otherNotifications);
+
+        console.log(infNotifications);
+
+        props.setNotification({
+          level2: { info: infNotifications, others: othNotifications },
+          level3: termNotifications
+        });
       }
     };
     fetchData();
@@ -183,6 +232,47 @@ const RecommendationTables = (props: { endTimeArray; setEndTimeArray; SREdata; s
           }}
         />
       </StackItem>
+      <Card style={{ width: '800px' }}>
+        <Flex>
+          <FlexItem spacer={{ default: 'spacer3xl' }}>
+            <AlertGroup>
+              {Object.keys(props.notification?.level2?.info || {}).map((key) => {
+                const notification = props.notification?.level2?.info[key];
+                const alertType = notification.type || 'info';
+                const Icon = alertIconMap[alertType];
+
+                return (
+                  <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                    {Icon}
+                    <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
+                      {notification.message}
+                    </span>
+                  </div>
+                );
+              })}
+            </AlertGroup>
+          </FlexItem>
+          <FlexItem>
+            <AlertGroup>
+              {Object.keys(props.notification?.level2?.others || {}).map((key) => {
+                const notification = props.notification?.level2?.others[key];
+                const alertType = notification.type || 'info';
+                const Icon = alertIconMap[alertType];
+
+                return (
+                  <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                    {Icon}
+                    <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
+                      {notification.message}
+                    </span>
+                  </div>
+                );
+              })}
+            </AlertGroup>
+          </FlexItem>
+        </Flex>
+      </Card>
+
       <StackItem>
         <Stack hasGutter>
           <Flex className="example-border">
