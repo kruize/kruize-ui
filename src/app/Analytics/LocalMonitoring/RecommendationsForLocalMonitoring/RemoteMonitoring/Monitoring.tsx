@@ -29,6 +29,11 @@ const Monitoring = () => {
   const [SREdata, setSREdata] = useState(SREdataa);
   const [endTimeArray, setEndTimeArray] = useState<any | null>(null);
   const [displyRecc, setDisplayRecc] = useState<boolean>(false);
+  const [notifications, setNotifications] = useState<any | null>({ 
+    level1: {},
+    level2: {info : {}, others: {}},
+    level3: {}
+  });
 
   // const handleTabClick = (
   //   event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
@@ -66,6 +71,8 @@ const Monitoring = () => {
         setSREdata={setSREdata}
         SREdata={SREdata}
         setDisplayRecc = {setDisplayRecc}
+        notification={notifications}
+        setNotification={setNotifications}
         // switchTab={switchTab}
       />
       {/* </Tab> */}
@@ -77,6 +84,8 @@ const Monitoring = () => {
         endTimeArray={endTimeArray}
         setSREdata={setSREdata}
         SREdata={SREdata}
+        notification={notifications}
+        setNotification={setNotifications}
       />
 }
       {/* </Tab> */}

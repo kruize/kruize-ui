@@ -133,6 +133,10 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   const utilizationAlert = (recommendation) => {
     const notifications = recommendation[0]?.recommendation_engines?.cost?.notifications;
     try {
+      if (!notifications) {
+        console.warn('No notifications found.');
+        return;
+      } 
       const newAlerts: Alert[] = [];
       Object.values(notifications).forEach((notification: any, index) => {
         const message = `${notification.code} - ${notification.message}`;
@@ -186,10 +190,13 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
           </Card>
         </GridItem>
       </Grid>
+      {props.boxPlotData && props.recommendedData[0]?.recommendation_engines?.cost?.config ?
       <CostBoxPlotCharts
         boxPlotData={props.boxPlotData}
         limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config}
       />
+: <div> No data to plot box</div>
+}
       {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
     </PageSection>
   );

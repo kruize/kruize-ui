@@ -121,6 +121,10 @@ const PerfDetails = (props: {
   const utilizationAlert = (recommendation) => {
     const notifications = recommendation[0]?.recommendation_engines?.performance?.notifications;
     try {
+      if (!notifications) {
+        console.warn('No notifications found.');
+        return;
+      }
       const newAlerts: Alert[] = [];
       Object.values(notifications).forEach((notification: any, index) => {
         const message = `${notification.code} - ${notification.message}`;

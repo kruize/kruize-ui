@@ -10,7 +10,9 @@ import {
   GridItem,
   Alert,
   Tooltip,
-  FlexItem
+  FlexItem,
+  AlertGroup,
+  Level
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import {
@@ -22,7 +24,7 @@ import {
 import { SyncAltIcon } from '@patternfly/react-icons';
 
 
-const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc }) => {
+const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc; notification; setNotification }) => {
 
   const list_experiment_url: string = getListExperimentsURL();
   const [value, setValue] = useState('');
@@ -32,7 +34,13 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   const [showFailureAlert, setShowFailureAlert] = useState<boolean>();
   const [showReccSuccessAlert, setShowReccSuccessAlert] = useState<boolean>();
 
-
+  const alertVariantMap = {
+    info: 'info',
+    warning: 'warning',
+    error: 'danger',
+    critical: 'danger',
+  };
+  
   const fetchData = async () => {
     const response = await fetch(list_experiment_url);
     const data = await response.json();
@@ -82,21 +90,29 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
 
   const handleClick = async (exp_name_value, usecase) => {
     try {
-      props.setDisplayRecc(true);
 
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
-
       const data = await (await fetch(list_recommendations_url)).json();
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
       var cluster_name = data[0].cluster_name;
       var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
-
       var endtime: any[] = [];
       endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
 
       props.setEndTimeArray(endtime);
+    
+      const initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
+
+      props.setNotification({
+        level1: initialNotifications
+      });
+      const has111000 = initialNotifications.hasOwnProperty('111000');
+
+     props.setDisplayRecc(has111000);
+    //  console.log(initialNotifications)
+    //  console.log(has111000)
 
       var containerArray: any[] = [];
       for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
@@ -113,9 +129,10 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         container_name: container_name,
         experiment_type: usecase
       });
-    } catch (err) {
-      console.log('processing');
     }
+      catch {
+        console.log("Execution incompleted.");
+      }
   };
 
   const handleGenerateRecommendationClick = async (expName) => {
