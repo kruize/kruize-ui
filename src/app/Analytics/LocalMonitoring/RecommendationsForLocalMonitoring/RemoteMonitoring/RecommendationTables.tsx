@@ -99,16 +99,21 @@ const RecommendationTables = (props: {
     const timestamps = containerData.x;
     // const dataPoints = containerData[dataKey].map((data: any) => [data.min, data.q1, data.median, data.q3, data.max]);
     const dataPoints = containerData[dataKey].map((data: any) => {
-      if (data && typeof data.min !== 'undefined' && typeof data.q1 !== 'undefined' &&
-          typeof data.median !== 'undefined' && typeof data.q3 !== 'undefined' && 
-          typeof data.max !== 'undefined') {
+      if (
+        data &&
+        typeof data.min !== 'undefined' &&
+        typeof data.q1 !== 'undefined' &&
+        typeof data.median !== 'undefined' &&
+        typeof data.q3 !== 'undefined' &&
+        typeof data.max !== 'undefined'
+      ) {
         return [data.min, data.q1, data.median, data.q3, data.max];
       } else {
         console.warn('Data is missing required properties:', data);
-        return [null, null, null, null, null]; 
+        return [null, null, null, null, null];
       }
     });
-    
+
     return timestamps.map((time: any, index: number) => ({
       name: name,
       x: time,
@@ -148,7 +153,7 @@ const RecommendationTables = (props: {
         if (boxPlotData) {
           boxPlot_arr.push(boxPlotData);
         }
-console.log(boxPlotData)
+        console.log(boxPlotData);
         // all data before a particular time stamp
         result[0].kubernetes_objects[0].containers.map((container, index) => {
           const allRecommData = container.recommendations.data;
@@ -242,47 +247,6 @@ console.log(boxPlotData)
           }}
         />
       </StackItem>
-      <Card style={{ width: '800px' }}>
-        <Flex>
-          <FlexItem spacer={{ default: 'spacer3xl' }}>
-            <AlertGroup>
-              {Object.keys(props.notification?.level2?.info || {}).map((key) => {
-                const notification = props.notification?.level2?.info[key];
-                const alertType = notification.type || 'info';
-                const Icon = alertIconMap[alertType];
-
-                return (
-                  <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    {Icon}
-                    <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
-                      {notification.message}
-                    </span>
-                  </div>
-                );
-              })}
-            </AlertGroup>
-          </FlexItem>
-          <FlexItem>
-            <AlertGroup>
-              {Object.keys(props.notification?.level2?.others || {}).map((key) => {
-                const notification = props.notification?.level2?.others[key];
-                const alertType = notification.type || 'info';
-                const Icon = alertIconMap[alertType];
-
-                return (
-                  <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    {Icon}
-                    <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
-                      {notification.message}
-                    </span>
-                  </div>
-                );
-              })}
-            </AlertGroup>
-          </FlexItem>
-        </Flex>
-      </Card>
-
       <StackItem>
         <Stack hasGutter>
           <Flex className="example-border">
@@ -334,6 +298,52 @@ console.log(boxPlotData)
               </Split>
             </FlexItem>
           </Flex>
+          <Card style={{ width: '800px' }}>
+            <Flex>
+              <FlexItem spacer={{ default: 'spacer3xl' }}>
+                <AlertGroup>
+                  {Object.keys(props.notification?.level2?.info || {}).map((key) => {
+                    const notification = props.notification?.level2?.info[key];
+                    const alertType = notification.type || 'info';
+                    const Icon = alertIconMap[alertType];
+
+                    return (
+                      <div
+                        key={notification.code}
+                        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
+                      >
+                        {Icon}
+                        <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
+                          {notification.message}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </AlertGroup>
+              </FlexItem>
+              <FlexItem>
+                <AlertGroup>
+                  {Object.keys(props.notification?.level2?.others || {}).map((key) => {
+                    const notification = props.notification?.level2?.others[key];
+                    const alertType = notification.type || 'info';
+                    const Icon = alertIconMap[alertType];
+
+                    return (
+                      <div
+                        key={notification.code}
+                        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
+                      >
+                        {Icon}
+                        <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
+                          {notification.message}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </AlertGroup>
+              </FlexItem>
+            </Flex>
+          </Card>
           <StackItem>
             <TabSection
               recommendedData={recommendedData}
