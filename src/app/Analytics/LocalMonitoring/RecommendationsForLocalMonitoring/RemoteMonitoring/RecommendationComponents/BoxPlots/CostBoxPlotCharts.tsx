@@ -1,9 +1,23 @@
 import React from 'react';
-import {
-  ChartThemeColor,
-} from '@patternfly/react-charts';
+import { ChartThemeColor } from '@patternfly/react-charts';
 import { Flex, FlexItem } from '@patternfly/react-core';
 import BoxPlot from './BoxPlot';
+
+export const convertMmrData = (data: any[]) => {
+  return data?.map((item) => ({
+    ...item,
+    y: item?.y?.map((value: number) => value / 1024 ** 3)
+  }));
+};
+
+export const getMaxValueFromConvertedData = (data: any[],cpuTrue) => {
+  const convertedData = cpuTrue?  data : convertMmrData(data);
+  const allValues = convertedData.flatMap((item) => item.y || []);
+
+  const maxValue = Math.max(...allValues);
+  const minVal = Math.min(...allValues)
+  return {maxValue, minVal};
+};
 
 const CostBoxPlotCharts = (props: { boxPlotData; limitRequestData }) => {
   const cpuDataLimit = props.limitRequestData?.limits?.cpu?.amount;
@@ -26,45 +40,41 @@ console.log(mmrDataRequest)
   const mmrrequestChart = props.boxPlotData?.mmr?.map((dict) => {
     return { ...dict, y: mmrDataRequest };
   });
+  
+  const { maxValue: maxcpuValue, minVal: mincpuVal } = props.boxPlotData?.cpu  ? getMaxValueFromConvertedData(props.boxPlotData?.cpu, true)   : { maxValue: 1, minVal: 0 };
+  
+  console.log(maxcpuValue, mincpuVal)
+  const { maxValue, minVal } =  props.boxPlotData?.mmr ? getMaxValueFromConvertedData(props.boxPlotData?.mmr, false):{ maxValue: 1, minVal: 0 }
+  const ab = convertMmrData(props.boxPlotData?.mmr);
 
-
-  /// converter
-  const convertMmrData = (data: any[]) => {
-    return data?.map((item) => ({
-      ...item,
-      y: item?.y?.map((value: number)=>(value/1024 ** 2))
-    }));
-  };
-  const ab = convertMmrData(props.boxPlotData?.mmr)
-  console.log(ab)
   // cpu and mmr box plots for cost
   return (
-    <Flex direction={{ default: 'row' }} >
+    <Flex direction={{ default: 'row' }}>
       <FlexItem style={{ width: '50%' }}>
-      <BoxPlot
-        data={props.boxPlotData?.cpu}
-        limitsThresholdChartData={cpulimitsChart}
-        requestThresholdChartData={cpurequestChart}
-        chartTitle="CPU"
-        ariaDesc="CPU"
-        domain={{ y: [0, 0.1] }}
-        themeColor={ChartThemeColor.orange}
-        legendData={[{ name: 'CPU' }]}
-      />
-</FlexItem>
+        <BoxPlot
+          data={props.boxPlotData?.cpu}
+          limitsThresholdChartData={cpulimitsChart}
+          requestThresholdChartData={cpurequestChart}
+          chartTitle="CPU"
+          ariaDesc="CPU"
+          domain={{ y: [mincpuVal, maxcpuValue] }}
+          themeColor={ChartThemeColor.orange}
+          legendData={[{ name: 'CPU' }]}
+        />
+      </FlexItem>
 
-<FlexItem>
-      <BoxPlot
-        data={ab}
-        limitsThresholdChartData={mmrlimitsChart}
-        requestThresholdChartData={mmrrequestChart}
-        chartTitle="Memory"
-        ariaDesc="Memory"
-        domain={{ y: [100,144] }}
-        themeColor={ChartThemeColor.orange}
-        legendData={[{ name: 'Memory' }]}
-      />
-    </FlexItem>
+      <FlexItem>
+        <BoxPlot
+          data={ab}
+          limitsThresholdChartData={mmrlimitsChart}
+          requestThresholdChartData={mmrrequestChart}
+          chartTitle="Memory"
+          ariaDesc="Memory"
+          domain={{ y: [minVal, maxValue] }}
+          themeColor={ChartThemeColor.orange}
+          legendData={[{ name: 'Memory' }]}
+        />
+      </FlexItem>
     </Flex>
   );
 };

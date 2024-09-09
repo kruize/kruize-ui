@@ -15,7 +15,7 @@ import ReusableCodeBlock from './ReusableCodeBlock';
 import { PerfHistoricCharts } from './LinePlot/PerfHistoricCharts';
 import { addPlusSign } from './LinePlot/ChartDataPreparation';
 import { PerfBoxPlotCharts } from './BoxPlots/PerfBoxPlotCharts';
-
+import { NumberFormatP, MemoryFormatP } from './CostDetails';
 type AlertType = 'info' | 'danger' | 'warning';
 
 interface Alert {
@@ -92,25 +92,21 @@ const PerfDetails = (props: {
   requests: 
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.memory?.amount
-    )}"    # ${addPlusSign(
-      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount)
-    )}
+    )}"    # ${MemoryFormatP(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount)
+    }
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.cpu?.amount
-    )}"            # ${addPlusSign(
-      NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.cpu?.amount)
-    )}
+    )}"      # ${NumberFormatP(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.cpu?.amount)
+    }
   limits: 
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.memory?.amount
-    )}"    # ${addPlusSign(
-      MemoryFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount)
-    )}   
+    )}"    # ${MemoryFormatP(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount)
+    }   
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.cpu?.amount
-    )}"            # ${addPlusSign(
-      NumberFormat(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.cpu?.amount)
-    )}`;
+    )}"      # ${NumberFormatP(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.cpu?.amount)
+    }`;
 
   // Code for Alert / Notifications
 
