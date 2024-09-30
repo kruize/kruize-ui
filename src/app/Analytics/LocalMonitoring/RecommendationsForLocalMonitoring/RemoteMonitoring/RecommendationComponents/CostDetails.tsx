@@ -50,9 +50,8 @@ export const MemoryFormat = (number) => {
 export const MemoryFormatP = (number) => {
   let parsedNo = parseFloat(number);
   if (!parsedNo) return '';
-  console.log(addPlusSign(Math.round(parsedNo / 1024 ** 3)))
-  return addPlusSign(Math.round(parsedNo / 1024 ** 3))
-
+  console.log(addPlusSign(Math.round(parsedNo / 1024 ** 3)));
+  return addPlusSign(Math.round(parsedNo / 1024 ** 3));
 };
 
 export const NumberFormatP = (number) => {
@@ -79,6 +78,7 @@ const NumberFormat = (number) => {
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; boxPlotData }) => {
   const limits = props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits;
   const config_keys = limits ? Object.keys(limits) : [];
+  const [showCostBoxPlot, setShowCostBoxPlot] = useState(true);
 
   let gpu_val;
   let nvidiaKey = config_keys.find((key) => key.toLowerCase().includes('nvidia'));
@@ -101,24 +101,25 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   requests: 
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.requests?.memory?.amount
-    )}"    # ${MemoryFormatP(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.memory?.amount)
-    }
+    )}"    # ${MemoryFormatP(
+      props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.memory?.amount
+    )}
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.requests?.cpu?.amount
-    )}"      # ${
-      NumberFormatP(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.cpu?.amount)
-    }
+    )}"      # ${NumberFormatP(
+      props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.cpu?.amount
+    )}
   limits: 
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.memory?.amount
-    )}"    # ${
-      MemoryFormatP(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.memory.amount)
-    }  
+    )}"    # ${MemoryFormatP(
+      props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.memory.amount
+    )}  
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.cpu?.amount
-    )}"      # ${
-      NumberFormatP(props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount)
-    }`;
+    )}"      # ${NumberFormatP(
+      props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount
+    )}`;
 
   // Code for Alert / Notifications
 
@@ -132,11 +133,14 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
 
   const utilizationAlert = (recommendation) => {
     const notifications = recommendation[0]?.recommendation_engines?.cost?.notifications;
+    if (notifications?.hasOwnProperty(323001)) {
+      setShowCostBoxPlot(false);
+    }
     try {
       if (!notifications) {
         console.warn('No notifications found.');
         return;
-      } 
+      }
       const newAlerts: Alert[] = [];
       Object.values(notifications).forEach((notification: any, index) => {
         const message = `${notification.code} - ${notification.message}`;
@@ -190,13 +194,16 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
           </Card>
         </GridItem>
       </Grid>
-      {props.boxPlotData && props.recommendedData[0]?.recommendation_engines?.cost?.config ?
-      <CostBoxPlotCharts
-        boxPlotData={props.boxPlotData}
-        limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config}
-      />
-: <div> No data to plot box</div>
-}
+      {props.boxPlotData && props.recommendedData[0]?.recommendation_engines?.cost?.config ? (
+        <CostBoxPlotCharts
+          boxPlotData={props.boxPlotData}
+          showCostBoxPlot={showCostBoxPlot}
+          day={props.day} 
+          limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config}
+        />
+      ) : (
+        <div> No data to plot box</div>
+      )}
       {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
     </PageSection>
   );

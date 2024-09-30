@@ -35,6 +35,7 @@ const PerfDetails = (props: {
 }) => {
   const limits = props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits;
   const config_keys = limits ? Object.keys(limits) : [];
+  const [showPerfBoxPlot, setShowPerfBoxPlot] = useState(true);
 
   let gpu_val;
   let nvidiaKey = config_keys.find((key) => key.toLowerCase().includes('nvidia'));
@@ -120,6 +121,10 @@ const PerfDetails = (props: {
 
   const utilizationAlert = (recommendation) => {
     const notifications = recommendation[0]?.recommendation_engines?.performance?.notifications;
+    if (notifications?.hasOwnProperty(323001)) {
+      setShowPerfBoxPlot(false);
+    }
+    console.log("perfn", notifications)
     try {
       if (!notifications) {
         console.warn('No notifications found.');
@@ -186,6 +191,8 @@ const PerfDetails = (props: {
       </Grid>
       <PerfBoxPlotCharts
         boxPlotData={props.boxPlotData}
+        showPerfBoxPlot={showPerfBoxPlot}
+        day={props.day} 
         limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
       />
       {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
