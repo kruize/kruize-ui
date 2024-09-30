@@ -9,18 +9,21 @@ import {
   Text,
   TextVariants,
   PageSectionVariants,
-  Alert
+  Alert,
+  AlertGroup
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { PerfHistoricCharts } from './LinePlot/PerfHistoricCharts';
-import { addPlusSign } from './LinePlot/ChartDataPreparation';
 import { PerfBoxPlotCharts } from './BoxPlots/PerfBoxPlotCharts';
 import { NumberFormatP, MemoryFormatP } from './CostDetails';
+import { alertIconMap } from '../RecommendationTables';
+import { render } from 'enzyme';
 type AlertType = 'info' | 'danger' | 'warning';
 
 interface Alert {
   message: string;
   type: AlertType;
+  icon: React.ReactNode;
 }
 
 const PerfDetails = (props: {
@@ -93,38 +96,42 @@ const PerfDetails = (props: {
   requests: 
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.memory?.amount
-    )}"    # ${MemoryFormatP(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount)
-    }
+    )}"    # ${MemoryFormatP(
+      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount
+    )}
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.cpu?.amount
-    )}"      # ${NumberFormatP(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.cpu?.amount)
-    }
+    )}"      # ${NumberFormatP(
+      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.cpu?.amount
+    )}
   limits: 
     memory: "${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.memory?.amount
-    )}"    # ${MemoryFormatP(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount)
-    }   
+    )}"    # ${MemoryFormatP(
+      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount
+    )}   
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.cpu?.amount
-    )}"      # ${NumberFormatP(props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.cpu?.amount)
-    }`;
+    )}"      # ${NumberFormatP(
+      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.cpu?.amount
+    )}`;
 
   // Code for Alert / Notifications
 
   useEffect(() => {
     if (props.recommendedData !== null) {
-      utilizationAlert(props.recommendedData);
+      NotificationsAtPerfLevel(props.recommendedData);
     }
-  }, [props.tab]);
+  }, [props.tab, props.day, props.endtime, props.recommendedData]);
 
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
-  const utilizationAlert = (recommendation) => {
+  const NotificationsAtPerfLevel = (recommendation) => {
     const notifications = recommendation[0]?.recommendation_engines?.performance?.notifications;
     if (notifications?.hasOwnProperty(323001)) {
       setShowPerfBoxPlot(false);
     }
-    console.log("perfn", notifications)
+    console.log('perfn', notifications);
     try {
       if (!notifications) {
         console.warn('No notifications found.');
@@ -132,7 +139,7 @@ const PerfDetails = (props: {
       }
       const newAlerts: Alert[] = [];
       Object.values(notifications).forEach((notification: any, index) => {
-        const message = `${notification.code} - ${notification.message}`;
+        const message = `${notification.message}`;
         let type: AlertType = 'info';
 
         if (notification.type == 'notice' || notification.type == 'info') {
@@ -142,30 +149,39 @@ const PerfDetails = (props: {
         } else if (notification.type == 'warning') {
           type = 'warning';
         }
-        newAlerts.push({ message, type });
-        setAlerts(newAlerts);
-        setShowSuccessAlert(true);
-        // setTimeout(() => {
-        //   setAlerts([]);
-        //   setShowSuccessAlert(false);
-        // }, 2000);
+
+        const Icon = alertIconMap[type];
+        newAlerts.push({ message, type, icon: Icon });
       });
+
+      setAlerts(newAlerts);
     } catch (error) {
       console.error('Error during data import:', error);
       setAlerts([]);
-      setShowSuccessAlert(false);
     }
   };
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
+  const renderNotifications = (notifications: any) => (
+    <AlertGroup>
+      {Object.keys(notifications || {}).map((key) => {
+        const notification = notifications[key];
+        const alertType = notification.type || 'info';
+        const Icon = alertIconMap[alertType];
+
+        return (
+          <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            {Icon}
+            <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>{notification.message}</span>
+          </div>
+        );
+      })}
+    </AlertGroup>
+  );
 
   return (
     <PageSection variant={PageSectionVariants.light}>
       <Grid hasGutter>
-        {showSuccessAlert == true ? (
-          alerts.map((alert) => <Alert variant={alert.type} title={alert.message} ouiaId="InfoAlert" />)
-        ) : (
-          <></>
-        )}
+        {renderNotifications(alerts)}
         <GridItem span={6} rowSpan={8}>
           <Card ouiaId="BasicCard" isFullHeight>
             <CardTitle>Current State</CardTitle>
@@ -192,7 +208,7 @@ const PerfDetails = (props: {
       <PerfBoxPlotCharts
         boxPlotData={props.boxPlotData}
         showPerfBoxPlot={showPerfBoxPlot}
-        day={props.day} 
+        day={props.day}
         limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
       />
       {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}

@@ -22,7 +22,7 @@ import { TabSection } from './RecommendationComponents/TabSection';
 import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
 import { InfoCircleIcon, ExclamationCircleIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
 
-const alertIconMap = {
+export const alertIconMap = {
   info: <InfoCircleIcon style={{ color: '#2B9AF3' }} />,
   warning: <ExclamationTriangleIcon style={{ color: '#F0AB00' }} />,
   error: <ExclamationCircleIcon style={{ color: '#C9190B' }} />,
@@ -231,6 +231,26 @@ const RecommendationTables = (props: {
     setDay(value);
   };
 
+  const renderNotifications = (notifications: any) => (
+    <AlertGroup>
+      {Object.keys(notifications || {}).map((key) => {
+        const notification = notifications[key];
+        const alertType = notification.type || 'info';
+        const Icon = alertIconMap[alertType];
+
+        return (
+          <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            {Icon}
+            <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
+              {notification.message}
+            </span>
+          </div>
+        );
+      })}
+    </AlertGroup>
+  );
+  
+
   return (
     <Stack hasGutter>
       <StackItem>
@@ -301,46 +321,10 @@ const RecommendationTables = (props: {
           <Card style={{ width: '800px' }}>
             <Flex>
               <FlexItem spacer={{ default: 'spacer3xl' }}>
-                <AlertGroup>
-                  {Object.keys(props.notification?.level2?.info || {}).map((key) => {
-                    const notification = props.notification?.level2?.info[key];
-                    const alertType = notification.type || 'info';
-                    const Icon = alertIconMap[alertType];
-
-                    return (
-                      <div
-                        key={notification.code}
-                        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
-                      >
-                        {Icon}
-                        <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
-                          {notification.message}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </AlertGroup>
+              {props.notification.level2 && renderNotifications(props.notification.level2.info)}
               </FlexItem>
               <FlexItem>
-                <AlertGroup>
-                  {Object.keys(props.notification?.level2?.others || {}).map((key) => {
-                    const notification = props.notification?.level2?.others[key];
-                    const alertType = notification.type || 'info';
-                    const Icon = alertIconMap[alertType];
-
-                    return (
-                      <div
-                        key={notification.code}
-                        style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
-                      >
-                        {Icon}
-                        <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>
-                          {notification.message}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </AlertGroup>
+              {props.notification.level2 && renderNotifications(props.notification.level2.others)}
               </FlexItem>
             </Flex>
           </Card>

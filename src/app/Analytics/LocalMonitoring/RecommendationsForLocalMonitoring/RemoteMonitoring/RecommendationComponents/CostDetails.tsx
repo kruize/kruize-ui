@@ -9,18 +9,21 @@ import {
   Text,
   TextVariants,
   PageSectionVariants,
-  Alert
+  Alert,
+  AlertGroup
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { CostHistoricCharts } from './LinePlot/CostHistoricCharts';
 import { addPlusSign } from './LinePlot/ChartDataPreparation';
 import { CostBoxPlotCharts } from './BoxPlots/CostBoxPlotCharts';
+import { alertIconMap } from '../RecommendationTables';
 
 type AlertType = 'info' | 'danger' | 'warning';
 
 interface Alert {
   message: string;
   type: AlertType;
+  icon: React.ReactNode;
 }
 
 const convertBytes = (bytes) => {
@@ -121,17 +124,16 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
       props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount
     )}`;
 
-  // Code for Alert / Notifications
-
+  // Notifications
   useEffect(() => {
     if (props.recommendedData !== null) {
-      utilizationAlert(props.recommendedData);
+      NotificationsAtCostLevel(props.recommendedData);
     }
-  }, [props.recommendedData]);
+  }, [props.recommendedData, props.day, props.endtime]);
 
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
-  const utilizationAlert = (recommendation) => {
+  const NotificationsAtCostLevel = (recommendation) => {
     const notifications = recommendation[0]?.recommendation_engines?.cost?.notifications;
     if (notifications?.hasOwnProperty(323001)) {
       setShowCostBoxPlot(false);
@@ -142,35 +144,50 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
         return;
       }
       const newAlerts: Alert[] = [];
-      Object.values(notifications).forEach((notification: any, index) => {
-        const message = `${notification.code} - ${notification.message}`;
+
+      Object.keys(notifications).forEach((key) => {
+        const message = `${notifications[key].message}`;
         let type: AlertType = 'info';
 
-        if (notification.type == 'notice' || notification.type == 'info') {
+        if (notifications.type == 'notice' || notifications.type == 'info') {
           type = 'info';
-        } else if (notification.type == 'error' || notification.type == 'critical') {
+        } else if (notifications.type == 'error' || notifications.type == 'critical') {
           type = 'danger';
-        } else if (notification.type == 'warning') {
+        } else if (notifications.type == 'warning') {
           type = 'warning';
         }
-        newAlerts.push({ message, type });
-        setAlerts(newAlerts);
-        // setTimeout(() => {
-        //   setAlerts([]);
-        // }, 2000);
+
+        const Icon = alertIconMap[type];
+        newAlerts.push({ message, type, icon: Icon });
       });
+      setAlerts(newAlerts);
     } catch (error) {
       console.error('Error during data import:', error);
       setAlerts([]);
     }
   };
 
+  const renderNotifications = (notifications: any) => (
+    <AlertGroup>
+      {Object.keys(notifications || {}).map((key) => {
+        const notification = notifications[key];
+        const alertType = notification.type || 'info';
+        const Icon = alertIconMap[alertType];
+
+        return (
+          <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            {Icon}
+            <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>{notification.message}</span>
+          </div>
+        );
+      })}
+    </AlertGroup>
+  );
+
   return (
     <PageSection variant={PageSectionVariants.light}>
       <Grid hasGutter>
-        {alerts.map((alert) => (
-          <Alert variant={alert.type} title={alert.message} ouiaId="InfoAlert" />
-        ))}
+        {renderNotifications(alerts)}
         <GridItem span={6} rowSpan={8}>
           <Card ouiaId="BasicCard" isFullHeight>
             <CardTitle>Current State</CardTitle>
@@ -198,7 +215,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
         <CostBoxPlotCharts
           boxPlotData={props.boxPlotData}
           showCostBoxPlot={showCostBoxPlot}
-          day={props.day} 
+          day={props.day}
           limitRequestData={props.recommendedData[0]?.recommendation_engines?.cost?.config}
         />
       ) : (
