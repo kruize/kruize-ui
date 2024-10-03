@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from '@app/index';
 import '@patternfly/react-core/dist/styles/base.css';
 import { setDiagnosticsOptions } from 'monaco-yaml';
-import * as monaco from 'monaco-editor';
 
 setDiagnosticsOptions({
   enableSchemaRequest: true,
@@ -28,5 +27,6 @@ if (process.env.NODE_ENV !== 'production') {
   axe(React, ReactDOM, 1000, config);
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root') as HTMLElement;
+const root = ReactDOM.createRoot(rootElement);
 root.render(<App />);
