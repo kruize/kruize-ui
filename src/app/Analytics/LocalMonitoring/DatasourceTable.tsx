@@ -55,19 +55,16 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
 
   return (
     <React.Fragment>
-      {/* <Text component={TextVariants.h3}>Data Sources</Text> */}
-      {/* <div style={{ width: '800px' }}> */}
-      <div>
         <Table aria-label="Data Sources Table">
           <Thead>
             <Tr>
-              <Th />
+              <Th aria-label="Select" /> 
               <Th>DataSource Name</Th>
               <Th>Action</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {props.fetchDatasourcesData.datasources.map((source, index) => (
+            {props.fetchDatasourcesData?.datasources && props.fetchDatasourcesData.datasources.map((source, index) => (
               <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
                 <Td
                   expand={{
@@ -110,9 +107,7 @@ const DatasourceTable = (props: { fetchDatasourcesData }) => {
             ))}
           </Tbody>
         </Table>
-        {isComponentVisible && <ClusterGroupTables clusterGroupData={clusterGroupData}  dsname={dsname}/>}
-      </div>
-
+        {isComponentVisible && <ClusterGroupTables clusterGroupData={clusterGroupData} dsname={dsname} />}
     </React.Fragment>
   );
 };

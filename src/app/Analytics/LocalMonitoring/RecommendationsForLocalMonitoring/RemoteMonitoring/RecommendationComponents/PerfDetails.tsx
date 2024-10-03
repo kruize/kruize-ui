@@ -9,15 +9,13 @@ import {
   Text,
   TextVariants,
   PageSectionVariants,
-  Alert,
   AlertGroup
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { PerfHistoricCharts } from './LinePlot/PerfHistoricCharts';
 import { PerfBoxPlotCharts } from './BoxPlots/PerfBoxPlotCharts';
-import { NumberFormatP, MemoryFormatP } from './CostDetails';
+import { NumberFormatP, MemoryFormatP , MemoryFormat, NumberFormat} from './CostDetails';
 import { alertIconMap } from '../RecommendationTables';
-import { render } from 'enzyme';
 type AlertType = 'info' | 'danger' | 'warning';
 
 interface Alert {
@@ -48,41 +46,6 @@ const PerfDetails = (props: {
   } else {
     console.log("No 'nvidia' key found.");
   }
-
-  const convertBytes = (bytes) => {
-    let value: any = parseFloat(bytes);
-    let unit = 'Bytes';
-
-    if (value >= 1024 ** 3) {
-      value = Math.round(value / 1024 ** 3);
-      unit = 'Gi';
-    } else if (value >= 1024 ** 2) {
-      value = Math.round(value / 1024 ** 2);
-      unit = 'Mi';
-    } else if (value >= 1024) {
-      value = Math.round(value / 1024);
-      unit = 'Ki';
-    }
-
-    return `${value} ${unit}`;
-  };
-
-  const MemoryFormat = (number) => {
-    let parsedNo = parseFloat(number);
-    if (!parsedNo) return '';
-    return convertBytes(parsedNo);
-  };
-
-  const NumberFormat = (number) => {
-    let parsedNo = parseFloat(number);
-    if (!isNaN(parsedNo) && isFinite(parsedNo)) {
-      if (Math.floor(parsedNo) !== parsedNo) {
-        return parsedNo.toFixed(3);
-      }
-      return parsedNo.toString();
-    }
-    return '';
-  };
 
   const current_code = `resources: 
   requests: 

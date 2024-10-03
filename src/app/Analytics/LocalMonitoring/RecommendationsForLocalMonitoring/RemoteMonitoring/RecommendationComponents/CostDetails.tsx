@@ -9,7 +9,6 @@ import {
   Text,
   TextVariants,
   PageSectionVariants,
-  Alert,
   AlertGroup
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
@@ -41,20 +40,24 @@ const convertBytes = (bytes) => {
     unit = 'Ki';
   }
 
-  return `${value} ${unit}`;
+  return { value, unit };
 };
 
 export const MemoryFormat = (number) => {
   let parsedNo = parseFloat(number);
   if (!parsedNo) return '';
-  return convertBytes(parsedNo);
+  const { value, unit } = convertBytes(parsedNo);
+  return `${value} ${unit}`;
 };
 
 export const MemoryFormatP = (number) => {
   let parsedNo = parseFloat(number);
   if (!parsedNo) return '';
-  console.log(addPlusSign(Math.round(parsedNo / 1024 ** 3)));
-  return addPlusSign(Math.round(parsedNo / 1024 ** 3));
+
+  const { value, unit } = convertBytes(parsedNo);
+  const formattedValue = addPlusSign(Math.round(value));  
+  console.log(formattedValue);
+  return `${formattedValue} ${unit}`; 
 };
 
 export const NumberFormatP = (number) => {
@@ -67,7 +70,7 @@ export const NumberFormatP = (number) => {
   }
   return '';
 };
-const NumberFormat = (number) => {
+export const NumberFormat = (number) => {
   let parsedNo = parseFloat(number);
   if (!isNaN(parsedNo) && isFinite(parsedNo)) {
     if (Math.floor(parsedNo) !== parsedNo) {
@@ -226,4 +229,4 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   );
 };
 
-export { CostDetails };
+export { CostDetails, convertBytes };
