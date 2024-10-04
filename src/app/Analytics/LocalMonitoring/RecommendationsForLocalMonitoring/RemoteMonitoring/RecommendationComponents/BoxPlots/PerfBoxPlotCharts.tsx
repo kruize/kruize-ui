@@ -5,12 +5,12 @@ import BoxPlot from './BoxPlot';
 import chart_color_blue_300 from '@patternfly/react-tokens/dist/esm/chart_color_blue_300';
 import { getMaxValueFromConvertedData, convertMmrData } from './CostBoxPlotCharts';
 
-const PerfBoxPlotCharts = (props: { boxPlotData; day; showPerfBoxPlot; limitRequestData }) => {
+const PerfBoxPlotCharts = (props: { unitValueforMemory ,boxPlotData; day; showPerfBoxPlot; limitRequestData }) => {
   const cpuDataLimit = props.limitRequestData?.limits?.cpu?.amount;
   const cpuDataRequest = props.limitRequestData?.requests?.cpu?.amount;
 
-  const mmrDataLimit = props.limitRequestData?.limits?.memory?.amount / 1024 ** 2;
-  const mmrDataRequest = props.limitRequestData?.requests?.memory?.amount / 1024 ** 2;
+  const mmrDataLimit = props.limitRequestData?.limits?.memory?.amount / 1024 ** props.unitValueforMemory;
+  const mmrDataRequest = props.limitRequestData?.requests?.memory?.amount / 1024 ** props.unitValueforMemory;
 
   const cpulimitsChart = props.boxPlotData?.cpu?.map((dict) => {
     return {
@@ -44,14 +44,14 @@ const PerfBoxPlotCharts = (props: { boxPlotData; day; showPerfBoxPlot; limitRequ
   });
 
   const { maxValue: maxcpuValue, minVal: mincpuVal } = props.boxPlotData?.cpu
-    ? getMaxValueFromConvertedData(props.day, props.boxPlotData?.cpu, cpuDataRequest, true)
+    ? getMaxValueFromConvertedData(props.day, props.boxPlotData?.cpu, cpuDataRequest, true, props.unitValueforMemory)
     : { maxValue: 1, minVal: 0 };
 
   const { maxValue, minVal } = props.boxPlotData?.mmr
-    ? getMaxValueFromConvertedData(props.day, props.boxPlotData?.mmr, mmrDataRequest, false)
+    ? getMaxValueFromConvertedData(props.day, props.boxPlotData?.mmr, mmrDataRequest, false, props.unitValueforMemory)
     : { maxValue: 1, minVal: 0 };
 
-  const mmr_perf_boxplot_data = convertMmrData(props.day, props.boxPlotData?.mmr);
+  const mmr_perf_boxplot_data = convertMmrData(props.day, props.boxPlotData?.mmr, props.unitValueforMemory);
   const cpu_perf_boxplot_data = props.boxPlotData?.cpu?.map((dict) => {
     return { ...dict, x: props.day === 'short_term' ? dict.x.substring(11, 16) : dict.x.split('T')[0] };
   });

@@ -14,7 +14,7 @@ import {
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { PerfHistoricCharts } from './LinePlot/PerfHistoricCharts';
 import { PerfBoxPlotCharts } from './BoxPlots/PerfBoxPlotCharts';
-import { NumberFormatP, MemoryFormatP , MemoryFormat, NumberFormat} from './CostDetails';
+import { NumberFormatP, MemoryFormatP , MemoryFormat, NumberFormat, useMemoryUnit} from './CostDetails';
 import { alertIconMap } from '../RecommendationTables';
 type AlertType = 'info' | 'danger' | 'warning';
 
@@ -37,6 +37,7 @@ const PerfDetails = (props: {
   const limits = props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits;
   const config_keys = limits ? Object.keys(limits) : [];
   const [showPerfBoxPlot, setShowPerfBoxPlot] = useState(true);
+  const { mmrUnit, unitVal } = useMemoryUnit(props.recommendedData, 'performance');
 
   let gpu_val;
   let nvidiaKey = config_keys.find((key) => key.toLowerCase().includes('nvidia'));
@@ -169,6 +170,7 @@ const PerfDetails = (props: {
         </GridItem>
       </Grid>
       <PerfBoxPlotCharts
+        unitValueforMemory={unitVal}
         boxPlotData={props.boxPlotData}
         showPerfBoxPlot={showPerfBoxPlot}
         day={props.day}

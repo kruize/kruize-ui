@@ -44,7 +44,7 @@ const convertBytes = (value) => {
 
   valueFinal = value < 0 ? -valueFinal : valueFinal;
 
-  console.log(value, "converted value:", valueFinal, " sign", sign);
+  // console.log(value, "converted value:", valueFinal, " sign", sign);
   return {
     valueFinal: parseFloat(valueFinal.toFixed(2)).toString(),
     unit
@@ -65,7 +65,7 @@ export const MemoryFormatP = (number) => {
 
   const { valueFinal, unit } = convertBytes(parsedNo);
   const formattedValue =valueFinal
-  console.log(formattedValue);
+  // console.log(formattedValue);
   return `${formattedValue} ${unit}`; 
 };
 
@@ -90,10 +90,37 @@ export const NumberFormat = (number) => {
   return '';
 };
 
+export const useMemoryUnit = (recommendedData, profile) => {
+  const [mmrUnit, setMmrUnit] = useState('');
+  const [unitVal, setUnitVal] = useState(0); 
+
+  useEffect(() => {
+    if (recommendedData?.length > 0) {
+      const mmr_recc_unit = convertBytes(recommendedData[0]?.recommendation_engines?.[profile]?.config?.requests?.memory?.amount);
+      setMmrUnit(mmr_recc_unit.unit);
+
+      // Set unitVal based on the mmr_recc_unit.unit
+      if (mmr_recc_unit.unit === 'Mi') {
+        setUnitVal(2);
+      } else if (mmr_recc_unit.unit === 'Gi') {
+        setUnitVal(3);
+      } else if (mmr_recc_unit.unit === 'Ki') {
+        setUnitVal(1);
+      } else {
+        setUnitVal(0); // Default case if needed
+      }
+    }
+  }, [recommendedData]);
+
+  return { mmrUnit, unitVal };
+};
+
+
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; boxPlotData }) => {
   const limits = props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits;
   const config_keys = limits ? Object.keys(limits) : [];
   const [showCostBoxPlot, setShowCostBoxPlot] = useState(true);
+  const { mmrUnit, unitVal } = useMemoryUnit(props.recommendedData, 'cost');
 
   let gpu_val;
   let nvidiaKey = config_keys.find((key) => key.toLowerCase().includes('nvidia'));
@@ -225,6 +252,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
       </Grid>
       {props.boxPlotData && props.recommendedData[0]?.recommendation_engines?.cost?.config ? (
         <CostBoxPlotCharts
+        unitValueforMemory={unitVal}
           boxPlotData={props.boxPlotData}
           showCostBoxPlot={showCostBoxPlot}
           day={props.day}
