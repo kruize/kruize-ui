@@ -24,38 +24,47 @@ interface Alert {
   type: AlertType;
   icon: React.ReactNode;
 }
-
-const convertBytes = (bytes) => {
-  let value: any = parseFloat(bytes);
+ 
+const convertBytes = (value) => {
   let unit = 'Bytes';
-
-  if (value >= 1024 ** 3) {
-    value = Math.round(value / 1024 ** 3);
+  let sign = value[0]
+  let absValue = Math.abs(value);
+  let valueFinal = absValue;
+ 
+  if (absValue >= 1024 ** 3) {
+    valueFinal = absValue / 1024 ** 3;
     unit = 'Gi';
-  } else if (value >= 1024 ** 2) {
-    value = Math.round(value / 1024 ** 2);
+  } else if (absValue >= 1024 ** 2) {
+    valueFinal = absValue / 1024 ** 2;
     unit = 'Mi';
-  } else if (value >= 1024) {
-    value = Math.round(value / 1024);
+  } else if (absValue >= 1024) {
+    valueFinal = absValue / 1024;
     unit = 'Ki';
   }
 
-  return { value, unit };
+  valueFinal = value < 0 ? -valueFinal : valueFinal;
+
+  console.log(value, "converted value:", valueFinal, " sign", sign);
+  return {
+    valueFinal: parseFloat(valueFinal.toFixed(2)).toString(),
+    unit
+  };
 };
 
 export const MemoryFormat = (number) => {
   let parsedNo = parseFloat(number);
   if (!parsedNo) return '';
-  const { value, unit } = convertBytes(parsedNo);
-  return `${value} ${unit}`;
+
+  const { valueFinal, unit } = convertBytes(parsedNo);
+  return `${valueFinal} ${unit}`;
 };
 
 export const MemoryFormatP = (number) => {
   let parsedNo = parseFloat(number);
   if (!parsedNo) return '';
 
-  const { value, unit } = convertBytes(parsedNo);
-  const formattedValue = addPlusSign(Math.round(value));  
+  const { valueFinal, unit } = convertBytes(parsedNo);
+  const formattedValue =valueFinal
   console.log(formattedValue);
   return `${formattedValue} ${unit}`; 
 };
@@ -64,7 +73,7 @@ export const NumberFormatP = (number) => {
   let parsedNo = parseFloat(number);
   if (!isNaN(parsedNo) && isFinite(parsedNo)) {
     if (Math.floor(parsedNo) !== parsedNo) {
-      return addPlusSign(parsedNo.toFixed(3));
+      return addPlusSign(parseFloat(parsedNo.toFixed(3)).toString())
     }
     return addPlusSign(parsedNo.toString());
   }
@@ -74,7 +83,7 @@ export const NumberFormat = (number) => {
   let parsedNo = parseFloat(number);
   if (!isNaN(parsedNo) && isFinite(parsedNo)) {
     if (Math.floor(parsedNo) !== parsedNo) {
-      return parsedNo.toFixed(3);
+      return parseFloat(parsedNo.toFixed(3)).toString()
     }
     return parsedNo.toString();
   }
@@ -112,7 +121,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
     )}
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.requests?.cpu?.amount
-    )}"      # ${NumberFormatP(
+    )}"           # ${NumberFormatP(
       props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.cpu?.amount
     )}
   limits: 
@@ -123,7 +132,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
     )}  
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.cpu?.amount
-    )}"      # ${NumberFormatP(
+    )}"           # ${NumberFormatP(
       props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount
     )}`;
 

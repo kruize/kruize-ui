@@ -64,7 +64,7 @@ const PerfDetails = (props: {
     )}
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.cpu?.amount
-    )}"      # ${NumberFormatP(
+    )}"           # ${NumberFormatP(
       props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.cpu?.amount
     )}
   limits: 
@@ -75,7 +75,7 @@ const PerfDetails = (props: {
     )}   
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.cpu?.amount
-    )}"      # ${NumberFormatP(
+    )}"           # ${NumberFormatP(
       props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.cpu?.amount
     )}`;
 
