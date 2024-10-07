@@ -9,7 +9,6 @@ import {
   Text,
   TextVariants,
   PageSectionVariants,
-  Alert,
   AlertGroup
 } from '@patternfly/react-core';
 import ReusableCodeBlock from './ReusableCodeBlock';
@@ -25,63 +24,103 @@ interface Alert {
   type: AlertType;
   icon: React.ReactNode;
 }
-
-const convertBytes = (bytes) => {
-  let value: any = parseFloat(bytes);
+ 
+const convertBytes = (value) => {
   let unit = 'Bytes';
-
-  if (value >= 1024 ** 3) {
-    value = Math.round(value / 1024 ** 3);
+  let sign = value[0]
+  let absValue = Math.abs(value);
+  let valueFinal = absValue;
+ 
+  if (absValue >= 1024 ** 3) {
+    valueFinal = absValue / 1024 ** 3;
     unit = 'Gi';
-  } else if (value >= 1024 ** 2) {
-    value = Math.round(value / 1024 ** 2);
+  } else if (absValue >= 1024 ** 2) {
+    valueFinal = absValue / 1024 ** 2;
     unit = 'Mi';
-  } else if (value >= 1024) {
-    value = Math.round(value / 1024);
+  } else if (absValue >= 1024) {
+    valueFinal = absValue / 1024;
     unit = 'Ki';
   }
 
-  return `${value} ${unit}`;
+  valueFinal = value < 0 ? -valueFinal : valueFinal;
+
+  // console.log(value, "converted value:", valueFinal, " sign", sign);
+  return {
+    valueFinal: parseFloat(valueFinal.toFixed(2)).toString(),
+    unit
+  };
 };
 
 export const MemoryFormat = (number) => {
   let parsedNo = parseFloat(number);
   if (!parsedNo) return '';
-  return convertBytes(parsedNo);
+
+  const { valueFinal, unit } = convertBytes(parsedNo);
+  return `${valueFinal} ${unit}`;
 };
 
 export const MemoryFormatP = (number) => {
   let parsedNo = parseFloat(number);
   if (!parsedNo) return '';
-  console.log(addPlusSign(Math.round(parsedNo / 1024 ** 3)));
-  return addPlusSign(Math.round(parsedNo / 1024 ** 3));
+
+  const { valueFinal, unit } = convertBytes(parsedNo);
+  const formattedValue =valueFinal
+  // console.log(formattedValue);
+  return `${formattedValue} ${unit}`; 
 };
 
 export const NumberFormatP = (number) => {
   let parsedNo = parseFloat(number);
   if (!isNaN(parsedNo) && isFinite(parsedNo)) {
     if (Math.floor(parsedNo) !== parsedNo) {
-      return addPlusSign(parsedNo.toFixed(3));
+      return addPlusSign(parseFloat(parsedNo.toFixed(3)).toString())
     }
     return addPlusSign(parsedNo.toString());
   }
   return '';
 };
-const NumberFormat = (number) => {
+export const NumberFormat = (number) => {
   let parsedNo = parseFloat(number);
   if (!isNaN(parsedNo) && isFinite(parsedNo)) {
     if (Math.floor(parsedNo) !== parsedNo) {
-      return parsedNo.toFixed(3);
+      return parseFloat(parsedNo.toFixed(3)).toString()
     }
     return parsedNo.toString();
   }
   return '';
 };
 
+export const useMemoryUnit = (recommendedData, profile) => {
+  const [mmrUnit, setMmrUnit] = useState('');
+  const [unitVal, setUnitVal] = useState(0); 
+
+  useEffect(() => {
+    if (recommendedData?.length > 0) {
+      const mmr_recc_unit = convertBytes(recommendedData[0]?.recommendation_engines?.[profile]?.config?.requests?.memory?.amount);
+      setMmrUnit(mmr_recc_unit.unit);
+
+      // Set unitVal based on the mmr_recc_unit.unit
+      if (mmr_recc_unit.unit === 'Mi') {
+        setUnitVal(2);
+      } else if (mmr_recc_unit.unit === 'Gi') {
+        setUnitVal(3);
+      } else if (mmr_recc_unit.unit === 'Ki') {
+        setUnitVal(1);
+      } else {
+        setUnitVal(0); // Default case if needed
+      }
+    }
+  }, [recommendedData]);
+
+  return { mmrUnit, unitVal };
+};
+
+
 const CostDetails = (props: { recommendedData; currentData; chartData; day; endtime; displayChart; boxPlotData }) => {
   const limits = props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits;
   const config_keys = limits ? Object.keys(limits) : [];
   const [showCostBoxPlot, setShowCostBoxPlot] = useState(true);
+  const { mmrUnit, unitVal } = useMemoryUnit(props.recommendedData, 'cost');
 
   let gpu_val;
   let nvidiaKey = config_keys.find((key) => key.toLowerCase().includes('nvidia'));
@@ -109,7 +148,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
     )}
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.requests?.cpu?.amount
-    )}"      # ${NumberFormatP(
+    )}"           # ${NumberFormatP(
       props.recommendedData[0]?.recommendation_engines?.cost?.variation?.requests?.cpu?.amount
     )}
   limits: 
@@ -120,7 +159,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
     )}  
     cpu: "${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.cost?.config?.limits?.cpu?.amount
-    )}"      # ${NumberFormatP(
+    )}"           # ${NumberFormatP(
       props.recommendedData[0]?.recommendation_engines?.cost?.variation?.limits?.cpu?.amount
     )}`;
 
@@ -213,6 +252,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
       </Grid>
       {props.boxPlotData && props.recommendedData[0]?.recommendation_engines?.cost?.config ? (
         <CostBoxPlotCharts
+        unitValueforMemory={unitVal}
           boxPlotData={props.boxPlotData}
           showCostBoxPlot={showCostBoxPlot}
           day={props.day}
@@ -226,4 +266,4 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
   );
 };
 
-export { CostDetails };
+export { CostDetails, convertBytes };

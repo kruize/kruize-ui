@@ -42,7 +42,7 @@ const LocalMonitoring = () => {
         <Text component={TextVariants.h1}>Local Monitoring</Text>
       </TextContent>
       <br/>
-      {datasourcesData ? <DatasourceTable fetchDatasourcesData={datasourcesData} /> : <></>}
+      {datasourcesData && <DatasourceTable fetchDatasourcesData={datasourcesData} /> }
     </PageSection>
   );
 };
