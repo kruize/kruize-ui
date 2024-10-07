@@ -29,22 +29,11 @@ const Monitoring = () => {
   const [SREdata, setSREdata] = useState(SREdataa);
   const [endTimeArray, setEndTimeArray] = useState<any | null>(null);
   const [displyRecc, setDisplayRecc] = useState<boolean>(false);
-  const [notifications, setNotifications] = useState<any | null>({ 
+  const [notifications, setNotifications] = useState<any | null>({
     level1: {},
-    level2: {info : {}, others: {}},
+    level2: { info: {}, others: {} },
     level3: {}
   });
-
-  // const handleTabClick = (
-  //   event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
-  //   tabIndex: string | number
-  // ) => {
-  //   setActiveTabKey(tabIndex);
-  // };
-
-  // const switchTab = (tabIndex) => {
-  //   setActiveTabKey(tabIndex);
-  // };
 
   return (
     <PageSection variant={PageSectionVariants.light}>
@@ -52,44 +41,25 @@ const Monitoring = () => {
         <Text component={TextVariants.h1}>Monitoring</Text>
       </TextContent>
       <br />
-      {/* <Tabs
-        isFilled
-        activeKey={activeTabKey}
-        onSelect={handleTabClick}
-        isBox={true}
-        aria-label="Tabs in the filled example"
-        role="region"
-      >
-        <Tab
-          eventKey={0}
-          title={<TabTitleText>Experiment Selection</TabTitleText>}
-          aria-label="Tabs filled example content users"
-        > */}
       <UsecaseSelection
         setEndTimeArray={setEndTimeArray}
         endTimeArray={endTimeArray}
         setSREdata={setSREdata}
         SREdata={SREdata}
-        setDisplayRecc = {setDisplayRecc}
-        notification={notifications}
-        setNotification={setNotifications}
-        // switchTab={switchTab}
-      />
-      {/* </Tab> */}
-
-      {/* <Tab eventKey={1} title={<TabTitleText>Recommendations</TabTitleText>}> */}
-      { displyRecc &&
-      <RecommendationTables
-        setEndTimeArray={setEndTimeArray}
-        endTimeArray={endTimeArray}
-        setSREdata={setSREdata}
-        SREdata={SREdata}
+        setDisplayRecc={setDisplayRecc}
         notification={notifications}
         setNotification={setNotifications}
       />
-}
-      {/* </Tab> */}
-      {/* </Tabs> */}
+      {displyRecc && (
+        <RecommendationTables
+          setEndTimeArray={setEndTimeArray}
+          endTimeArray={endTimeArray}
+          setSREdata={setSREdata}
+          SREdata={SREdata}
+          notification={notifications}
+          setNotification={setNotifications}
+        />
+      )}
     </PageSection>
   );
 };
