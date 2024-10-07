@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import { PageSection, PageSectionVariants, Text, TextVariants, TextContent } from '@patternfly/react-core';
-import { RunExperiment } from '@app/RunExperiment/RunExperiment';
+
 const About = () => (
   <PageSection variant={PageSectionVariants.light}>
     <TextContent>
@@ -9,7 +8,6 @@ const About = () => (
         About Kruize
       </Text>
     </TextContent>
-
     <br />
     <Text component={TextVariants.h5} className="pf-m-redhat-font">
       Kruize is an Autonomous Performance Tuning Tool for Kubernetes. Kruize accepts a user provided Service Level
@@ -24,11 +22,6 @@ const About = () => (
       a "better" one than what is currently deployed.
     </Text>
     <br />
-    {/* <Link to="/newexperiment">
-      <Button variant="primary">Start a Kruize Experiment</Button>
-    </Link> 
-    Hiding from the user
-    */}
   </PageSection>
 );
 

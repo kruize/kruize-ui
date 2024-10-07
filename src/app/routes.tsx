@@ -1,16 +1,6 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { About } from '@app/About/About';
-import { RunExperiment } from '@app/RunExperiment/RunExperiment';
-import { RemoteMonitoring } from '@app/Analytics/RemoteMonitoring/RemoteMonitoring';
-import { UserAnalytics } from './Analytics/User_Analytics/UserAnalytics';
-import { ObjectiveFunction } from '@app/AdvancedUser/ObjectiveFunction';
-import { LayerDefination } from '@app/AdvancedUser/LayerDefination';
-import { TrialSettings } from '@app/AdvancedUser/TrialSettings';
-import { InstallationGuide } from '@app/Documentation/InstallationGuide';
-import { FAQs } from './Documentation/FAQs';
-import { Glossary } from './Documentation/Glossary';
-import { CommunityCall } from './Documentation/CommunityCall';
 import { NotFound } from '@app/NotFound/NotFound';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
 import { LocalMonitoring } from './Analytics/LocalMonitoring/LocalMonitoring';
@@ -50,15 +40,6 @@ const routes: AppRouteConfig[] = [
   },
 
   {
-    component: RunExperiment,
-    exact: true,
-    isAsync: true,
-    label: 'New Experiment',
-    path: '/newexperiment',
-    title: 'New Experiment',
-    menu: false
-  },
-  {
     label: 'SRE Analytics',
     routes: [
       {
@@ -80,19 +61,6 @@ const routes: AppRouteConfig[] = [
     ],
     menu: true
   },
-  // {
-  //   label: 'Cluster Table',
-  //   routes: [
-  //     {
-  //       component: ClusterDataTable,
-  //       exact: true,
-  //       label: 'cluster data',
-  //       path: '/local_monitoring/cluster_data',
-  //       title: 'cluster data'
-  //     }
-  //   ],
-  //   menu: false
-  // },
   {
     label: 'Datasources',
     routes: [
@@ -120,72 +88,9 @@ const routes: AppRouteConfig[] = [
     ],
     menu: false
   },
-  {
-    label: 'Advanced User',
-    routes: [
-      {
-        component: ObjectiveFunction,
-        exact: true,
-        label: 'ObjectiveFunction',
-        path: '/advanceduser/objectivefunction',
-        title: 'Objective Function'
-      },
-      {
-        component: LayerDefination,
-        exact: true,
-        label: 'LayerDefination',
-        path: '/advanced_user/layerdefination',
-        title: 'Layer Defination'
-      },
-      {
-        component: TrialSettings,
-        exact: true,
-        label: 'TrialSettings',
-        path: '/advanced_user/trialsettings',
-        title: 'Trial Settings'
-      }
-    ],
-    menu: false
-  },
-  {
-    label: 'Documentation',
-    routes: [
-      {
-        component: InstallationGuide,
-        exact: true,
-        label: 'InstallationGuide',
-        path: '/documentation/installationguide',
-        title: 'Installation Guide'
-      },
-      {
-        component: Glossary,
-        exact: true,
-        label: 'Glossary',
-        path: '/documentation/glossary',
-        title: 'Layer Defination'
-      },
-      {
-        component: FAQs,
-        exact: true,
-        label: 'FAQs',
-        path: '/documentation/faqs',
-        title: 'FAQs'
-      },
-      {
-        component: CommunityCall,
-        exact: true,
-        label: 'Community Call',
-        path: '/documentation/communitycall',
-        title: 'Community Call'
-      }
-    ],
-    menu: false
-  }
 ];
 
-// a custom hook for sending focus to the primary content container
-// after a view has loaded so that subsequent press of tab key
-// sends focus directly to relevant content
+
 const useA11yRouteChange = (isAsync: boolean) => {
   const lastNavigation = useLastLocation();
   React.useEffect(() => {
@@ -200,7 +105,6 @@ const useA11yRouteChange = (isAsync: boolean) => {
 
 const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, ...rest }: IAppRoute) => {
   useA11yRouteChange(isAsync);
-  // useDocumentTitle(title);
 
   function routeWithTitle(routeProps: RouteComponentProps) {
     return <Component {...rest} {...routeProps} />;
@@ -210,7 +114,6 @@ const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, .
 };
 
 const PageNotFound = ({ title }: { title: string }) => {
-  // useDocumentTitle(title);
   return <Route component={NotFound} />;
 };
 

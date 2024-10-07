@@ -1,22 +1,20 @@
 import * as React from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import {
-	Nav,
-	NavList,
-	NavItem,
-	NavExpandable,
-	Page,
-	PageSidebar,
-	SkipToContent, PageSidebarBody
+  Nav,
+  NavList,
+  NavItem,
+  NavExpandable,
+  Page,
+  PageSidebar,
+  SkipToContent,
+  PageSidebarBody
 } from '@patternfly/react-core';
-import {
-	PageHeader
-} from '@patternfly/react-core/deprecated';
+import { PageHeader } from '@patternfly/react-core/deprecated';
 import { routes, IAppRoute, IAppRouteGroup } from '@app/routes';
 import HorizontalNav from '@app/HorizontalNav/HorizontalNav';
-import EnvState from '@app/ContextStore/EnvState';
-import Footer from '@app/Footer/Footer';
 import KruizeLogo from '!!url-loader!@app/Assets/images/kruize_icon.png';
+
 interface IAppLayout {
   children: React.ReactNode;
 }
@@ -54,8 +52,6 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     />
   );
 
-  const footer = <Footer />;
-
   const renderNavItem = (route: IAppRoute, index: number) => (
     <NavItem key={`${route.label}-${index}`} id={`${route.label}-${index}`} isActive={route.path === location.pathname}>
       <NavLink exact={route.exact} to={route.path}>
@@ -86,11 +82,11 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     </Nav>
   );
 
-  const Sidebar = <PageSidebar theme="dark" isSidebarOpen={isMobileView ? isNavOpenMobile : isNavOpen} >
-<PageSidebarBody>
-{Navigation}
-</PageSidebarBody>
-</PageSidebar>;
+  const Sidebar = (
+    <PageSidebar theme="dark" isSidebarOpen={isMobileView ? isNavOpenMobile : isNavOpen}>
+      <PageSidebarBody>{Navigation}</PageSidebarBody>
+    </PageSidebar>
+  );
 
   const pageId = 'primary-app-container';
 
@@ -107,18 +103,15 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
     </SkipToContent>
   );
   return (
-    <EnvState>
-      <Page
-        mainContainerId={pageId}
-        header={Header}
-        sidebar={Sidebar}
-        onPageResize={(_event, props: { mobileView: boolean; windowSize: number }) => onPageResize(props)}
-        skipToContent={PageSkipToContent}
-      >
-        {children}
-        {/* <Footer /> */}
-      </Page>
-    </EnvState>
+    <Page
+      mainContainerId={pageId}
+      header={Header}
+      sidebar={Sidebar}
+      onPageResize={(_event, props: { mobileView: boolean; windowSize: number }) => onPageResize(props)}
+      skipToContent={PageSkipToContent}
+    >
+      {children}
+    </Page>
   );
 };
 
