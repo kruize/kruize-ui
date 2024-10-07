@@ -76,10 +76,10 @@ const HorizontalNav = () => {
         {clusterStatus === false ? (
           <Popover
             aria-label="Basic popover"
-            headerContent={<div>No Minikube Connection.</div>}
+            headerContent={<div>No Kubernetes Connection.</div>}
             bodyContent={
               <div>
-                <b>Minikube connection is pre requisite for autotune setup.</b>
+                <b>Kubernetes connection is pre requisite for setting up Kruize.</b>
               </div>
             }
           >
@@ -88,12 +88,12 @@ const HorizontalNav = () => {
         ) : (
           <Popover
             aria-label="Basic popover"
-            headerContent={<div>Connected to Minikube Cluster!</div>}
+            headerContent={<div>Connected to Kubernetes Cluster!</div>}
             bodyContent={
               <div>
                 <b>Cluster Information </b>
                 <br />
-                <label>Minikube URL : http://{ip}</label>
+                <label>Kubernetes URL : http://{ip}</label>
 
                 <div>
                   <br />

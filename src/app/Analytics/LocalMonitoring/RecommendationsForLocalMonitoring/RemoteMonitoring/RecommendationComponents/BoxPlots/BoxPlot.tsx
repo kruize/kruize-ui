@@ -10,19 +10,19 @@ import chart_color_orange_300 from '@patternfly/react-tokens/dist/esm/chart_colo
 import chart_color_blue_300 from '@patternfly/react-tokens/dist/esm/chart_color_blue_300';
 import { createContainer } from './wrapper';
 
-const formatDate = (dateString) => {
-  if (!dateString) return ''; // Return empty string if dateString is undefined or null
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(date);
-};
+// const formatDate = (dateString) => {
+//   if (!dateString) return ''; // Return empty string if dateString is undefined or null
+//   const date = new Date(dateString);
+//   return new Intl.DateTimeFormat('en-US', {
+//     year: 'numeric',
+//     month: 'short',
+//     day: 'numeric',
+//     hour: '2-digit',
+//     minute: '2-digit'
+//   }).format(date);
+// };
 
-const formatNumber = (number, decimals = 2) => {
+const formatNumber = (number, decimals = 3) => {
   if (number == null || isNaN(number)) {
     return ''; // Return an empty string or some default value if the value is not a number
   }
@@ -120,7 +120,7 @@ const BoxPlot: React.FC<BoxPlotProps> = ({
             cursorDimension="x"
             labels={({ datum }) => {
               if (datum && datum.y != null) {
-                return `${formatDate(datum.x)}: ${formatNumber(datum.y)}`;
+                return `${datum.x}: ${formatNumber(datum.y)}`;
               } else {
                 return 'no data';
               }
@@ -130,7 +130,7 @@ const BoxPlot: React.FC<BoxPlotProps> = ({
                 flyoutHeight={130}
                 flyoutWidth={170}
                 constrainToVisibleArea
-                labelComponent={<HtmlLegendContent title={(datum) => formatDate(datum?.x ?? '')} />}
+                labelComponent={<HtmlLegendContent title={(datum) => datum?.x ?? ''} />}
               />
             }
             mouseFollowTooltips
@@ -140,7 +140,6 @@ const BoxPlot: React.FC<BoxPlotProps> = ({
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
-              maxWidth: '150px',
               padding: 1
             }}
           />
@@ -163,7 +162,7 @@ const BoxPlot: React.FC<BoxPlotProps> = ({
         width={600}
       >
         <ChartAxis
-          tickFormat={(tick) => formatDate(tick)}
+          tickFormat={(tick) => tick}
           style={{
             tickLabels: {
               angle: -45,
