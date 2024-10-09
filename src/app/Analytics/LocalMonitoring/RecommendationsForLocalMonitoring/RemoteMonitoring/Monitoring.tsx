@@ -36,6 +36,7 @@ const Monitoring = () => {
   });
 
   return (
+    <>
     <PageSection variant={PageSectionVariants.light}>
       <TextContent>
         <Text component={TextVariants.h1}>Monitoring</Text>
@@ -50,6 +51,8 @@ const Monitoring = () => {
         notification={notifications}
         setNotification={setNotifications}
       />
+      </PageSection>
+      <>
       {displyRecc && (
         <RecommendationTables
           setEndTimeArray={setEndTimeArray}
@@ -60,7 +63,8 @@ const Monitoring = () => {
           setNotification={setNotifications}
         />
       )}
-    </PageSection>
+    </>
+    </>
   );
 };
 

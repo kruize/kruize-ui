@@ -14,7 +14,9 @@ import {
   StackItem,
   CardHeader,
   CardBody,
-  Card
+  Card,
+  PageSection,
+  PageSectionVariants
 } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/CentralConfig';
@@ -250,8 +252,9 @@ const RecommendationTables = (props: {
     </AlertGroup>
   );
   
-
   return (
+    <>
+    <PageSection variant={PageSectionVariants.light}>
     <Stack hasGutter>
       <StackItem>
         <br />
@@ -328,7 +331,13 @@ const RecommendationTables = (props: {
               </FlexItem>
             </Flex>
           </Card>
+          </Stack>
+          </StackItem>
+          </Stack>
+
+          </PageSection>
           <StackItem>
+
             <TabSection
               recommendedData={recommendedData}
               currentData={currentData}
@@ -339,9 +348,7 @@ const RecommendationTables = (props: {
               boxPlotData={boxPlotTranslatedData}
             />
           </StackItem>
-        </Stack>
-      </StackItem>
-    </Stack>
+    </>
   );
 };
 

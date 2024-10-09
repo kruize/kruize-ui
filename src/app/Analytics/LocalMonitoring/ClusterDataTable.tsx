@@ -14,10 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getClusterMetadataURL } from '@app/CentralConfig';
 import { PlusIcon } from '@patternfly/react-icons';
-interface LocationState {
-  cluster: string;
-  datasource: string;
-}
+
 interface Container {
   container_name: string;
   container_image_name: string;
@@ -168,11 +165,6 @@ const ClusterDataTable = (props: { datasource, clustername }) => {
                           </Tooltip>
                         </Link>
                       </OverflowMenuItem>
-                      {/* <OverflowMenuItem>
-                        <Tooltip content={<div> List Recommendation</div>} position={TooltipPosition.top}>
-                          <BlueprintIcon color='#0066CC' />
-                        </Tooltip>
-                      </OverflowMenuItem> */}
                     </OverflowMenuGroup>
                   </OverflowMenuContent>
                 </OverflowMenu>

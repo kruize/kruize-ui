@@ -49,35 +49,35 @@ const PerfDetails = (props: {
   }
 
   const current_code = `resources: 
-  requests: 
-    memory: "${MemoryFormat(props.currentData[0]?.requests?.memory?.amount)}" 
-    cpu: "${NumberFormat(props.currentData[0]?.requests?.cpu?.amount)}" 
-  limits: 
-    memory: "${MemoryFormat(props.currentData[0]?.limits?.memory?.amount)}" 
-    cpu: "${NumberFormat(props.currentData[0]?.limits?.cpu?.amount)}"`;
+  requests:  
+    cpu: ${NumberFormat(props.currentData[0]?.requests?.cpu?.amount)}
+    memory: ${MemoryFormat(props.currentData[0]?.requests?.memory?.amount)} 
+  limits:  
+    cpu: ${NumberFormat(props.currentData[0]?.limits?.cpu?.amount)}
+    memory: ${MemoryFormat(props.currentData[0]?.limits?.memory?.amount)}`;
 
   const recommended_code = `resources: 
   requests: 
-    memory: "${MemoryFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.memory?.amount
-    )}"    # ${MemoryFormatP(
-      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount
-    )}
-    cpu: "${NumberFormat(
+    cpu: ${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.cpu?.amount
-    )}"           # ${NumberFormatP(
+    )}          # ${NumberFormatP(
       props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.cpu?.amount
     )}
-  limits: 
-    memory: "${MemoryFormat(
-      props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.memory?.amount
-    )}"    # ${MemoryFormatP(
-      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount
-    )}   
-    cpu: "${NumberFormat(
+    memory: ${MemoryFormat(
+      props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.memory?.amount
+    )}      # ${MemoryFormatP(
+      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount , unitVal, mmrUnit
+    )}
+  limits:    
+    cpu: ${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.cpu?.amount
-    )}"           # ${NumberFormatP(
+    )}          # ${NumberFormatP(
       props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.cpu?.amount
+    )}
+    memory: ${MemoryFormat(
+      props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.memory?.amount
+    )}      # ${MemoryFormatP(
+      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount, unitVal, mmrUnit
     )}`;
 
   // Code for Alert / Notifications
@@ -143,7 +143,7 @@ const PerfDetails = (props: {
   );
 
   return (
-    <PageSection variant={PageSectionVariants.light}>
+    <>
       <Grid hasGutter>
         {renderNotifications(alerts)}
         <GridItem span={6} rowSpan={8}>
@@ -169,6 +169,8 @@ const PerfDetails = (props: {
           </Card>
         </GridItem>
       </Grid>
+      <br></br>
+      <PageSection variant={PageSectionVariants.light}>
       <PerfBoxPlotCharts
         unitValueforMemory={unitVal}
         boxPlotData={props.boxPlotData}
@@ -176,8 +178,10 @@ const PerfDetails = (props: {
         day={props.day}
         limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
       />
+      </PageSection>
       {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
-    </PageSection>
+      </>
   );
 };
+
 export { PerfDetails };

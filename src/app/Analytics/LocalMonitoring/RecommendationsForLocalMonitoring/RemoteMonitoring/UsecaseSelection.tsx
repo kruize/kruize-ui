@@ -109,10 +109,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         level1: initialNotifications
       });
       const has111000 = initialNotifications.hasOwnProperty('111000');
-
      props.setDisplayRecc(has111000);
-    //  console.log(initialNotifications)
-    //  console.log(has111000)
 
       var containerArray: any[] = [];
       for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
@@ -181,12 +178,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                     expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
                 </FormSelect>
               </FlexItem>
-
-              {/* <FlexItem>
-                <Button variant="primary" onClick={handleClick} isDisabled={!expName}>
-                  Recommendations
-                </Button>
-              </FlexItem> */}
               <FlexItem>
                 <Tooltip id="tooltip-ref1" content={<div> Generate Recommendations</div>}>
                   <SyncAltIcon onClick={() => handleGenerateRecommendationClick(expName)} />
@@ -195,11 +186,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
             </Flex>
           </GridItem>
           <GridItem span={3} component="li">
-            {/* <Button variant="primary" onClick={handleClick}>
-              Recommendations
-            </Button> */}
-
-            {/* <SyncAltIcon onClick={() => handleGenerateRecommendationClick(expName)} /> */}
           </GridItem>
         </Grid>
       </Flex>
