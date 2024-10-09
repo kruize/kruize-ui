@@ -1,7 +1,7 @@
 import React from 'react';
 import { Chart, ChartAxis, ChartGroup, ChartLine, ChartVoronoiContainer } from '@patternfly/react-charts';
 import { formatTimestamps, filterDataByTerm, formatNumber } from './ChartDataPreparation';
-import { Grid, GridItem, Split, SplitItem } from '@patternfly/react-core';
+import { Grid, Text, GridItem, PageSection, PageSectionVariants, Split, SplitItem, TextContent, TextVariants } from '@patternfly/react-core';
 
 const CostHistoricCharts = (props: { chartData; day; endtime }) => {
   const termFilteredData = filterDataByTerm(props.chartData, props.endtime, props.day);
@@ -23,7 +23,11 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
     const filteredhistoricdata = historicdata.filter((dataPoint) => typeof dataPoint.y === 'number');
 
     return (
+      <PageSection variant={PageSectionVariants.light}>
       <div style={{ height: '250px', width: '600px' }}>
+      <TextContent>
+              <Text component={TextVariants.h3}>Historic CPU</Text>
+            </TextContent>
         <Chart
           ariaDesc="CPU Recommendations"
           ariaTitle="Recommendation Values"
@@ -75,6 +79,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
           </ChartGroup>
         </Chart>
       </div>
+      </PageSection>
     );
   };
   const memoryChart = () => {
@@ -93,7 +98,11 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
     const filteredhistoricdata = historicdata.filter((dataPoint) => typeof dataPoint.y === 'number');
 
     return (
+      <PageSection variant={PageSectionVariants.light}>
       <div style={{ height: '250px', width: '600px' }}>
+      <TextContent>
+              <Text component={TextVariants.h3}>Historic Memory</Text>
+            </TextContent>
         <Chart
           ariaDesc="Memory Recommendations"
           ariaTitle="Recommendation Values"
@@ -145,6 +154,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
           </ChartGroup>
         </Chart>
       </div>
+      </PageSection>
     );
   };
 

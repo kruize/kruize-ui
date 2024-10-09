@@ -242,7 +242,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
             <CardBody>
               <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
               {config_keys && config_keys.length === 3 ? (
-                <ReusableCodeBlock code={`${recommended_code}\n    ${nvidiaKey}: "${gpu_val}"`} includeActions={true} />
+                <ReusableCodeBlock code={`${recommended_code}\n    ${nvidiaKey}: ${gpu_val}`} includeActions={true} />
               ) : (
                 <ReusableCodeBlock code={recommended_code} includeActions={true} />
               )}
@@ -251,7 +251,6 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
         </GridItem>
       </Grid>
       <br></br>
-      <PageSection variant={PageSectionVariants.light}>
       {props.boxPlotData && props.recommendedData[0]?.recommendation_engines?.cost?.config ? (
         <CostBoxPlotCharts
         unitValueforMemory={unitVal}
@@ -263,7 +262,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
       ) : (
         <div> No data to plot box</div>
       )}
-      </PageSection>
+      <br></br>
       {props.displayChart && <CostHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}
     </>
   );

@@ -161,7 +161,7 @@ const PerfDetails = (props: {
             <CardBody>
               <Text component={TextVariants.h5}>Recommended Configuration + #Delta</Text>
               {config_keys && config_keys.length === 3 ? (
-                <ReusableCodeBlock code={`${recommended_code}\n    ${nvidiaKey}: "${gpu_val}"`} includeActions={true} />
+                <ReusableCodeBlock code={`${recommended_code}\n    ${nvidiaKey}: ${gpu_val}`} includeActions={true} />
               ) : (
                 <ReusableCodeBlock code={recommended_code} includeActions={true} />
               )}
@@ -170,7 +170,6 @@ const PerfDetails = (props: {
         </GridItem>
       </Grid>
       <br></br>
-      <PageSection variant={PageSectionVariants.light}>
       <PerfBoxPlotCharts
         unitValueforMemory={unitVal}
         boxPlotData={props.boxPlotData}
@@ -178,7 +177,7 @@ const PerfDetails = (props: {
         day={props.day}
         limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
       />
-      </PageSection>
+      <br></br>
       {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
       </>
   );
