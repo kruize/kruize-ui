@@ -1,6 +1,4 @@
 import {
-  FormSelect,
-  FormSelectOption,
   PageSection,
   PageSectionVariants,
   TextContent,

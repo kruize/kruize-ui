@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Tabs, Tab, TabTitleText } from '@patternfly/react-core';
+import { Tabs, Tab, TabTitleText, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { CostDetails } from './CostDetails';
 import { PerfDetails } from './PerfDetails';
 
@@ -10,10 +10,6 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
     event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
     tabIndex: string | number
   ) => {
-    setActiveTabKey(tabIndex);
-  };
-
-  const switchTab = (tabIndex) => {
     setActiveTabKey(tabIndex);
   };
 

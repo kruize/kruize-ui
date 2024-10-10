@@ -25,7 +25,7 @@ interface LocationState {
 
 */
 
-const CreateExperiment = (props: { clusterGroupData }) => {
+const CreateExperiment = () => {
   const [experimentsNotFound, setExperimentsNotFound] = useState(false);
   const location = useLocation<LocationState>();
 
@@ -72,10 +72,8 @@ const CreateExperiment = (props: { clusterGroupData }) => {
 
   return (
     <PageSection variant={PageSectionVariants.light}>
-      <React.Fragment>
         {experimentsNotFound == true ? <CodeEditorWithActions setData={setData} data={data} /> 
         : <Monitoring/> }
-      </React.Fragment>
     </PageSection>
   );
 };

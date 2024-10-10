@@ -62,7 +62,6 @@ const ClusterGroupTables = (props: { clusterGroupData; dsname }) => {
 
   return (
     <PageSection variant={PageSectionVariants.light}>
-      <React.Fragment>
         <Table aria-label="Data Sources Table">
           <Thead>
             <Tr>
@@ -85,7 +84,6 @@ const ClusterGroupTables = (props: { clusterGroupData; dsname }) => {
           </Tbody>
         </Table>
         {showClusterTable && <ClusterDataTable datasource={datasource_name} clustername={selectedClusterName} />}
-      </React.Fragment>
     </PageSection>
   )
 };

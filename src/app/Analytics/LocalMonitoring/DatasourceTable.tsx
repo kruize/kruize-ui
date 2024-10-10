@@ -1,5 +1,4 @@
 import { Button, OverflowMenu, OverflowMenuContent, OverflowMenuGroup, OverflowMenuItem } from '@patternfly/react-core';
-import { Link } from 'react-router-dom';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useState } from 'react';
 import { importDataSourcesMetadataURL } from '@app/CentralConfig';

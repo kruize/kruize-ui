@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { CodeEditor, Language } from '@patternfly/react-code-editor';
 import {
   PageSection,
   TextContent,
@@ -17,11 +16,7 @@ import { Alert } from '@patternfly/react-core';
 
 export const CodeEditorWithActions = (props: { data; setData }) => {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const onEditorDidMount = (editor, monaco) => {
-    editor.layout();
-    editor.focus();
-    monaco.editor.getModels()[0].updateOptions({ tabSize: 5 });
-  };
+ 
   var obj = {
     subsitute_namespace: props.data.projectName,
     subsitute_experiment_name: props.data.exp_name,
@@ -42,12 +37,6 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
 
   const [codeEditorData, setCodeEditorData] = useState([data2]);
 
-  const onChange = (value) => {
-    setCodeEditorData(value);
-    console.log(value);
-    console.log(typeof value);
-  };
-
   /// POST API call
 
   const handlePostExperimentJson = async (codeEditorData) => {
@@ -65,7 +54,6 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
       console.log(data);
       if (response.ok) {
         setShowSuccessAlert(true);
-        setTimeout(() => setShowSuccessAlert(false), 3000);
       }
     } catch (error) {
       console.error('Error during data import:', error);
@@ -74,7 +62,6 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
   };
 
   return (
-    <>
       <PageSection variant={PageSectionVariants.light}>
         {showSuccessAlert && <Alert variant="success" title="Experiment Successfully Created" ouiaId="SuccessAlert" />}
         <Toolbar>
@@ -89,23 +76,11 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
             </TextContent>
           </ToolbarContent>
         </Toolbar>
-
-        {/* <CodeEditor
-        isLanguageLabelVisible
-        isDarkTheme={true}
-        code={data2}
-        onChange={onChange}
-        // language={Language.yaml}
-        onEditorDidMount={onEditorDidMount}
-        height="sizeToFit"
-        isReadOnly={false}
-      /> */}
         <ReusableCodeBlock code={data2} includeActions={true} />
         <br />
         <Button variant="primary" onClick={() => handlePostExperimentJson(codeEditorData)}>
           Create Experiment
         </Button>
       </PageSection>
-    </>
   );
 };
