@@ -26,7 +26,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
       <PageSection variant={PageSectionVariants.light}>
       <div style={{ height: '250px', width: '600px' }}>
       <TextContent>
-              <Text component={TextVariants.h3}>Historic CPU</Text>
+              <Text component={TextVariants.h3}>Historic CPU Recommendations</Text>
             </TextContent>
         <Chart
           ariaDesc="CPU Recommendations"
@@ -101,7 +101,7 @@ const CostHistoricCharts = (props: { chartData; day; endtime }) => {
       <PageSection variant={PageSectionVariants.light}>
       <div style={{ height: '250px', width: '600px' }}>
       <TextContent>
-              <Text component={TextVariants.h3}>Historic Memory</Text>
+              <Text component={TextVariants.h3}>Historic Memory Recommendations</Text>
             </TextContent>
         <Chart
           ariaDesc="Memory Recommendations"

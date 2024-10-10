@@ -14,7 +14,7 @@ import {
 import ReusableCodeBlock from './ReusableCodeBlock';
 import { PerfHistoricCharts } from './LinePlot/PerfHistoricCharts';
 import { PerfBoxPlotCharts } from './BoxPlots/PerfBoxPlotCharts';
-import { NumberFormatP, MemoryFormatP , MemoryFormat, NumberFormat, useMemoryUnit} from './CostDetails';
+import { NumberFormatP, MemoryFormatP, MemoryFormat, NumberFormat, useMemoryUnit } from './CostDetails';
 import { alertIconMap } from '../RecommendationTables';
 type AlertType = 'info' | 'danger' | 'warning';
 
@@ -66,7 +66,9 @@ const PerfDetails = (props: {
     memory: ${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.memory?.amount
     )}      # ${MemoryFormatP(
-      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount , unitVal, mmrUnit
+      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.requests?.memory?.amount,
+      unitVal,
+      mmrUnit
     )}
   limits:    
     cpu: ${NumberFormat(
@@ -77,7 +79,9 @@ const PerfDetails = (props: {
     memory: ${MemoryFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits?.memory?.amount
     )}      # ${MemoryFormatP(
-      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount, unitVal, mmrUnit
+      props.recommendedData[0]?.recommendation_engines?.performance?.variation?.limits?.memory?.amount,
+      unitVal,
+      mmrUnit
     )}`;
 
   // Code for Alert / Notifications
@@ -126,20 +130,22 @@ const PerfDetails = (props: {
   };
 
   const renderNotifications = (notifications: any) => (
-    <AlertGroup>
-      {Object.keys(notifications || {}).map((key) => {
-        const notification = notifications[key];
-        const alertType = notification.type || 'info';
-        const Icon = alertIconMap[alertType];
+    <PageSection variant={PageSectionVariants.light}>
+      <AlertGroup>
+        {Object.keys(notifications || {}).map((key) => {
+          const notification = notifications[key];
+          const alertType = notification.type || 'info';
+          const Icon = alertIconMap[alertType];
 
-        return (
-          <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            {Icon}
-            <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>{notification.message}</span>
-          </div>
-        );
-      })}
-    </AlertGroup>
+          return (
+            <div key={notification.code} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+              {Icon}
+              <span style={{ marginLeft: '8px', color: 'black', fontWeight: 'normal' }}>{notification.message}</span>
+            </div>
+          );
+        })}
+      </AlertGroup>
+    </PageSection>
   );
 
   return (
@@ -178,8 +184,10 @@ const PerfDetails = (props: {
         limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
       />
       <br></br>
-      {props.displayChart && <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />}{' '}
-      </>
+      {props.displayChart && (
+        <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />
+      )}{' '}
+    </>
   );
 };
 
