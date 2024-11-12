@@ -1,0 +1,133 @@
+name: CI Pipeline for Kruize UI
+
+on:
+  push:
+    branches: [mvp_demo]
+  pull_request:
+    branches: [mvp_demo]
+
+jobs:
+  deploy_kruize:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout kruize/autotune repository
+        uses: actions/checkout@v3
+        with:
+          repository: kruize/autotune
+          ref: mvp_demo
+          path: autotune
+
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.3.0
+        with:
+          minikube version: 'v1.16.0'
+          kubernetes version: 'v1.19.2'
+
+      - name: Set Root Directory
+        run: |
+          echo "Setting ROOT_DIR to autotune"
+          echo "ROOT_DIR=$GITHUB_WORKSPACE/autotune" >> $GITHUB_ENV
+
+      - name: Build crc
+        env:
+          ROOT_DIR: ${{ env.ROOT_DIR }}
+        run: |
+          echo Build crc
+          cd autotune
+          ./build.sh
+          docker images | grep autotune
+
+      - name: Check cluster info on minikube
+        run: |
+          kubectl cluster-info
+          kubectl get pods -n kube-system
+
+      - name: Install Prometheus on minikube
+        run: |
+          echo Install Prometheus on minikube
+          cd autotune/scripts
+          ./prometheus_on_minikube.sh -as
+
+      - name: Deploy Kruize in crc mode
+        run: |
+          echo Deploy kruize in crc mode
+          echo "***************************************************************"
+          cd autotune
+          cp ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml.old
+          sed -e "s/imagePullPolicy: Always/imagePullPolicy: IfNotPresent/g" ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml.old > ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml
+          cat ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml
+          cd tests
+          ./test_autotune.sh -c minikube -i quay.io/kruize/autotune_operator:0.1 --testsuite=local_monitoring_tests --testcase=test_e2e --resultsdir=${GITHUB_WORKSPACE}
+
+      - name: Capture ffdc logs
+        if: always()
+        run: |
+          echo "Capturing ffdc logs"
+          cd autotune
+          ./scripts/ffdc.sh -m crc -d ${GITHUB_WORKSPACE}/kruize_test_results
+
+      - name: Archive results
+        if: always()
+        run: |
+          cd ${GITHUB_WORKSPACE}
+          tar cvf crc_results.tar kruize_test_results
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: crc-results
+          path: ./crc_results.tar
+          retention-days: 2
+
+  build_ui:
+    needs: deploy_kruize
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm config set legacy-peer-deps true && npm install
+
+        # Step 5: Get Minikube IP
+      - name: Get Minikube IP
+        run: |
+          export CLUSTER_IP=$(minikube ip)
+          echo "CLUSTER_IP=$CLUSTER_IP" >> $GITHUB_ENV
+        shell: bash
+
+      # Step 6: Get Kruize Port
+      - name: Get Kruize Port
+        run: |
+          export KRUIZE_PORT=$(kubectl -n monitoring get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort 2>/dev/null)
+          echo "KRUIZE_PORT=$KRUIZE_PORT" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Build UI
+        run: npm run build
+
+  unit-test:
+    needs: build_ui
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm config set legacy-peer-deps true && npm install
+
+      - name: Run Tests
+        run: npm run test
