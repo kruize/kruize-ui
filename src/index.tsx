@@ -4,6 +4,10 @@ import App from '@app/index';
 import '@patternfly/react-core/dist/styles/base.css';
 import { setDiagnosticsOptions } from 'monaco-yaml';
 
+import * as monaco from 'monaco-editor';
+import store from './store/store';
+import { Provider } from "react-redux";
+
 setDiagnosticsOptions({
   enableSchemaRequest: true,
   hover: true,
@@ -27,6 +31,10 @@ if (process.env.NODE_ENV !== 'production') {
   axe(React, ReactDOM, 1000, config);
 }
 
-const rootElement = document.getElementById('root') as HTMLElement;
-const root = ReactDOM.createRoot(rootElement);
-root.render(<App />);
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <Provider store={store}>
+  <App />
+</Provider>
+);
