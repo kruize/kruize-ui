@@ -67,6 +67,7 @@ const RecommendationTables = (props: {
     }
   }, [props.endTimeArray]);
 
+
   const processBoxPlotData = (boxPlotArr: any[]) => {
     if (!boxPlotArr || boxPlotArr.length === 0) {
       return [];
@@ -223,6 +224,25 @@ const RecommendationTables = (props: {
     fetchData();
   }, [endtime, day]);
 
+  const [filteredDays, setFilteredDays] = useState(days);
+  useEffect(() => {
+    const { notification } = props;
+
+    if (notification && typeof notification === 'object') {
+        const level2 = notification.level2;
+        if (level2 && level2.info) {
+            const notificationKeys = Object.keys(level2.info);
+            const updatedDays = days.filter(day => {
+                if (day.value === 'short_term') return notificationKeys.some(key => level2.info[key].message.includes('Short Term'));
+                if (day.value === 'medium_term') return notificationKeys.some(key => level2.info[key].message.includes('Medium Term'));
+                if (day.value === 'long_term') return notificationKeys.some(key => level2.info[key].message.includes('Long Term'));
+                return false;
+            });
+            setFilteredDays(updatedDays);
+        }
+    }
+  }, [props.notification]);
+
   const onChange = async (value: string) => {
     setEndtime(value);
   };
@@ -258,7 +278,6 @@ const RecommendationTables = (props: {
                       <Text component={TextVariants.p}>Monitoring End Time</Text>
                     </TextContent>
                   </SplitItem>
-
                   <SplitItem>
                     <FormSelect
                       value={endtime}
@@ -282,7 +301,6 @@ const RecommendationTables = (props: {
                     <Text component={TextVariants.p}>View optimization based on </Text>
                   </TextContent>
                 </SplitItem>
-
                 <SplitItem>
                   <FormSelect
                     value={day}
@@ -290,7 +308,7 @@ const RecommendationTables = (props: {
                     aria-label="days dropdown"
                     style={{ width: '150px' }}
                   >
-                    {days.map((selection, index) => (
+                    {filteredDays.map((selection, index) => (
                       <FormSelectOption key={index} value={selection.value} label={selection.label} />
                     ))}
                   </FormSelect>
