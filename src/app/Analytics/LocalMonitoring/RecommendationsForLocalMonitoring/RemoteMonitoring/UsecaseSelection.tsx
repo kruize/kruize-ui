@@ -46,9 +46,12 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     const data = await response.json();
     const arr: any = ['Select Experiment Name'];
 
-    data.map((element, index) => {
-      arr.push(element.experiment_name);
+    data.forEach((element) => {
+      if (element.experiment_type === 'container') {
+        arr.push(element.experiment_name);
+      }
     });
+    
     setExpData(arr.sort());
   };
   useEffect(() => {
