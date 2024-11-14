@@ -2,16 +2,19 @@ name: CI Pipeline for Kruize UI
 
 on:
   push:
-    branches: [mvp_demo]
+    branches: [mvp_demo, main]
   pull_request:
-    branches: [mvp_demo]
+    branches: [mvp_demo, main]
 
 jobs:
   deploy_kruize:
     runs-on: ubuntu-20.04
+    outputs:
+      minikube_ip: ${{ steps.get_minikube.outputs.minikube_ip }}
+      kruize_port: ${{ steps.get_kruize.outputs.kruize_port }}
     steps:
       - name: Checkout kruize/autotune repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: kruize/autotune
           ref: mvp_demo
@@ -56,39 +59,42 @@ jobs:
           cp ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml.old
           sed -e "s/imagePullPolicy: Always/imagePullPolicy: IfNotPresent/g" ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml.old > ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml
           cat ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml
-          cd tests
-          ./test_autotune.sh -c minikube -i quay.io/kruize/autotune_operator:0.1 --testsuite=local_monitoring_tests --testcase=test_e2e --resultsdir=${GITHUB_WORKSPACE}
+          ./deploy.sh -c minikube -m crc -i quay.io/kruize/autotune_operator:0.1
 
-      - name: Capture ffdc logs
-        if: always()
+      - name: Get Minikube IP
+        id: get_minikube
         run: |
-          echo "Capturing ffdc logs"
-          cd autotune
-          ./scripts/ffdc.sh -m crc -d ${GITHUB_WORKSPACE}/kruize_test_results
+          minikube_ip=$(minikube ip)
+          echo "Minikube IP: $minikube_ip"
+          echo "Minikube IP=$minikube_ip" >> $GITHUB_OUTPUT
+        shell: bash
+        env:
+          MINIKUBE_HOME: /home/runner/work/_temp
+          ROOT_DIR: /home/runner/work/kruize-ui/kruize-ui/autotune
 
-      - name: Archive results
-        if: always()
+      - name: Get Kruize Port
+        id: get_kruize
         run: |
-          cd ${GITHUB_WORKSPACE}
-          tar cvf crc_results.tar kruize_test_results
-
-      - name: Upload results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: crc-results
-          path: ./crc_results.tar
-          retention-days: 2
+          kruize_port=$(kubectl -n monitoring get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort 2>/dev/null)
+          echo "PORT : $kruize_port"
+          echo "kruize_port=$kruize_port" >> $GITHUB_OUTPUT
+        shell: bash
+        env:
+          MINIKUBE_HOME: /home/runner/work/_temp
+          ROOT_DIR: /home/runner/work/kruize-ui/kruize-ui/autotune
 
   build_ui:
     needs: deploy_kruize
     runs-on: ubuntu-latest
+    env:
+      minikube_ip: ${{ needs.deploy_kruize.outputs.minikube_ip }}
+      kruize_port: ${{ needs.deploy_kruize.outputs.kruize_port }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
@@ -96,18 +102,10 @@ jobs:
       - name: Install Dependencies
         run: npm config set legacy-peer-deps true && npm install
 
-        # Step 5: Get Minikube IP
-      - name: Get Minikube IP
+      - name: Export and Print Environment Variables
         run: |
-          export CLUSTER_IP=$(minikube ip)
-          echo "CLUSTER_IP=$CLUSTER_IP" >> $GITHUB_ENV
-        shell: bash
-
-      # Step 6: Get Kruize Port
-      - name: Get Kruize Port
-        run: |
-          export KRUIZE_PORT=$(kubectl -n monitoring get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort 2>/dev/null)
-          echo "KRUIZE_PORT=$KRUIZE_PORT" >> $GITHUB_ENV
+          echo "Minikube IP: $minikube_ip"
+          echo "Kruize Port: $kruize_port"
         shell: bash
 
       - name: Build UI
@@ -121,7 +119,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
