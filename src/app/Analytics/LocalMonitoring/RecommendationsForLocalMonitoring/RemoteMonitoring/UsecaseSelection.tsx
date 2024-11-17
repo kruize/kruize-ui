@@ -83,6 +83,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     const response = await fetch(getListExperimentsURLWithParams(value));
     const data = await response.json();
     const experimentUsecase = data[0].experiment_usecase_type;
+    console.log(experimentUsecase);
     let usecase;
     if (experimentUsecase) {
       usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + ' ';
@@ -101,6 +102,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       var type = data[0].kubernetes_objects[0].type;
       var cluster_name = data[0].cluster_name;
       var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
+      var experiment_type = data[0].experiment_type;
       var endtime: any[] = [];
       endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
 
@@ -127,7 +129,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         type: type,
         cluster_name: cluster_name,
         container_name: container_name,
-        experiment_type: usecase
+        experiment_type: experiment_type
       });
     }
       catch {
