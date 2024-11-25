@@ -82,17 +82,11 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     sessionStorage.setItem('Experiment Name', value);
     const response = await fetch(getListExperimentsURLWithParams(value));
     const data = await response.json();
-    const experimentUsecase = data[0].experiment_usecase_type;
-    console.log(experimentUsecase);
-    let usecase;
-    if (experimentUsecase) {
-      usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + ' ';
-      setExpUsecaseType(usecase);
-    }
-    handleClick(value, usecase);
+    const experimentUsecase = data[0].experiment_usecase_type || 'container';
+    handleClick(value);
   };
 
-  const handleClick = async (exp_name_value, usecase) => {
+  const handleClick = async (exp_name_value) => {
     try {
 
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
@@ -148,7 +142,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       if (response.ok) {
         setShowReccSuccessAlert(true);
         setTimeout(() => setShowReccSuccessAlert(false), 3000);
-        handleClick(expName, expUsecaseType);
+        handleClick(expName);
       }
     } catch (error) {
       console.error('Error during data import:', error);
