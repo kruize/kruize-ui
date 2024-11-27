@@ -41,8 +41,7 @@ const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; se
   };
   
   const fetchData = async () => {
-    // const response = await fetch(list_experiment_url);
-    const response = await fetch("https://mocki.io/v1/2af181ed-6e99-418f-a01d-37fc4b0c0f96");
+    const response = await fetch(list_experiment_url);
     const data = await response.json();
     const arr: any = ['Select Experiment Name'];
 
@@ -85,8 +84,7 @@ const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; se
     try {
 
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
-      // const data = await (await fetch(list_recommendations_url)).json();
-      const data = await (await fetch("https://mocki.io/v1/9467eff5-4b87-4023-a6a2-c76e99e21a4a")).json();
+      const data = await (await fetch(list_recommendations_url)).json();
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
@@ -142,13 +140,12 @@ const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; se
 
   const handleGenerateRecommendationClick = async (expName) => {
     try {
-      // const response = await fetch(generateRecommendationsURL(expName), {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // });
-      const response = await fetch("https://mocki.io/v1/8e36bdd3-ef2c-427d-83a4-dda6c88c3204"); // no data
+      const response = await fetch(generateRecommendationsURL(expName), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       if (response.ok) {
         setShowReccSuccessAlert(true);
         setTimeout(() => setShowReccSuccessAlert(false), 3000);

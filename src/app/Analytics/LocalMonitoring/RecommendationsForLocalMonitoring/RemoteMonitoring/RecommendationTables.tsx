@@ -129,10 +129,7 @@ const RecommendationTables = (props: {
   useEffect(() => {
     const fetchData = async () => {
       if (endtime && day) {
-        // const response = await fetch(list_recommendations_url);
-        
-        const response = await fetch("https://mocki.io/v1/5bb44f3b-4f26-4dc4-a167-682e8ffed562"); // no data
-        // const response = await fetch("https://mocki.io/v1/a5bc9f53-1062-45e4-9610-29432931d5bd");
+        const response = await fetch(list_recommendations_url);
         const result = await response.json();
         const boxPlot_arr: any = [];
         const recommended_arr: any = [];
@@ -235,7 +232,6 @@ const RecommendationTables = (props: {
         if (recommended_arr[0]?.recommendation_engines && props.SREdata.experiment_type == "container") {
           setDisplayChart(true);
         } else {
-          console.log("Setting False")
           setDisplayChart(false);
         }
         setCurrentData(current_arr);
@@ -303,9 +299,7 @@ const RecommendationTables = (props: {
     setDay(value);
   };
 
-  console.log("NOTI: ", props.notification)
   const isDataPresent = !props.notification.level1?.hasOwnProperty('120001');
-  console.log("Data:", isDataPresent)
 
   const renderNotifications = (notifications: any) => (
     <AlertGroup>
