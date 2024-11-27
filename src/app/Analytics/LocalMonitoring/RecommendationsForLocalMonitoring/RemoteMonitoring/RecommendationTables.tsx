@@ -23,7 +23,6 @@ import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/Cen
 import { TabSection } from './RecommendationComponents/TabSection';
 import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
 import { InfoCircleIcon, ExclamationCircleIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
-import { container } from 'webpack';
 
 export const alertIconMap = {
   info: <InfoCircleIcon style={{ color: '#2B9AF3' }} />,
@@ -348,7 +347,15 @@ const RecommendationTables = (props: {
       <StackItem>
         <br />
         <WorkloadDetails
-          experimentData={workload_details}
+          experimentData={{
+            experiment_name: props.SREdata.experiment_name,
+            namespace: props.SREdata.namespace,
+            name: props.SREdata.name,
+            type: props.SREdata.type,
+            cluster_name: props.SREdata.cluster_name,
+            container_name: props.SREdata.container_name,
+            experiment_type: props.SREdata.experiment_type
+          }}
         />
       </StackItem>
       <StackItem>
