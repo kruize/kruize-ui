@@ -33,6 +33,7 @@ const PerfDetails = (props: {
   displayChart;
   tab;
   boxPlotData;
+  experimentType
 }) => {
   const limits = props.recommendedData[0]?.recommendation_engines?.performance?.config?.limits;
   const config_keys = limits ? Object.keys(limits) : [];
@@ -48,7 +49,12 @@ const PerfDetails = (props: {
     console.log("No 'nvidia' key found.");
   }
 
-  const current_code = `resources: 
+  let resource_name = "resources";
+  if (props.experimentType == "namespace") {
+    resource_name = "resource quota"
+  }
+
+  const current_code = `${resource_name}: 
   requests:  
     cpu: ${NumberFormat(props.currentData[0]?.requests?.cpu?.amount)}
     memory: ${MemoryFormat(props.currentData[0]?.requests?.memory?.amount)} 
@@ -56,7 +62,7 @@ const PerfDetails = (props: {
     cpu: ${NumberFormat(props.currentData[0]?.limits?.cpu?.amount)}
     memory: ${MemoryFormat(props.currentData[0]?.limits?.memory?.amount)}`;
 
-  const recommended_code = `resources: 
+  const recommended_code = `${resource_name}: 
   requests: 
     cpu: ${NumberFormat(
       props.recommendedData[0]?.recommendation_engines?.performance?.config?.requests?.cpu?.amount
@@ -176,13 +182,15 @@ const PerfDetails = (props: {
         </GridItem>
       </Grid>
       <br></br>
-      <PerfBoxPlotCharts
-        unitValueforMemory={unitVal}
-        boxPlotData={props.boxPlotData}
-        showPerfBoxPlot={showPerfBoxPlot}
-        day={props.day}
-        limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
-      />
+      {props.displayChart && (
+        <PerfBoxPlotCharts
+          unitValueforMemory={unitVal}
+          boxPlotData={props.boxPlotData}
+          showPerfBoxPlot={showPerfBoxPlot}
+          day={props.day}
+          limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
+        />
+      )}
       <br></br>
       {props.displayChart && (
         <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />

@@ -125,102 +125,107 @@ const RecommendationTables = (props: {
   };
   console.log('boxp lot dat', boxPlotTranslatedData);
 
+
+  const processData = (allData, experiment_type) => {
+    const current_arr: any = [];
+    const recommended_arr: any = [];
+    const chartDetailsObject: any = [];
+    const boxPlot_arr: any = [];
+    var termNotifications: any = [];
+    var endTimeNotifications: any = [];
+
+    const processItem = (item, index) => {
+      const currentData = item.recommendations?.data[endtime]?.current;
+      const recommendationDataNewAPI = item.recommendations?.data[endtime]?.recommendation_terms[day];
+      const allRecommData = item.recommendations.data;
+      const endTimeSortedKeys = Object.keys(allRecommData).sort();
+            
+      if (currentData) {
+        current_arr.push(currentData);
+      }
+      if (recommendationDataNewAPI) {
+        recommended_arr.push(recommendationDataNewAPI);
+      }
+
+      for (const key of endTimeSortedKeys) {
+        chartDetailsObject[key] = allRecommData[key];
+        if (key === endtime) {
+          break;
+        }
+      }
+      JSON.stringify(chartDetailsObject);
+      for (const key in chartDetailsObject) {
+        const value = chartDetailsObject[key];
+
+        if (key === endtime) {
+          break;
+        }
+      }
+
+      if(index == 0) {
+        const boxPlotData = item.recommendations.data[endtime]?.recommendation_terms[day]?.plots?.plots_data;
+        if (boxPlotData) {
+          boxPlot_arr.push(boxPlotData);
+        }
+        console.log(boxPlotData);
+        
+        endTimeNotifications = item.recommendations.data[endtime].notifications || [];
+        termNotifications = item.recommendations.data[endtime].recommendation_terms[day].notifications || [];
+      }
+
+      setCurrentData(current_arr);
+      setRecommendedData(recommended_arr);
+      setChartDetailsData(chartDetailsObject);
+
+      // Processing box plot data
+      const chartData = processBoxPlotData(boxPlot_arr);
+      const [cpuData, mmrData] = chartData;
+
+      const cpuTranslatedData = transformData(cpuData, 'y', 'cpu');
+      const mmrTranslatedData = transformData(mmrData, 'y', 'mmr');
+
+      setBoxPlotTranslatedData({
+        cpu: cpuTranslatedData,
+        mmr: mmrTranslatedData
+      });
+
+      const mergedNotifications = { ...props.notification.level1, ...endTimeNotifications };
+      const entries = Object.entries(mergedNotifications) as [string, Notification][];
+
+      const infoNotifications = entries.filter(([key, notification]) => notification?.type === 'info');
+      const otherNotifications = entries.filter(([key, notification]) => notification?.type !== 'info');
+      const infNotifications = Object.fromEntries(infoNotifications);
+      const othNotifications = Object.fromEntries(otherNotifications);
+
+
+      props.setNotification({
+        level2: { info: infNotifications, others: othNotifications },
+        level3: termNotifications
+      });
+    };
+
+    if (experiment_type == "container") {
+      allData.forEach((item, index) => processItem(item, index));
+      if (recommended_arr[0]?.recommendation_engines) {
+        setDisplayChart(true);
+      }
+    } else if (experiment_type == "namespace"){
+      setDisplayChart(false);
+      processItem(allData, 0)
+    } 
+  }
   useEffect(() => {
     const fetchData = async () => {
       if (endtime && day) {
         const response = await fetch(list_recommendations_url);
         const result = await response.json();
-        const boxPlot_arr: any = [];
-        const recommended_arr: any = [];
-        const current_arr: any = [];
-        const chartDetailsObject = [];
 
-        // current data
-        result[0].kubernetes_objects[0].containers.map((container, index) => {
-          const currentDat = container.recommendations?.data[endtime]?.current;
-          if (currentDat) {
-            current_arr.push(currentDat);
-          }
-        });
-        // recommended data
-        result[0].kubernetes_objects[0].containers.map((container, index) => {
-          const recommendationDataNewAPI = container.recommendations.data[endtime]?.recommendation_terms[day];
-          if (recommendationDataNewAPI) {
-            recommended_arr.push(recommendationDataNewAPI);
-          }
-        });
-        //box plot data
-        const boxPlotData =
-          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime]?.recommendation_terms[day]?.plots
-            ?.plots_data;
-        if (boxPlotData) {
-          boxPlot_arr.push(boxPlotData);
+        if (props.SREdata.experiment_type == "container") {
+          processData(result[0].kubernetes_objects[0].containers, props.SREdata.experiment_type);
+        } else if (props.SREdata.experiment_type == "namespace") {
+          processData(result[0].kubernetes_objects[0].namespaces, props.SREdata.experiment_type)
         }
-        console.log(boxPlotData);
-        // all data before a particular time stamp
-        result[0].kubernetes_objects[0].containers.map((container, index) => {
-          const allRecommData = container.recommendations.data;
-          const endTimeSortedKeys = Object.keys(allRecommData).sort();
 
-          for (const key of endTimeSortedKeys) {
-            chartDetailsObject[key] = allRecommData[key];
-            if (key === endtime) {
-              break;
-            }
-          }
-          JSON.stringify(chartDetailsObject);
-          for (const key in chartDetailsObject) {
-            const value = chartDetailsObject[key];
-
-            if (key === endtime) {
-              break;
-            }
-          }
-        });
-        if (recommended_arr[0]?.recommendation_engines) {
-          setDisplayChart(true);
-        } else {
-          setDisplayChart(false);
-        }
-        setCurrentData(current_arr);
-        setRecommendedData(recommended_arr);
-        setChartDetailsData(chartDetailsObject);
-
-        // Processing box plot data
-
-        const chartData = processBoxPlotData(boxPlot_arr);
-        const [cpuData, mmrData] = chartData;
-
-        const cpuTranslatedData = transformData(cpuData, 'y', 'cpu');
-        const mmrTranslatedData = transformData(mmrData, 'y', 'mmr');
-
-        setBoxPlotTranslatedData({
-          cpu: cpuTranslatedData,
-          mmr: mmrTranslatedData
-        });
-
-        // Notifications
-        const endTimeNotifications =
-          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime].notifications || [];
-        // we can ignore displying this notification for now
-        const termNotifications =
-          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime].recommendation_terms[day]
-            .notifications || [];
-
-        const mergedNotifications = { ...props.notification.level1, ...endTimeNotifications };
-        const entries = Object.entries(mergedNotifications) as [string, Notification][];
-
-        const infoNotifications = entries.filter(([key, notification]) => notification?.type === 'info');
-        const otherNotifications = entries.filter(([key, notification]) => notification?.type !== 'info');
-        const infNotifications = Object.fromEntries(infoNotifications);
-        const othNotifications = Object.fromEntries(otherNotifications);
-
-        console.log(infNotifications);
-
-        props.setNotification({
-          level2: { info: infNotifications, others: othNotifications },
-          level3: termNotifications
-        });
       }
     };
     fetchData();
@@ -252,6 +257,7 @@ const RecommendationTables = (props: {
   const onDayChange = (value: string) => {
     setDay(value);
   };
+
 
   const renderNotifications = (notifications: any) => (
     <AlertGroup>
@@ -367,7 +373,6 @@ const RecommendationTables = (props: {
 
           </PageSection>
           <StackItem>
-
             {isDataPresent && (
               <TabSection
                 recommendedData={recommendedData}
@@ -377,6 +382,7 @@ const RecommendationTables = (props: {
                 endtime={endtime}
                 displayChart={displayChart}
                 boxPlotData={boxPlotTranslatedData}
+                experimentType={props.SREdata.experiment_type}
               />
             )} 
           </StackItem>

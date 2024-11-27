@@ -3,7 +3,7 @@ import { Tabs, Tab, TabTitleText, PageSection, PageSectionVariants } from '@patt
 import { CostDetails } from './CostDetails';
 import { PerfDetails } from './PerfDetails';
 
-const TabSection = (props: { recommendedData: any; currentData; chartData; day; endtime; displayChart  ; boxPlotData}) => {
+const TabSection = (props: { recommendedData: any; currentData; chartData; day; endtime; displayChart  ; boxPlotData; experimentType}) => {
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
 
   const handleTabClick = (
@@ -28,6 +28,7 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
           endtime={props.endtime}
           displayChart={props.displayChart}
           boxPlotData={props.boxPlotData}
+          experimentType={props.experimentType}
         />
       </Tab>
       <Tab eventKey={1} title={<TabTitleText>Performance optimizations</TabTitleText>}>
@@ -40,6 +41,7 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
           displayChart={props.displayChart}
           tab={activeTabKey}
           boxPlotData={props.boxPlotData}
+          experimentType={props.experimentType}
         />
       </Tab>
     </Tabs>

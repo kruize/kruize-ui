@@ -89,26 +89,36 @@ const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; se
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
       var cluster_name = data[0].cluster_name;
-      var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
-      var experiment_type = data[0].experiment_type || 'container';
+      var container_name = ""
+      var experiment_type = data[0].experiment_type;
       var endtime: any[] = [];
-      endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
+
+      var initialNotifications = [];
+      var containerArray: any[] = [];;
+
+      if (experiment_type == "container") {
+        container_name = data[0].kubernetes_objects[0].containers[0].container_name;
+        endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
+        initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
+
+        for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
+          containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
+        }
+      } else if (experiment_type == "namespace") {
+        endtime = [...Object.keys(data[0].kubernetes_objects[0].namespaces.recommendations.data).sort().reverse()];
+        initialNotifications = data[0].kubernetes_objects[0].namespaces.recommendations.notifications || [];
+      }
+      
 
       props.setEndTimeArray(endtime);
     
-      const initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
-
       props.setNotification({
         level1: initialNotifications
       });
       const has111000 = initialNotifications.hasOwnProperty('111000');
       const has120001 = initialNotifications.hasOwnProperty('120001');
-      props.setDisplayRecc(has111000 || has120001);
 
-      var containerArray: any[] = [];
-      for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
-        containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
-      }
+      props.setDisplayRecc(has111000 || has120001);
 
       props.setSREdata({
         ...{ ...props.SREdata },
