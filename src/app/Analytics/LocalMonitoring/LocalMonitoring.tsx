@@ -5,9 +5,10 @@ import {
   Text,
   TextVariants
 } from '@patternfly/react-core';
-import React, { useEffect, useState } from 'react';
-import { getDatasourcesURL } from '@app/CentralConfig';
+import React, { useEffect } from 'react';
 import { DatasourceTable } from './DatasourceTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { getListOfDataSources } from '@actions/DataSourceActionCreator';
 
 /*
   This is the first page of Local Monitoring use case on the ui 
@@ -17,30 +18,21 @@ import { DatasourceTable } from './DatasourceTable';
 */
 
 const LocalMonitoring = () => {
-  const [datasourcesData, setDatasourcesData] = useState();
-  const list_datasources_url: string = getDatasourcesURL();
-
-  const fetchDatasources = async () => {
-    const response = await fetch(list_datasources_url);
-    const data = await response.json();
-    setDatasourcesData(data);
-  };
+  const dataSource: any = useSelector<any>(state => state.dataSource)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    try {
-      fetchDatasources();
-    } catch {
-      console.log('Datasources URL not working');
-    }
-  }, []);
-
+    ( async() => await dispatch(getListOfDataSources()) )()
+  }, [dispatch]);
+  
   return (
     <PageSection variant={PageSectionVariants.light}>
       <TextContent>
         <Text component={TextVariants.h1}>Local Monitoring</Text>
       </TextContent>
       <br/>
-      {datasourcesData && <DatasourceTable fetchDatasourcesData={datasourcesData} /> }
+
+      {dataSource.datasources.length > 0 && <DatasourceTable dataSourcesData={dataSource.datasources} />}
     </PageSection>
   );
 };
