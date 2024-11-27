@@ -225,7 +225,7 @@ const RecommendationTables = (props: {
         } else if (props.SREdata.experiment_type == "namespace") {
           processData(result[0].kubernetes_objects[0].namespaces, props.SREdata.experiment_type)
         }
-        
+
       }
     };
     fetchData();
@@ -382,6 +382,7 @@ const RecommendationTables = (props: {
                 endtime={endtime}
                 displayChart={displayChart}
                 boxPlotData={boxPlotTranslatedData}
+                experimentType={props.SREdata.experiment_type}
               />
             )} 
           </StackItem>
