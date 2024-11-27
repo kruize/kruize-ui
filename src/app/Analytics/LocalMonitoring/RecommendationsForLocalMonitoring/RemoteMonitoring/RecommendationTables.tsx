@@ -298,7 +298,6 @@ const RecommendationTables = (props: {
     setDay(value);
   };
 
-  const isDataPresent = !props.notification.level1?.hasOwnProperty('120001');
 
   const renderNotifications = (notifications: any) => (
     <AlertGroup>
@@ -318,8 +317,10 @@ const RecommendationTables = (props: {
       })}
     </AlertGroup>
   );
-
-
+  
+  // checking if data is present or not
+  const isDataPresent = !props.notification.level1?.hasOwnProperty('120001');
+  
   return (
     <>
     <PageSection variant={PageSectionVariants.light}>
@@ -388,7 +389,7 @@ const RecommendationTables = (props: {
               </Split>
             </FlexItem>
           </Flex>
-          )}
+        )}
           <Card style={{ width: '800px' }}>
             {!isDataPresent && (
               <Flex>
@@ -422,7 +423,7 @@ const RecommendationTables = (props: {
                 displayChart={displayChart}
                 boxPlotData={boxPlotTranslatedData}
               />
-            )}        
+            )} 
           </StackItem>
     </>
   );
