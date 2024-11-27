@@ -272,6 +272,9 @@ const RecommendationTables = (props: {
     </AlertGroup>
   );
   
+  // checking if data is present or not
+  const isDataPresent = !props.notification.level1?.hasOwnProperty('120001');
+  
   return (
     <>
     <PageSection variant={PageSectionVariants.light}>
@@ -292,6 +295,7 @@ const RecommendationTables = (props: {
       </StackItem>
       <StackItem>
         <Stack hasGutter>
+        {isDataPresent && ( 
           <Flex className="example-border">
             <Flex>
               <FlexItem>
@@ -339,7 +343,15 @@ const RecommendationTables = (props: {
               </Split>
             </FlexItem>
           </Flex>
+        )}
           <Card style={{ width: '800px' }}>
+            {!isDataPresent && (
+              <Flex>
+                <FlexItem spacer={{ default: 'spacer3xl' }}>
+                {props.notification.level1 && renderNotifications(props.notification.level1)}
+                </FlexItem>
+              </Flex>
+            )} 
             <Flex>
               <FlexItem spacer={{ default: 'spacer3xl' }}>
               {props.notification.level2 && renderNotifications(props.notification.level2.info)}
@@ -356,15 +368,17 @@ const RecommendationTables = (props: {
           </PageSection>
           <StackItem>
 
-            <TabSection
-              recommendedData={recommendedData}
-              currentData={currentData}
-              chartData={chartDetailsData}
-              day={day}
-              endtime={endtime}
-              displayChart={displayChart}
-              boxPlotData={boxPlotTranslatedData}
-            />
+            {isDataPresent && (
+              <TabSection
+                recommendedData={recommendedData}
+                currentData={currentData}
+                chartData={chartDetailsData}
+                day={day}
+                endtime={endtime}
+                displayChart={displayChart}
+                boxPlotData={boxPlotTranslatedData}
+              />
+            )} 
           </StackItem>
     </>
   );

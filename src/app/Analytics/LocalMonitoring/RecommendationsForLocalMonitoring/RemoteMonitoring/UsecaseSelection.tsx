@@ -112,7 +112,8 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         level1: initialNotifications
       });
       const has111000 = initialNotifications.hasOwnProperty('111000');
-     props.setDisplayRecc(has111000);
+      const has120001 = initialNotifications.hasOwnProperty('120001');
+      props.setDisplayRecc(has111000 || has120001);
 
       var containerArray: any[] = [];
       for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
