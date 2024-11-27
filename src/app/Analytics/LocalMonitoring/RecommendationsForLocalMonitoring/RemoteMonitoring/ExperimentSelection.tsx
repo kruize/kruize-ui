@@ -112,8 +112,6 @@ const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; se
 
       props.setEndTimeArray(endtime);
     
-      // const initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
-
       props.setNotification({
         level1: initialNotifications
       });
@@ -133,8 +131,8 @@ const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; se
         experiment_type: experiment_type
       });
     }
-      catch (error){
-        console.log("Execution incompleted: " + error);
+      catch {
+        console.log("Execution incompleted.");
       }
   };
 
