@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { useState } from 'react';
 import { RecommendationTables } from './RecommendationTables';
-import { UsecaseSelection } from './UsecaseSelection';
+import { ExperimentSelection } from './ExperimentSelection';
 
 const SREdataa = {
   experiment_name: '',
@@ -42,7 +42,7 @@ const Monitoring = () => {
         <Text component={TextVariants.h1}>Monitoring</Text>
       </TextContent>
       <br />
-      <UsecaseSelection
+      <ExperimentSelection
         setEndTimeArray={setEndTimeArray}
         endTimeArray={endTimeArray}
         setSREdata={setSREdata}
