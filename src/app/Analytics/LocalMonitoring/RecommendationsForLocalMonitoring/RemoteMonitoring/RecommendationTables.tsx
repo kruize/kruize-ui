@@ -23,6 +23,7 @@ import { getRecommendationsURL, getRecommendationsURLWithParams } from '@app/Cen
 import { TabSection } from './RecommendationComponents/TabSection';
 import { WorkloadDetails } from './RecommendationComponents/WorkloadDetails';
 import { InfoCircleIcon, ExclamationCircleIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { container } from 'webpack';
 
 export const alertIconMap = {
   info: <InfoCircleIcon style={{ color: '#2B9AF3' }} />,
@@ -128,58 +129,113 @@ const RecommendationTables = (props: {
   useEffect(() => {
     const fetchData = async () => {
       if (endtime && day) {
-        const response = await fetch(list_recommendations_url);
+        // const response = await fetch(list_recommendations_url);
+        
+        const response = await fetch("https://mocki.io/v1/5bb44f3b-4f26-4dc4-a167-682e8ffed562"); // no data
+        // const response = await fetch("https://mocki.io/v1/a5bc9f53-1062-45e4-9610-29432931d5bd");
         const result = await response.json();
         const boxPlot_arr: any = [];
         const recommended_arr: any = [];
         const current_arr: any = [];
         const chartDetailsObject = [];
 
-        // current data
-        result[0].kubernetes_objects[0].containers.map((container, index) => {
-          const currentDat = container.recommendations?.data[endtime]?.current;
-          if (currentDat) {
-            current_arr.push(currentDat);
+        // Notifications
+        var endTimeNotifications: any = [];
+        // we can ignore displying this notification for now
+        var termNotifications: any = [];
+
+        if (props.SREdata.experiment_type == "container") {
+          // current data
+          result[0].kubernetes_objects[0].containers.map((container, index) => {
+            const currentDat = container.recommendations?.data[endtime]?.current;
+            if (currentDat) {
+              current_arr.push(currentDat);
+            }
+          });
+
+          // recommended data
+          result[0].kubernetes_objects[0].containers.map((container, index) => {
+            const recommendationDataNewAPI = container.recommendations.data[endtime]?.recommendation_terms[day];
+            if (recommendationDataNewAPI) {
+              recommended_arr.push(recommendationDataNewAPI);
+            }
+          });
+          
+          //box plot data
+          const boxPlotData =
+          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime]?.recommendation_terms[day]?.plots?.plots_data;
+          if (boxPlotData) {
+            boxPlot_arr.push(boxPlotData);
           }
-        });
-        // recommended data
-        result[0].kubernetes_objects[0].containers.map((container, index) => {
-          const recommendationDataNewAPI = container.recommendations.data[endtime]?.recommendation_terms[day];
-          if (recommendationDataNewAPI) {
-            recommended_arr.push(recommendationDataNewAPI);
-          }
-        });
-        //box plot data
-        const boxPlotData =
-          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime]?.recommendation_terms[day]?.plots
-            ?.plots_data;
-        if (boxPlotData) {
-          boxPlot_arr.push(boxPlotData);
+          console.log(boxPlotData);
+
+          // all data before a particular time stamp
+          result[0].kubernetes_objects[0].containers.map((container, index) => {
+            const allRecommData = container.recommendations.data;
+            const endTimeSortedKeys = Object.keys(allRecommData).sort();
+
+            for (const key of endTimeSortedKeys) {
+              chartDetailsObject[key] = allRecommData[key];
+              if (key === endtime) {
+                break;
+              }
+            }
+            JSON.stringify(chartDetailsObject);
+            for (const key in chartDetailsObject) {
+              const value = chartDetailsObject[key];
+
+              if (key === endtime) {
+                break;
+              }
+            }
+          });
+
+          // notifications 
+          endTimeNotifications = result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime].notifications || [];
+          termNotifications = result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime].recommendation_terms[day].notifications || [];
+
+        } else if (props.SREdata.experiment_type == "namespace") {
+            // current data 
+            const currentDat = result[0].kubernetes_objects[0].namespaces.recommendations?.data[endtime]?.current;
+            if (currentDat) {
+              current_arr.push(currentDat);
+            }
+
+            // recommendation data
+            const recommendationDataNewAPI = result[0].kubernetes_objects[0].namespaces.recommendations.data[endtime]?.recommendation_terms[day];
+            if (recommendationDataNewAPI) {
+              recommended_arr.push(recommendationDataNewAPI);
+            }
+
+            // all data before a particular time stamp
+            const allRecommData = result[0].kubernetes_objects[0].namespaces.recommendations.data;
+            const endTimeSortedKeys = Object.keys(allRecommData).sort();
+
+            for (const key of endTimeSortedKeys) {
+              chartDetailsObject[key] = allRecommData[key];
+              if (key === endtime) {
+                break;
+              }
+            }
+            JSON.stringify(chartDetailsObject);
+            for (const key in chartDetailsObject) {
+              const value = chartDetailsObject[key];
+
+              if (key === endtime) {
+                break;
+              }
+            }
+
+            // notifications 
+            endTimeNotifications = result[0].kubernetes_objects[0].namespaces.recommendations.data[endtime].notifications || [];
+            termNotifications = result[0].kubernetes_objects[0].namespaces.recommendations.data[endtime].recommendation_terms[day].notifications || [];
         }
-        console.log(boxPlotData);
-        // all data before a particular time stamp
-        result[0].kubernetes_objects[0].containers.map((container, index) => {
-          const allRecommData = container.recommendations.data;
-          const endTimeSortedKeys = Object.keys(allRecommData).sort();
-
-          for (const key of endTimeSortedKeys) {
-            chartDetailsObject[key] = allRecommData[key];
-            if (key === endtime) {
-              break;
-            }
-          }
-          JSON.stringify(chartDetailsObject);
-          for (const key in chartDetailsObject) {
-            const value = chartDetailsObject[key];
-
-            if (key === endtime) {
-              break;
-            }
-          }
-        });
-        if (recommended_arr[0]?.recommendation_engines) {
+      
+        
+        if (recommended_arr[0]?.recommendation_engines && props.SREdata.experiment_type == "container") {
           setDisplayChart(true);
         } else {
+          console.log("Setting False")
           setDisplayChart(false);
         }
         setCurrentData(current_arr);
@@ -199,13 +255,7 @@ const RecommendationTables = (props: {
           mmr: mmrTranslatedData
         });
 
-        // Notifications
-        const endTimeNotifications =
-          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime].notifications || [];
-        // we can ignore displying this notification for now
-        const termNotifications =
-          result[0].kubernetes_objects[0].containers[0].recommendations.data[endtime].recommendation_terms[day]
-            .notifications || [];
+
 
         const mergedNotifications = { ...props.notification.level1, ...endTimeNotifications };
         const entries = Object.entries(mergedNotifications) as [string, Notification][];
@@ -253,6 +303,10 @@ const RecommendationTables = (props: {
     setDay(value);
   };
 
+  console.log("NOTI: ", props.notification)
+  const isDataPresent = !props.notification.level1?.hasOwnProperty('120001');
+  console.log("Data:", isDataPresent)
+
   const renderNotifications = (notifications: any) => (
     <AlertGroup>
       {Object.keys(notifications || {}).map((key) => {
@@ -271,7 +325,28 @@ const RecommendationTables = (props: {
       })}
     </AlertGroup>
   );
-  
+
+
+  let workload_details = {};
+
+  if (props.SREdata.experiment_type == "container") {
+    workload_details = {
+      experiment_name: props.SREdata.experiment_name,
+      namespace: props.SREdata.namespace,
+      name: props.SREdata.name,
+      type: props.SREdata.type,
+      cluster_name: props.SREdata.cluster_name,
+      container_name: props.SREdata.container_name,
+      experiment_type: props.SREdata.experiment_type
+    }
+  } else if (props.SREdata.experiment_type == "namespace") {
+    workload_details = {
+      experiment_name: props.SREdata.experiment_name,
+      namespace: props.SREdata.namespace,
+      cluster_name: props.SREdata.cluster_name,
+      experiment_type: props.SREdata.experiment_type
+    }
+  }
   return (
     <>
     <PageSection variant={PageSectionVariants.light}>
@@ -279,19 +354,12 @@ const RecommendationTables = (props: {
       <StackItem>
         <br />
         <WorkloadDetails
-          experimentData={{
-            experiment_name: props.SREdata.experiment_name,
-            namespace: props.SREdata.namespace,
-            name: props.SREdata.name,
-            type: props.SREdata.type,
-            cluster_name: props.SREdata.cluster_name,
-            container_name: props.SREdata.container_name,
-            experiment_type: props.SREdata.experiment_type
-          }}
+          experimentData={workload_details}
         />
       </StackItem>
       <StackItem>
         <Stack hasGutter>
+        {isDataPresent && ( 
           <Flex className="example-border">
             <Flex>
               <FlexItem>
@@ -339,7 +407,15 @@ const RecommendationTables = (props: {
               </Split>
             </FlexItem>
           </Flex>
+          )}
           <Card style={{ width: '800px' }}>
+            {!isDataPresent && (
+              <Flex>
+                <FlexItem spacer={{ default: 'spacer3xl' }}>
+                {props.notification.level1 && renderNotifications(props.notification.level1)}
+                </FlexItem>
+              </Flex>
+            )} 
             <Flex>
               <FlexItem spacer={{ default: 'spacer3xl' }}>
               {props.notification.level2 && renderNotifications(props.notification.level2.info)}
@@ -355,16 +431,17 @@ const RecommendationTables = (props: {
 
           </PageSection>
           <StackItem>
-
-            <TabSection
-              recommendedData={recommendedData}
-              currentData={currentData}
-              chartData={chartDetailsData}
-              day={day}
-              endtime={endtime}
-              displayChart={displayChart}
-              boxPlotData={boxPlotTranslatedData}
-            />
+            {isDataPresent && (
+              <TabSection
+                recommendedData={recommendedData}
+                currentData={currentData}
+                chartData={chartDetailsData}
+                day={day}
+                endtime={endtime}
+                displayChart={displayChart}
+                boxPlotData={boxPlotTranslatedData}
+              />
+            )}        
           </StackItem>
     </>
   );

@@ -42,14 +42,15 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   };
   
   const fetchData = async () => {
-    const response = await fetch(list_experiment_url);
+    // const response = await fetch(list_experiment_url);
+    const response = await fetch("https://mocki.io/v1/2af181ed-6e99-418f-a01d-37fc4b0c0f96");
     const data = await response.json();
     const arr: any = ['Select Experiment Name'];
 
     data.forEach((element) => {
-      if (element.experiment_type === 'container') {
+      // if (element.experiment_type === 'container') {
         arr.push(element.experiment_name);
-      }
+      // }
     });
     
     setExpData(arr.sort());
@@ -82,42 +83,60 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     sessionStorage.setItem('Experiment Name', value);
     const response = await fetch(getListExperimentsURLWithParams(value));
     const data = await response.json();
-    const experimentUsecase = data[0].experiment_usecase_type;
-    let usecase;
-    if (experimentUsecase) {
-      usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + ' ';
-      setExpUsecaseType(usecase);
-    }
-    handleClick(value, usecase);
+    // const experimentUsecase = data[0].experiment_usecase_type;
+    // let usecase;
+    // if (experimentUsecase) {
+    //   usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + ' ';
+    //   setExpUsecaseType(usecase);
+    // }
+    // handleClick(value, usecase);
+    const experimentUsecase = data[0].experiment_usecase_type || 'container';
+    handleClick(value);
   };
 
-  const handleClick = async (exp_name_value, usecase) => {
+  // const handleClick = async (exp_name_value, usecase) => {
+  const handleClick = async (exp_name_value) => {
     try {
 
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
-      const data = await (await fetch(list_recommendations_url)).json();
+      // const data = await (await fetch(list_recommendations_url)).json();
+      const data = await (await fetch("https://mocki.io/v1/9467eff5-4b87-4023-a6a2-c76e99e21a4a")).json();
       var namespace = data[0].kubernetes_objects[0].namespace;
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
       var cluster_name = data[0].cluster_name;
-      var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
+      var container_name = ""
+      var experiment_type = data[0].experiment_type;
       var endtime: any[] = [];
-      endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
+
+      var initialNotifications = [];
+      var containerArray: any[] = [];;
+
+      if (experiment_type == "container") {
+        container_name = data[0].kubernetes_objects[0].containers[0].container_name;
+        endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
+        initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
+
+        for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
+          containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
+        }
+      } else if (experiment_type == "namespace") {
+        endtime = [...Object.keys(data[0].kubernetes_objects[0].namespaces.recommendations.data).sort().reverse()];
+        initialNotifications = data[0].kubernetes_objects[0].namespaces.recommendations.notifications || [];
+      }
+      
 
       props.setEndTimeArray(endtime);
     
-      const initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
+      // const initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
 
       props.setNotification({
         level1: initialNotifications
       });
       const has111000 = initialNotifications.hasOwnProperty('111000');
-     props.setDisplayRecc(has111000);
+      const has120001 = initialNotifications.hasOwnProperty('120001');
 
-      var containerArray: any[] = [];
-      for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
-        containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
-      }
+      props.setDisplayRecc(has111000 || has120001);
 
       props.setSREdata({
         ...{ ...props.SREdata },
@@ -127,26 +146,27 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         type: type,
         cluster_name: cluster_name,
         container_name: container_name,
-        experiment_type: usecase
+        experiment_type: experiment_type
       });
     }
-      catch {
-        console.log("Execution incompleted.");
+      catch (error){
+        console.log("Execution incompleted: " + error);
       }
   };
 
   const handleGenerateRecommendationClick = async (expName) => {
     try {
-      const response = await fetch(generateRecommendationsURL(expName), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      // const response = await fetch(generateRecommendationsURL(expName), {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   }
+      // });
+      const response = await fetch("https://mocki.io/v1/8e36bdd3-ef2c-427d-83a4-dda6c88c3204"); // no data
       if (response.ok) {
         setShowReccSuccessAlert(true);
         setTimeout(() => setShowReccSuccessAlert(false), 3000);
-        handleClick(expName, expUsecaseType);
+        handleClick(expName);
       }
     } catch (error) {
       console.error('Error during data import:', error);
