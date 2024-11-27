@@ -320,26 +320,6 @@ const RecommendationTables = (props: {
   );
 
 
-  let workload_details = {};
-
-  if (props.SREdata.experiment_type == "container") {
-    workload_details = {
-      experiment_name: props.SREdata.experiment_name,
-      namespace: props.SREdata.namespace,
-      name: props.SREdata.name,
-      type: props.SREdata.type,
-      cluster_name: props.SREdata.cluster_name,
-      container_name: props.SREdata.container_name,
-      experiment_type: props.SREdata.experiment_type
-    }
-  } else if (props.SREdata.experiment_type == "namespace") {
-    workload_details = {
-      experiment_name: props.SREdata.experiment_name,
-      namespace: props.SREdata.namespace,
-      cluster_name: props.SREdata.cluster_name,
-      experiment_type: props.SREdata.experiment_type
-    }
-  }
   return (
     <>
     <PageSection variant={PageSectionVariants.light}>
