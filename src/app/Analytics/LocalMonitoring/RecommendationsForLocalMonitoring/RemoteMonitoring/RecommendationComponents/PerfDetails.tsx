@@ -176,13 +176,15 @@ const PerfDetails = (props: {
         </GridItem>
       </Grid>
       <br></br>
-      <PerfBoxPlotCharts
-        unitValueforMemory={unitVal}
-        boxPlotData={props.boxPlotData}
-        showPerfBoxPlot={showPerfBoxPlot}
-        day={props.day}
-        limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
-      />
+      {props.displayChart && (
+        <PerfBoxPlotCharts
+          unitValueforMemory={unitVal}
+          boxPlotData={props.boxPlotData}
+          showPerfBoxPlot={showPerfBoxPlot}
+          day={props.day}
+          limitRequestData={props.recommendedData[0]?.recommendation_engines?.performance?.config}
+        />
+      )}
       <br></br>
       {props.displayChart && (
         <PerfHistoricCharts chartData={props.chartData} day={props.day} endtime={props.endtime} />

@@ -259,7 +259,7 @@ const CostDetails = (props: { recommendedData; currentData; chartData; day; endt
         </GridItem>
       </Grid>
       <br></br>
-      {props.boxPlotData && props.recommendedData[0]?.recommendation_engines?.cost?.config ? (
+      {props.displayChart && props.boxPlotData && props.recommendedData[0]?.recommendation_engines?.cost?.config ? (
         <CostBoxPlotCharts
           unitValueforMemory={unitVal}
           boxPlotData={props.boxPlotData}
