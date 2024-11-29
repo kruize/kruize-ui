@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from '@app/index';
 import '@patternfly/react-core/dist/styles/base.css';
 import { setDiagnosticsOptions } from 'monaco-yaml';
+
 import * as monaco from 'monaco-editor';
+import store from './store/store';
+import { Provider } from "react-redux";
 
 setDiagnosticsOptions({
   enableSchemaRequest: true,
@@ -28,5 +31,10 @@ if (process.env.NODE_ENV !== 'production') {
   axe(React, ReactDOM, 1000, config);
 }
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(
+  <Provider store={store}>
+  <App />
+</Provider>
+);

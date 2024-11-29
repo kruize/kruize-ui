@@ -14,10 +14,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getClusterMetadataURL } from '@app/CentralConfig';
 import { PlusIcon } from '@patternfly/react-icons';
+
+import { getClusterMetaData } from '@actions/DataSourceActionCreator';
+import { useDispatch, useSelector } from 'react-redux';
+
 interface LocationState {
   cluster: string;
   datasource: string;
 }
+
 interface Container {
   container_name: string;
   container_image_name: string;
@@ -34,19 +39,12 @@ interface Namespace {
   workloads?: Record<string, Workload>;
 }
 
-interface Cluster {
+interface ClusterDetails {
   cluster_name: string;
   namespaces: Record<string, Namespace>;
 }
 
-interface ClusterGroup {
-  datasource_name: string;
-  clusters: Record<string, Cluster>;
-}
 
-interface ApiData {
-  datasources: Record<string, ClusterGroup>;
-}
 
 interface TableData {
   containerName: string;
@@ -67,61 +65,51 @@ interface TableData {
 
 */
 
-const ClusterDataTable = (props: { datasource, clustername }) => {
-  const [clusterData, setClusterData] = useState<ApiData | null>(null);
-  const [namespaceData, setNamespaceData] = useState([]);
- 
-  const datasource = props.datasource;
-  const cluster = props.clustername;
+interface ClusterDataTableProps {
+  dataSourceName: string;
+  clusterName: string;
+}
 
-  const fetchCluster = async () => {
-    const response = await fetch(getClusterMetadataURL(datasource, cluster));
-    const data = await response.json();
-    setClusterData(data);
-    setNamespaceData(data.datasources[datasource].clusters[cluster]);
-  };
+const ClusterDataTable: React.FC<ClusterDataTableProps>  = ({ dataSourceName, clusterName }) => {
+  const dispatch = useDispatch()
+  const dataSource: any = useSelector<any>(state => state.dataSource)
+ 
 
   useEffect(() => {
-    try {
-      fetchCluster();
-    } catch {
-      console.log('Clusters get URL not working');
-    }
-  }, []);
+    ( async () => 
+      await dispatch(getClusterMetaData(dataSourceName, clusterName)) 
+  )()
+}, [dispatch]);
 
-  function extractTableData(apiData: ApiData): TableData[] {
+  let clusterDetials: ClusterDetails | undefined;
+  if(dataSource.clusterMetaData.hasOwnProperty(`${dataSourceName}-${clusterName}`)){
+    clusterDetials = dataSource.clusterMetaData[`${dataSourceName}-${clusterName}`]
+  }
+
+  function extractTableData(clusterDetails: ClusterDetails): TableData[] {
     const tableData: TableData[] = [];
-
-    if (apiData && apiData.datasources) {
-      for (const clusterGroup of Object.values(apiData.datasources)) {
-        for (const cluster of Object.values(clusterGroup.clusters)) {
-          for (const [namespaceName, namespace] of Object.entries(cluster.namespaces)) {
-            if (!namespace.workloads) continue;
-
-            for (const [workloadName, workload] of Object.entries(namespace.workloads)) {
-              if (!workload.containers) continue;
-
-              for (const [_, container] of Object.entries(workload.containers)) {
-                tableData.push({
-                  containerName: container.container_name,
-                  containerImageName: container.container_image_name,
-                  projectName: namespaceName,
-                  workloadName: workload.workload_name,
-                  workloadType: workload.workload_type,
-                  clusterName: cluster.cluster_name
-                });
-              }
+        for (const [namespaceName, namespace] of Object.entries(clusterDetails.namespaces)) {
+          if (!namespace.workloads) continue;
+          for (const [workloadName, workload] of Object.entries(namespace.workloads)) {
+            if (!workload.containers) continue;
+            for (const [_, container] of Object.entries(workload.containers)) {
+              tableData.push({
+                containerName: container.container_name,
+                containerImageName: container.container_image_name,
+                projectName: namespaceName,
+                workloadName: workload.workload_name,
+                workloadType: workload.workload_type,
+                clusterName: clusterName
+              });
             }
           }
-        }
-      }
     }
 
     return tableData;
   }
 
-  const tableData = clusterData ? extractTableData(clusterData) : [];
-  
+  const tableData: TableData[] | undefined = clusterDetials !== undefined ? extractTableData(clusterDetials): []
+
   return (
     <PageSection variant={PageSectionVariants.light}>
       <TextContent>Cluster Specific Details</TextContent>
@@ -159,7 +147,7 @@ const ClusterDataTable = (props: { datasource, clustername }) => {
                               workloadType: row_data?.workloadType,
                               clusterName: row_data?.clusterName,
                               containerImageName: row_data?.containerImageName,
-                              datasourceName: props.datasource
+                              datasourceName: dataSourceName
                             }
                           }}
                         >
@@ -168,11 +156,6 @@ const ClusterDataTable = (props: { datasource, clustername }) => {
                           </Tooltip>
                         </Link>
                       </OverflowMenuItem>
-                      {/* <OverflowMenuItem>
-                        <Tooltip content={<div> List Recommendation</div>} position={TooltipPosition.top}>
-                          <BlueprintIcon color='#0066CC' />
-                        </Tooltip>
-                      </OverflowMenuItem> */}
                     </OverflowMenuGroup>
                   </OverflowMenuContent>
                 </OverflowMenu>

@@ -1,10 +1,9 @@
 import { Button, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { getDatasourceMetadataURL } from '@app/CentralConfig';
-import { Link } from 'react-router-dom';
 import { ClusterDataTable } from './ClusterDataTable';
+import { saveSelectedClusterName } from '@reducers/DataSourceReducers';
+import { useDispatch, useSelector } from 'react-redux';
 interface DatasourceDetail {
   clusters: { [key: string]: { cluster_name: string } };
 }
@@ -23,41 +22,28 @@ interface LocationState {
 
 */
 
-const ClusterGroupTables = (props: { clusterGroupData; dsname }) => {
-  const [clusterSpecificData, setClusterSpecificData] = useState([]);
-  const [showComponent, setShowComponent] = useState(false);
-  const [datasourcesData, setDatasourcesData] = useState<Datasources | null>(null);
-  const [showClusterTable, setShowClusterTable] = useState(false);
-  const [selectedClusterName, setSelectedClusterName] = useState<string | null>(null);
+const ClusterGroupTables = ({ clusterGroupData, dataSourceName }) => {
+  const dispatch = useDispatch()
+  const dataSourceSelector: any = useSelector<any>(state => state.dataSource)
+  const [selectedClusterName, setSelectedClusterName] = useState<string>(dataSourceSelector.selectedClusterName || "");
 
-  const datasource_name = props.dsname;
-
-  // calling get api with parameter ds
-  const fetchDatasources = async () => {
-    const response = await fetch(getDatasourceMetadataURL(datasource_name));
-    const data = await response.json();
-    setDatasourcesData(data);
-  };
+  let clusterRowData: any = [];
+  if (typeof clusterGroupData === 'object' && clusterGroupData !== null) {
+    if (clusterGroupData.hasOwnProperty(dataSourceName)) {
+        const clustersData = clusterGroupData[dataSourceName].clusters;
+        clusterRowData = Object.keys(clustersData).map(clusterKey => ({
+          groupName: dataSourceName,
+          clusterName: clustersData[clusterKey].cluster_name
+        }))
+    }
+  }
 
   useEffect(() => {
-    try {
-      fetchDatasources();
-    } catch {
-      console.log('Datasources get URL not working');
-    }
-  }, []);
-
-  const cluster_row_data = Object.entries(datasourcesData?.datasources || {}).flatMap(([groupName, groupDetail]) => {
-    const clusters = (groupDetail as any).clusters || {};
-    return Object.keys(clusters).map((clusterKey) => ({
-      groupName: groupName,
-      clusterName: clusters[clusterKey].cluster_name
-    }));
-  });
+    setSelectedClusterName(dataSourceSelector.selectedClusterName)
+  }, [dataSourceSelector.selectedClusterName])
 
   const handleButtonClick = (clusterName: string) => {
-    setSelectedClusterName(clusterName);
-    setShowClusterTable(true);
+    dispatch(saveSelectedClusterName({selectedClusterName: clusterName}))
   };
 
   return (
@@ -71,12 +57,11 @@ const ClusterGroupTables = (props: { clusterGroupData; dsname }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {cluster_row_data.map((row, index) => (
+            {clusterRowData.map((row, index) => (
               <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
                 <Td dataLabel="Cluster Group">{row.groupName}</Td>
                 <Td dataLabel="Cluster">
                   <Button variant="link" isInline onClick={() => handleButtonClick(row.clusterName)}>
-                    {' '}
                     {row.clusterName}
                   </Button>
                 </Td>
@@ -84,7 +69,7 @@ const ClusterGroupTables = (props: { clusterGroupData; dsname }) => {
             ))}
           </Tbody>
         </Table>
-        {showClusterTable && <ClusterDataTable datasource={datasource_name} clustername={selectedClusterName} />}
+        {selectedClusterName.length > 0  && <ClusterDataTable dataSourceName={dataSourceName} clusterName={selectedClusterName} />}
       </React.Fragment>
     </PageSection>
   )

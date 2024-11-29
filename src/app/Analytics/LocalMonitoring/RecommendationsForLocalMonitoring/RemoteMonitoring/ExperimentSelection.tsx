@@ -24,12 +24,11 @@ import {
 import { SyncAltIcon } from '@patternfly/react-icons';
 
 
-const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc; notification; setNotification }) => {
+const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc; notification; setNotification }) => {
 
   const list_experiment_url: string = getListExperimentsURL();
   const [value, setValue] = useState('');
   const [expName, setExpName] = useState<any | null>('');
-  const [expUsecaseType, setExpUsecaseType] = useState<string | undefined>('');
   const [expData, setExpData] = useState([]);
   const [showFailureAlert, setShowFailureAlert] = useState<boolean>();
   const [showReccSuccessAlert, setShowReccSuccessAlert] = useState<boolean>();
@@ -58,7 +57,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   const onChangeExpName = async (value: string) => {
     setValue('');
     setExpName('');
-    setExpUsecaseType('');
     props.setSREdata({
       experiment_name: '',
       containerArray: [],
@@ -79,16 +77,10 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
     sessionStorage.setItem('Experiment Name', value);
     const response = await fetch(getListExperimentsURLWithParams(value));
     const data = await response.json();
-    const experimentUsecase = data[0].experiment_usecase_type;
-    let usecase;
-    if (experimentUsecase) {
-      usecase = Object.keys(experimentUsecase).filter((key) => experimentUsecase[key] === true) + ' ';
-      setExpUsecaseType(usecase);
-    }
-    handleClick(value, usecase);
+    handleClick(value);
   };
 
-  const handleClick = async (exp_name_value, usecase) => {
+  const handleClick = async (exp_name_value) => {
     try {
 
       const list_recommendations_url: string = getRecommendationsURLWithParams(exp_name_value, 'false');
@@ -97,27 +89,36 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       var name = data[0].kubernetes_objects[0].name;
       var type = data[0].kubernetes_objects[0].type;
       var cluster_name = data[0].cluster_name;
-      var container_name = data[0].kubernetes_objects[0].containers[0].container_name;
+      var container_name = ""
+      var experiment_type = data[0].experiment_type;
       var endtime: any[] = [];
-      endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
+
+      var initialNotifications = [];
+      var containerArray: any[] = [];;
+
+      if (experiment_type == "container") {
+        container_name = data[0].kubernetes_objects[0].containers[0].container_name;
+        endtime = [...Object.keys(data[0].kubernetes_objects[0].containers[0].recommendations.data).sort().reverse()];
+        initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
+
+        for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
+          containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
+        }
+      } else if (experiment_type == "namespace") {
+        endtime = [...Object.keys(data[0].kubernetes_objects[0].namespaces.recommendations.data).sort().reverse()];
+        initialNotifications = data[0].kubernetes_objects[0].namespaces.recommendations.notifications || [];
+      }
+      
 
       props.setEndTimeArray(endtime);
     
-      const initialNotifications = data[0].kubernetes_objects[0].containers[0].recommendations.notifications || [];
-
       props.setNotification({
         level1: initialNotifications
       });
       const has111000 = initialNotifications.hasOwnProperty('111000');
+      const has120001 = initialNotifications.hasOwnProperty('120001');
 
-     props.setDisplayRecc(has111000);
-    //  console.log(initialNotifications)
-    //  console.log(has111000)
-
-      var containerArray: any[] = [];
-      for (var i = 0; i < data[0].kubernetes_objects[0].containers.length; i++) {
-        containerArray.push(data[0].kubernetes_objects[0].containers[i].container_name);
-      }
+      props.setDisplayRecc(has111000 || has120001);
 
       props.setSREdata({
         ...{ ...props.SREdata },
@@ -127,7 +128,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
         type: type,
         cluster_name: cluster_name,
         container_name: container_name,
-        experiment_type: usecase
+        experiment_type: experiment_type
       });
     }
       catch {
@@ -146,7 +147,7 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
       if (response.ok) {
         setShowReccSuccessAlert(true);
         setTimeout(() => setShowReccSuccessAlert(false), 3000);
-        handleClick(expName, expUsecaseType);
+        handleClick(expName);
       }
     } catch (error) {
       console.error('Error during data import:', error);
@@ -181,12 +182,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
                     expData.map((option, index) => <FormSelectOption key={index} value={option} label={option} />)}
                 </FormSelect>
               </FlexItem>
-
-              {/* <FlexItem>
-                <Button variant="primary" onClick={handleClick} isDisabled={!expName}>
-                  Recommendations
-                </Button>
-              </FlexItem> */}
               <FlexItem>
                 <Tooltip id="tooltip-ref1" content={<div> Generate Recommendations</div>}>
                   <SyncAltIcon onClick={() => handleGenerateRecommendationClick(expName)} />
@@ -195,11 +190,6 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
             </Flex>
           </GridItem>
           <GridItem span={3} component="li">
-            {/* <Button variant="primary" onClick={handleClick}>
-              Recommendations
-            </Button> */}
-
-            {/* <SyncAltIcon onClick={() => handleGenerateRecommendationClick(expName)} /> */}
           </GridItem>
         </Grid>
       </Flex>
@@ -207,4 +197,4 @@ const UsecaseSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSR
   );
 };
 
-export { UsecaseSelection };
+export { ExperimentSelection };

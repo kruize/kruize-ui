@@ -1,19 +1,15 @@
 import * as React from 'react';
-import { Tabs, Tab, TabTitleText } from '@patternfly/react-core';
+import { Tabs, Tab, TabTitleText, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { CostDetails } from './CostDetails';
 import { PerfDetails } from './PerfDetails';
 
-const TabSection = (props: { recommendedData: any; currentData; chartData; day; endtime; displayChart  ; boxPlotData}) => {
+const TabSection = (props: { recommendedData: any; currentData; chartData; day; endtime; displayChart  ; boxPlotData; experimentType}) => {
   const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
 
   const handleTabClick = (
     event: React.MouseEvent<any> | React.KeyboardEvent | MouseEvent,
     tabIndex: string | number
   ) => {
-    setActiveTabKey(tabIndex);
-  };
-
-  const switchTab = (tabIndex) => {
     setActiveTabKey(tabIndex);
   };
 
@@ -32,6 +28,7 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
           endtime={props.endtime}
           displayChart={props.displayChart}
           boxPlotData={props.boxPlotData}
+          experimentType={props.experimentType}
         />
       </Tab>
       <Tab eventKey={1} title={<TabTitleText>Performance optimizations</TabTitleText>}>
@@ -44,6 +41,7 @@ const TabSection = (props: { recommendedData: any; currentData; chartData; day; 
           displayChart={props.displayChart}
           tab={activeTabKey}
           boxPlotData={props.boxPlotData}
+          experimentType={props.experimentType}
         />
       </Tab>
     </Tabs>
