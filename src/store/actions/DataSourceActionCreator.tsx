@@ -3,39 +3,49 @@ import { loading, disableLoading, errorCall, availabeDataSources, dataSourceMeta
 
 
 export const getListOfDataSources = () => async dispatch => {
+    
     dispatch(loading());
-    try {
+    try 
+    {
         const response = await fetch(getDatasourcesURL());
         const data = await response.json();
-        dispatch(availabeDataSources({datasources: data.datasources}))
-    } catch (error: any) {
-        dispatch(errorCall({error: error.message, error_method: "getListOfDataSources"}))
+        dispatch(availabeDataSources({ datasources: data.datasources }))
+    } 
+    catch (error: any) 
+    {
+        dispatch(errorCall({ error: error.message, error_method: "getListOfDataSources" }))
     }
     dispatch(disableLoading())
+
 }
 
-export const getDataSourceMetaData = (dataSourceName: string) => async dispatch => {
+export const importDataSourceMetaData = (dataSourceName: string) => async dispatch => {
     dispatch(loading());
     try {
         const payload = {
             version: 'v1.0',
             datasource_name: dataSourceName
-          };
-        const url = `${importDataSourcesMetadataURL()}?datasource=${dataSourceName}` 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          });
+        };
         
+        const response = await fetch(importDataSourcesMetadataURL(), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
         const data = await response.json();
-        dispatch(dataSourceMetadata({dataSourceMetaData: data.datasources, selectedDataSource: dataSourceName}))
-    } catch (error: any) {
-        dispatch(errorCall({error: error.message, error_method: "getDataSourceMetaData"}))
+        dispatch(dataSourceMetadata({ dataSourceMetaData: data.datasources, selectedDataSource: dataSourceName }))
+
+    } 
+    catch (error: any) {
+        
+        dispatch(errorCall({ error: error.message, error_method: "importDataSourceMetaData" }))
     }
     dispatch(disableLoading())
 }
+
 
 export const getClusterMetaData = (datasourceName: string, clusterName: string) => async dispatch => {
     dispatch(loading());
@@ -46,7 +56,7 @@ export const getClusterMetaData = (datasourceName: string, clusterName: string) 
             [`${datasourceName}-${clusterName}`]: data.datasources[datasourceName].clusters[clusterName]
         }))
     } catch (error: any) {
-        dispatch(errorCall({error: error.message, error_method: "getClusterMetaData"}))
+        dispatch(errorCall({ error: error.message, error_method: "getClusterMetaData" }))
     }
     dispatch(disableLoading())
 }

@@ -2,7 +2,7 @@ import { Button, OverflowMenu, OverflowMenuContent, OverflowMenuGroup, OverflowM
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
 import { ClusterGroupTables } from './ClusterGroupTables';
-import { getDataSourceMetaData } from '@actions/DataSourceActionCreator';
+import { importDataSourceMetaData } from '@actions/DataSourceActionCreator';
 import { useDispatch, useSelector } from 'react-redux';
 /*
 
@@ -23,14 +23,18 @@ const DatasourceTable = ({ dataSourcesData, ...props }) => {
   const [dataSourceName, setDataSourceName] = useState<string>(dataSourceSelector.selectedDataSource || "")
 
   useEffect(() =>{
+    
     setDataSourceName(dataSourceSelector.selectedDataSource)
+  
   },[dataSourceSelector.selectedDataSource] )
   
   const handleImportMetadata = async (dataSourceName: string) => {
+    
     setButtonStatus(true);
     setDataSourceName(dataSourceName);
-    await dispatch(getDataSourceMetaData(dataSourceName));
+    await dispatch(importDataSourceMetaData(dataSourceName));
     setButtonStatus(false);
+    
   };
 
   const toggleRowExpanded = (index, dataSourceName: string) => {
