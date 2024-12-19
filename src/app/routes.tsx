@@ -8,6 +8,8 @@ import { ClusterDataTable } from './Analytics/LocalMonitoring/ClusterDataTable';
 import { ClusterGroupTables } from './Analytics/LocalMonitoring/ClusterGroupTables';
 import { CreateExperiment } from './Analytics/LocalMonitoring/CreateExperiment';
 import { Monitoring } from './Analytics/LocalMonitoring/RecommendationsForLocalMonitoring/RemoteMonitoring/Monitoring';
+import { CreateBulkExperiment } from './Analytics/LocalMonitoring/CreateBulkExperiment';
+import { useEffect, useState } from 'react';
 
 let routeFocusTimer: number;
 export interface IAppRoute {
@@ -84,6 +86,13 @@ const routes: AppRouteConfig[] = [
         label: 'Experiment create',
         path: '/createexp',
         title: 'createexp '
+      },
+      {
+        component: CreateBulkExperiment,
+        exact: true,
+        label: 'Create Bulk Experiment',
+        path: '/createbulkexp',
+        title: 'createbulkexp '
       }
     ],
     menu: false

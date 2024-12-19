@@ -132,7 +132,7 @@ const ClusterDataTable: React.FC<ClusterDataTableProps>  = ({ dataSourceName, cl
               <Td  dataLabel="Workload names">{row_data.workloadName}</Td>
               <Td  dataLabel="Workload types">{row_data.workloadType}</Td>
               <Td  dataLabel="Cluster names">{row_data.clusterName}</Td>
-              <Td  dataLabel='Actions' isActionCell>
+              <Td  dataLabel="Actions" isActionCell>
                <OverflowMenu breakpoint="lg">
                   <OverflowMenuContent>
                     <OverflowMenuGroup groupType="button">

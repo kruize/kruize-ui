@@ -31,6 +31,10 @@ const importCreateExperimentJsonURL = () =>{
     return getBaseUrl() + '/createExperiment';
 }
 
+const importCreateBulkExperimentJsonURL = () =>{
+    return getBaseUrl() + '/bulk';
+}
+
 const generateRecommendationsURL = (exp_name : string) =>{
     return getBaseUrl() + '/generateRecommendations?experiment_name=' + exp_name;
 }
@@ -75,5 +79,5 @@ const getPort = () => {
     }
 }
 
-export { getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, 
+export { getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, importCreateBulkExperimentJsonURL,
     importDataSourcesMetadataURL, generateRecommendationsURL ,getListExperimentsURLWithParams, getDatasourceMetadataURL, getClusterMetadataURL, importCreateExperimentJsonURL};
