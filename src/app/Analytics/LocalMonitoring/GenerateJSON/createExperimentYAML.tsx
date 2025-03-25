@@ -4,6 +4,7 @@ export default `[
       "experiment_name": "subsitute_experiment_name",
       "cluster_name": "subsitute_cluster_name",
       "performance_profile": "resource-optimization-local-monitoring",
+      "metadata_profile": "cluster-metadata-local-monitoring",
       "mode": "monitor",
       "target_cluster": "local",
       "kubernetes_objects": [

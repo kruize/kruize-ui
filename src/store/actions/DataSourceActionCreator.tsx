@@ -24,7 +24,9 @@ export const importDataSourceMetaData = (dataSourceName: string) => async dispat
     try {
         const payload = {
             version: 'v1.0',
-            datasource_name: dataSourceName
+            datasource_name: dataSourceName,
+            metadata_profile: "cluster-metadata-local-monitoring",
+            measurement_duration: "15mins"
         };
         
         const response = await fetch(importDataSourcesMetadataURL(), {
