@@ -7,12 +7,14 @@ import {
   Toolbar,
   PageSectionVariants,
   ToolbarContent,
-  Button
+  Button,
+  AlertActionLink
 } from '@patternfly/react-core';
 import expyaml from './createExperimentYAML';
 import { importCreateExperimentJsonURL } from '@app/CentralConfig';
 import ReusableCodeBlock from '../RecommendationsForLocalMonitoring/RemoteMonitoring/RecommendationComponents/ReusableCodeBlock';
 import { Alert } from '@patternfly/react-core';
+import { Link } from 'react-router-dom';
 
 export const CodeEditorWithActions = (props: { data; setData }) => {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -63,7 +65,14 @@ export const CodeEditorWithActions = (props: { data; setData }) => {
 
   return (
       <PageSection variant={PageSectionVariants.light}>
-        {showSuccessAlert && <Alert variant="success" title="Experiment Successfully Created" ouiaId="SuccessAlert" />}
+        {showSuccessAlert && 
+        <Alert variant="success" 
+        title="Experiment Successfully Created" 
+        ouiaId="SuccessAlert" 
+        actionLinks={
+          <AlertActionLink ><Link to={'/experiments'}>Check out Experiments</Link></AlertActionLink>
+        }
+        />}
         <Toolbar>
           <ToolbarContent style={{ paddingLeft: 0 }}>
             <TextContent>
