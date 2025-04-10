@@ -1,9 +1,11 @@
-import { Button, PageSection, PageSectionVariants } from '@patternfly/react-core';
+import { Button, OverflowMenu, OverflowMenuContent, OverflowMenuGroup, OverflowMenuItem, PageSection, PageSectionVariants, Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
 import React, { useEffect, useState } from 'react';
 import { ClusterDataTable } from './ClusterDataTable';
 import { saveSelectedClusterName } from '@reducers/DataSourceReducers';
 import { useDispatch, useSelector } from 'react-redux';
+import { PlusIcon } from '@patternfly/react-icons';
+import { Link } from 'react-router-dom';
 interface DatasourceDetail {
   clusters: { [key: string]: { cluster_name: string } };
 }
@@ -30,11 +32,11 @@ const ClusterGroupTables = ({ clusterGroupData, dataSourceName }) => {
   let clusterRowData: any = [];
   if (typeof clusterGroupData === 'object' && clusterGroupData !== null) {
     if (clusterGroupData.hasOwnProperty(dataSourceName)) {
-        const clustersData = clusterGroupData[dataSourceName].clusters;
-        clusterRowData = Object.keys(clustersData).map(clusterKey => ({
-          groupName: dataSourceName,
-          clusterName: clustersData[clusterKey].cluster_name
-        }))
+      const clustersData = clusterGroupData[dataSourceName].clusters;
+      clusterRowData = Object.keys(clustersData).map(clusterKey => ({
+        groupName: dataSourceName,
+        clusterName: clustersData[clusterKey].cluster_name
+      }))
     }
   }
 
@@ -43,34 +45,45 @@ const ClusterGroupTables = ({ clusterGroupData, dataSourceName }) => {
   }, [dataSourceSelector.selectedClusterName])
 
   const handleButtonClick = (clusterName: string) => {
-    dispatch(saveSelectedClusterName({selectedClusterName: clusterName}))
+    dispatch(saveSelectedClusterName({ selectedClusterName: clusterName }))
   };
 
   return (
     <PageSection variant={PageSectionVariants.light}>
-      <React.Fragment>
-        <Table aria-label="Data Sources Table">
-          <Thead>
-            <Tr>
-              <Th>Datasource Name</Th>
-              <Th>Cluster</Th>
+      <Table aria-label="Data Sources Table">
+        <Thead>
+          <Tr>
+            <Th width={45}>Datasource Name</Th>
+            <Th width={45}>Cluster</Th>
+            <Th width={20}>Action</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {clusterRowData.map((row, index) => (
+            <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
+              <Td dataLabel="Datasource">{row.groupName}</Td>
+              <Td dataLabel="Cluster">
+                <Button variant="link" isInline onClick={() => handleButtonClick(row.clusterName)}>
+                  {row.clusterName}
+                </Button></Td>
+              <Td dataLabel='Actions' isActionCell>
+                <Link
+                  to={{
+                    pathname: '/createbulkexp',
+                    state: {
+                      datasourceName: dataSourceName
+                    }
+                  }}>
+                <Tooltip content={<div>Create Bulk Experiment</div>} position={TooltipPosition.top}>
+                  <PlusIcon />
+                </Tooltip>
+              </Link>
+              </Td>
             </Tr>
-          </Thead>
-          <Tbody>
-            {clusterRowData.map((row, index) => (
-              <Tr key={index} {...(index % 2 === 0 && { isStriped: true })}>
-                <Td dataLabel="Cluster Group">{row.groupName}</Td>
-                <Td dataLabel="Cluster">
-                  <Button variant="link" isInline onClick={() => handleButtonClick(row.clusterName)}>
-                    {row.clusterName}
-                  </Button>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-        {selectedClusterName.length > 0  && <ClusterDataTable dataSourceName={dataSourceName} clusterName={selectedClusterName} />}
-      </React.Fragment>
+          ))}
+        </Tbody>
+      </Table>
+      {selectedClusterName.length > 0 && <ClusterDataTable dataSourceName={dataSourceName} clusterName={selectedClusterName} />}
     </PageSection>
   )
 };
