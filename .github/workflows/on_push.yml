@@ -1,0 +1,131 @@
+name: CI Pipeline for Kruize UI
+
+on:
+  push:
+    branches: [mvp_demo, main]
+  pull_request:
+    branches: [mvp_demo, main]
+
+jobs:
+  deploy_kruize:
+    runs-on: ubuntu-20.04
+    outputs:
+      minikube_ip: ${{ steps.get_minikube.outputs.minikube_ip }}
+      kruize_port: ${{ steps.get_kruize.outputs.kruize_port }}
+    steps:
+      - name: Checkout kruize/autotune repository
+        uses: actions/checkout@v4
+        with:
+          repository: kruize/autotune
+          ref: mvp_demo
+          path: autotune
+
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.3.0
+        with:
+          minikube version: 'v1.16.0'
+          kubernetes version: 'v1.19.2'
+
+      - name: Set Root Directory
+        run: |
+          echo "Setting ROOT_DIR to autotune"
+          echo "ROOT_DIR=$GITHUB_WORKSPACE/autotune" >> $GITHUB_ENV
+
+      - name: Build crc
+        env:
+          ROOT_DIR: ${{ env.ROOT_DIR }}
+        run: |
+          echo Build crc
+          cd autotune
+          ./build.sh
+          docker images | grep autotune
+
+      - name: Check cluster info on minikube
+        run: |
+          kubectl cluster-info
+          kubectl get pods -n kube-system
+
+      - name: Install Prometheus on minikube
+        run: |
+          echo Install Prometheus on minikube
+          cd autotune/scripts
+          ./prometheus_on_minikube.sh -as
+
+      - name: Deploy Kruize in crc mode
+        run: |
+          echo Deploy kruize in crc mode
+          echo "***************************************************************"
+          cd autotune
+          cp ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml.old
+          sed -e "s/imagePullPolicy: Always/imagePullPolicy: IfNotPresent/g" ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml.old > ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml
+          cat ./manifests/crc/default-db-included-installation/minikube/kruize-crc-minikube.yaml
+          ./deploy.sh -c minikube -m crc -i quay.io/kruize/autotune_operator:0.1
+
+      - name: Get Minikube IP
+        id: get_minikube
+        run: |
+          minikube_ip=$(minikube ip)
+          echo "Minikube IP: $minikube_ip"
+          echo "Minikube IP=$minikube_ip" >> $GITHUB_OUTPUT
+        shell: bash
+        env:
+          MINIKUBE_HOME: /home/runner/work/_temp
+          ROOT_DIR: /home/runner/work/kruize-ui/kruize-ui/autotune
+
+      - name: Get Kruize Port
+        id: get_kruize
+        run: |
+          kruize_port=$(kubectl -n monitoring get svc kruize --no-headers -o=custom-columns=PORT:.spec.ports[*].nodePort 2>/dev/null)
+          echo "PORT : $kruize_port"
+          echo "kruize_port=$kruize_port" >> $GITHUB_OUTPUT
+        shell: bash
+        env:
+          MINIKUBE_HOME: /home/runner/work/_temp
+          ROOT_DIR: /home/runner/work/kruize-ui/kruize-ui/autotune
+
+  build_ui:
+    needs: deploy_kruize
+    runs-on: ubuntu-latest
+    env:
+      minikube_ip: ${{ needs.deploy_kruize.outputs.minikube_ip }}
+      kruize_port: ${{ needs.deploy_kruize.outputs.kruize_port }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm config set legacy-peer-deps true && npm install
+
+      - name: Export and Print Environment Variables
+        run: |
+          echo "Minikube IP: $minikube_ip"
+          echo "Kruize Port: $kruize_port"
+        shell: bash
+
+      - name: Build UI
+        run: npm run build
+
+  unit-test:
+    needs: build_ui
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm config set legacy-peer-deps true && npm install
+
+      - name: Run Tests
+        run: npm run test
