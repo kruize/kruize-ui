@@ -8,7 +8,9 @@ RUN npm config set legacy-peer-deps true \
   && npm install \
   && KRUIZE_UI_ENV=production npm run build
 
-FROM nginx:latest
+FROM quay.io/nginx/nginx-unprivileged:alpine
+
+USER root
 
 RUN rm /etc/nginx/conf.d/default.conf \
   &&mkdir -p /var/cache/nginx/client_temp /var/run/nginx \
