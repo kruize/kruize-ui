@@ -10,6 +10,7 @@ import {
   TabTitleText
 } from '@patternfly/react-core';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { RecommendationTables } from './RecommendationTables';
 import { ExperimentSelection } from './ExperimentSelection';
 
@@ -25,7 +26,10 @@ const SREdataa = {
 };
 
 const Monitoring = () => {
-  // const [activeTabKey, setActiveTabKey] = React.useState<string | number>(0);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const experimentNameFromUrl = queryParams.get('experiment_name');
+  
   const [SREdata, setSREdata] = useState(SREdataa);
   const [endTimeArray, setEndTimeArray] = useState<any | null>(null);
   const [displyRecc, setDisplayRecc] = useState<boolean>(false);
@@ -50,6 +54,7 @@ const Monitoring = () => {
         setDisplayRecc={setDisplayRecc}
         notification={notifications}
         setNotification={setNotifications}
+        initialExperimentName={experimentNameFromUrl}
       />
       </PageSection>
       <>

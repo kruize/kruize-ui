@@ -79,5 +79,18 @@ const getPort = () => {
     }
 }
 
-export { getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, importCreateBulkExperimentJsonURL,
-    importDataSourcesMetadataURL, generateRecommendationsURL ,getListExperimentsURLWithParams, getDatasourceMetadataURL, getClusterMetadataURL, importCreateExperimentJsonURL};
+const getListMetadataProfilesURL = () => {
+    return getBaseUrl() + '/listMetadataProfiles';
+}
+
+const getListMetricProfilesURL = () => {
+    return getBaseUrl() + '/listMetricProfiles';
+}
+
+const getListLayersURL = () => {
+    return getBaseUrl() + '/listLayers';
+}
+
+export { getBaseUrl, getRecommendationsURLWithParams, getListExperimentsURL, getHostname, getPort, getRecommendationsURL, getDatasourcesURL, importCreateBulkExperimentJsonURL,
+    importDataSourcesMetadataURL, generateRecommendationsURL ,getListExperimentsURLWithParams, getDatasourceMetadataURL, getClusterMetadataURL, importCreateExperimentJsonURL,
+    getListMetadataProfilesURL, getListMetricProfilesURL, getListLayersURL};

@@ -1,0 +1,271 @@
+.local-monitoring-page {
+  background: #ffffff;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.page-title {
+  color: #151515;
+  margin-bottom: 0.5rem;
+}
+
+.page-description {
+  color: #6a6e73;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.error-alert {
+  margin-bottom: 1.5rem;
+}
+
+.datasources-card,
+.cluster-view-card {
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.section-title {
+  color: #151515;
+  margin-bottom: 1rem;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+}
+
+.loading-container p {
+  color: #6a6e73;
+  font-size: 1rem;
+}
+
+/* Tab Content Styles */
+.tab-content {
+  padding: 1.5rem 0;
+}
+
+/* Table Filters */
+.table-filters {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.table-filters .pf-c-form-control,
+.table-filters .pf-c-select {
+  min-width: 200px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #6a6e73;
+  font-style: italic;
+}
+
+/* Collapsible Tree Styles */
+.tree-description {
+  color: #6a6e73;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.collapsible-tree {
+  margin-top: 1rem;
+}
+
+.tree-node {
+  margin-bottom: 0.5rem;
+}
+
+.tree-node-header {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #d2d2d2;
+}
+
+.tree-node-header:hover {
+  background-color: #f5f5f5;
+  border-color: #06c;
+}
+
+.cluster-header {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid #0066cc;
+}
+
+.cluster-header:hover {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+}
+
+.namespace-header {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border-left: 4px solid #ea580c;
+  margin-left: 2rem;
+}
+
+.namespace-header:hover {
+  background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
+}
+
+.workload-node {
+  margin-left: 4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #d2d2d2;
+  cursor: default;
+}
+
+.workload-node.has-recs {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-left: 3px solid #16a34a;
+}
+
+.workload-node.no-recs {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-left: 3px solid #dc2626;
+}
+
+.workload-node.clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.workload-node.has-recs.clickable:hover {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+}
+
+.workload-node.no-recs.clickable:hover {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+.tree-children {
+  margin-top: 0.5rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.workload-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Icon Styles */
+.chevron-icon {
+  color: #6a6e73;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.node-icon {
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+.cluster-icon {
+  color: #0066cc;
+}
+
+.namespace-icon {
+  color: #ea580c;
+}
+
+.workload-icon {
+  color: #6a6e73;
+}
+
+.node-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #151515;
+  flex-grow: 1;
+}
+
+/* Badge Styles */
+.workload-badge {
+  background-color: #0066cc;
+  color: white;
+}
+
+.success-badge {
+  background-color: #16a34a;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.warning-badge {
+  background-color: #dc2626;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Table Row Clickable */
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+  background-color: #f0fdf4 !important;
+}
+
+/* Active Datasource Row */
+.active-datasource-row {
+  background-color: #e0f2fe !important;
+  border-left: 4px solid #0066cc;
+  font-weight: 600;
+}
+
+.active-datasource-row:hover {
+  background-color: #bae6fd !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .local-monitoring-page {
+    padding: 1rem;
+  }
+
+  .namespace-header {
+    margin-left: 1rem;
+  }
+
+  .workload-node {
+    margin-left: 2rem;
+  }
+
+  .node-label {
+    font-size: 0.9rem;
+  }
+}
+
+/* Made with Bob */

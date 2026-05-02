@@ -1,0 +1,20 @@
+.installed-configs-container {
+  background-color: #ffffff;
+}
+
+.config-summary {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.config-summary-item {
+  text-align: center;
+}
+
+.config-tab-content {
+  padding: 1rem;
+  min-height: 300px;
+}
+
+/* Made with Bob */

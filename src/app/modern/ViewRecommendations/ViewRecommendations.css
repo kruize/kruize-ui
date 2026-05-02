@@ -1,0 +1,73 @@
+.view-recommendations-page {
+  background: #ffffff;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.page-title {
+  color: #151515;
+  margin-bottom: 0.5rem;
+}
+
+.page-description {
+  color: #6a6e73;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.error-alert {
+  margin-bottom: 1.5rem;
+}
+
+.experiments-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.filters-section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+}
+
+.loading-container p {
+  color: #6a6e73;
+  font-size: 1rem;
+}
+
+.results-count {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d2d2d2;
+  color: #6a6e73;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .view-recommendations-page {
+    padding: 1rem;
+  }
+
+  .filters-section .pf-l-flex {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .filters-section .pf-l-flex__item {
+    width: 100%;
+  }
+}
+
+/* Made with Bob */

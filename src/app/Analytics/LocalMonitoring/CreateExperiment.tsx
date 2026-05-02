@@ -6,13 +6,15 @@ import { CodeEditorWithActions } from '@app/Analytics/LocalMonitoring/GenerateJS
 import { Monitoring } from './RecommendationsForLocalMonitoring/RemoteMonitoring/Monitoring';
 
 interface LocationState {
-  containerName: string;
-  projectName: string;
-  workloadName: string;
-  workloadType: string;
+  containerName?: string;
+  projectName?: string;
+  workloadName?: string;
+  workloadType?: string;
   clusterName: string;
-  containerImageName: string;
+  containerImageName?: string;
   datasourceName: string;
+  namespaceName?: string;
+  experimentType?: string;
 }
 
 /*  
@@ -29,8 +31,16 @@ const CreateExperiment = () => {
   const [experimentsNotFound, setExperimentsNotFound] = useState(false);
   const location = useLocation<LocationState>();
 
-  const create_experiment_json_data = {
-    exp_name: location.state?.clusterName + '|' + location.state?.projectName + '|' +location.state?.workloadType+ '|' +  location.state?.workloadName , 
+  const isNamespaceExperiment = location.state?.experimentType === 'namespace';
+  
+  const create_experiment_json_data = isNamespaceExperiment ? {
+    exp_name: `${location.state?.datasourceName}|${location.state?.clusterName}|${location.state?.namespaceName}`,
+    projectName: location.state?.namespaceName,
+    clusterName: location.state?.clusterName,
+    datasourceName: location.state?.datasourceName,
+    experimentType: 'namespace'
+  } : {
+    exp_name: location.state?.clusterName + '|' + location.state?.projectName + '|' +location.state?.workloadType+ '|' +  location.state?.workloadName ,
     projectName: location.state?.projectName,
     workloadName: location.state?.workloadName,
     workloadType: location.state?.workloadType,

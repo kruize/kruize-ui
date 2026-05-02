@@ -24,12 +24,12 @@ import {
 import { SyncAltIcon } from '@patternfly/react-icons';
 
 
-const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc; notification; setNotification }) => {
+const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; setSREdata; setDisplayRecc; notification; setNotification; initialExperimentName?: string | null }) => {
 
   const list_experiment_url: string = getListExperimentsURL();
   const [value, setValue] = useState('');
   const [expName, setExpName] = useState<any | null>('');
-  const [expData, setExpData] = useState([]);
+  const [expData, setExpData] = useState<string[]>([]);
   const [showFailureAlert, setShowFailureAlert] = useState<boolean>();
   const [showReccSuccessAlert, setShowReccSuccessAlert] = useState<boolean>();
 
@@ -50,9 +50,20 @@ const ExperimentSelection = (props: { endTimeArray; setEndTimeArray; SREdata; se
     });
     setExpData(arr.sort());
   };
+  
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Auto-select experiment if provided via URL
+  useEffect(() => {
+    if (props.initialExperimentName && expData.length > 0) {
+      // Check if the experiment exists in the list
+      if (expData.includes(props.initialExperimentName)) {
+        onChangeExpName(props.initialExperimentName);
+      }
+    }
+  }, [props.initialExperimentName, expData]);
 
   const onChangeExpName = async (value: string) => {
     setValue('');
